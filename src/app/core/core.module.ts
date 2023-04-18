@@ -3,13 +3,15 @@ import { CommonModule } from '@angular/common';
 import { NotFoundPageComponent } from './pages/not-found-page/not-found-page.component';
 import { SharedModule } from '../shared/shared.module';
 import { HeaderComponent } from './components/header/header.component';
+import { MenuCore } from './components/menu/menu.core';
 
 
 
 @NgModule({
   declarations: [
     NotFoundPageComponent,
-    HeaderComponent
+    HeaderComponent,
+    MenuCore
   ],
   imports: [
     CommonModule,
