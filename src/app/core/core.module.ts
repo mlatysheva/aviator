@@ -5,6 +5,7 @@ import { SharedModule } from '../shared/shared.module';
 import { HeaderComponent } from './components/header/header.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { FooterComponent } from './components/footer/footer.component';
+import { ProgresBarComponent } from './components/progres-bar/progres-bar.component';
 
 
 
@@ -13,7 +14,8 @@ import { FooterComponent } from './components/footer/footer.component';
     NotFoundPageComponent,
     HeaderComponent,
     MenuComponent,
-    FooterComponent
+    FooterComponent,
+    ProgresBarComponent
   ],
   imports: [
     CommonModule,
