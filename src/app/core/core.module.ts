@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { NotFoundPageComponent } from './pages/not-found-page/not-found-page.component';
 import { SharedModule } from '../shared/shared.module';
 import { HeaderComponent } from './components/header/header.component';
-import { MenuCore } from './components/menu/menu.core';
+import { MenuComponent } from './components/menu/menu.component';
 
 
 
@@ -11,7 +11,7 @@ import { MenuCore } from './components/menu/menu.core';
   declarations: [
     NotFoundPageComponent,
     HeaderComponent,
-    MenuCore
+    MenuComponent
   ],
   imports: [
     CommonModule,
