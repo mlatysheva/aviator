@@ -4,6 +4,7 @@ import { NotFoundPageComponent } from './pages/not-found-page/not-found-page.com
 import { SharedModule } from '../shared/shared.module';
 import { HeaderComponent } from './components/header/header.component';
 import { MenuComponent } from './components/menu/menu.component';
+import { FooterComponent } from './components/footer/footer.component';
 
 
 
@@ -11,12 +12,13 @@ import { MenuComponent } from './components/menu/menu.component';
   declarations: [
     NotFoundPageComponent,
     HeaderComponent,
-    MenuComponent
+    MenuComponent,
+    FooterComponent
   ],
   imports: [
     CommonModule,
     SharedModule,
   ],
-  exports: [NotFoundPageComponent, HeaderComponent]
+  exports: [NotFoundPageComponent, HeaderComponent, FooterComponent]
 })
 export class CoreModule { }

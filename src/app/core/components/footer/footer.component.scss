@@ -1,0 +1,28 @@
+.footer {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  position: absolute;
+  height: 92px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  border-top: 1px solid #D0D9DF;
+}
+
+.payments,
+.payments-cards {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.payments {
+  gap: 2rem;
+  font-size: 14px;
+}
+
+.rights {
+  color: #11397E;
+  font-size: 14px;
+}
