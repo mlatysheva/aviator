@@ -25,6 +25,20 @@
   width: 100%;
 }
 
+.countries-picker {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.reverse-btn {
+  position: absolute;
+  right: 79px;
+  top: 47px;
+  z-index: 1;
+  cursor: pointer;
+}
+
 .date-and-persons-picker {
   display: flex;
   justify-content: space-between;

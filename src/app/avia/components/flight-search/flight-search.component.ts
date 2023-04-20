@@ -11,11 +11,12 @@ const year = today.getFullYear();
   styleUrls: ['./flight-search.component.scss'],
 })
 export class FlightSearchComponent {
-  campaignOne = new FormGroup({
+  public campaignOne = new FormGroup({
     start: new FormControl(new Date(year, month, 13)),
     end: new FormControl(new Date(year, month, 16)),
   });
-  campaignTwo = new FormGroup({
+
+  public campaignTwo = new FormGroup({
     start: new FormControl(new Date(year, month, 15)),
     end: new FormControl(new Date(year, month, 19)),
   });
