@@ -3,18 +3,24 @@ import { CommonModule } from '@angular/common';
 import { NotFoundPageComponent } from './pages/not-found-page/not-found-page.component';
 import { SharedModule } from '../shared/shared.module';
 import { HeaderComponent } from './components/header/header.component';
+import { MenuComponent } from './components/menu/menu.component';
+import { FooterComponent } from './components/footer/footer.component';
+import { ProgresBarComponent } from './components/progres-bar/progres-bar.component';
 
 
 
 @NgModule({
   declarations: [
     NotFoundPageComponent,
-    HeaderComponent
+    HeaderComponent,
+    MenuComponent,
+    FooterComponent,
+    ProgresBarComponent
   ],
   imports: [
     CommonModule,
     SharedModule,
   ],
-  exports: [NotFoundPageComponent, HeaderComponent]
+  exports: [NotFoundPageComponent, HeaderComponent, FooterComponent]
 })
 export class CoreModule { }
