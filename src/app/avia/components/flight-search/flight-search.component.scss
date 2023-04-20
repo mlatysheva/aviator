@@ -1,0 +1,46 @@
+.flight-search-container {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 5rem;
+  width: 100%;
+}
+
+.search-form {
+  margin: 40px;
+  padding: 25px;
+  width: 580px;
+  height: 390px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: #fff;
+}
+
+.radio-btns {
+  padding: 15px 0;
+}
+
+.one-way-or-round {
+  width: 100%;
+}
+
+.date-and-persons-picker {
+  display: flex;
+  justify-content: space-between;
+}
+
+.search-btn-container {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.search-btn {
+  margin-top: 20px;
+  padding: 12px 24px;
+  height: 60px;
+  width: 126px;
+  background-color: #11397e !important;
+  color: #fff !important;
+  border-radius: 0 !important;
+}
