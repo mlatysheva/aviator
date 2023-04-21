@@ -21,8 +21,8 @@ export class FlightSearchComponent implements OnInit {
       tripType: new FormControl('round-trip'),
       departure: new FormControl('', Validators.required),
       destination: new FormControl('', Validators.required),
-      dates: new FormControl(''),
-      date: new FormControl(''),
+      startDate: new FormControl(''),
+      endDate: new FormControl(''),
       passengers: new FormControl('', Validators.required),
     });
   }
@@ -35,6 +35,8 @@ export class FlightSearchComponent implements OnInit {
   }
 
   public onSearch() {
-    this.aviaService.search();
+    if (this.searchForm.valid) {
+      this.aviaService.search();
+    }
   }
 }
