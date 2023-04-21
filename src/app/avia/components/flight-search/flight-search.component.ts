@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AviaService } from '../../services/avia.service';
 
 @Component({
@@ -8,11 +8,9 @@ import { AviaService } from '../../services/avia.service';
   styleUrls: ['./flight-search.component.scss'],
 })
 export class FlightSearchComponent implements OnInit {
-  public roundTrip = false;
-
   public searchForm: FormGroup;
 
-  public passengersList: string[] = ['Adult', 'Child', 'Infant'];
+  public passengersList: string[] = ['1 Adult', '1 Child', '1 Infant'];
 
   public tripType = 'round-trip';
 
@@ -21,15 +19,12 @@ export class FlightSearchComponent implements OnInit {
   ngOnInit() {
     this.searchForm = new FormGroup({
       tripType: new FormControl('round-trip'),
-      departure: new FormControl(''),
-      destination: new FormControl(''),
+      departure: new FormControl('', Validators.required),
+      destination: new FormControl('', Validators.required),
       dates: new FormControl(''),
-      passengers: new FormControl(''),
+      date: new FormControl(''),
+      passengers: new FormControl('', Validators.required),
     });
-  }
-
-  public tripTypeChange() {
-    this.roundTrip = this.tripType === 'round-trip' ? true : false;
   }
 
   public changeValues(): void {
