@@ -63,6 +63,38 @@
       "currency": "RUB",
       "dateFormat": "MM/DD/YYYY",
       "id": "01cad632-c195-4868-ac2a-0d6f2d0b98c4"
+    },
+    {
+      "email": "email7@gmail.com",
+      "password": "user3217",
+      "firstName": "firstName7",
+      "lastName": "lastName7",
+      "birthday": "07-01-2001",
+      "gender": "female",
+      "contacts": {
+        "countryCode": 7,
+        "phone": "6234567895",
+        "email": "email7@gmail.com"
+      },
+      "currency": "RUB",
+      "dateFormat": "MM/DD/YYYY",
+      "id": "d5b5fec6-8e74-4640-82a1-6ecf014a5d62"
+    },
+    {
+      "email": "email8@gmail.com",
+      "password": "user3218",
+      "firstName": "firstName8",
+      "lastName": "lastName8",
+      "birthday": "08-01-2001",
+      "gender": "female",
+      "contacts": {
+        "countryCode": 7,
+        "phone": "8234567895",
+        "email": "email8@gmail.com"
+      },
+      "currency": "RUB",
+      "dateFormat": "MM/DD/YYYY",
+      "id": "5e1933dd-b55b-486a-aa43-9be4f8b03096"
     }
   ],
   "airports": [],
