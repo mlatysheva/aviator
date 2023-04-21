@@ -6,7 +6,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "start:server": "cd backend && npm run start",
+    "start:server": "cd backend && npm run start2",
     "start:all": "concurrently \"npm run start\" \"npm run start:server\"",
     "start:dev": "(cd backend && npm run start) & npm run start",
     "build": "ng build",

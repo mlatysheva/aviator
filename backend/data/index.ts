@@ -1,11 +1,10 @@
-import users from "./users";
-import airports from "./airports";
-import segments from "./segments";
+import users from "./users.json";
 
-const data = {
-  users,
-  airports,
-  segments,
+import airports from "./airports.json";
+import flights from "./flights.json";
+
+export default {
+  users: users,
+  airports: airports,
+  flights: flights,
 };
-
-export default data;

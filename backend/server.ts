@@ -4,9 +4,10 @@ import { v4 as uuidv4 } from 'uuid';
 import fs from 'fs';
 
 const server = jsonServer.create();
-const router = jsonServer.router(data);
+
 const middlewares = jsonServer.defaults();
 const port = 3000;
+const router = jsonServer.router(data);
 
 server.use(middlewares);
 server.use(jsonServer.bodyParser);
@@ -19,21 +20,14 @@ server.use(async (req, res, next) => {
   next();
 });
 
-server.use(
-  jsonServer.rewriter({
-    "/api/*": "/$1",
-    "/users/me": "/user",
-  })
-);
-
-// server.use((req, res, next) => {
-//   console.dir(data.users);
-//   if (req.method === 'POST') {
-//     req.body.id = uuidv4();
-//     req.headers['content-type'] = 'application/json';
-//   }
-//   next();
-// });
+server.use((req, res, next) => {
+  console.dir(data.users);
+  if (req.method === 'POST') {
+    req.body.id = uuidv4();
+    req.headers['content-type'] = 'application/json';
+  }
+  next();
+});
 
 
 server.post('/login', (req, res) => {
@@ -56,21 +50,21 @@ server.post('/login', (req, res) => {
   }
 });
 
-server.post('/users', (req, res) => {
-  try {
-    req.body.id = uuidv4();
+// server.post('/users', (req, res) => {
+//   try {
+//     req.body.id = uuidv4();
     
-    res.writeHead(201, { 'Content-Type': 'application/json' });
-    const newUser =  JSON.stringify(req.body);
-    res.end(newUser);
-    fs.writeFileSync('./db.json', JSON.stringify({ ...data, users: [...data.users, req.body] }));
+//     res.writeHead(201, { 'Content-Type': 'application/json' });
+//     const newUser =  JSON.stringify(req.body);
+//     res.end(newUser);
+//     fs.writeFileSync('./data/users.json', JSON.stringify([...data.users, req.body]));
 
-    return newUser;
-  } catch (error) {
-    res.writeHead(500, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify({ message: `Error creating user: ${error}` }));
-  }
-});
+//     return newUser;
+//   } catch (error) {
+//     res.writeHead(500, { 'Content-Type': 'application/json' });
+//     res.end(JSON.stringify({ message: `Error creating user: ${error}` }));
+//   }
+// });
 
 // server.use((req, res, next) => {
 //   if (!req.headers.authorization) {
