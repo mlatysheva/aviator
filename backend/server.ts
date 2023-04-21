@@ -1,13 +1,23 @@
 import jsonServer from "json-server";
-import data from "./db.json";
 import { v4 as uuidv4 } from 'uuid';
 import fs from 'fs';
+import path, { dirname } from 'path';
+import { fileURLToPath } from 'url';
+
+
+export const getResolvedPath = (filename: string, ...paths: string[]) => {
+  const _dirname = dirname(filename);
+  const resolvedPath = path.join(_dirname, ...paths);
+  return resolvedPath;
+}
 
 const server = jsonServer.create();
+const _filename = fileURLToPath(import.meta.url);
+const pathToDB = getResolvedPath(_filename, 'db.json');
 
 const middlewares = jsonServer.defaults();
 const port = 3000;
-const router = jsonServer.router(data);
+const router = jsonServer.router(pathToDB);
 
 server.use(middlewares);
 server.use(jsonServer.bodyParser);
@@ -21,7 +31,6 @@ server.use(async (req, res, next) => {
 });
 
 server.use((req, res, next) => {
-  console.dir(data.users);
   if (req.method === 'POST') {
     req.body.id = uuidv4();
     req.headers['content-type'] = 'application/json';
@@ -33,7 +42,10 @@ server.use((req, res, next) => {
 server.post('/login', (req, res) => {
   try {
     const { username, password } = req.body;
-    const users = data.users;
+    const db = JSON.parse(
+      fs.readFileSync(pathToDB, 'utf8'),
+    );
+    const { users = [] } = db;
 
     const userFromBd = users.find(
       (user: any) => user.username === username && user.password === password,
