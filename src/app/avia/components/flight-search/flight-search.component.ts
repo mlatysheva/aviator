@@ -9,12 +9,12 @@ import { AviaService } from '../../services/avia.service';
 })
 export class FlightSearchComponent implements OnInit {
   public roundTrip = false;
-  public oneWay = true;
 
   public searchForm: FormGroup;
 
-  passengers = new FormControl('');
-  passengersList: string[] = ['Adult', 'Child', 'Infant'];
+  public passengersList: string[] = ['Adult', 'Child', 'Infant'];
+
+  public tripType = 'round-trip';
 
   constructor(private aviaService: AviaService) {}
 
@@ -26,6 +26,10 @@ export class FlightSearchComponent implements OnInit {
       dates: new FormControl(''),
       passengers: new FormControl(''),
     });
+  }
+
+  public tripTypeChange() {
+    this.roundTrip = this.tripType === 'round-trip' ? true : false;
   }
 
   public changeValues(): void {
