@@ -1,7 +1,4 @@
-import { ICurrency } from '../types/currenty';
-import { IDateFormat } from '../types/dateFormat';
-import { IGender } from '../types/gender';
-import { IUser } from '../types/user';
+import { IGender, ICurrency, IDateFormat, IUser } from "../types/index";
 
 const users: IUser[] = [
   {

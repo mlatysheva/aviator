@@ -1,0 +1,36 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "email": "email1@gmail.com",
+      "password": "user321",
+      "firstName": "firstName1",
+      "lastName": "lastName1",
+      "birthday": "01-01-2001",
+      "gender": "female",
+      "contacts": {
+        "countryCode": 7,
+        "phone": "123456789",
+        "email": "email1@gmail.com"
+      },
+      "currency": "RUB",
+      "dateFormat": "MM/DD/YYYY"
+    },
+    {
+      "id": "2",
+      "email": "email2@gmail.com",
+      "password": "user123",
+      "firstName": "firstName2",
+      "lastName": "lastName2",
+      "birthday": "02-01-2001",
+      "gender": "male",
+      "contacts": {
+        "countryCode": 7,
+        "phone": "987654321",
+        "email": "email2@gmail.com"
+      },
+      "currency": "EUR",
+      "dateFormat": "DD/MM/YYYY"
+    }
+  ]
+}

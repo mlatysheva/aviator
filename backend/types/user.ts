@@ -1,5 +1,5 @@
 import { IContacts } from './contacts';
-import { ICurrency } from './currenty';
+import { ICurrency } from './currency';
 import { IDateFormat } from './dateFormat';
 import { IGender } from './gender';
 
