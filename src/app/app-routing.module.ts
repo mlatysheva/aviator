@@ -8,6 +8,10 @@ const routes: Routes = [
     path: 'main',
     loadChildren: () => import('./avia/avia.module').then((m) => m.AviaModule),
   },
+  {
+    path: 'auth',
+    loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
+  },
   { path: '', redirectTo: 'main', pathMatch: 'full' },
   { path: '**', component: NotFoundPageComponent },
 ];

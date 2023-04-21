@@ -13,6 +13,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { AuthModule } from '../auth/auth.module';
 
 @NgModule({
   declarations: [MainPageComponent, FlightSearchComponent],
@@ -28,6 +29,7 @@ import { MatInputModule } from '@angular/material/input';
     MatNativeDateModule,
     MatFormFieldModule,
     MatInputModule,
+    AuthModule,
   ],
   exports: [MatFormFieldModule, MatInputModule],
   providers: [MatDatepickerModule],
