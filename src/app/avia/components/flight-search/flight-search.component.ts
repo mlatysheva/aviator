@@ -1,26 +1,42 @@
-import { Component } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
-
-const today = new Date();
-const month = today.getMonth();
-const year = today.getFullYear();
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AviaService } from '../../services/avia.service';
 
 @Component({
   selector: 'app-flight-search',
   templateUrl: './flight-search.component.html',
   styleUrls: ['./flight-search.component.scss'],
 })
-export class FlightSearchComponent {
-  public campaignOne = new FormGroup({
-    start: new FormControl(new Date(year, month, 13)),
-    end: new FormControl(new Date(year, month, 16)),
-  });
+export class FlightSearchComponent implements OnInit {
+  public searchForm: FormGroup;
 
-  public campaignTwo = new FormGroup({
-    start: new FormControl(new Date(year, month, 15)),
-    end: new FormControl(new Date(year, month, 19)),
-  });
+  public passengersList: string[] = ['1 Adult', '1 Child', '1 Infant'];
 
-  toppings = new FormControl('');
-  toppingList: string[] = ['Adult', 'Child', 'Infant'];
+  public tripType = 'round-trip';
+
+  constructor(private aviaService: AviaService) {}
+
+  ngOnInit() {
+    this.searchForm = new FormGroup({
+      tripType: new FormControl('round-trip'),
+      departure: new FormControl('', Validators.required),
+      destination: new FormControl('', Validators.required),
+      startDate: new FormControl(''),
+      endDate: new FormControl(''),
+      passengers: new FormControl('', Validators.required),
+    });
+  }
+
+  public changeValues(): void {
+    const departure = this.searchForm.get('departure')?.value;
+    const destination = this.searchForm.get('destination')?.value;
+    this.searchForm.controls['departure'].setValue(destination);
+    this.searchForm.controls['destination'].setValue(departure);
+  }
+
+  public onSearch() {
+    if (this.searchForm.valid) {
+      this.aviaService.search();
+    }
+  }
 }

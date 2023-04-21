@@ -37,6 +37,17 @@
   top: 47px;
   z-index: 1;
   cursor: pointer;
+
+  &-image {
+    overflow: hidden;
+    -webkit-transition: transform 0.2s;
+    transition: transform 0.2s;
+  }
+
+  &-image:active {
+    -webkit-transform: rotate(450deg);
+    transform: rotate(450deg);
+  }
 }
 
 .date-and-persons-picker {
