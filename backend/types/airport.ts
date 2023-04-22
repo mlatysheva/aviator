@@ -1,7 +1,7 @@
 export interface IAirport {
   id?: string;
   name: string;
-  abbreviation: string;
+  iata_code: string;
   city?: string;
   country?: string;
 }

@@ -14,4 +14,6 @@ export interface IUser {
   contacts?: IContacts;
   currency?: ICurrency;
   dateFormat?: IDateFormat;
+  carts?: string[];
+  trips?: string[];
 }

@@ -1,0 +1,259 @@
+[
+  {
+    "departure_airport_iata": "AER",
+    "arrival_airport_iata": "DME",
+    "id": "2B-2019-12-01-ASF-AER-1",
+    "priceAdult": 145,
+    "priceChild": 130,
+    "priceInfant": 30,
+    "duration": 120,
+    "direct": true,
+    "flightNumber": "FR-123",
+    "taxRate": 0.15,
+    "totalSeats": 100
+  },
+  {
+    "departure_airport_iata": "ASF",
+    "arrival_airport_iata": "LED",
+    "id": "2B-2019-12-01-ASF-AER-2",
+    "priceAdult": 175,
+    "priceChild": 160,
+    "priceInfant": 60,
+    "duration": 180,
+    "direct": true,
+    "flightNumber": "FR-124",
+    "taxRate": 0.15,
+    "totalSeats": 120
+  },
+  {
+    "departure_airport_iata": "CEK",
+    "arrival_airport_iata": "DME",
+    "id": "2B-2019-12-01-ASF-AER-3",
+    "priceAdult": 165,
+    "priceChild": 150,
+    "priceInfant": 50,
+    "duration": 150,
+    "direct": true,
+    "flightNumber": "FR-125",
+    "taxRate": 0.15,
+    "totalSeats": 110
+  },
+  {
+    "departure_airport_iata": "CEK",
+    "arrival_airport_iata": "KZN",
+    "id": "2B-2019-12-01-ASF-AER-4",
+    "priceAdult": 155,
+    "priceChild": 140,
+    "priceInfant": 40,
+    "duration": 140,
+    "direct": true,
+    "flightNumber": "FR-126",
+    "taxRate": 0.15,
+    "totalSeats": 105
+  },
+  {
+    "departure_airport_iata": "CEK",
+    "arrival_airport_iata": "OVB",
+    "arrival_airport_icao": null,
+    "codeshare": false,
+    "transfers": 0,
+    "planes": [
+      "CR2"
+    ]
+  },
+  {
+    "airline_iata": "2B",
+    "airline_icao": null,
+    "departure_airport_iata": "DME",
+    "departure_airport_icao": null,
+    "arrival_airport_iata": "AER",
+    "arrival_airport_icao": null,
+    "codeshare": false,
+    "transfers": 0,
+    "planes": [
+      "CR2"
+    ]
+  },
+  {
+    "airline_iata": "2B",
+    "airline_icao": null,
+    "departure_airport_iata": "DME",
+    "departure_airport_icao": null,
+    "arrival_airport_iata": "CEK",
+    "arrival_airport_icao": null,
+    "codeshare": false,
+    "transfers": 0,
+    "planes": [
+      "CR2"
+    ]
+  },
+  {
+    "airline_iata": "2B",
+    "airline_icao": null,
+    "departure_airport_iata": "DME",
+    "departure_airport_icao": null,
+    "arrival_airport_iata": "KGD",
+    "arrival_airport_icao": null,
+    "codeshare": false,
+    "transfers": 0,
+    "planes": [
+      "CR2"
+    ]
+  },
+  {
+    "airline_iata": "2B",
+    "airline_icao": null,
+    "departure_airport_iata": "DME",
+    "departure_airport_icao": null,
+    "arrival_airport_iata": "NBC",
+    "arrival_airport_icao": null,
+    "codeshare": false,
+    "transfers": 0,
+    "planes": [
+      "CR2"
+    ]
+  },
+  {
+    "airline_iata": "2B",
+    "airline_icao": null,
+    "departure_airport_iata": "DME",
+    "departure_airport_icao": null,
+    "arrival_airport_iata": "PEZ",
+    "arrival_airport_icao": null,
+    "codeshare": false,
+    "transfers": 0,
+    "planes": [
+      "CR2"
+    ]
+  },
+  {
+    "airline_iata": "2B",
+    "airline_icao": null,
+    "departure_airport_iata": "DME",
+    "departure_airport_icao": null,
+    "arrival_airport_iata": "UUA",
+    "arrival_airport_icao": null,
+    "codeshare": false,
+    "transfers": 0,
+    "planes": [
+      "CR2"
+    ]
+  },
+  {
+    "airline_iata": "2B",
+    "airline_icao": null,
+    "departure_airport_iata": "GOJ",
+    "departure_airport_icao": null,
+    "arrival_airport_iata": "LED",
+    "arrival_airport_icao": null,
+    "codeshare": false,
+    "transfers": 0,
+    "planes": [
+      "CR2"
+    ]
+  },
+  {
+    "airline_iata": "2B",
+    "airline_icao": null,
+    "departure_airport_iata": "GOJ",
+    "departure_airport_icao": null,
+    "arrival_airport_iata": "MRV",
+    "arrival_airport_icao": null,
+    "codeshare": false,
+    "transfers": 0,
+    "planes": [
+      "CR2"
+    ]
+  },
+  {
+    "airline_iata": "2B",
+    "airline_icao": null,
+    "departure_airport_iata": "GYD",
+    "departure_airport_icao": null,
+    "arrival_airport_iata": "NBC",
+    "arrival_airport_icao": null,
+    "codeshare": false,
+    "transfers": 0,
+    "planes": [
+      "CR2"
+    ]
+  },
+  {
+    "airline_iata": "2B",
+    "airline_icao": null,
+    "departure_airport_iata": "KGD",
+    "departure_airport_icao": null,
+    "arrival_airport_iata": "DME",
+    "arrival_airport_icao": null,
+    "codeshare": false,
+    "transfers": 0,
+    "planes": [
+      "CR2"
+    ]
+  },
+  {
+    "airline_iata": "2B",
+    "airline_icao": null,
+    "departure_airport_iata": "KZN",
+    "departure_airport_icao": null,
+    "arrival_airport_iata": "CEK",
+    "arrival_airport_icao": null,
+    "codeshare": false,
+    "transfers": 0,
+    "planes": [
+      "CR2"
+    ]
+  },
+  {
+    "airline_iata": "2B",
+    "airline_icao": null,
+    "departure_airport_iata": "KZN",
+    "departure_airport_icao": null,
+    "arrival_airport_iata": "LED",
+    "arrival_airport_icao": null,
+    "codeshare": false,
+    "transfers": 0,
+    "planes": [
+      "CR2"
+    ]
+  },
+  {
+    "airline_iata": "2B",
+    "airline_icao": null,
+    "departure_airport_iata": "KZN",
+    "departure_airport_icao": null,
+    "arrival_airport_iata": "MUC",
+    "arrival_airport_icao": null,
+    "codeshare": false,
+    "transfers": 0,
+    "planes": [
+      "CR2"
+    ]
+  },
+  {
+    "airline_iata": "2B",
+    "airline_icao": null,
+    "departure_airport_iata": "KZN",
+    "departure_airport_icao": null,
+    "arrival_airport_iata": "UUA",
+    "arrival_airport_icao": null,
+    "codeshare": false,
+    "transfers": 0,
+    "planes": [
+      "CR2"
+    ]
+  },
+  {
+    "airline_iata": "2B",
+    "airline_icao": null,
+    "departure_airport_iata": "LED",
+    "departure_airport_icao": null,
+    "arrival_airport_iata": "ASF",
+    "arrival_airport_icao": null,
+    "codeshare": false,
+    "transfers": 0,
+    "planes": [
+      "CR2"
+    ]
+  }
+]

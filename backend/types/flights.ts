@@ -1,9 +1,8 @@
-import { IAirport } from './airport';
-
 export interface IFlight {
-  date: Date,
-  origin: IAirport,
-  destination: IAirport,
+  id?: string,
+  date?: Date,
+  originAirportIataCode: string, 
+  destinationAirportIataCode: string,
   priceAdult: number,
   priceChild: number,
   priceInfant: number,
