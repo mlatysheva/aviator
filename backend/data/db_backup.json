@@ -3,6 +3,7 @@
   "passengers": [],
   "trips": [],
   "carts": [],
+  "login": {},
   "airports": [
     {
       "name": "Hartsfield Jackson Atlanta Intl",

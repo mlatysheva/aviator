@@ -4,7 +4,6 @@
   "description": "",
   "type": "module",
   "scripts": {
-    "start2": "nodemon --esm server.ts --routes routes.json --watch db.json",
     "start": "ts-node --esm server.ts --watch db.json"
   },
   "author": "",
