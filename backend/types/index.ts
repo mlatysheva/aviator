@@ -4,7 +4,7 @@ import { IDateFormat } from './dateFormat';
 import { IGender } from './gender';
 import { IContacts } from './contacts';
 import { IPassenger } from './passenger';
-import { IFlight } from './flights';
+import { IFlight } from './flight';
 import { ITrip } from './trip';
 import { IAgeCategory } from './passenger';
 import { IAirport } from './airport';

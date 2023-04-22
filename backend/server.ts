@@ -19,7 +19,7 @@ const router = jsonServer.router(pathToDB);
 server.use(middlewares);
 server.use(jsonServer.bodyParser);
 
-// generateFlights();
+generateFlights();
 
 // To imitate an actual API from which information comes with a delay
 // server.use(async (req, res, next) => {

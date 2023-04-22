@@ -1,19 +1,20 @@
-import * as fs from 'fs/promises';
+import * as fs from 'fs';
 import { getResolvedPath } from './getResolvedPath.js';
 import { fileURLToPath } from 'url';
-import airports from '../data/airports.json' assert { type: 'json'};
-import { IFlight } from '../types/flights.js';
+import { IFlight } from '../types/flight.js';
 import { v4 as uuidv4 } from 'uuid';
+import airports from '../data/airports.json' assert { type: 'json'};
 
 export const generateFlights = async () => {
   try {
     const _filename = fileURLToPath(import.meta.url);
     const flights: IFlight[] = [];
-    airports.forEach((airport) => {
-      const { iata_code: originAirportIataCode } = airport;
-      airports.forEach((airport) => {
-        const { iata_code: destinationAirportIataCode } = airport;
+    for (let i = 0; i < airports.length; i++) {
+      const { iata_code: originAirportIataCode } = airports[i] as { iata_code: string };
+      for (let j = i + 1; j < airports.length; j++) {
+        const { iata_code: destinationAirportIataCode } = airports[j] as { iata_code: string };
         if (originAirportIataCode === destinationAirportIataCode) return;
+        const flightNumber = Math.floor(Math.random() * 1000);
         const flight: IFlight = {
           id: uuidv4(),
           originAirportIataCode,
@@ -23,7 +24,7 @@ export const generateFlights = async () => {
           priceInfant: 0,
           duration: Math.floor(Math.random() * (540 - 45) + 45),
           direct: true,
-          flightNumber: `FR-${Math.floor(Math.random() * 1000).toString()}`,
+          flightNumber: `FR-${flightNumber}`,
           taxRate: 0.15,
           totalSeats: 150,
         };
@@ -36,10 +37,26 @@ export const generateFlights = async () => {
         flight.priceAdult = Math.round((flight.duration * 1.2 * 10) / 10);
         flight.priceChild = Math.floor(flight.priceAdult * 0.8);
         flight.priceInfant = Math.floor(flight.priceAdult * 0.2);
+        const returnFlight: IFlight = {
+          id: uuidv4(),
+          originAirportIataCode: flight.destinationAirportIataCode,
+          destinationAirportIataCode: flight.originAirportIataCode,
+          priceAdult: flight.priceAdult,
+          priceChild: flight.priceChild,
+          priceInfant: flight.priceInfant,
+          duration: flight.duration,
+          direct: flight.direct,
+          flightNumber: `FR-${flightNumber + 1}`,
+          taxRate: flight.taxRate,
+          totalSeats: flight.totalSeats,
+        };
+        flight.returnFlightId = returnFlight.id;
+        returnFlight.returnFlightId = flight.id;
         flights.push(flight);
-      });
-    });
-    await fs.writeFile(getResolvedPath(_filename, '..', 'data', 'flights.json'), JSON.stringify(flights), { flag: 'w+' });
+        flights.push(returnFlight);
+      }
+    }
+    fs.writeFileSync(getResolvedPath(_filename, '..', 'data', 'flights.json'), JSON.stringify(flights), { flag: 'w+' });
     console.log(`The file "flights.json" has been successfully written.`);
   } catch(err) {
     console.error(err);
