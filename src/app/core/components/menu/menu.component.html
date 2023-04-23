@@ -1,15 +1,15 @@
 <div class="menu">
   <div class="text">Book flights</div>
-  <select class="select-date">
-    <option class="date" value="MM/DD/YYYY">"MM/DD/YYYY"</option>
-    <option class="date" value="DD/MM/YYYY">"DD/MM/YYYY"</option>
-    <option class="date" value="YYYY/DD/MM">"YYYY/DD/MM"</option>
-    <option class="date" value="YYYY/MM/DD">"YYYY/MM/DD"</option>
+  <select class="select-date" #dateFormat (change)="setDateFormat(dateFormat.value)">
+    <option [selected]="selectedDateFormat==='DD/MM/YYYY'" class="date" value="DD/MM/YYYY">"DD/MM/YYYY"</option>
+    <option [selected]="selectedDateFormat==='MM/DD/YYYY'" class="date" value="MM/DD/YYYY">"MM/DD/YYYY"</option>
+    <option [selected]="selectedDateFormat==='YYYY/DD/MM'" class="date" value="YYYY/DD/MM">"YYYY/DD/MM"</option>
+    <option [selected]="selectedDateFormat==='YYYY/MM/DD'" class="date" value="YYYY/MM/DD">"YYYY/MM/DD"</option>
   </select>
-  <select class="select-currency">
-    <option class="currency" value="usd">USD</option>
-    <option class="currency" value="eur">EUR</option>
-    <option class="currency" value="pln">PLN</option>
+  <select class="select-currency" [(ngModel)]="selectedCurrency" #currency (change)="setUserCurrency(currency.value)">
+    <option [selected]="selectedCurrency==='EUR'" class="currency" value="EUR">EUR</option>
+    <option [selected]="selectedCurrency==='USD'" class="currency" value="USD">USD</option>
+    <option [selected]="selectedCurrency==='PLN'" class="currency" value="PLN">PLN</option>
   </select>
   <button class="sign" (click)="toggleSignInModal()">
     <img src="../../../../assets/icons/sign-in.svg" alt="sign">

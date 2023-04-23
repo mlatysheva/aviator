@@ -5,6 +5,7 @@ export interface IFlight {
   destinationAirportIataCode: string,
   returnFlightId?: string,
   duration: number,
+  departureTime: string,
   direct: boolean,
   flightNumber: string,
   totalSeats: number,

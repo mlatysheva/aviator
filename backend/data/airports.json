@@ -1,19 +1,5 @@
 [
   {
-    "name": "Hartsfield Jackson Atlanta Intl",
-    "city": "Atlanta",
-    "country": "United States",
-    "iata_code": "ATL",
-    "id": "3682"
-  },
-  {
-    "name": "Chicago Ohare Intl",
-    "city": "Chicago",
-    "country": "United States",
-    "iata_code": "ORD",
-    "id": "3830"
-  },
-  {
     "name": "Capital Intl",
     "city": "Beijing",
     "country": "China",
@@ -35,27 +21,6 @@
     "id": "1382"
   },
   {
-    "name": "Los Angeles Intl",
-    "city": "Los Angeles",
-    "country": "United States",
-    "iata_code": "LAX",
-    "id": "3484"
-  },
-  {
-    "name": "Frankfurt Main",
-    "city": "Frankfurt",
-    "country": "Germany",
-    "iata_code": "FRA",
-    "id": "340"
-  },
-  {
-    "name": "Dallas Fort Worth Intl",
-    "city": "Dallas-Fort Worth",
-    "country": "United States",
-    "iata_code": "DFW",
-    "id": "3670"
-  },
-  {
     "name": "John F Kennedy Intl",
     "city": "New York",
     "country": "United States",
@@ -70,39 +35,11 @@
     "id": "580"
   },
   {
-    "name": "Pudong",
-    "city": "Shanghai",
-    "country": "China",
-    "iata_code": "PVG",
-    "id": "3406"
-  },
-  {
-    "name": "Changi Intl",
-    "city": "Singapore",
-    "country": "Singapore",
-    "iata_code": "SIN",
-    "id": "3316"
-  },
-  {
     "name": "Barcelona",
     "city": "Barcelona",
     "country": "Spain",
     "iata_code": "BCN",
     "id": "1218"
-  },
-  {
-    "name": "Incheon Intl",
-    "city": "Seoul",
-    "country": "South Korea",
-    "iata_code": "ICN",
-    "id": "3930"
-  },
-  {
-    "name": "Miami Intl",
-    "city": "Miami",
-    "country": "United States",
-    "iata_code": "MIA",
-    "id": "3576"
   },
   {
     "name": "Franz Josef Strauss",
@@ -117,13 +54,6 @@
     "country": "Turkey",
     "iata_code": "IST",
     "id": "1701"
-  },
-  {
-    "name": "Hong Kong Intl",
-    "city": "Hong Kong",
-    "country": "Hong Kong",
-    "iata_code": "HKG",
-    "id": "3077"
   },
   {
     "name": "Dubai Intl",
@@ -147,27 +77,6 @@
     "id": "1229"
   },
   {
-    "name": "Suvarnabhumi Intl",
-    "city": "Bangkok",
-    "country": "Thailand",
-    "iata_code": "BKK",
-    "id": "3885"
-  },
-  {
-    "name": "Domododevo",
-    "city": "Moscow",
-    "country": "Russia",
-    "iata_code": "DME",
-    "id": "4029"
-  },
-  {
-    "name": "Lester B Pearson Intl",
-    "city": "Toronto",
-    "country": "Canada",
-    "iata_code": "YYZ",
-    "id": "193"
-  },
-  {
     "name": "Brussels Natl",
     "city": "Brussels",
     "country": "Belgium",
@@ -182,20 +91,6 @@
     "id": "1613"
   },
   {
-    "name": "Charlotte Douglas Intl",
-    "city": "Charlotte",
-    "country": "United States",
-    "iata_code": "CLT",
-    "id": "3876"
-  },
-  {
-    "name": "Narita Intl",
-    "city": "Tokyo",
-    "country": "Japan",
-    "iata_code": "NRT",
-    "id": "2279"
-  },
-  {
     "name": "Son Sant Joan",
     "city": "Palma de Mallorca",
     "country": "Spain",
@@ -203,46 +98,11 @@
     "id": "3998"
   },
   {
-    "name": "Indira Gandhi Intl",
-    "city": "Delhi",
-    "country": "India",
-    "iata_code": "DEL",
-    "id": "3093"
-  },
-  {
-    "name": "San Francisco Intl",
-    "city": "San Francisco",
-    "country": "United States",
-    "iata_code": "SFO",
-    "id": "3469"
-  },
-  {
-    "name": "Mc Carran Intl",
-    "city": "Las Vegas",
-    "country": "United States",
-    "iata_code": "LAS",
-    "id": "3877"
-  },
-  {
     "name": "Zurich",
     "city": "Zurich",
     "country": "Switzerland",
     "iata_code": "ZRH",
     "id": "1678"
-  },
-  {
-    "name": "Licenciado Benito Juarez Intl",
-    "city": "Mexico City",
-    "country": "Mexico",
-    "iata_code": "MEX",
-    "id": "1824"
-  },
-  {
-    "name": "Abu Dhabi Intl",
-    "city": "Abu Dhabi",
-    "country": "United Arab Emirates",
-    "iata_code": "AUH",
-    "id": "2179"
   },
   {
     "name": "Arlanda",
@@ -273,13 +133,6 @@
     "id": "599"
   },
   {
-    "name": "Sydney Intl",
-    "city": "Sydney",
-    "country": "Australia",
-    "iata_code": "SYD",
-    "id": "3361"
-  },
-  {
     "name": "Malaga",
     "city": "Malaga",
     "country": "Spain",
@@ -308,13 +161,6 @@
     "id": "2397"
   },
   {
-    "name": "Malpensa",
-    "city": "Milano",
-    "country": "Italy",
-    "iata_code": "MXP",
-    "id": "1524"
-  },
-  {
     "name": "Pulkovo",
     "city": "St. Petersburg",
     "country": "Russia",
@@ -322,39 +168,11 @@
     "id": "2948"
   },
   {
-    "name": "Soekarno Hatta Intl",
-    "city": "Jakarta",
-    "country": "Indonesia",
-    "iata_code": "CGK",
-    "id": "3275"
-  },
-  {
-    "name": "Gardermoen",
-    "city": "Oslo",
-    "country": "Norway",
-    "iata_code": "OSL",
-    "id": "644"
-  },
-  {
-    "name": "Ruzyne",
-    "city": "Prague",
-    "country": "Czech Republic",
-    "iata_code": "PRG",
-    "id": "1587"
-  },
-  {
     "name": "Geneve Cointrin",
     "city": "Geneva",
     "country": "Switzerland",
     "iata_code": "GVA",
     "id": "1665"
-  },
-  {
-    "name": "Johannesburg Intl",
-    "city": "Johannesburg",
-    "country": "South Africa",
-    "iata_code": "JNB",
-    "id": "813"
   },
   {
     "name": "Tokyo Intl",
@@ -371,13 +189,6 @@
     "id": "1128"
   },
   {
-    "name": "Ben Gurion",
-    "city": "Tel-aviv",
-    "country": "Israel",
-    "iata_code": "TLV",
-    "id": "1590"
-  },
-  {
     "name": "Boryspil Intl",
     "city": "Kiev",
     "country": "Ukraine",
@@ -392,13 +203,6 @@
     "id": "2947"
   },
   {
-    "name": "Osnova International Airport",
-    "city": "Kharkov",
-    "country": "Ukraine",
-    "iata_code": "HRK",
-    "id": "6105"
-  },
-  {
     "name": "Minsk 2",
     "city": "Minsk 2",
     "country": "Belarus",
@@ -410,13 +214,6 @@
     "city": "Krasnoyarsk",
     "country": "Russia",
     "id": "4374"
-  },
-  {
-    "name": "Kazan",
-    "city": "Kazan",
-    "country": "Russia",
-    "iata_code": "KZN",
-    "id": "2990"
   },
   {
     "name": "Sochi",
@@ -445,13 +242,6 @@
     "country": "Poland",
     "iata_code": "WRO",
     "id": "680"
-  },
-  {
-    "name": "Warsaw Modlin",
-    "city": "Warsaw",
-    "country": "Poland",
-    "iata_code": "WMI",
-    "id": "8414"
   },
   {
     "name": "Okecie",

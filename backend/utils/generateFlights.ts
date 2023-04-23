@@ -4,6 +4,7 @@ import { fileURLToPath } from 'url';
 import { IFlight } from '../types/flight.js';
 import { v4 as uuidv4 } from 'uuid';
 import airports from '../data/airports.json' assert { type: 'json'};
+import { generateRandomTime } from './generateRandomTime.js';
 
 export const generateFlights = async () => {
   try {
@@ -22,6 +23,7 @@ export const generateFlights = async () => {
           priceAdult: 0,
           priceChild: 0,
           priceInfant: 0,
+          departureTime: generateRandomTime(),
           duration: Math.floor(Math.random() * (540 - 45) + 45),
           direct: true,
           flightNumber: `FR-${flightNumber}`,
@@ -45,6 +47,7 @@ export const generateFlights = async () => {
           priceChild: Math.floor(flight.priceChild * 0.8),
           priceInfant: Math.floor(flight.priceInfant * 0.8),
           duration: Math.floor(flight.duration * 0.9),
+          departureTime: generateRandomTime(),
           direct: flight.direct,
           flightNumber: `FR-${flightNumber + 1}`,
           taxRate: flight.taxRate,
