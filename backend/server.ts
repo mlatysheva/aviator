@@ -15,7 +15,7 @@ const router = jsonServer.router(pathToDB);
 server.use(middlewares);
 server.use(jsonServer.bodyParser);
 
-// generateFlights();
+generateFlights();
 
 server.use((req, res, next) => {
   if (req.method === 'POST') {

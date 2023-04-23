@@ -116,11 +116,13 @@
     }
   },
   "cli": {
-    "defaultCollection": "@ngrx/schematics",
     "schematicCollections": [
       "@angular-eslint/schematics",
+      "@ngrx/schematics",
+      "@ngrx/schematics",
       "@ngrx/schematics"
     ],
+    "defaultCollection": "@ngrx/schematics",
     "analytics": false
   }
 }

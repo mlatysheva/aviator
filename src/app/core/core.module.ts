@@ -6,6 +6,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { ProgresBarComponent } from './components/progres-bar/progres-bar.component';
+import { FormsModule } from '@angular/forms';
 
 
 
@@ -20,6 +21,7 @@ import { ProgresBarComponent } from './components/progres-bar/progres-bar.compon
   imports: [
     CommonModule,
     SharedModule,
+    FormsModule
   ],
   exports: [NotFoundPageComponent, HeaderComponent, FooterComponent]
 })
