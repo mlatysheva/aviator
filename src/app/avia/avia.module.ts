@@ -15,6 +15,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { AuthModule } from '../auth/auth.module';
 
+import { HttpClientModule } from '@angular/common/http';
+
 @NgModule({
   declarations: [MainPageComponent, FlightSearchComponent],
   imports: [
@@ -30,6 +32,7 @@ import { AuthModule } from '../auth/auth.module';
     MatFormFieldModule,
     MatInputModule,
     AuthModule,
+    HttpClientModule,
   ],
   exports: [MatFormFieldModule, MatInputModule],
   providers: [MatDatepickerModule],

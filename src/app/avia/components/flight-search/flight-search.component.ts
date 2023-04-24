@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { IAirport } from '../../../models/airport';
+import { Observable } from 'rxjs';
 import { AviaService } from '../../services/avia.service';
 
 @Component({
@@ -9,6 +11,8 @@ import { AviaService } from '../../services/avia.service';
 })
 export class FlightSearchComponent implements OnInit {
   public searchForm: FormGroup;
+
+  public airports$: Observable<IAirport[]>;
 
   public passengersList: string[] = ['1 Adult', '1 Child', '1 Infant'];
 
@@ -25,6 +29,13 @@ export class FlightSearchComponent implements OnInit {
       endDate: new FormControl(''),
       passengers: new FormControl('', Validators.required),
     });
+    this.getAirportsList();
+  }
+
+  public getAirportsList(): Observable<IAirport[]> {
+    this.airports$ = this.aviaService.getAirports();
+    this.airports$.subscribe((value) => console.log(value));
+    return this.airports$;
   }
 
   public changeValues(): void {
@@ -38,5 +49,6 @@ export class FlightSearchComponent implements OnInit {
     if (this.searchForm.valid) {
       this.aviaService.search();
     }
+    this.aviaService.isSearchSubmitted$.next(true);
   }
 }
