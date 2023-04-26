@@ -16,6 +16,8 @@ import { MatInputModule } from '@angular/material/input';
 import { AuthModule } from '../auth/auth.module';
 
 import { HttpClientModule } from '@angular/common/http';
+import { StoreModule } from '@ngrx/store';
+import { searchReducer } from '../store/reducers/search.reducer';
 
 @NgModule({
   declarations: [MainPageComponent, FlightSearchComponent],
@@ -33,6 +35,7 @@ import { HttpClientModule } from '@angular/common/http';
     MatInputModule,
     AuthModule,
     HttpClientModule,
+    StoreModule.forFeature('search', searchReducer),
   ],
   exports: [MatFormFieldModule, MatInputModule],
   providers: [MatDatepickerModule],
