@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { IAirport } from '../../../models/airport';
 import { Observable } from 'rxjs';
 import { AviaService } from '../../services/avia.service';
 import { IAgeTypeQuantity } from '../../models/agetype-quantity.model';
+import { MatOption } from '@angular/material/core';
 
 @Component({
   selector: 'app-flight-search',
@@ -11,6 +12,8 @@ import { IAgeTypeQuantity } from '../../models/agetype-quantity.model';
   styleUrls: ['./flight-search.component.scss'],
 })
 export class FlightSearchComponent implements OnInit {
+  @ViewChild(MatOption) matOption: MatOption;
+
   public searchForm: FormGroup;
 
   public airports$: Observable<IAirport[]>;
@@ -23,9 +26,11 @@ export class FlightSearchComponent implements OnInit {
 
   public tripType = 'round-trip';
 
-  public selectedItem = '1 Adult';
+  public selectedItems: IAgeTypeQuantity[] = [];
 
-  constructor(private aviaService: AviaService) {}
+  constructor(private aviaService: AviaService) {
+    this.passengersList.map((option) => this.selectedItems.push(option));
+  }
 
   ngOnInit() {
     this.searchForm = new FormGroup({
@@ -34,7 +39,7 @@ export class FlightSearchComponent implements OnInit {
       destination: new FormControl('', Validators.required),
       startDate: new FormControl(''),
       endDate: new FormControl(''),
-      passengers: new FormControl('', Validators.required),
+      passengers: new FormControl(this.selectedItems, Validators.required),
     });
     this.getAirportsList();
   }
@@ -52,20 +57,28 @@ export class FlightSearchComponent implements OnInit {
     this.searchForm.controls['destination'].setValue(departure);
   }
 
-  public increase(specificAgeType: IAgeTypeQuantity) {
-    specificAgeType.quantity++;
+  stopPropagationFn(event: Event) {
+    event.stopPropagation();
+    this.matOption._selectViaInteraction();
   }
 
-  public decrease(specificAgeType: IAgeTypeQuantity) {
+  public increase(event: Event, specificAgeType: IAgeTypeQuantity) {
+    specificAgeType.quantity++;
+    this.stopPropagationFn(event);
+  }
+
+  public decrease(event: Event, specificAgeType: IAgeTypeQuantity) {
     if (specificAgeType.quantity > 0) {
       specificAgeType.quantity--;
     }
+    this.stopPropagationFn(event);
   }
 
   public onSearch() {
     if (this.searchForm.valid) {
       this.aviaService.search();
     }
+    //console.log(this.searchForm.value);
     this.aviaService.isSearchSubmitted$.next(true);
   }
 }
