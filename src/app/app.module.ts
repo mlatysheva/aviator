@@ -9,6 +9,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { UserModule } from './user/user.module';
+import { BookingModule } from './booking/booking.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -18,6 +19,7 @@ import { UserModule } from './user/user.module';
     BrowserModule,
     BrowserAnimationsModule,
     CoreModule,
+    BookingModule,
     AppRoutingModule,
     StoreModule.forRoot({}, {}),
     EffectsModule.forRoot([]),
@@ -28,4 +30,4 @@ import { UserModule } from './user/user.module';
   providers: [],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }
