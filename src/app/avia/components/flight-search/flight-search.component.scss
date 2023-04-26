@@ -74,6 +74,18 @@
   }
 }
 
+::ng-deep .mdc-list-item__primary-text {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  .option-details {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
 .search-btn-container {
   display: flex;
   justify-content: flex-end;

@@ -79,26 +79,27 @@
                 <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
                 <mat-datepicker #picker1></mat-datepicker>
             </mat-form-field>
-
-            <mat-form-field
-                appearance="fill"
-                class="picker-persons">
-                <mat-label>Passengers</mat-label>
-                <mat-select formControlName="passengers">
-                  <mat-option 
-                        *ngFor="let passagers of passengersList"
-                        [value]="passagers">{{passagers}}
+            
+            <mat-form-field> 
+                <mat-select
+                    placeholder="1 Adult"
+                    [(ngModel)]="selectedItem"
+                    multiple
+                >
+                    <mat-option *ngFor="let passager of passengersList" [value]="passager">
+                        <div>{{ passager.ageType }}</div>
+                        <div class="option-details">
+                            <button mat-button (click)="decrease(passager)">-</button>
+                            <span>{{ passager.quantity }}</span>
+                            <button mat-button (click)="increase(passager)">+</button>
+                        </div>
                     </mat-option>
                 </mat-select>
             </mat-form-field>
         </div>
+        
         <div class="search-btn-container">
-            <button
-                mat-raised-button
-                class="search-btn"
-            >
-             Search
-            </button>
+            <button mat-raised-button class="search-btn">Search</button>
         </div>
 
     </form>

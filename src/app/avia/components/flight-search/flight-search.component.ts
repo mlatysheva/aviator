@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { IAirport } from '../../../models/airport';
 import { Observable } from 'rxjs';
 import { AviaService } from '../../services/avia.service';
+import { IAgeTypeQuantity } from '../../models/agetype-quantity.model';
 
 @Component({
   selector: 'app-flight-search',
@@ -14,9 +15,15 @@ export class FlightSearchComponent implements OnInit {
 
   public airports$: Observable<IAirport[]>;
 
-  public passengersList: string[] = ['1 Adult', '1 Child', '1 Infant'];
+  public passengersList: IAgeTypeQuantity[] = [
+    { ageType: 'Adult', quantity: 1 },
+    { ageType: 'Child', quantity: 0 },
+    { ageType: 'Infant', quantity: 0 },
+  ];
 
   public tripType = 'round-trip';
+
+  public selectedItem = '1 Adult';
 
   constructor(private aviaService: AviaService) {}
 
@@ -43,6 +50,16 @@ export class FlightSearchComponent implements OnInit {
     const destination = this.searchForm.get('destination')?.value;
     this.searchForm.controls['departure'].setValue(destination);
     this.searchForm.controls['destination'].setValue(departure);
+  }
+
+  public increase(specificAgeType: IAgeTypeQuantity) {
+    specificAgeType.quantity++;
+  }
+
+  public decrease(specificAgeType: IAgeTypeQuantity) {
+    if (specificAgeType.quantity > 0) {
+      specificAgeType.quantity--;
+    }
   }
 
   public onSearch() {
