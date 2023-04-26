@@ -5,6 +5,11 @@ import { Observable } from 'rxjs';
 import { AviaService } from '../../services/avia.service';
 import { IAgeTypeQuantity } from '../../models/agetype-quantity.model';
 import { MatOption } from '@angular/material/core';
+import { Router } from '@angular/router';
+import { TRIP_TYPE } from '../../../constants/localStorage';
+import { Store } from '@ngrx/store';
+import { AppState } from 'src/app/store/state.models';
+import { submitSearchForm } from '../../../store/actions/search.actions';
 
 @Component({
   selector: 'app-flight-search',
@@ -24,11 +29,15 @@ export class FlightSearchComponent implements OnInit {
     { ageType: 'Infant', quantity: 0 },
   ];
 
-  public tripType = 'round-trip';
+  tripType = localStorage.getItem(TRIP_TYPE) || 'round-trip';
 
   public selectedItems: IAgeTypeQuantity[] = [];
 
-  constructor(private aviaService: AviaService) {
+  constructor(
+    private aviaService: AviaService,
+    private router: Router,
+    private store: Store<AppState>
+  ) {
     this.passengersList.map((option) => this.selectedItems.push(option));
   }
 
@@ -78,7 +87,8 @@ export class FlightSearchComponent implements OnInit {
     if (this.searchForm.valid) {
       this.aviaService.search();
     }
-    //console.log(this.searchForm.value);
     this.aviaService.isSearchSubmitted$.next(true);
+    this.store.dispatch(submitSearchForm(this.searchForm.value));
+    this.router.navigate(['booking']);
   }
 }
