@@ -1,0 +1,38 @@
+.menu {
+  margin-top: 5rem;
+  display: flex;
+  gap: 63px;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 0px;
+  width: 705px;
+  height: 68px;
+  background-color: #fff;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.destination,
+.date,
+.people {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.edit-btn {
+  width: 28px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  letter-spacing: 0.1px;
+  color: #11397E;
+  font-size: 16px;
+}
+
+.divider {
+  width: 4px;
+  height: 4px;
+  background: #0090BD;
+  border-radius: 2px;
+}

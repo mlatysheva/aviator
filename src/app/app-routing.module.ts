@@ -12,6 +12,10 @@ const routes: Routes = [
     path: 'auth',
     loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
   },
+  {
+    path: 'booking',
+    loadChildren: () => import('./booking/booking.module').then(m => m.BookingModule)
+  },
   { path: '', redirectTo: 'main', pathMatch: 'full' },
   { path: '**', component: NotFoundPageComponent },
 ];
@@ -20,4 +24,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }
