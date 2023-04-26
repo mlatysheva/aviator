@@ -91,7 +91,7 @@
                     multiple
                 >
                     <mat-option *ngFor="let passager of passengersList" [value]="passager">
-                        <div>{{ passager.ageType }}</div>
+                        <div class="age-type-option-text">{{ passager.ageType }}</div>
                         <div class="option-details">
                             <button mat-button (click)="decrease(passager)">-</button>
                             <span>{{ passager.quantity }}</span>

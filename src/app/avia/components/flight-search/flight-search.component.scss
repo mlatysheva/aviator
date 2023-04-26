@@ -74,6 +74,10 @@
   }
 }
 
+.age-type-option-text {
+  padding: 0 10px;
+}
+
 ::ng-deep .mdc-list-item__primary-text {
   display: flex;
   flex-direction: row;
@@ -84,6 +88,10 @@
     flex-direction: row;
     align-items: center;
   }
+}
+
+::ng-deep .mat-pseudo-checkbox {
+  display: none !important;
 }
 
 .search-btn-container {
