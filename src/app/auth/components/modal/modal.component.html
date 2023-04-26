@@ -1,11 +1,14 @@
 
 <div class="auth-modal">
     <mat-tab-group animationDuration="0ms">
-        <mat-tab label="Login">
+        <mat-tab class="login-tab" label="Login">
             <app-login></app-login>
         </mat-tab>
-        <mat-tab label="Sign up">
+        <mat-tab class="signup-tab" label="Sign up">
             <app-sign-in></app-sign-in>
         </mat-tab>
     </mat-tab-group>
+    <button mat-icon-button class="close-btn" aria-label="close dialog" mat-dialog-close>
+      <mat-icon (click)="toggleSignInModal()">close</mat-icon>
+    </button>
 </div>

@@ -15,11 +15,65 @@
       "currency": "USD",
       "dateFormat": "MM/DD/YYYY",
       "id": "3353029d-6d87-47fe-8240-51d2e7759404"
+    },
+    {
+      "email": "darth@vader.com",
+      "password": "user321115",
+      "firstName": "Darth",
+      "lastName": "Vader",
+      "birthday": "15-01-2001",
+      "gender": "male",
+      "contacts": {
+        "countryCode": 7,
+        "phone": "51234567895",
+        "email": "darth@vader.com"
+      },
+      "currency": "USD",
+      "dateFormat": "MM/DD/YYYY",
+      "id": "91839790-3019-4b51-8170-e8a19dd92fec"
     }
   ],
-  "passengers": [],
-  "trips": [],
-  "carts": [],
+  "passengers": [
+    {
+      "firstName": "Darth",
+      "lastName": "Vader",
+      "birthday": "12-04-1980",
+      "ageCategory": "adult",
+      "seatNo": "25F",
+      "id": "0b52e00c-dded-488b-a824-bb59e22344ac"
+    }
+  ],
+  "trips": [
+    {
+      "roundTrip": true,
+      "departureDate": "24/04/2023",
+      "returnDate": "30/04/2023",
+      "departureFlightId": "asldfjkas-asdklfj-aklsfj",
+      "returnFlightId": "alskdf23-23lkjdfs-2afs",
+      "passengersIds": [
+        "askldfj0-alskdf-asdf",
+        "0b52e00c-dded-488b-a824-bb59e22344ac"
+      ],
+      "totalAmount": 750,
+      "totalTax": 112.5,
+      "contactDetails": {
+        "email": "darth@vader.com",
+        "countryCode": "7",
+        "phone": "123456789"
+      },
+      "promoCode": "starWars",
+      "id": "77cec714-b2a2-4b87-abaf-1c7a6ee28f10"
+    }
+  ],
+  "carts": [
+    {
+      "userId": "0b52e00c-dded-488b-a824-bb59e22344ac",
+      "tripsIds": [
+        "77cec714-b2a2-4b87-abaf-1c7a6ee28f10"
+      ],
+      "id": "43b76d00-ce4b-4f53-8956-37333b3a6ca5"
+    }
+  ],
   "login": {},
   "airports": [
     {

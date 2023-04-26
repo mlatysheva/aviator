@@ -1,9 +1,22 @@
 .auth-modal {
   width: 450px;
+  height: 600px;
   position: absolute;
   top: 88px;
   right: 30px;
   background-color: #fff;
   padding: 6px;
   border-radius: 8px;
+}
+
+.close-btn {
+  position: absolute;
+  color: rgb(61, 60, 60);
+  background: none;
+  border: none;
+  outline: none;
+  float: right;
+  top: 0;
+  right: -30px;
+  cursor: pointer;
 }

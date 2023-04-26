@@ -1,1 +1,54 @@
-<p>login works!</p>
+<div class="login-wrapper">
+  <button class="oath-btn"><span class="icon google-icon">Continue with Google</span></button>
+  <button class="oath-btn"><span class="icon facebook-icon">Continue with Facebook</span></button>
+  <div class="separator">
+    <span class="separator-line"></span>or log in with your email<span class="separator-line"></span>
+  </div>
+  <form 
+    class="login-form" 
+    [formGroup]="loginForm" 
+    (ngSubmit)="onSubmit()"
+  >
+    <div class="title">Login</div>
+    <div class="input-field-wrapper">
+      <label>login</label>
+      <input 
+        class="login-input" 
+        placeholder="email@gmail.com"
+        type="text"
+        formControlName="login"
+      >
+      <div class="error" *ngIf="login.invalid && login.touched">
+        <div *ngIf="login.errors?.['required']">
+          Please enter a login email
+        </div>
+        <div *ngIf="login.errors?.['email']">
+          The login email is invalid
+        </div>
+      </div>
+    </div>
+    <div class="input-field-wrapper">
+      <label>password</label>
+      <input 
+        class="login-input" 
+        placeholder="********"
+        type="password" 
+        formControlName="password"
+      >
+      <div class="error" *ngIf="password.invalid && password.touched">
+        <div *ngIf="password.errors?.['required']">
+          Please enter a password
+        </div>
+        <div *ngIf="password.errors?.['passwordValidator']">
+          Password must be at least 8 characters long, contain numbers, small and uppercase letters and at least one special character ! @ # ?
+        </div>
+      </div>
+    </div>
+    <button 
+      mat-raised-button
+      class="login-button"
+      color="primary"
+      [disabled]="!loginForm.valid"
+    >Login</button>
+  </form>
+</div>
