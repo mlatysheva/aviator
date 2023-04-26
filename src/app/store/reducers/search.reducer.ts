@@ -27,12 +27,7 @@ export const searchReducer = createReducer(
     SearchActions.submitSearchForm,
     (state, payload): SearchFormState => ({
       ...state,
-      tripType: payload.tripType,
-      departure: payload.departure,
-      destination: payload.destination,
-      startDate: payload.startDate,
-      endDate: payload.endDate,
-      passengers: payload.passengers,
+      ...payload,
     })
   ),
   on(SearchActions.clearSearchState, () => ({ ...initialState }))
