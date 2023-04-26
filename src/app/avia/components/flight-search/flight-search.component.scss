@@ -8,8 +8,6 @@
 .search-form {
   margin: 40px;
   padding: 25px;
-  width: 580px;
-  height: 390px;
   border-radius: 10px;
   display: flex;
   flex-direction: column;
@@ -29,6 +27,19 @@
   display: flex;
   flex-direction: column;
   position: relative;
+
+  &-option {
+    padding: 7px 10px;
+  }
+
+  &-text {
+    margin: 0;
+  }
+
+  &-text-gray {
+    font-size: 14px;
+    color: #74767a;
+  }
 }
 
 .reverse-btn {
@@ -50,9 +61,37 @@
   }
 }
 
-.date-and-persons-picker {
+.picker {
   display: flex;
   justify-content: space-between;
+
+  &-date {
+    margin-right: 10px;
+  }
+
+  &-persons {
+    margin-left: 10px;
+  }
+}
+
+.age-type-option-text {
+  padding: 0 10px;
+}
+
+::ng-deep .mdc-list-item__primary-text {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  .option-details {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+::ng-deep .mat-pseudo-checkbox {
+  display: none !important;
 }
 
 .search-btn-container {
