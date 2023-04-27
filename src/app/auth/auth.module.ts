@@ -3,21 +3,33 @@ import { CommonModule } from '@angular/common';
 import { LoginComponent } from './components/login/login.component';
 import { SignInComponent } from './components/sign-in/sign-in.component';
 import { ModalComponent } from './components/modal/modal.component';
-import { MatTabsModule } from '@angular/material/tabs';
 import {
   FacebookLoginProvider,
   SocialLoginModule,
   SocialAuthServiceConfig,
 } from 'angularx-social-login';
-import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
-import { MatIconModule } from '@angular/material/icon';
+import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSlideToggleModule} from '@angular/material/slide-toggle';
 @NgModule({
   declarations: [LoginComponent, SignInComponent, ModalComponent],
-  imports: [CommonModule, MatTabsModule, ReactiveFormsModule,
-    SocialLoginModule, SharedModule, MatIconModule, MatButtonModule],
+  imports: [
+    CommonModule, 
+    ReactiveFormsModule,
+    FormsModule,
+    MatButtonModule,
+    MatInputModule,
+    SocialLoginModule, 
+    SharedModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatSlideToggleModule,
+  ],
     providers: [
       {
         provide: 'SocialAuthServiceConfig',

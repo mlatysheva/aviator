@@ -1,3 +1,73 @@
+@use '@angular/material' as mat;
+@include mat.core();
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+
+$darkblue-palette: (
+  50: #b8cff7,
+  100: #7495d0,
+  200: #94b3e8,
+  300: #406ab2,
+  400: #295298,
+  500: #11397e,
+  600: #183465,
+  700: #071c42,
+  800: #0c192f,
+  900: #0d1524,
+  A100: #94b3e8,
+  A200: #406ab2,
+  A400: #11397e,
+  A700: #071c42,
+  contrast: (
+    50: rgba(black, 0.87),
+    100: rgba(black, 0.87),
+    200: rgba(black, 0.87),
+    300: rgba(black, 0.87),
+    400: rgba(black, 0.87),
+    500: rgb(225, 222, 222),
+    600: rgb(210, 209, 209),
+    700: rgb(170, 168, 168),
+    800: rgb(183, 182, 182),
+    900: rgb(127, 125, 125),
+    A100: rgba(black, 0.87),
+    A200: rgba(black, 0.87),
+    A400: rgb(145, 143, 143),
+    A700: rgb(217, 214, 214),
+  )
+);
+
+$avia_client-primary: mat.define-palette($darkblue-palette, 500);
+$avia_client-accent:  mat.define-palette(mat.$yellow-palette, A200, A100, A400);
+$avia_client-warn:    mat.define-palette(mat.$red-palette);
+$avia_client-theme: mat.define-light-theme((
+  color: (
+    primary: $avia_client-primary,
+    accent: $avia_client-accent,
+    warn: $avia_client-warn,
+  )
+));
+
+@include mat.core-theme($avia_client-theme);
+@include mat.button-theme($avia_client-theme);
+@include mat.checkbox-theme($avia_client-theme);
+@include mat.tabs-theme($avia_client-theme);
+
+:root {
+  --light-grey: #e5e5e5;
+  --primary-color: #11397e;
+  --link-hover-color: #4570c1;
+  --container-width: 1200px;
+  --secondary-color: rgb(255, 217, 0);
+  --options-color: rgb(173, 173, 173);
+
+  // sizes
+  --auth-modal-width: 390px;
+  --auth-modal-height: auto;
+}
+
+* {
+  box-sizing: border-box;
+}
+
 html,
 body {
   height: 100%;
@@ -13,3 +83,4 @@ body {
   width: 100%;
   margin: 0 auto;
 }
+

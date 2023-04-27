@@ -8,11 +8,11 @@ import { AuthService } from '../../services/auth.service';
 })
 export class ModalComponent {
   isVisible = false;
-  constructor(public authService: AuthService) {
+  
+  constructor(public authService: AuthService) {}
 
-   }
-
-   public toggleSignInModal() {
+  public toggleSignInModal() {
+    console.log('toggleSignInModal');
     this.authService.isVisible$.subscribe(
       (showModal) => (this.isVisible = showModal)
     );

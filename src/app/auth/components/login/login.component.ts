@@ -10,6 +10,8 @@ import { AuthService } from '../../services/auth.service';
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
 
+  hide = true;
+
   get login() {
     return this.loginForm.controls['login'];
   }
@@ -46,5 +48,13 @@ export class LoginComponent implements OnInit {
     const password = this.loginForm.value.password;
     console.log(`login is ${login} and password is ${password}`);
     // this.authService.onLogin(login, password);
+  }
+
+  getErrorMessage() {
+    if (this.login.hasError('required')) {
+      return 'You must enter a value';
+    }
+
+    return this.login.hasError('email') ? 'Not a valid email' : '';
   }
 }
