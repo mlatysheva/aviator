@@ -10,6 +10,7 @@ import { TRIP_TYPE } from '../../../constants/localStorage';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store/state.models';
 import { setSearchForm } from '../../../store/actions/search.actions';
+import { IAgeCategory } from 'src/app/models/passenger';
 
 @Component({
   selector: 'app-flight-search',
@@ -24,9 +25,9 @@ export class FlightSearchComponent implements OnInit {
   public airports$: Observable<IAirport[]>;
 
   public passengersList: IAgeTypeQuantity[] = [
-    { ageType: 'Adult', quantity: 1 },
-    { ageType: 'Child', quantity: 0 },
-    { ageType: 'Infant', quantity: 0 },
+    { ageCategory: IAgeCategory.adult, quantity: 1 },
+    { ageCategory: IAgeCategory.child, quantity: 0 },
+    { ageCategory: IAgeCategory.infant, quantity: 0 },
   ];
 
   tripType = localStorage.getItem(TRIP_TYPE) || 'round-trip';

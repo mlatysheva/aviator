@@ -1,0 +1,12 @@
+<div class="booking-passengers-container ">
+    <div class="title-section">
+        <div class="title">
+            <img src="../../../../assets/icons/passengers.svg" alt="passengers">
+            <p class="title-heading">Passengers</p>
+        </div>
+        <p class="title-text">Enter the passenger's names as they appear on document (passport or ID). </p>
+    </div>
+    <mat-card *ngFor="let card of cards">
+        <mat-card-content>{{card.ageCategory}}</mat-card-content>
+    </mat-card>
+</div>

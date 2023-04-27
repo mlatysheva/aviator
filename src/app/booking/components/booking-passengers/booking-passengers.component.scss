@@ -1,0 +1,24 @@
+.booking-passengers-container {
+  margin-top: 6rem;
+  padding: 0 40px;
+}
+
+.title {
+  display: flex;
+  flex-direction: row;
+
+  &-heading {
+    font-size: 24px;
+    line-height: 28px;
+    font-weight: 700;
+    color: #11397e;
+    margin: 10px 0;
+    padding: 0 10px;
+  }
+}
+
+.title-text {
+  font-size: 16px;
+  line-height: 24px;
+  margin: 0;
+}

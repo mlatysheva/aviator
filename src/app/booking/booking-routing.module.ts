@@ -1,11 +1,15 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { BookingPassengersComponent } from './components/booking-passengers/booking-passengers.component';
 import { BookingPageComponent } from './pages/booking-page/booking-page.component';
 
-const routes: Routes = [{ path: '', component: BookingPageComponent }];
+const routes: Routes = [
+  { path: '', component: BookingPageComponent },
+  { path: 'booking-step-2', component: BookingPassengersComponent },
+];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class BookingRoutingModule { }
+export class BookingRoutingModule {}

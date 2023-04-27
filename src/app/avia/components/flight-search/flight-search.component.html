@@ -95,7 +95,7 @@
                         [value]="passenger"
                         mat-selected
                     >
-                        <div class="age-type-option-text">{{ passenger.ageType }}</div>
+                        <div class="age-type-option-text">{{ passenger.ageCategory | titlecase }}</div>
                         <div class="option-details">
                             <button mat-button (click)="decrease($event, passenger)">-</button>
                             <span>{{ passenger.quantity }}</span>
