@@ -17,11 +17,9 @@
         formControlName="login" 
         required
       >
-      <div class="error" *ngIf="login.invalid && login.touched">
-        <mat-error *ngIf="login.errors?.['email']">
-          Email is invalid
-        </mat-error>
-      </div>
+      <mat-error class="error" *ngIf="login.invalid && login.touched">
+          {{getEmailErrorMessage()}}
+      </mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="fill">
@@ -34,11 +32,9 @@
       <mat-icon matIconSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
         {{hide ? 'visibility_off' : 'visibility'}}
       </mat-icon>
-      <div class="error" *ngIf="password.invalid && password.touched">
-        <mat-error *ngIf="password.errors?.['passwordValidator']">
-          Min 8 characters, an uppercase letter, a number and one of [! @ # ?]
-        </mat-error>
-      </div>
+      <mat-error class="error" *ngIf="password.invalid && password.touched">
+        {{getPasswordErrorMessage()}}
+      </mat-error>
     </mat-form-field>
     
     <div class="right-align-div">

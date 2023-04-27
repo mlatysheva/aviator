@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
+import { Observable } from 'rxjs';
+import { IUser } from '../../../models';
+import { USER_ID } from '../../../constants/localStorage';
 
 @Component({
   selector: 'app-login',
@@ -9,6 +12,8 @@ import { AuthService } from '../../services/auth.service';
 })
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
+
+  userId$: string;
 
   hide = true;
 
@@ -37,7 +42,8 @@ export class LoginComponent implements OnInit {
       const value = control.value as string;
       if (!value) return null;
       else {
-        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#$@!%&*])[A-Za-z\d#$@!%&*]{8,20}$/;
+        const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+        // const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#$@!%&*])[A-Za-z\d#$@!%&*]{8,20}$/;
         return passwordRegex.test(value) ? null : { passwordValidator: true };
       }
     };
@@ -46,15 +52,20 @@ export class LoginComponent implements OnInit {
   onSubmit() {
     const login = this.loginForm.value.login;
     const password = this.loginForm.value.password;
-    console.log(`login is ${login} and password is ${password}`);
-    // this.authService.onLogin(login, password);
+    this.authService.onLogin(login, password);
   }
 
-  getErrorMessage() {
+  getEmailErrorMessage() {
     if (this.login.hasError('required')) {
-      return 'You must enter a value';
+      return 'Email is required';
     }
-
     return this.login.hasError('email') ? 'Not a valid email' : '';
+  }
+
+  getPasswordErrorMessage() {
+    if (this.password.hasError('required')) {
+      return 'Password is required';
+    }
+    return this.password.hasError('passwordValidator') ? 'Min 8 characters, an uppercase letter, a number and one of [#$@!%&*]' : '';
   }
 }

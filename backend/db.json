@@ -31,6 +31,11 @@
       "currency": "USD",
       "dateFormat": "MM/DD/YYYY",
       "id": "91839790-3019-4b51-8170-e8a19dd92fec"
+    },
+    {
+      "email": "luke11@gmail.com",
+      "password": "user3211123",
+      "id": "452aaa82-eafa-4d18-bf51-1118e0541f99"
     }
   ],
   "passengers": [
