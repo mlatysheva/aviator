@@ -17,6 +17,9 @@ export class BookingPassengersComponent implements OnInit {
   public passengers: IAgeTypeQuantity[];
   public cards: IPassenger[] = [];
 
+  public checked = false;
+  public disabled = false;
+
   constructor(private store: Store<AppState>) {}
 
   ngOnInit() {
