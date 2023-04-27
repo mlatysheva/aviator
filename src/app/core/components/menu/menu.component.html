@@ -11,9 +11,22 @@
     <option [selected]="selectedCurrency==='USD'" class="currency" value="USD">USD</option>
     <option [selected]="selectedCurrency==='PLN'" class="currency" value="PLN">PLN</option>
   </select>
-  <button class="sign" (click)="toggleSignInModal()">
+  <button class="sign" *ngIf="!isAuth" (click)="toggleSignInModal()">
     <img src="../../../../assets/icons/sign-in.svg" alt="sign">
   </button>
+
+  <div class="user-section" *ngIf="isAuth">
+    <button       
+      mat-mini-fab 
+      color="#11397e"
+      class="logout-icon" 
+      (click)="onLogout()"
+    >
+      <mat-icon color="white" fontIcon="logout"></mat-icon>       
+    </button>
+    <div>{{userName}}</div> 
+  </div>
+
   <button class="shop">
     <img src="../../../../assets/icons/shopping-basket.svg" alt="basket">
   </button>

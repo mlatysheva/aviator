@@ -48,7 +48,8 @@ option:checked,
 option:focus,
 option:active,
 .sign:hover,
-.shop:hover {
+.shop:hover,
+.logout-icon:hover {
   background-color: rgba(206, 206, 206, 1) !important;
   border-color: gray;
   outline: none;
@@ -82,6 +83,18 @@ option:active,
   flex: none;
   order: 0;
   flex-grow: 0;
+}
+
+.user-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.logout-icon {
+  color: white;
+  background-color: rgba(241, 243, 246, 0.15);
 }
 
 .shop {
