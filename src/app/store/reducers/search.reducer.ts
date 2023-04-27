@@ -24,7 +24,7 @@ export const initialState: SearchFormState = {
 export const searchReducer = createReducer(
   initialState,
   on(
-    SearchActions.submitSearchForm,
+    SearchActions.setSearchForm,
     (state, payload): SearchFormState => ({
       ...state,
       ...payload,

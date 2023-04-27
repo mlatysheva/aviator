@@ -1,7 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 import { SearchFormState } from '../reducers/search.reducer';
 
-export const submitSearchForm = createAction(
+export const setSearchForm = createAction(
   '[Flight Search] Form Submit',
   props<{ search: SearchFormState }>()
 );
