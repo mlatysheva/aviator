@@ -1,4 +1,9 @@
+/* eslint-disable no-self-assign */
 import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { AppState } from 'src/app/store/state.models';
+import { Observable } from 'rxjs';
+
 
 @Component({
   selector: 'app-second-menu',
@@ -8,19 +13,36 @@ import { Component, OnInit } from '@angular/core';
 export class SecondMenuComponent implements OnInit {
   from: string;
   to: string;
-  date: string;
+  startDate: string;
+  endDate: string;
   people: number;
+  from$: Observable<string[]>;
+  state$: Observable<AppState>;
+  state: AppState;
 
   onClick() {
-    this.from === 'From' ? this.from = 'To' : this.from = 'From';
-    this.to === 'To' ? this.to = 'From' : this.to = 'To';
+    this.from === this.from ? this.from = this.to : this.from;
+    this.to === this.to ? this.to = this.from : this.to;
   }
+
+  constructor(private store: Store<AppState>) {
+  }
+
   ngOnInit() {
-    this.from = 'From';
-    this.to = 'To';
-    this.date = 'Date';
-    this.people = 1;
+
+    this.state$ = this.store.select(appState => appState);
+    this.state$.subscribe((state: AppState) => {
+      this.from = state.search.departure;
+      this.to = state.search.destination;
+      this.startDate = state.search.startDate;
+      this.endDate = state.search.endDate;
+      this.people = state.search.passengers[0].quantity + state.search.passengers[1].quantity + state.search.passengers[2].quantity;
+    });
+
   }
 
 
 }
+
+
+
