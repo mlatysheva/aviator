@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { AppState } from 'src/app/store/state.models';
@@ -8,10 +9,9 @@ import { IFlight } from '../../../models/flight';
 @Component({
   selector: 'app-carousel-date',
   templateUrl: './carousel-date.component.html',
-  styleUrls: ['./carousel-date.component.scss']
+  styleUrls: ['./carousel-date.component.scss'],
 })
 export class CarouselDateComponent implements OnInit {
-
   state$: Observable<AppState>;
   state: AppState;
   from: string;
@@ -29,7 +29,6 @@ export class CarouselDateComponent implements OnInit {
   prices$: Observable<IFlight[]>;
   filter1: string;
   filter2: string;
-
 
   addOneDay(date: string) {
     const dateCopy = new Date(date);
@@ -52,22 +51,24 @@ export class CarouselDateComponent implements OnInit {
   constructor(
     private store: Store<AppState>,
     private aviaService: AviaService,
-  ) {
-  }
+    private router: Router
+  ) {}
 
   public getPricesList(from: string, to: string): Observable<IFlight[]> {
     this.prices$ = this.aviaService.getAllFlights();
     this.prices$.subscribe((flights) => {
-      return (flights.filter((flight) => {
-        return flight.originAirportIataCode === from && flight.destinationAirportIataCode === to;
-      }
-      ));
+      return flights.filter((flight) => {
+        return (
+          flight.originAirportIataCode === from &&
+          flight.destinationAirportIataCode === to
+        );
+      });
     });
     return this.prices$;
   }
 
   ngOnInit() {
-    this.state$ = this.store.select(appState => appState);
+    this.state$ = this.store.select((appState) => appState);
     this.state$.subscribe((state: AppState) => {
       this.from = state.search.departure.split(',').slice(0, 2).join('');
       this.to = state.search.destination.split(',').slice(0, 2).join('');
@@ -75,18 +76,31 @@ export class CarouselDateComponent implements OnInit {
       this.codTo = state.search.destination.split(',').slice(2, 3).join('');
       this.startDate = state.search.startDate;
       this.endDate = state.search.endDate;
-      this.slides = [this.minusOneDay(this.startDate), this.startDate, this.addOneDay(this.startDate)];
+      this.slides = [
+        this.minusOneDay(this.startDate),
+        this.startDate,
+        this.addOneDay(this.startDate),
+      ];
       this.currency = state.user.currency;
       this.getPricesList(this.codFrom, this.codTo).subscribe((flight) => {
         flight.filter((flight) => {
-          if (flight.originAirportIataCode === this.codFrom && flight.destinationAirportIataCode === this.codTo) {
+          if (
+            flight.originAirportIataCode === this.codFrom &&
+            flight.destinationAirportIataCode === this.codTo
+          ) {
             this.price = flight.priceAdult;
           }
           return flight;
         });
-
       });
-
     });
+  }
+
+  onBackClick() {
+    this.router.navigate(['main']);
+  }
+
+  onNextClick() {
+    this.router.navigate(['passengers']);
   }
 }
