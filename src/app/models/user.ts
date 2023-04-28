@@ -16,4 +16,5 @@ export interface IUser {
   dateFormat?: IDateFormat;
   cartsIds?: string[];
   tripsIds?: string[];
+  citizenship?: string;
 }

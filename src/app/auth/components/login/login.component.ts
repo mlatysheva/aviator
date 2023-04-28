@@ -53,8 +53,6 @@ export class LoginComponent implements OnInit {
     const email = this.loginForm.value.email;
     const password = this.loginForm.value.password;
     this.store.dispatch(setUserProfile({ email, password }));
-    // this.authService.onLogin(login, password);
-
   }
 
   getEmailErrorMessage() {
