@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { IAgeCategory, IPassenger } from 'backend/types';
 import { map, Observable } from 'rxjs';
@@ -22,7 +23,7 @@ export class BookingPassengersComponent implements OnInit {
   public checked = false;
   public disabled = false;
 
-  constructor(private store: Store<AppState>) {}
+  constructor(private store: Store<AppState>, private router: Router) {}
 
   ngOnInit() {
     this.searchForm$ = this.store.select(selectPassengers);
@@ -51,5 +52,13 @@ export class BookingPassengersComponent implements OnInit {
         this.cards.push(newPerson);
       }
     });
+  }
+
+  onBackClick() {
+    this.router.navigate(['booking']);
+  }
+
+  onNextClick() {
+    this.router.navigate(['review']);
   }
 }

@@ -1,5 +1,5 @@
 .booking-passengers-container {
-  margin-top: 100px;
+  margin-top: 10px;
   padding: 0 40px;
 }
 
@@ -48,4 +48,13 @@
 .assistance-icon {
   margin-bottom: -3px;
   padding: 0 5px;
+}
+
+.stepper-btns {
+  display: flex;
+  justify-content: flex-end;
+
+  button {
+    margin: 0 5px;
+  }
 }

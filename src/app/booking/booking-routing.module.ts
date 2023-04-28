@@ -1,11 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { BookingPassengersComponent } from './components/booking-passengers/booking-passengers.component';
 import { BookingPageComponent } from './pages/booking-page/booking-page.component';
+import { PassengersPageComponent } from './pages/passengers-page/passengers-page.component';
+import { ReviewPageComponent } from './pages/review-page/review-page.component';
 
 const routes: Routes = [
   { path: '', component: BookingPageComponent },
-  { path: 'booking-step-2', component: BookingPassengersComponent },
+  { path: 'passengers', component: PassengersPageComponent },
+  { path: 'review', component: ReviewPageComponent },
 ];
 
 @NgModule({

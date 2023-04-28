@@ -62,7 +62,7 @@
       <mat-form-field>
         <mat-select [(ngModel)]="selectedItems" formControlName="passengers" multiple>
           <mat-option *ngFor="let passenger of passengersList" [value]="passenger" mat-selected>
-            <div class="age-type-option-text">{{ passenger.ageCategory }}</div>
+            <div class="age-type-option-text">{{ passenger.ageCategory | titlecase}}</div>
             <div class="option-details">
               <button mat-button (click)="decrease($event, passenger)">-</button>
               <span>{{ passenger.quantity }}</span>
