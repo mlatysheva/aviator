@@ -1,1 +1,51 @@
-<p>login works!</p>
+<div class="login-wrapper">
+  <button class="oath-btn"><span class="icon google-icon"></span>Continue with Google</button>
+  <button class="oath-btn"><span class="icon facebook-icon"></span>Continue with Facebook</button>
+  <div class="separator">
+    <span class="separator-line"></span>or log in with your email<span class="separator-line"></span>
+  </div>
+  <form 
+    class="login-form" 
+    [formGroup]="loginForm" 
+    (ngSubmit)="onSubmit()"
+  >
+    <mat-form-field appearance="fill">
+      <mat-label>Email</mat-label>
+      <input 
+        matInput 
+        placeholder="email@gmail.com" 
+        formControlName="login" 
+        required
+      >
+      <mat-error class="error" *ngIf="login.invalid && login.touched">
+          {{getEmailErrorMessage()}}
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Password</mat-label>
+      <input 
+        matInput 
+        [type]="hide ? 'password' : 'text'"
+        formControlName="password"
+      >
+      <mat-icon matIconSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+        {{hide ? 'visibility_off' : 'visibility'}}
+      </mat-icon>
+      <mat-error class="error" *ngIf="password.invalid && password.touched">
+        {{getPasswordErrorMessage()}}
+      </mat-error>
+    </mat-form-field>
+    
+    <div class="right-align-div">
+      <a href="" class="hint-link">Forgot password?</a> 
+    </div>
+    
+    <button 
+      mat-raised-button
+      class="login-button"
+      color="primary"
+      [disabled]="!loginForm.valid"
+    >Login</button>
+  </form>
+</div>

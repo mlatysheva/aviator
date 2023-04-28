@@ -1,9 +1,36 @@
+.auth-modal-overlay {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(32, 43, 62, 0.5);
+  z-index: 10;
+}
+
 .auth-modal {
-  width: 450px;
+  width: var(--auth-modal-width);
+  height: var(--auth-modal-height);
   position: absolute;
   top: 88px;
-  right: 30px;
+  right: 30%;
   background-color: #fff;
-  padding: 6px;
+  padding: 1.5rem;
   border-radius: 8px;
+  overflow-y: hidden;
+  opacity: 1;
+}
+
+.close-btn {
+  position: absolute;
+  color: rgb(61, 60, 60);
+  background: none;
+  border: none;
+  outline: none;
+  float: right;
+  top: 0;
+  right: 0;
+  cursor: pointer;
 }

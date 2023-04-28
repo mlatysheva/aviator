@@ -6,7 +6,9 @@ import { IAgeTypeQuantity } from 'src/app/avia/models/agetype-quantity.model';
 export interface SearchFormState {
   tripType: string;
   departure: string;
+  codDeparture: string;
   destination: string;
+  codDestination: string;
   startDate: string;
   endDate: string;
   passengers: IAgeTypeQuantity[];
@@ -16,6 +18,8 @@ export const initialState: SearchFormState = {
   tripType: localStorage.getItem(TRIP_TYPE) || 'round-trip',
   departure: '',
   destination: '',
+  codDeparture: '',
+  codDestination: '',
   startDate: '',
   endDate: '',
   passengers: [],

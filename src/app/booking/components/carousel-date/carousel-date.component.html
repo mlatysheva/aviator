@@ -1,0 +1,21 @@
+<div class="one-way">
+  <img src="../../../../assets/icons/plane-to.svg" alt="plane">
+  <h3>{{from}}</h3>
+</div>
+<carousel [itemsPerSlide]="itemsPerSlide" [singleSlideOffset]="singleSlideOffset" [startFromIndex]="0" [interval]="0">
+  <slide class="slide" *ngFor="let slide of slides; let index=index">
+    <h4>{{slide | date :'dd LLL, cccc'}}</h4>
+    <div class="is-fly" *ngIf="(isCanFly(slide))">
+      <img src="../../../../assets/icons/do-not-fly.svg" alt="no-fly">
+    </div>
+    <div class="price" *ngIf="!(isCanFly(slide))">
+      <h5><span>{{currency}} </span>{{price}}</h5>
+    </div>
+    <div class="carousel-caption">
+    </div>
+  </slide>
+
+  <div class="two-way">
+    <img src="../../../../assets/icons/plane-from.svg" alt="plane">
+    <h3>{{to}}</h3>
+  </div>

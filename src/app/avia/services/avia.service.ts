@@ -8,7 +8,7 @@ import { IFlight } from 'src/app/models/flight';
   providedIn: 'root',
 })
 export class AviaService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   public isSearchSubmitted$ = new BehaviorSubject<boolean>(false);
 
@@ -21,6 +21,23 @@ export class AviaService {
     const flightsRequestUrl = 'http://localhost:3000/flights';
     return this.http.get<IFlight[]>(flightsRequestUrl);
   }
+
+  // public getFlightPrice(from: string, to: string): Observable<IFlight[]> {
+  //   const flightsRequestUrl = 'http://localhost:3000/flights';
+  //   let priceAdult = 0;
+  //   let priceChild = 0;
+  //   let priceInfant = 0;
+  //   this.http.get<IFlight[]>(flightsRequestUrl).subscribe((flights) => {
+  //     flights.forEach((flight) => {
+  //       if (flight.originAirportIataCode === from && flight.destinationAirportIataCode === to) {
+  //         priceAdult = flight.priceAdult;
+  //         priceChild = flight.priceChild;
+  //         priceInfant = flight.priceInfant;
+  //       }
+  //     });
+  //   });
+  //   return { priceAdult, priceChild, priceInfant };
+  // }
 
   public search() {
     console.log('Search the flight');

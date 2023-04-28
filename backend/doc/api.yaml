@@ -1,59 +1,521 @@
 openapi: 3.0.0
 info:
-  title: Aviator
-  description: Air fare booking service
-  version: 1.0.0
+  description: Aviator Open API
+  version: 0.1-oas3
+  title: Aviator Open API
+paths:
+  /carts:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Model4'
+        x-examples:
+          application/json: |-
+            {
+              "userId": "0b52e00c-dded-488b-a824-bb59e22344ac",
+              "tripsIds": ["77cec714-b2a2-4b87-abaf-1c7a6ee28f10"]
+            }
+      responses:
+        '201':
+          description: Definition generated from Swagger Inspector
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Model7'
+  /trips:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Model2'
+        x-examples:
+          application/json: |-
+            {
+              "roundTrip": true,
+              "departureDate": "24/04/2023", 
+              "returnDate": "30/04/2023",
+              "departureFlightId": "asldfjkas-asdklfj-aklsfj",
+              "returnFlightId": "alskdf23-23lkjdfs-2afs",
+              "passengersIds": ["askldfj0-alskdf-asdf", "0b52e00c-dded-488b-a824-bb59e22344ac"],
+              "totalAmount": 750,
+              "totalTax": 112.5,
+              "contactDetails": {
+                  "email": "darth@vader.com",
+                  "countryCode": "7",
+                  "phone": "123456789"
+              },
+              "promoCode": "starWars"
 
-servers:
-  - url: /
+            }
+      responses:
+        '201':
+          description: Definition generated from Swagger Inspector
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Model8'
+  /passengers/0b52e00c-dded-488b-a824-bb59e22344ac:
+    put:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Model1'
+        x-examples:
+          application/json: |-
+            { 
+              "firstName": "Darth",
+              "lastName": "Vader",
+              "birthday": "12-04-1980",
+              "ageCategory": "adult",
+              "seatNo": "25F"
+            }
+      responses:
+        '200':
+          description: Definition generated from Swagger Inspector
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Model9'
+  /passengers:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Model3'
+        x-examples:
+          application/json: |-
+            { 
+              "firstName": "Darth",
+              "lastName": "Vader",
+              "birthday": "10-04-1980",
+              "ageCategory": "adult",
+              "seatNo": "23F"
+            }
+      responses:
+        '201':
+          description: Definition generated from Swagger Inspector
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Model11'
+  /flights/2b941dd4-4f36-4942-b3e8-80871f4124b4:
+    get:
+      responses:
+        '200':
+          description: Definition generated from Swagger Inspector
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Model12'
+  /airports/3364:
+    get:
+      responses:
+        '200':
+          description: Definition generated from Swagger Inspector
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Model13'
+  /users/91839790-3019-4b51-8170-e8a19dd92fec:
+    put:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Model0'
+        x-examples:
+          application/json: |-
+            {
+                    "email": "darth@vader.com",
+                    "password": "user321115",
+                    "firstName": "Darth",
+                    "lastName": "Vader",
+                    "birthday": "15-01-2001",
+                    "gender": "male",
+                    "contacts": {
+                        "countryCode": 7,
+                        "phone": "51234567895",
+                        "email": "darth@vader.com"
+                    },
+                    "currency": "USD",
+                    "dateFormat": "MM/DD/YYYY"
+                }
+      responses:
+        '200':
+          description: Definition generated from Swagger Inspector
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Model14'
+  /users:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Model5'
+        x-examples:
+          application/json: |-
+            {
+                "email": "darth@vader.com",
+                "password": "user321115"
 
+            }
+      responses:
+        '201':
+          description: Definition generated from Swagger Inspector
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Model15'
+  /users/3353029d-6d87-47fe-8240-51d2e7759404:
+    get:
+      responses:
+        '200':
+          description: Definition generated from Swagger Inspector
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Model16'
+  /{param0}:
+    get:
+      parameters:
+        - name: param0
+          in: path
+          description: 'Example values form path are: ''carts'' and ''passengers'''
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Definition generated from Swagger Inspector
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Model6'
 components:
   schemas:
-    User:
-      type: object
+    Contacts:
+      properties:
+        countryCode:
+          type: integer
+          format: int32
+        phone:
+          type: string
+        email:
+          type: string
+    Model0:
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        birthday:
+          type: string
+        gender:
+          type: string
+        contacts:
+          $ref: '#/components/schemas/Contacts'
+        currency:
+          type: string
+        dateFormat:
+          type: string
+    Model1:
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        birthday:
+          type: string
+        ageCategory:
+          type: string
+        seatNo:
+          type: string
+    ContactDetails:
+      properties:
+        email:
+          type: string
+        countryCode:
+          type: string
+        phone:
+          type: string
+    Model2:
+      properties:
+        roundTrip:
+          type: boolean
+        departureDate:
+          type: string
+        returnDate:
+          type: string
+        departureFlightId:
+          type: string
+        returnFlightId:
+          type: string
+        passengersIds:
+          type: array
+          items:
+            type: string
+        totalAmount:
+          type: integer
+          format: int32
+        totalTax:
+          type: number
+          format: double
+        contactDetails:
+          $ref: '#/components/schemas/ContactDetails'
+        promoCode:
+          type: string
+    Model3:
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        birthday:
+          type: string
+        ageCategory:
+          type: string
+        seatNo:
+          type: string
+    Model4:
+      properties:
+        userId:
+          type: string
+        tripsIds:
+          type: array
+          items:
+            type: string
+    Model5:
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+    Array:
+      properties:
+        userId:
+          type: string
+        tripsIds:
+          type: array
+          items:
+            type: string
+        id:
+          type: string
+    Model6:
+      type: array
+      items:
+        $ref: '#/components/schemas/Array'
+    Model7:
+      properties:
+        userId:
+          type: string
+        tripsIds:
+          type: array
+          items:
+            type: string
+        id:
+          type: string
+    Model8_ContactDetails:
+      properties:
+        email:
+          type: string
+        countryCode:
+          type: string
+        phone:
+          type: string
+    Model8:
+      properties:
+        roundTrip:
+          type: boolean
+        departureDate:
+          type: string
+        returnDate:
+          type: string
+        departureFlightId:
+          type: string
+        returnFlightId:
+          type: string
+        passengersIds:
+          type: array
+          items:
+            type: string
+        totalAmount:
+          type: integer
+          format: int32
+        totalTax:
+          type: number
+          format: double
+        contactDetails:
+          $ref: '#/components/schemas/Model8_ContactDetails'
+        promoCode:
+          type: string
+        id:
+          type: string
+    Model9:
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        birthday:
+          type: string
+        ageCategory:
+          type: string
+        seatNo:
+          type: string
+        id:
+          type: string
+    Model10_Array:
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        birthday:
+          type: string
+        ageCategory:
+          type: string
+        seatNo:
+          type: string
+        id:
+          type: string
+    Model11:
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        birthday:
+          type: string
+        ageCategory:
+          type: string
+        seatNo:
+          type: string
+        id:
+          type: string
+    Model12:
       properties:
         id:
           type: string
-          format: uuid
+        originAirportIataCode:
+          type: string
+        destinationAirportIataCode:
+          type: string
+        priceAdult:
+          type: integer
+          format: int32
+        priceChild:
+          type: integer
+          format: int32
+        priceInfant:
+          type: integer
+          format: int32
+        duration:
+          type: integer
+          format: int32
+        departureTime:
+          type: string
+        direct:
+          type: boolean
+        flightNumber:
+          type: string
+        taxRate:
+          type: number
+          format: double
+        totalSeats:
+          type: integer
+          format: int32
+        returnFlightId:
+          type: string
+    Model13:
+      properties:
+        name:
+          type: string
+        city:
+          type: string
+        country:
+          type: string
+        iata_code:
+          type: string
+        id:
+          type: string
+    Model14_Contacts:
+      properties:
+        countryCode:
+          type: integer
+          format: int32
+        phone:
+          type: string
         email:
           type: string
-          example: 'email@gmail.com'
+    Model14:
+      properties:
+        email:
+          type: string
         password:
           type: string
-          exmaple: 'Ss!#qwert'
-        firstName: 
+        firstName:
           type: string
-          example: 'Joe'
         lastName:
           type: string
-          example: 'Jason'
         birthday:
           type: string
-          example: '1987-04-11'
         gender:
           type: string
-          example: 'male'
         contacts:
-          type: object
-          exmaple:
-            {
-              "email": "email@gmail.com",
-              "countryCode": "+7",
-              "phone": "123456789"
-            }
+          $ref: '#/components/schemas/Model14_Contacts'
         currency:
           type: string
-          example: "RUB"
         dateFormat:
           type: string
-          example: "DD/MM/YYYY"
-        cartsIds:
-          type: array
-          items: ["1234", "21345", "2354"]
-        tripsIds:
-          type: array
-          items: ["asldkfj", "alskdfj", "laskfdj"]
-      required:
-        - email
-        - password
-    
+        id:
+          type: string
+    Model15:
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+        id:
+          type: string
+    Model16_Contacts:
+      properties:
+        countryCode:
+          type: integer
+          format: int32
+        phone:
+          type: string
+        email:
+          type: string
+    Model16:
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        birthday:
+          type: string
+        gender:
+          type: string
+        contacts:
+          $ref: '#/components/schemas/Model16_Contacts'
+        currency:
+          type: string
+        dateFormat:
+          type: string
+        id:
+          type: string

@@ -1,114 +1,81 @@
 <div class="flight-search-container">
-    <form
-        class="search-form"
-        [formGroup]="searchForm"
-        (submit)="onSearch()"
-    >
-        <div class="radio-btns">
-            <mat-radio-group
-                formControlName="tripType"
-                [(ngModel)]="tripType"
-            >
-                <mat-radio-button value="round-trip">Round Trip</mat-radio-button>
-                <mat-radio-button value="one-way">One Way</mat-radio-button>
-            </mat-radio-group>
-        </div>
+  <form class="search-form" [formGroup]="searchForm" (submit)="onSearch()">
+    <div class="radio-btns">
+      <mat-radio-group formControlName="tripType" [(ngModel)]="tripType">
+        <mat-radio-button value="round-trip">Round Trip</mat-radio-button>
+        <mat-radio-button value="one-way">One Way</mat-radio-button>
+      </mat-radio-group>
+    </div>
 
-        <div class="countries-picker">
-            <mat-form-field appearance="fill">
-                <mat-label>From</mat-label>
-                <mat-select formControlName="departure">
-                    <mat-option
-                        *ngFor="let airport of airports$ | async "
-                        value="{{airport.id}}"
-                        class="countries-picker-option"
-                    >
-                    <div>
-                        <p class="countries-picker-text">{{airport.city}} ({{airport.iata_code}})</p>
-                        <small class="countries-picker-text-gray">{{airport.name}}, {{airport.country}}</small>
-                    </div>
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-
-            <div class="reverse-btn" (click)="changeValues()">
-                <img
-                    src="../../../../assets/icons/reverse.svg"
-                    alt="reverse"
-                    class="reverse-btn-image"
-                >
+    <div class="countries-picker">
+      <mat-form-field appearance="fill">
+        <mat-label>From</mat-label>
+        <mat-select formControlName="departure">
+          <mat-option *ngFor="let airport of airports$ | async "
+            value="{{airport.name}}, {{airport.city}}, {{airport.iata_code}}" class="countries-picker-option">
+            <div>
+              <p class="countries-picker-text">{{airport.city}} ({{airport.iata_code}})</p>
+              <small class="countries-picker-text-gray">{{airport.name}}, {{airport.country}}</small>
             </div>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
 
-            <mat-form-field appearance="fill">
-                <mat-label>Destination</mat-label>
-                <mat-select formControlName="destination">
-                    <mat-option
-                        *ngFor="let airport of airports$ | async "
-                        value="{{airport.id}}"
-                        class="countries-picker-option"
-                    >
-                    <div>
-                        <p class="countries-picker-text">{{airport.city}} ({{airport.iata_code}})</p>
-                        <small class="countries-picker-text-gray">{{airport.name}}, {{airport.country}}</small>
-                    </div>
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-        </div>
+      <div class="reverse-btn" (click)="changeValues()">
+        <img src="../../../../assets/icons/reverse.svg" alt="reverse" class="reverse-btn-image">
+      </div>
 
-        <div class="picker">
-            <mat-form-field
-                *ngIf="tripType === 'round-trip'"
-                appearance="fill"
-                class="picker-date"
-            >
-                <mat-label>Enter a date range</mat-label>
-                <mat-date-range-input [rangePicker]="picker">
-                    <input matStartDate placeholder="Start date" formControlName="startDate">
-                    <input matEndDate placeholder="End date" formControlName="endDate">
-                </mat-date-range-input>
-                <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
-                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-date-range-picker #picker></mat-date-range-picker>
-            </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Destination</mat-label>
+        <mat-select formControlName="destination">
+          <mat-option *ngFor="let airport of airports$ | async "
+            value="{{airport.name}}, {{airport.city}}, {{airport.iata_code}} " class="countries-picker-option">
+            <div>
+              <p class="countries-picker-text">{{airport.city}} ({{airport.iata_code}})</p>
+              <small class="countries-picker-text-gray">{{airport.name}}, {{airport.country}}</small>
+            </div>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
 
-            <mat-form-field
-                *ngIf="tripType === 'one-way'"
-                color="accent" appearance="fill"
-                class="picker-date"
-            >
-                <mat-label>Choose a date</mat-label>
-                <input matInput [matDatepicker]="picker1" formControlName="startDate">
-                <mat-hint>MM/DD/YYYY</mat-hint>
-                <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
-                <mat-datepicker #picker1></mat-datepicker>
-            </mat-form-field>
-            
-            <mat-form-field> 
-                <mat-select
-                    [(ngModel)]="selectedItems"
-                    formControlName="passengers"
-                    multiple
-                >
-                    <mat-option
-                        *ngFor="let passenger of passengersList"
-                        [value]="passenger"
-                        mat-selected
-                    >
-                        <div class="age-type-option-text">{{ passenger.ageCategory | titlecase }}</div>
-                        <div class="option-details">
-                            <button mat-button (click)="decrease($event, passenger)">-</button>
-                            <span>{{ passenger.quantity }}</span>
-                            <button mat-button (click)="increase($event, passenger)">+</button>
-                        </div>
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-        </div>
-        
-        <div class="search-btn-container">
-            <button mat-raised-button class="search-btn">Search</button>
-        </div>
+    <div class="picker">
+      <mat-form-field *ngIf="tripType === 'round-trip'" appearance="fill" class="picker-date">
+        <mat-label>Enter a date range</mat-label>
+        <mat-date-range-input [rangePicker]="picker">
+          <input matStartDate placeholder="Start date" formControlName="startDate">
+          <input matEndDate placeholder="End date" formControlName="endDate">
+        </mat-date-range-input>
+        <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-date-range-picker #picker></mat-date-range-picker>
+      </mat-form-field>
 
-    </form>
+      <mat-form-field *ngIf="tripType === 'one-way'" color="accent" appearance="fill" class="picker-date">
+        <mat-label>Choose a date</mat-label>
+        <input matInput [matDatepicker]="picker1" formControlName="startDate">
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+        <mat-datepicker #picker1></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-select [(ngModel)]="selectedItems" formControlName="passengers" multiple>
+          <mat-option *ngFor="let passenger of passengersList" [value]="passenger" mat-selected>
+            <div class="age-type-option-text">{{ passenger.ageType }}</div>
+            <div class="option-details">
+              <button mat-button (click)="decrease($event, passenger)">-</button>
+              <span>{{ passenger.quantity }}</span>
+              <button mat-button (click)="increase($event, passenger)">+</button>
+            </div>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="search-btn-container">
+      <button mat-raised-button class="search-btn">Search</button>
+    </div>
+
+  </form>
 </div>
