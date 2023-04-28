@@ -38,9 +38,4 @@ export class SecondMenuComponent implements OnInit {
     });
 
   }
-
-
 }
-
-
-
