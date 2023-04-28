@@ -16,7 +16,6 @@
                     <mat-icon matSuffix>
                         <img src="../../../../assets/icons/info.svg">
                     </mat-icon>
-                    
                   </mat-form-field>
 
                   <mat-form-field appearance="fill" class="form-field">
@@ -25,10 +24,16 @@
                     <mat-icon matSuffix>
                         <img src="../../../../assets/icons/info.svg">
                     </mat-icon>
-                    
                   </mat-form-field>
 
-                  <mat-form-field appearance="fill" class="example-form-field">
+                  <section class="toggle-sex">
+                    <mat-button-toggle-group [(ngModel)]="sex">
+                        <mat-button-toggle value="male">Male</mat-button-toggle>
+                        <mat-button-toggle value="female">Female</mat-button-toggle>
+                    </mat-button-toggle-group>
+                  </section>
+
+                  <mat-form-field appearance="fill" class="birth-date-picker">
                     <mat-label>Date of birth</mat-label>
                     <input matInput [matDatepicker]="datepicker">
                     <mat-hint>MM/DD/YYYY</mat-hint>

@@ -17,6 +17,8 @@ export class BookingPassengersComponent implements OnInit {
   public passengers: IAgeTypeQuantity[];
   public cards: IPassenger[] = [];
 
+  public sex = 'male';
+
   public checked = false;
   public disabled = false;
 

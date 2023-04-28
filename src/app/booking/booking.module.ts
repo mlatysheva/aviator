@@ -10,12 +10,14 @@ import { SecondMenuComponent } from './components/second-menu/second-menu.compon
 import { CarouselDateComponent } from './components/carousel-date/carousel-date.component';
 import { BookingPassengersComponent } from './components/booking-passengers/booking-passengers.component';
 
+import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 import { StoreModule } from '@ngrx/store';
 import { searchReducer } from '../store/reducers/search.reducer';
@@ -40,6 +42,8 @@ import { searchReducer } from '../store/reducers/search.reducer';
     MatInputModule,
     MatDatepickerModule,
     MatSlideToggleModule,
+    MatButtonToggleModule,
+    FormsModule,
     StoreModule.forFeature('search', searchReducer),
   ],
 })
