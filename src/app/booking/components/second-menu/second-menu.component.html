@@ -9,15 +9,17 @@
   <div class="date">
     <span>Return</span>
     <div class="divider"></div>
-    <div class="departure">1Mar -</div>
-    <div class="return">18Mar</div>
+    <div class="departure">{{startDate | date :'fullDate'}}</div>
+    <div class="return">{{endDate | date :'fullDate'}}</div>
     <div class="divider"></div>
   </div>
   <div class="people">
-    <span>3</span>
+    <span>{{people}}</span>
     <img src="../../../../assets/icons/person.svg" alt="person">
   </div>
   <div class="edit-btn">
     <button mat-raised-button color="primary">Edit</button>
   </div>
 </div>
+<app-carousel-date></app-carousel-date>
+```
