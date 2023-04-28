@@ -52,7 +52,7 @@ export class CarouselDateComponent implements OnInit {
     private store: Store<AppState>,
     private aviaService: AviaService,
     private router: Router
-  ) {}
+  ) { }
 
   public getPricesList(from: string, to: string): Observable<IFlight[]> {
     this.prices$ = this.aviaService.getAllFlights();
@@ -77,9 +77,11 @@ export class CarouselDateComponent implements OnInit {
       this.startDate = state.search.startDate;
       this.endDate = state.search.endDate;
       this.slides = [
+        this.minusOneDay(this.minusOneDay(this.startDate)),
         this.minusOneDay(this.startDate),
         this.startDate,
         this.addOneDay(this.startDate),
+        this.addOneDay(this.addOneDay(this.startDate)),
       ];
       this.currency = state.user.currency;
       this.getPricesList(this.codFrom, this.codTo).subscribe((flight) => {

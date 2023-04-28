@@ -1,33 +1,29 @@
 <div class="wrapper">
-    <div class="flight-info one-way">
-        <img src="../../../../assets/icons/plane-to.svg" alt="plane">
-        <p>{{from}} to {{to}}</p>
-    </div>
-    <carousel
-      [itemsPerSlide]="itemsPerSlide"
-      [singleSlideOffset]="singleSlideOffset"
-      [startFromIndex]="0" [interval]="0"
-    >
-        <slide class="slide" *ngFor="let slide of slides; let index=index">
-            <p class="slide-date">{{slide | date :'dd LLL'}}</p>
-            <p class="slide-weekday">{{slide | date :'cccc'}}</p>
-            <div class="is-fly" *ngIf="(isCanFly(slide))">
-                <img src="../../../../assets/icons/do-not-fly.svg" alt="no-fly">
-            </div>
-            <div class="price" *ngIf="!(isCanFly(slide))">
-                <h5><span>{{currency}} </span>{{price}}</h5>
-            </div>
-            <div div class="carousel-caption"></div>
-        </slide>
-   </carousel>
-  
-    <div class="flight-info two-way">
-        <img src="../../../../assets/icons/plane-from.svg" alt="plane">
-        <p>{{to}} from {{from}}</p>
-    </div>
+  <div class="flight-info one-way">
+    <img src="../../../../assets/icons/plane-to.svg" alt="plane">
+    <p>{{from}} to {{to}}</p>
+  </div>
+  <carousel [itemsPerSlide]="itemsPerSlide" [singleSlideOffset]="singleSlideOffset" [startFromIndex]="0" [interval]="0">
+    <slide class="slide" *ngFor="let slide of slides; let index=index">
+      <div class="slide-date">{{slide | date :'dd LLL'}}</div>
+      <div class="slide-weekday">{{slide | date :'cccc'}}</div>
+      <div class="is-fly" *ngIf="(isCanFly(slide))">
+        <img src="../../../../assets/icons/do-not-fly.svg" alt="no-fly">
+      </div>
+      <div class="price" *ngIf="!(isCanFly(slide))">
+        <h5><span>{{currency}} </span>{{price}}</h5>
+      </div>
+      <div div class="carousel-caption"></div>
+    </slide>
+  </carousel>
 
-    <div class="stepper-btns">
-        <button mat-raised-button (click)="onBackClick()">Back</button>
-        <button mat-raised-button (click)="onNextClick()" color="primary">Continue</button>
-    </div>
+  <div class="flight-info two-way">
+    <img src="../../../../assets/icons/plane-from.svg" alt="plane">
+    <p>{{to}} from {{from}}</p>
+  </div>
+
+  <div class="stepper-btns">
+    <button mat-raised-button (click)="onBackClick()">Back</button>
+    <button mat-raised-button (click)="onNextClick()" color="primary">Continue</button>
+  </div>
 </div>
