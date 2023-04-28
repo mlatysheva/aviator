@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { IUser } from '../../models';
 import { baseUrl } from '../../constants/apiUrls';
@@ -29,8 +29,8 @@ export class AuthService {
     private store: Store,
   ) {}
 
-  onLogin(login: string, password: string) {
-    const response = this.http.post(`${baseUrl}/login`, { login, password });
+  onLogin(login: string, password: string): Observable<IUser> {
+    const response = this.http.post<IUser>(`${baseUrl}/login`, { login, password });
     response.subscribe((userData: IUser) => {
       if (userData.id) {
         localStorage.setItem(USER_ID, userData.id);
@@ -44,12 +44,12 @@ export class AuthService {
       this.isAuth$.next(true);
       this.isVisible$.next(false);
     });
+    return response;
   }
 
   onLogout() {
-    localStorage.removeItem(USER_ID);
-    localStorage.removeItem(USER_NAME);
-    localStorage.removeItem(USER_EMAIL);
+    console.log(`we are in auth service logout`);
+    localStorage.clear();
     this.store.dispatch(clearUserState());
     this.isAuth$.next(false);
   }

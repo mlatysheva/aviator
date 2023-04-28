@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
-import { Observable } from 'rxjs';
-import { IUser } from '../../../models';
-import { USER_ID } from '../../../constants/localStorage';
+import { Store } from '@ngrx/store';
+import { setUserProfile } from '../../../store/actions/user.actions';
 
 @Component({
   selector: 'app-login',
@@ -17,8 +16,8 @@ export class LoginComponent implements OnInit {
 
   hide = true;
 
-  get login() {
-    return this.loginForm.controls['login'];
+  get email() {
+    return this.loginForm.controls['email'];
   }
 
   get password() {
@@ -28,11 +27,12 @@ export class LoginComponent implements OnInit {
   constructor(
     public authService: AuthService,
     private fb: FormBuilder,
+    private store: Store,
   ) { }
 
   ngOnInit() {
     this.loginForm = this.fb.group({
-      login: ['', [Validators.required, Validators.email]],
+      email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, this.passwordValidator()]],
     });
   }
@@ -50,16 +50,18 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
-    const login = this.loginForm.value.login;
+    const email = this.loginForm.value.email;
     const password = this.loginForm.value.password;
-    this.authService.onLogin(login, password);
+    this.store.dispatch(setUserProfile({ email, password }));
+    // this.authService.onLogin(login, password);
+
   }
 
   getEmailErrorMessage() {
-    if (this.login.hasError('required')) {
+    if (this.email.hasError('required')) {
       return 'Email is required';
     }
-    return this.login.hasError('email') ? 'Not a valid email' : '';
+    return this.email.hasError('email') ? 'Not a valid email' : '';
   }
 
   getPasswordErrorMessage() {

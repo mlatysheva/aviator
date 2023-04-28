@@ -11,6 +11,7 @@ import { AppComponent } from './app.component';
 import { AviaModule } from './avia/avia.module';
 import { UserModule } from './user/user.module';
 import { BookingModule } from './booking/booking.module';
+import { UserEffects } from './store/effects/user.effects';
 
 @NgModule({
   declarations: [AppComponent],
@@ -23,7 +24,7 @@ import { BookingModule } from './booking/booking.module';
     BookingModule,
     AppRoutingModule,
     StoreModule.forRoot({}, {}),
-    EffectsModule.forRoot([]),
+    EffectsModule.forRoot([UserEffects]),
     StoreDevtoolsModule.instrument({
       maxAge: 15,
     }),
