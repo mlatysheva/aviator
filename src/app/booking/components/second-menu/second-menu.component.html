@@ -2,24 +2,26 @@
   <div class="destination">
     <div class="from">{{from}}</div>
     <div class="reverse-btn" (click)="onClick()">
-      <img src="../../../../assets/icons/reverse.svg" alt="reverse" class="reverse-btn-image">
+      <img src="../../../../assets/icons/booking-reverse.svg" alt="reverse" class="reverse-btn-image">
     </div>
     <div class="to">{{to}}</div>
   </div>
   <div class="date">
     <span>Return</span>
     <div class="divider"></div>
-    <div class="departure">{{startDate | date :'fullDate'}}</div>
-    <div class="return">{{endDate | date :'fullDate'}}</div>
+    <div class="departure">{{startDate | date :'MMM d'}}</div>-
+    <div class="return">{{endDate | date :'MMM d'}}</div>
     <div class="divider"></div>
   </div>
   <div class="people">
     <span>{{people}}</span>
     <img src="../../../../assets/icons/person.svg" alt="person">
   </div>
-  <div class="edit-btn">
-    <button mat-raised-button color="primary">Edit</button>
-  </div>
+  <button
+    mat-raised-button
+    class="edit-btn"
+    color="primary"
+    routerLink="/main"
+  >Edit</button>
 </div>
 <app-carousel-date></app-carousel-date>
-```
