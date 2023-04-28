@@ -1,4 +1,3 @@
-/* eslint-disable no-self-assign */
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store/state.models';
@@ -16,7 +15,6 @@ export class SecondMenuComponent implements OnInit {
   startDate: string;
   endDate: string;
   people: number;
-  from$: Observable<string[]>;
   state$: Observable<AppState>;
   state: AppState;
 
@@ -32,8 +30,8 @@ export class SecondMenuComponent implements OnInit {
 
     this.state$ = this.store.select(appState => appState);
     this.state$.subscribe((state: AppState) => {
-      this.from = state.search.departure;
-      this.to = state.search.destination;
+      this.from = state.search.departure.split(',').slice(0, 2).join('');
+      this.to = state.search.destination.split(',').slice(0, 2).join('');
       this.startDate = state.search.startDate;
       this.endDate = state.search.endDate;
       this.people = state.search.passengers[0].quantity + state.search.passengers[1].quantity + state.search.passengers[2].quantity;

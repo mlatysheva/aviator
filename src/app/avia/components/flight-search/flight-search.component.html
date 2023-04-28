@@ -11,8 +11,8 @@
       <mat-form-field appearance="fill">
         <mat-label>From</mat-label>
         <mat-select formControlName="departure">
-          <mat-option *ngFor="let airport of airports$ | async " value="{{airport.name}}, {{airport.city}}"
-            class="countries-picker-option">
+          <mat-option *ngFor="let airport of airports$ | async "
+            value="{{airport.name}}, {{airport.city}}, {{airport.iata_code}}" class="countries-picker-option">
             <div>
               <p class="countries-picker-text">{{airport.city}} ({{airport.iata_code}})</p>
               <small class="countries-picker-text-gray">{{airport.name}}, {{airport.country}}</small>
@@ -28,8 +28,8 @@
       <mat-form-field appearance="fill">
         <mat-label>Destination</mat-label>
         <mat-select formControlName="destination">
-          <mat-option *ngFor="let airport of airports$ | async " value="{{airport.name}}, {{airport.city}}"
-            class="countries-picker-option">
+          <mat-option *ngFor="let airport of airports$ | async "
+            value="{{airport.name}}, {{airport.city}}, {{airport.iata_code}} " class="countries-picker-option">
             <div>
               <p class="countries-picker-text">{{airport.city}} ({{airport.iata_code}})</p>
               <small class="countries-picker-text-gray">{{airport.name}}, {{airport.country}}</small>
