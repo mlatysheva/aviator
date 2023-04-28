@@ -3,11 +3,11 @@ import { CommonModule } from '@angular/common';
 import { LoginComponent } from './components/login/login.component';
 import { SignInComponent } from './components/sign-in/sign-in.component';
 import { ModalComponent } from './components/modal/modal.component';
-import {
-  FacebookLoginProvider,
-  SocialLoginModule,
-  SocialAuthServiceConfig,
-} from 'angularx-social-login';
+// import {
+//   FacebookLoginProvider,
+//   SocialLoginModule,
+//   SocialAuthServiceConfig,
+// } from 'angularx-social-login';
 import { SharedModule } from '../shared/shared.module';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -24,25 +24,24 @@ import { MatSlideToggleModule} from '@angular/material/slide-toggle';
     FormsModule,
     MatButtonModule,
     MatInputModule,
-    SocialLoginModule, 
     SharedModule,
     MatFormFieldModule,
     MatIconModule,
     MatSlideToggleModule,
   ],
     providers: [
-      {
-        provide: 'SocialAuthServiceConfig',
-        useValue: {
-          autoLogin: false,
-          providers: [
-            {
-              id: FacebookLoginProvider.PROVIDER_ID,
-              provider: new FacebookLoginProvider('Facebook-App-ID-Goes-Here'),
-            },
-          ],
-        } as SocialAuthServiceConfig,
-      },
+      // {
+      //   provide: 'SocialAuthServiceConfig',
+      //   useValue: {
+      //     autoLogin: false,
+      //     providers: [
+      //       {
+      //         id: FacebookLoginProvider.PROVIDER_ID,
+      //         provider: new FacebookLoginProvider('Facebook-App-ID-Goes-Here'),
+      //       },
+      //     ],
+      //   } as SocialAuthServiceConfig,
+      // },
     ],
   exports: [ModalComponent],
 })
