@@ -4,6 +4,7 @@ import fs from 'fs';
 import { getResolvedPath } from './utils/getResolvedPath.js';
 import { fileURLToPath } from 'url';
 import { generateFlights } from './utils/generateFlights.js';
+import { IFlight } from './types/flight.js';
 
 const server = jsonServer.create();
 const _filename = fileURLToPath(import.meta.url);
@@ -58,6 +59,36 @@ server.post('/login', (req, res) => {
     }
 
     return res.status(403).json({ message: 'User not found' });
+  } catch (e) {
+    console.error(e);
+    return res.status(500).json({ message: e.message });
+  }
+});
+
+server.get('/flightspair', (req, res) => {
+  try {
+    const { originAirportIataCode, destinationAirportIataCode } = req.body;
+    const db = JSON.parse(
+      fs.readFileSync(pathToDB, 'utf8'),
+    );  
+    const { flights = [] } = db;
+    const departureFlight= flights.find(
+      (flight: IFlight) => flight.originAirportIataCode === originAirportIataCode && flight.destinationAirportIataCode === destinationAirportIataCode,
+    );
+    const indexOfOriginalFlight = flights.indexOf(departureFlight);
+
+    let returnFlight = null;
+    if (flights[indexOfOriginalFlight + 1] && flights[indexOfOriginalFlight + 1].originAirportIataCode === destinationAirportIataCode && flights[indexOfOriginalFlight + 1].destinationAirportIataCode === originAirportIataCode) {
+      returnFlight = flights[indexOfOriginalFlight + 1];
+    } else if (flights[indexOfOriginalFlight - 1] && flights[indexOfOriginalFlight - 1].originAirportIataCode === destinationAirportIataCode && flights[indexOfOriginalFlight - 1].destinationAirportIataCode === originAirportIataCode) {
+      returnFlight = flights[indexOfOriginalFlight - 1];
+    } else {
+      returnFlight = flights.find(
+        (flight: IFlight) => flight.originAirportIataCode === destinationAirportIataCode && flight.destinationAirportIataCode === originAirportIataCode,
+      );
+    }
+    
+    return res.json({departureFlight, returnFlight});
   } catch (e) {
     console.error(e);
     return res.status(500).json({ message: e.message });
