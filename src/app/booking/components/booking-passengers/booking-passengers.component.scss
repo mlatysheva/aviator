@@ -36,7 +36,16 @@
 .form {
   display: flex;
   justify-content: space-around;
-  align-items: baseline;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.info-icon {
+  margin-top: -20px;
+}
+
+::ng-deep .mat-button-toggle-label-content {
+  padding: 3px 13px !important;
 }
 
 .assistance-toggle {

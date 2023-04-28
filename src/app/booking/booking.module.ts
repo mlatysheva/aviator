@@ -11,20 +11,13 @@ import { CarouselDateComponent } from './components/carousel-date/carousel-date.
 import { BookingPassengersComponent } from './components/booking-passengers/booking-passengers.component';
 
 import { FormsModule } from '@angular/forms';
-import { MatCardModule } from '@angular/material/card';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { MatButtonModule } from '@angular/material/button';
-import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 import { StoreModule } from '@ngrx/store';
 import { searchReducer } from '../store/reducers/search.reducer';
 import { PassengersPageComponent } from './pages/passengers-page/passengers-page.component';
 import { ReviewPageComponent } from './pages/review-page/review-page.component';
 import { BookingReviewComponent } from './components/booking-review/booking-review.component';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -39,17 +32,10 @@ import { BookingReviewComponent } from './components/booking-review/booking-revi
   ],
   imports: [
     CommonModule,
+    SharedModule,
     RouterModule,
     CarouselModule.forRoot(),
     BookingRoutingModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatIconModule,
-    MatInputModule,
-    MatDatepickerModule,
-    MatSlideToggleModule,
-    MatButtonModule,
-    MatButtonToggleModule,
     FormsModule,
     StoreModule.forFeature('search', searchReducer),
   ],
