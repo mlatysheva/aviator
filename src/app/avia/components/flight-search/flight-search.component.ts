@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 import { TRIP_TYPE } from '../../../constants/localStorage';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store/state.models';
-import { submitSearchForm } from '../../../store/actions/search.actions';
+import { setSearchForm } from '../../../store/actions/search.actions';
 
 @Component({
   selector: 'app-flight-search',
@@ -88,7 +88,7 @@ export class FlightSearchComponent implements OnInit {
       this.aviaService.search();
     }
     this.aviaService.isSearchSubmitted$.next(true);
-    this.store.dispatch(submitSearchForm(this.searchForm.value));
+    this.store.dispatch(setSearchForm(this.searchForm.value));
     this.router.navigate(['booking']);
   }
 }

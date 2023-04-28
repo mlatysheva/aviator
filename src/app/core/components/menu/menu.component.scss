@@ -3,7 +3,7 @@
   justify-content: space-around;
   align-items: center;
   gap: 2rem;
-  color: white
+  color: white;
 }
 
 .text {
@@ -20,12 +20,12 @@
 
 .select-date {
   display: flex;
-  padding: 0px;
+  padding: 0 5px;
   gap: 1px;
   width: 162px;
   height: 40px;
   background: rgba(241, 243, 246, 0.15);
-  border: 0.5px solid #CECECE;
+  border: 0.5px solid #cecece;
   border-radius: 4px;
   color: white;
   font-size: 16px;
@@ -35,11 +35,13 @@
 .select-currency {
   display: flex;
   align-items: center;
-  padding: 0px;
+  padding: 0 5px;
   width: 64px;
   height: 40px;
   background: rgba(241, 243, 246, 0.15);
   color: white;
+  border: 0.5px solid #cecece;
+  border-radius: 4px;
 }
 
 .select-date:hover,
@@ -63,7 +65,6 @@ option:active,
   color: black;
 }
 
-
 .sign {
   box-sizing: border-box;
   display: flex;
@@ -77,12 +78,15 @@ option:active,
   /* Neutral/Neutral/neutral90 */
   background: rgba(241, 243, 246, 0.15);
   /* Neutral/neutral60 */
-  border: 0.5px solid #CECECE;
+  border: 0.5px solid #cecece;
   border-radius: 4px;
   /* Inside auto layout */
   flex: none;
   order: 0;
   flex-grow: 0;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
 }
 
 .user-section {
@@ -106,5 +110,10 @@ option:active,
   height: 40px;
   border-radius: 100px;
   border: none;
-  background-color: rgba(116, 118, 122, 0.2);
+  cursor: pointer;
+  padding-left: 5px;
+
+  &:hover {
+    background-color: rgba(116, 118, 122, 0.2);
+  }
 }

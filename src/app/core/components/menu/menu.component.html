@@ -12,7 +12,7 @@
     <option [selected]="selectedCurrency==='PLN'" class="currency" value="PLN">PLN</option>
   </select>
   <button class="sign" *ngIf="!isAuth" (click)="toggleSignInModal()">
-    <img src="../../../../assets/icons/sign-in.svg" alt="sign">
+    <img src="../../../../assets/icons/signin.svg" alt="sign">Sign in
   </button>
 
   <div class="user-section" *ngIf="isAuth">
@@ -27,7 +27,7 @@
     <div>{{userName}}</div> 
   </div>
 
-  <button class="shop">
+  <div class="shop">
     <img src="../../../../assets/icons/shopping-basket.svg" alt="basket">
-  </button>
+  </div>
 </div>
