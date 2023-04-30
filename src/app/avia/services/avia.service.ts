@@ -22,22 +22,17 @@ export class AviaService {
     return this.http.get<IFlight[]>(flightsRequestUrl);
   }
 
-  // public getFlightPrice(from: string, to: string): Observable<IFlight[]> {
-  //   const flightsRequestUrl = 'http://localhost:3000/flights';
-  //   let priceAdult = 0;
-  //   let priceChild = 0;
-  //   let priceInfant = 0;
-  //   this.http.get<IFlight[]>(flightsRequestUrl).subscribe((flights) => {
-  //     flights.forEach((flight) => {
-  //       if (flight.originAirportIataCode === from && flight.destinationAirportIataCode === to) {
-  //         priceAdult = flight.priceAdult;
-  //         priceChild = flight.priceChild;
-  //         priceInfant = flight.priceInfant;
-  //       }
-  //     });
+  // public getFlightDetail(from: string, to: string): Observable<IFlight[]> {
+  //   const flightsDetailRequestUrl = 'http://localhost:3000/flightspair';
+
+  //   return this.http.get<IFlight[]>(flightsDetailRequestUrl, {
+  //     params: {
+  //       "originAirportIataCode": from,
+  //       "destinationAirportIataCode": to
+  //     }
   //   });
-  //   return { priceAdult, priceChild, priceInfant };
   // }
+
 
   public search() {
     console.log('Search the flight');

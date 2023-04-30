@@ -53,11 +53,9 @@
   border-radius: 35px;
 }
 
-.stepper-btns {
-  display: flex;
-  justify-content: flex-end;
 
-  button {
-    margin: 0 5px;
-  }
+
+.flight-details {
+  display: flex;
+  justify-content: space-evenly;
 }

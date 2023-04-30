@@ -26,6 +26,7 @@ import { PassengersPageComponent } from './pages/passengers-page/passengers-page
 import { ReviewPageComponent } from './pages/review-page/review-page.component';
 import { BookingReviewComponent } from './components/booking-review/booking-review.component';
 
+
 @NgModule({
   declarations: [
     BookingComponent,
@@ -36,6 +37,7 @@ import { BookingReviewComponent } from './components/booking-review/booking-revi
     PassengersPageComponent,
     ReviewPageComponent,
     BookingReviewComponent,
+
   ],
   imports: [
     CommonModule,
@@ -54,4 +56,4 @@ import { BookingReviewComponent } from './components/booking-review/booking-revi
     StoreModule.forFeature('search', searchReducer),
   ],
 })
-export class BookingModule {}
+export class BookingModule { }
