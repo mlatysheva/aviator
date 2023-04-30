@@ -61,18 +61,22 @@ export class CarouselDateComponent implements OnInit {
     this.details$.subscribe((value) => {
       for (let i = 0; i < value.length; i++) {
         this.details.push(value[i]);
+        const result = this.details.filter(
+          (item) =>
+            item.originAirportIataCode === from.toString().trim() &&
+            item.destinationAirportIataCode === to.toString().trim())
+        this.result = result;
       }
-      this.price = this.details[0].priceAdult;
-      this.seats = this.details[0].totalSeats;
-      this.departureTime = this.details[0].departureTime;
-      this.direct = this.details[0].direct;
-      this.flightNumber = this.details[0].flightNumber;
-      this.duration = this.details[0].duration;
+      this.price = this.result[0].priceAdult;
+      this.seats = this.result[0].totalSeats;
+      this.departureTime = this.result[0].departureTime;
+      this.direct = this.result[0].direct;
+      this.flightNumber = this.result[0].flightNumber;
+      this.duration = this.result[0].duration;
       this.hours = this.dateService.getHours(this.duration);
       this.minutes = this.dateService.getMinutes(this.duration);
       this.arrivingDateTo = this.dateService.getArrivingDate(this.startDate, this.duration);
       this.arrivingDateFrom = this.dateService.getArrivingDate(this.endDate, this.duration);
-
     }
 
     );
@@ -97,7 +101,6 @@ export class CarouselDateComponent implements OnInit {
       this.isCanFly = this.dateService.isCanFly(this.startDate);
       this.timeZoneFrom = this.dateService.findOffset(this.cityFrom);
       this.timeZoneTo = this.dateService.findOffset(this.cityTo);
-
     }
     );
 

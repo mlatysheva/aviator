@@ -68,7 +68,7 @@
     <div class="details-arriving">
       <div>{{endDate | date : 'fullDate'}}</div>
       <div>{{departureTime }}</div>
-      <div class="timeZone">UTC {{timeZoneFrom}}</div>
+      <div class="timeZone">UTC {{timeZoneTo}}</div>
       <div>{{to}}</div>
     </div>
     <div class="duration">
@@ -83,7 +83,7 @@
     <div class="details-arriving">
       <div>{{arrivingDateFrom | date: 'fullDate'}}</div>
       <div>{{arrivingDateFrom | date: 'hh:mm'}}</div>
-      <div class="timeZone">UTC {{timeZoneTo}}</div>
+      <div class="timeZone">UTC {{timeZoneFrom}}</div>
       <div>{{from}}</div>
     </div>
     <div class="flight-number">Flight no.{{flightNumber}}</div>
