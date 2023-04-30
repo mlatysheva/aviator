@@ -56,6 +56,10 @@
 
 
 .flight-details {
-  display: flex;
-  justify-content: space-evenly;
+
+  &-from,
+  &-to {
+    display: flex;
+    justify-content: space-evenly;
+  }
 }

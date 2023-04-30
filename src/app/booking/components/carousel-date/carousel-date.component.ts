@@ -23,27 +23,29 @@ export class CarouselDateComponent implements OnInit {
   cityTo: string;
   startDate: string;
   endDate: string;
-  people: number;
   currency: string;
+  // slider
   slides: Array<string>;
   slidesFrom: Array<string>;
   itemsPerSlide = 5;
   singleSlideOffset = true;
+
   price: number;
   details$: Observable<IFlight[]>;
   flightDetail: IFlight | undefined;
   details: IFlight[] = [];
   result: IFlight[] = [];
   seats: number;
+
+  //time
   hours: number;
   minutes: number;
   timeZoneFrom: string | undefined;
   timeZoneTo: string | undefined;
-
-
   departureTime: string;
-  arrivingDate: string;
-  arrivingTime: string;
+  arrivingDateTo: string;
+  arrivingDateFrom: string;
+
   direct: boolean;
   flightNumber: string;
   duration: number;
@@ -68,7 +70,8 @@ export class CarouselDateComponent implements OnInit {
       this.duration = this.details[0].duration;
       this.hours = this.dateService.getHours(this.duration);
       this.minutes = this.dateService.getMinutes(this.duration);
-      this.arrivingDate = this.dateService.getArrivingDate(this.startDate, this.duration);
+      this.arrivingDateTo = this.dateService.getArrivingDate(this.startDate, this.duration);
+      this.arrivingDateFrom = this.dateService.getArrivingDate(this.endDate, this.duration);
 
     }
 

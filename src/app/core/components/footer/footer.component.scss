@@ -2,7 +2,8 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
-  position: absolute;
+  position: sticky;
+  top: 100vh;
   height: 92px;
   left: 0px;
   right: 0px;
