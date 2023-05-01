@@ -17,8 +17,7 @@ $darkblue-palette: (
   A200: #406ab2,
   A400: #11397e,
   A700: #071c42,
-  contrast: (
-    50: rgba(black, 0.87),
+  contrast: (50: rgba(black, 0.87),
     100: rgba(black, 0.87),
     200: rgba(black, 0.87),
     300: rgba(black, 0.87),
@@ -36,19 +35,16 @@ $darkblue-palette: (
 );
 
 $avia_client-primary: mat.define-palette($darkblue-palette, 500);
-$avia_client-accent:  mat.define-palette($darkblue-palette, A200, A400, A700);
-$avia_client-warn:    mat.define-palette(mat.$red-palette);
+$avia_client-accent: mat.define-palette($darkblue-palette, A400, A200, A700);
+$avia_client-warn: mat.define-palette(mat.$red-palette);
 $custom-success: mat.define-palette($darkblue-palette);
 $custom-danger: mat.define-palette(mat.$indigo-palette);
 
 
-$avia_client-theme: mat.define-light-theme((
-  color: (
-    primary: $avia_client-primary,
-    accent: $avia_client-accent,
-    warn: $avia_client-warn,
-  )
-));
+$avia_client-theme: mat.define-light-theme((color: (primary: $avia_client-primary,
+        accent: $avia_client-accent,
+        warn: $avia_client-warn,
+      )));
 
 @include mat.all-component-themes($avia_client-theme);
 
@@ -71,7 +67,7 @@ $avia_client-theme: mat.define-light-theme((
   --options-color: rgb(173, 173, 173);
 
   // sizes
-  --auth-modal-width: 390px;
+  --auth-modal-width: 490px;
   --auth-modal-height: auto;
 }
 
@@ -79,8 +75,8 @@ $avia_client-theme: mat.define-light-theme((
   box-sizing: border-box;
 }
 
-html,
-body {
+html {
+  box-sizing: border-box;
   height: 100%;
 }
 
@@ -88,6 +84,9 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
   width: 100%;
   margin: 0;
+  position: relative;
+  box-sizing: inherit;
+  min-height: 130%;
 }
 
 .container {

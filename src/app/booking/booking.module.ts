@@ -21,6 +21,7 @@ import { SharedModule } from '../shared/shared.module';
 import { passengersReducer } from '../store/reducers/passengers.reducer';
 import { BrowserModule } from '@angular/platform-browser';
 
+
 @NgModule({
   declarations: [
     BookingComponent,
@@ -31,6 +32,7 @@ import { BrowserModule } from '@angular/platform-browser';
     PassengersPageComponent,
     ReviewPageComponent,
     BookingReviewComponent,
+
   ],
   imports: [
     CommonModule,
@@ -44,4 +46,4 @@ import { BrowserModule } from '@angular/platform-browser';
     StoreModule.forFeature('passengers', passengersReducer),
   ],
 })
-export class BookingModule {}
+export class BookingModule { }
