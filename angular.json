@@ -33,7 +33,11 @@
               "@angular/material/prebuilt-themes/deeppurple-amber.css",
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [],
+            "allowedCommonJsDependencies": [
+              "city-timezones",
+              "countries-and-timezones"
+           ]
           },
           "configurations": {
             "production": {
