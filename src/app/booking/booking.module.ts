@@ -10,7 +10,7 @@ import { SecondMenuComponent } from './components/second-menu/second-menu.compon
 import { CarouselDateComponent } from './components/carousel-date/carousel-date.component';
 import { BookingPassengersComponent } from './components/booking-passengers/booking-passengers.component';
 
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { StoreModule } from '@ngrx/store';
 import { searchReducer } from '../store/reducers/search.reducer';
@@ -18,6 +18,8 @@ import { PassengersPageComponent } from './pages/passengers-page/passengers-page
 import { ReviewPageComponent } from './pages/review-page/review-page.component';
 import { BookingReviewComponent } from './components/booking-review/booking-review.component';
 import { SharedModule } from '../shared/shared.module';
+import { passengersReducer } from '../store/reducers/passengers.reducer';
+import { BrowserModule } from '@angular/platform-browser';
 
 @NgModule({
   declarations: [
@@ -37,7 +39,9 @@ import { SharedModule } from '../shared/shared.module';
     CarouselModule.forRoot(),
     BookingRoutingModule,
     FormsModule,
+    ReactiveFormsModule,
     StoreModule.forFeature('search', searchReducer),
+    StoreModule.forFeature('passengers', passengersReducer),
   ],
 })
 export class BookingModule {}

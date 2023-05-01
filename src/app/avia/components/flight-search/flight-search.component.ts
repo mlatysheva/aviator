@@ -56,7 +56,6 @@ export class FlightSearchComponent implements OnInit {
 
   public getAirportsList(): Observable<IAirport[]> {
     this.airports$ = this.aviaService.getAirports();
-    this.airports$.subscribe((value) => console.log(value));
     return this.airports$;
   }
 
