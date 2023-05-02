@@ -13,4 +13,3 @@ export enum IAgeCategory {
   child = 'child',
   infant = 'infant',
 }
-  

@@ -1,9 +1,18 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AuthService } from 'src/app/auth/services/auth.service';
-import { setCurrency, setDateFormat } from '../../../store/actions/user.actions';
-import { CURRENCY, DATE_FORMAT, USER_EMAIL, USER_NAME } from '../../../constants/localStorage';
+import {
+  setCurrency,
+  setDateFormat,
+} from '../../../store/actions/user.actions';
+import {
+  CURRENCY,
+  DATE_FORMAT,
+  USER_EMAIL,
+  USER_NAME,
+} from '../../../constants/localStorage';
 import { Subscription } from 'rxjs';
+import { AviaService } from 'src/app/avia/services/avia.service';
 
 @Component({
   selector: 'app-menu',
@@ -20,18 +29,27 @@ export class MenuComponent implements OnInit, OnDestroy {
   selectedCurrency = localStorage.getItem(CURRENCY) || 'EUR';
   selectedDateFormat = localStorage.getItem(DATE_FORMAT) || 'DD/MM/YYYY';
 
+  public isSubmitted = false;
+
   constructor(
     private authService: AuthService,
-    private store: Store,
+    private aviaService: AviaService,
+    private store: Store
   ) {}
 
   ngOnInit(): void {
     this.setUserName();
-    this.authSubscription = this.authService.isAuth$.subscribe((isAuth) => this.isAuth = isAuth);
-    this.userName = localStorage.getItem(USER_NAME) || localStorage.getItem(USER_EMAIL) || '';
+    this.authSubscription = this.authService.isAuth$.subscribe(
+      (isAuth) => (this.isAuth = isAuth)
+    );
+    this.userName =
+      localStorage.getItem(USER_NAME) || localStorage.getItem(USER_EMAIL) || '';
     console.log('this.isAuth', this.isAuth);
+    this.aviaService.isSearchSubmitted$.subscribe(
+      (isSubmitted) => (this.isSubmitted = isSubmitted)
+    );
   }
-  
+
   public toggleSignInModal() {
     this.authService.isVisible$.subscribe(
       (showModal) => (this.isVisible = showModal)
@@ -42,7 +60,10 @@ export class MenuComponent implements OnInit, OnDestroy {
   public setUserName() {
     this.authService.isAuth$.subscribe((isAuth) => {
       if (isAuth) {
-        this.userName = localStorage.getItem(USER_NAME) || localStorage.getItem(USER_EMAIL) || '';
+        this.userName =
+          localStorage.getItem(USER_NAME) ||
+          localStorage.getItem(USER_EMAIL) ||
+          '';
         this.isAuth = isAuth;
       }
     });
@@ -64,5 +85,6 @@ export class MenuComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.authService.isVisible$.unsubscribe();
+    this.aviaService.isSearchSubmitted$.unsubscribe();
   }
 }

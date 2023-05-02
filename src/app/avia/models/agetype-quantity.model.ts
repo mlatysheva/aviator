@@ -1,4 +1,6 @@
+import { IAgeCategory } from 'backend/types';
+
 export interface IAgeTypeQuantity {
-  ageType: string;
+  ageCategory: IAgeCategory;
   quantity: number;
 }
