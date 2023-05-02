@@ -67,7 +67,8 @@ export class CarouselDateComponent implements OnInit {
             item.destinationAirportIataCode === to.toString().trim())
         this.result = result;
       }
-      this.price = this.result[0].priceAdult;
+      // Maria changed priceAdult to pricesAdult[0]
+      this.price = this.result[0].pricesAdult[0];
       this.seats = this.result[0].totalSeats;
       this.departureTime = this.result[0].departureTime;
       this.direct = this.result[0].direct;
@@ -103,8 +104,5 @@ export class CarouselDateComponent implements OnInit {
       this.timeZoneTo = this.dateService.findOffset(this.cityTo);
     }
     );
-
   }
-
-
 }
