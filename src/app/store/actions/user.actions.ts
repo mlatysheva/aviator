@@ -1,5 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import { IUser } from '../../../../backend/types';
+import { IGender } from '../../models';
 
 export const setCurrency = createAction(
   '[Header] Set Currency',
@@ -14,8 +15,7 @@ export const setDateFormat = createAction(
 export const setUserProfile = createAction(
   '[Login] Set User Profile',
   props<{ 
-    email: string,
-    password: string,
+    email: string, password: string,
   }>(),
 );
 

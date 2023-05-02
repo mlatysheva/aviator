@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { setUserProfile } from '../../../store/actions/user.actions';
@@ -7,20 +7,19 @@ import { getAge } from '../../../utils/getAge';
 import { Observable } from 'rxjs';
 import { ICountryCode } from '../../../models/countryCode';
 import { UserService } from '../../../user/services/user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sign-in',
   templateUrl: './sign-in.component.html',
   styleUrls: ['./sign-in.component.scss']
 })
-export class SignInComponent {
+export class SignInComponent implements OnInit {
   signupForm!: FormGroup;
 
   public countryCodes$: Observable<ICountryCode[]>;
 
   userId$: string;
-
-  public countrycodes$: Observable<ICountryCode[]>;
 
   hide = true;
 
@@ -40,8 +39,8 @@ export class SignInComponent {
     return this.signupForm.controls['lastName'];
   }
 
-  get birthdate() {
-    return this.signupForm.controls['birthdate'];
+  get birthDate() {
+    return this.signupForm.controls['birthDate'];
   }
 
   get gender() {
@@ -65,15 +64,16 @@ export class SignInComponent {
     private fb: FormBuilder,
     private store: Store,
     public userService: UserService,
+    private router: Router,
   ) { }
 
   ngOnInit() {
     this.signupForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(8)]],
-      firstName: ['', [Validators.required], Validators.pattern('[A-Za-z]*'), Validators.minLength(3)],
-      lastName: ['', [Validators.required], Validators.pattern('[A-Za-z]*'), Validators.minLength(3)],
-      birthdate: [null, [Validators.required]],
+      password: ['', [Validators.required, Validators.minLength(8), this.passwordValidator()]],
+      firstName: ['', [Validators.required, Validators.pattern('[A-Za-z]*'), Validators.minLength(3)]],
+      lastName: ['', [Validators.required, Validators.pattern('[A-Za-z]*'), Validators.minLength(3)]],
+      birthDate: [null, [Validators.required, this.birthdateValidator()]],
       gender: ['', [Validators.required]],
       countryCode: ['+0', [Validators.required]],
       phone: ['', [Validators.required, 
@@ -87,7 +87,7 @@ export class SignInComponent {
 
   public getCountryCodes(): Observable<ICountryCode[]> {
     this.countryCodes$ = this.userService.getCountryCodes();
-    this.countryCodes$.subscribe((codes) => console.log(codes));
+    // this.countryCodes$.subscribe((codes) => console.log(codes));
     return this.countryCodes$;
   }
 
@@ -96,8 +96,8 @@ export class SignInComponent {
       const value = control.value as string;
       if (!value) return null;
       else {
-        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d){8,20}$/;
-        // const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#$@!%&*])[A-Za-z\d#$@!%&*]{8,20}$/;
+        // const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d){8,20}$/;
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#$@!%&*])[A-Za-z\d#$@!%&*]{8,20}$/;
         return passwordRegex.test(value) ? null : { passwordValidator: true };
       }
     };
@@ -109,15 +109,30 @@ export class SignInComponent {
       if (!value) return null;
       else {
         const age = getAge(value);
-        return age <= 18 ? null : { birthdateValidator: true };
+        return age >= 18 ? null : { birthdateValidator: true };
       }
     };
   }
 
   onSubmit() {
-    const email = this.signupForm.value.email;
-    const password = this.signupForm.value.password;
-    this.store.dispatch(setUserProfile({ email, password }));
+    const { email, password, firstName, lastName, birthDate, gender, countryCode, phone, citizenship } = this.signupForm.value;
+    const user = {
+      email,
+      password,
+      firstName,
+      lastName,
+      birthDate,
+      gender,
+      citizenship,
+      contactDetails: {
+        countryCode,
+        phone,
+      }
+    }
+    this.userService.registerUser(user).subscribe((res) => {
+      console.log(res)
+    });
+    this.router.navigate(['/auth/login']);
   }
 
   getEmailErrorMessage() {
@@ -125,7 +140,7 @@ export class SignInComponent {
   }
 
   getPasswordErrorMessage() {
-    return this.password.hasError('passwordValidator') ? 'Min 8 characters, an uppercase letter, a number and one of [#$@!%&*]' : '';
+    return this.password.hasError('passwordValidator') ? 'Min 8 characters, including an uppercase letter and a number' : '';
   }
 
   getFirstNameErrorMessage() {
@@ -143,7 +158,7 @@ export class SignInComponent {
   }
 
   getBirthdateErrorMessage() {
-    return this.birthdate.hasError('birthdateValidator') ? 'You should be over 18 y.o. to register' : '';
+    return this.birthDate.hasError('birthdateValidator') ? 'You should be over 18 y.o. to register' : '';
   }
 
   getPhoneErrorMessage() {
@@ -151,8 +166,8 @@ export class SignInComponent {
       return 'Only numbers are accepted';
     } 
     if (this.phone.hasError('minLength')) {
-      return 'Minimum 10 numbers';
+      return 'Minimum 10 digits';
     } 
-    return this.phone.hasError('maxLength') ? 'Maximum 11 numbers' : '';
+    return this.phone.hasError('maxLength') ? 'Maximum 11 digits' : '';
   }
 }

@@ -69,12 +69,12 @@
       <input 
         matInput 
         [matDatepicker]="picker1" 
-        formControlName="birthdate"
+        formControlName="birthDate"
         required
       >
       <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
       <mat-datepicker #picker1></mat-datepicker>
-      <mat-error class="error" *ngIf="birthdate.invalid && birthdate.touched">
+      <mat-error class="error" *ngIf="birthDate.invalid && birthDate.touched">
         {{getBirthdateErrorMessage()}}
       </mat-error>
     </mat-form-field>
@@ -102,7 +102,7 @@
         <mat-label>Mobile number</mat-label>
         <input 
           matInput 
-          placeholder="e.g. 123456789" 
+          placeholder="e.g. 1234567890" 
           formControlName="phone" 
           required
         >
@@ -126,14 +126,14 @@
     </mat-form-field>
 
     <div class="policy-wrapper">
-      <mat-checkbox class="checkbox"></mat-checkbox>
+      <mat-checkbox class="checkbox" required></mat-checkbox>
       <p class="regular-text">I agree to Airway's Privacy Policy and Terms of Use</p> 
     </div>
     
     <button 
       mat-raised-button
       color="primary"
-      
+      [disabled]="!signupForm.valid"
     >Sign up</button>
   </form>
 </div>
