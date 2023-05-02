@@ -80,7 +80,7 @@ export class CarouselDateComponent implements OnInit {
       this.getPricesList(this.codFrom, this.codTo).subscribe((flight) => {
         flight.filter((flight) => {
           if (flight.originAirportIataCode === this.codFrom && flight.destinationAirportIataCode === this.codTo) {
-            this.price = flight.priceAdult;
+            // this.price = flight.priceAdult;
           }
           return flight;
         });
