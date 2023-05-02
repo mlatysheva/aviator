@@ -39,12 +39,7 @@
                         <input matInput [matDatepicker]="datepicker" formControlName="birthDate">
                         <mat-hint>MM/DD/YYYY</mat-hint>
                         <mat-datepicker-toggle matIconSuffix [for]="datepicker"></mat-datepicker-toggle>
-                        <mat-datepicker #datepicker>
-                            <mat-datepicker-actions>
-                                <button mat-button matDatepickerCancel>Cancel</button>
-                                <button mat-raised-button color="primary" matDatepickerApply>Apply</button>
-                            </mat-datepicker-actions>
-                        </mat-datepicker>
+                        <mat-datepicker #datepicker></mat-datepicker>
                     </mat-form-field>
                 </div>
                 <br>
@@ -58,6 +53,31 @@
                 </mat-slide-toggle>
             </form>
 
+        </mat-card-content>
+    </mat-card>
+
+    <div class="title-section">
+        <div class="title">
+            <img src="../../../../assets/icons/contact-details.svg" alt="passengers">
+            <p class="title-heading">Contact details</p>
+        </div>
+        <p class="title-text">We need contact details to be able to deliver the latest information regarding your flight. </p>
+    </div>
+
+    <mat-card class="contact-details">
+        <mat-card-content class="contact-details-content">
+            <mat-form-field class="contact-details-field">
+                <mat-label>Country code</mat-label>
+                <input matInput>
+              </mat-form-field>
+              <mat-form-field class="contact-details-field">
+                <mat-label>Mobile phone number</mat-label>
+                <input matInput type="phone">
+              </mat-form-field>
+              <mat-form-field class="contact-details-field">
+                <mat-label>Email</mat-label>
+                <input matInput type="email">
+              </mat-form-field>
         </mat-card-content>
     </mat-card>
 

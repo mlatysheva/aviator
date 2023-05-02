@@ -59,6 +59,17 @@
   padding: 0 5px;
 }
 
+.contact-details {
+  margin: 15px 0;
+
+  &-content {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 15px;
+  }
+}
+
 .stepper-btns {
   display: flex;
   justify-content: flex-end;
