@@ -10,6 +10,7 @@ export const generateFlights = async () => {
   try {
     const _filename = fileURLToPath(import.meta.url);
     const flights: IFlight[] = [];
+    const flightOptions = [[0, 1, 2, 3, 4, 5, 6], [1, 3, 5], [0, 2, 4, 6], [1, 3, 5, 6]];
     for (let i = 0; i < airports.length; i++) {
       const { iata_code: originAirportIataCode } = airports[i] as { iata_code: string };
       for (let j = i + 1; j < airports.length; j++) {
@@ -20,15 +21,17 @@ export const generateFlights = async () => {
           id: uuidv4(),
           originAirportIataCode,
           destinationAirportIataCode,
-          priceAdult: 0,
-          priceChild: 0,
-          priceInfant: 0,
+          flightDays: flightOptions[Math.floor(Math.random() * flightOptions.length)],
+          pricesAdult: [],
+          pricesChild: [],
+          pricesInfant: [],
           departureTime: generateRandomTime(),
           duration: Math.floor(Math.random() * (540 - 45) + 45),
           direct: true,
           flightNumber: `FR-${flightNumber}`,
           taxRate: 0.15,
           totalSeats: 150,
+          bookedSeats: 0,
         };
         if (flight.duration > 360) {
           flight.direct = false;
@@ -36,22 +39,29 @@ export const generateFlights = async () => {
         } else {
           flight.totalSeats = Math.floor(Math.random() * (320 - 60)) + 60;
         }
-        flight.priceAdult = Math.round((flight.duration * 1.2 * 10) / 10);
-        flight.priceChild = Math.floor(flight.priceAdult * 0.8);
-        flight.priceInfant = Math.floor(flight.priceAdult * 0.2);
+        const priceAdult = Math.round((flight.duration * 1.2 * 10) / 10);
+        const priceChild = Math.floor(priceAdult * 0.8);
+        const priceInfant = Math.floor(priceAdult * 0.2);
+        for (let i = 0; i < flight.flightDays.length; i++) {
+          flight.pricesAdult.push(priceAdult + i * 5);
+          flight.pricesChild.push(priceChild + i * 3);
+          flight.pricesInfant.push(priceInfant + i * 2);
+        }
         const returnFlight: IFlight = {
           id: uuidv4(),
           originAirportIataCode: flight.destinationAirportIataCode,
           destinationAirportIataCode: flight.originAirportIataCode,
-          priceAdult: Math.floor(flight.priceAdult * 0.8),
-          priceChild: Math.floor(flight.priceChild * 0.8),
-          priceInfant: Math.floor(flight.priceInfant * 0.8),
+          flightDays: flight.flightDays,
+          pricesAdult: flight.pricesAdult.map(price => Math.floor(price * 1.1)),
+          pricesChild: flight.pricesChild.map(price => Math.floor(price * 1.1)),
+          pricesInfant: flight.pricesInfant.map(price => Math.floor(price * 1.1)),
           duration: Math.floor(flight.duration * 0.9),
           departureTime: generateRandomTime(),
           direct: flight.direct,
           flightNumber: `FR-${flightNumber + 1}`,
           taxRate: flight.taxRate,
           totalSeats: flight.totalSeats,
+          bookedSeats: 0,
         };
         flight.returnFlightId = returnFlight.id;
         returnFlight.returnFlightId = flight.id;
