@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { AppState } from 'src/app/store/state.models';
@@ -13,6 +13,8 @@ import { DateService } from '../../services/date.service';
 })
 export class CarouselDateComponent implements OnInit {
   isCanFly: boolean;
+  isOneWay: boolean;
+  @Input() isFly: string;
   state$: Observable<AppState>;
   state: AppState;
   from: string;
@@ -43,8 +45,8 @@ export class CarouselDateComponent implements OnInit {
   timeZoneFrom: string | undefined;
   timeZoneTo: string | undefined;
   departureTime: string;
-  arrivingDateTo: string;
-  arrivingDateFrom: string;
+  arrivingDateTo: string | undefined;
+  arrivingDateFrom?: string | undefined;
 
   direct: boolean;
   flightNumber: string;
@@ -77,6 +79,7 @@ export class CarouselDateComponent implements OnInit {
       this.minutes = this.dateService.getMinutes(this.duration);
       this.arrivingDateTo = this.dateService.getArrivingDate(this.startDate, this.duration);
       this.arrivingDateFrom = this.dateService.getArrivingDate(this.endDate, this.duration);
+
     }
 
     );
@@ -94,15 +97,18 @@ export class CarouselDateComponent implements OnInit {
       this.codTo = state.search.destination.split(',').slice(2, 3).join('');
       this.startDate = state.search.startDate;
       this.endDate = state.search.endDate;
-      this.slides = this.dateService.dateSlideTo(this.startDate);
-      this.slidesFrom = this.dateService.dateSlideTo(this.endDate);
       this.currency = state.user.currency;
-      this.getDetailsList(this.codFrom, this.codTo);
-      this.isCanFly = this.dateService.isCanFly(this.startDate);
-      this.timeZoneFrom = this.dateService.findOffset(this.cityFrom);
-      this.timeZoneTo = this.dateService.findOffset(this.cityTo);
+      this.isOneWay = state.search.tripType === 'one-way' ? true : false;
+
     }
     );
+    this.slides = this.dateService.dateSlideTo(this.startDate);
+    this.slidesFrom = this.dateService.dateSlideTo(this.endDate);
+    this.getDetailsList(this.codFrom, this.codTo);
+    this.isCanFly = this.dateService.isCanFly(this.startDate);
+    this.isFly = this.isCanFly ? 'true' : 'false';
+    this.timeZoneFrom = this.dateService.findOffset(this.cityFrom);
+    this.timeZoneTo = this.dateService.findOffset(this.cityTo);
 
   }
 

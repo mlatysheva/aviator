@@ -25,6 +25,7 @@ export class DateService {
   }
 
   dateSlideTo(date: string) {
+
     const slide = [
       this.minusOneDay(this.minusOneDay(date)),
       this.minusOneDay(date),
@@ -32,14 +33,23 @@ export class DateService {
       this.addOneDay(date),
       this.addOneDay(this.addOneDay(date)),
     ]
+    slide.forEach((item) => {
+      const departureDate = item;
+      return departureDate;
+    }
+    );
     return slide;
   }
 
-  getArrivingDate(departureDate: string, duration: number) {
-    const dateCopy = new Date(departureDate);
-    const addMinutes = dateCopy.getTime() + duration * 60000;
-    const arrivingDate = new Date(addMinutes);
-    return arrivingDate.toISOString().slice(0, -1);
+  getArrivingDate(departureDate: string, duration: number): string | undefined {
+    if (departureDate === undefined) {
+      return new Date().toString();
+    } else {
+      const dateCopy = new Date(departureDate);
+      const addMinutes = dateCopy.getTime() + duration * 60000;
+      const arrivingDate = new Date(addMinutes);
+      return arrivingDate.toISOString().slice(0, -1);
+    }
   }
 
   getMinutes(duration: number) {
@@ -49,12 +59,13 @@ export class DateService {
     return Math.floor(duration / 60);
   }
   findTimeZone(city: string) {
+    if (city === '') {
+      return 'Europe/Kiev';
+    }
     const timeZone = cityTimezones.lookupViaCity(city);
-
     if (city === 'London') {
       return 'Greenwich Mean Time';
     }
-    console.log(timeZone[0].timezone)
     return timeZone[0].timezone;
   }
   findOffset(city: string): string | undefined {
