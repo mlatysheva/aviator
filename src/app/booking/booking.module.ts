@@ -17,10 +17,10 @@ import { searchReducer } from '../store/reducers/search.reducer';
 import { PassengersPageComponent } from './pages/passengers-page/passengers-page.component';
 import { ReviewPageComponent } from './pages/review-page/review-page.component';
 import { BookingReviewComponent } from './components/booking-review/booking-review.component';
+import { DisallowChoiceDateDirective } from './directives/disallow-choice-date.directive';
 import { SharedModule } from '../shared/shared.module';
 import { passengersReducer } from '../store/reducers/passengers.reducer';
 import { BrowserModule } from '@angular/platform-browser';
-
 
 @NgModule({
   declarations: [
@@ -32,7 +32,7 @@ import { BrowserModule } from '@angular/platform-browser';
     PassengersPageComponent,
     ReviewPageComponent,
     BookingReviewComponent,
-
+    DisallowChoiceDateDirective,
   ],
   imports: [
     CommonModule,
@@ -46,4 +46,4 @@ import { BrowserModule } from '@angular/platform-browser';
     StoreModule.forFeature('passengers', passengersReducer),
   ],
 })
-export class BookingModule { }
+export class BookingModule {}
