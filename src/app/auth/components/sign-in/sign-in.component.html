@@ -26,12 +26,12 @@
       <mat-label>Password</mat-label>
       <input 
         matInput 
-        [type]="hide ? 'password' : 'text'"
+        [type]="hidePassword ? 'password' : 'text'"
         formControlName="password"
         required
       >
-      <mat-icon matIconSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
-        {{hide ? 'visibility_off' : 'visibility'}}
+      <mat-icon matIconSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
+        {{hidePassword ? 'visibility_off' : 'visibility'}}
       </mat-icon>
       <mat-error class="error" *ngIf="password.invalid && password.touched">
         {{getPasswordErrorMessage()}}
@@ -126,9 +126,12 @@
     </mat-form-field>
 
     <div class="policy-wrapper">
-      <mat-checkbox class="checkbox" required></mat-checkbox>
-      <p class="regular-text">I agree to Airway's Privacy Policy and Terms of Use</p> 
+      <mat-checkbox class="checkbox" formControlName="agreementCheck" required></mat-checkbox>
+      <p>I agree to Airway's <span class="regular-text">Privacy Policy</span> and <span class="regular-text">Terms of Use</span></p>
     </div>
+    <mat-error class="error" *ngIf="agreementCheck.invalid && agreementCheck.touched">
+      {{getAgreementCheckErrorMessage()}}
+    </mat-error> 
     
     <button 
       mat-raised-button

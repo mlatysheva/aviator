@@ -50,6 +50,20 @@
         "phone": "1234567890"
       },
       "id": "7eb458c2-3243-437c-ac3b-7de9864e47a1"
+    },
+    {
+      "email": "bul@bul.com",
+      "password": "sS1#qwert",
+      "firstName": "bul",
+      "lastName": "Kom",
+      "birthDate": "1992-05-18T22:00:00.000Z",
+      "gender": "male",
+      "citizenship": "Russia",
+      "contactDetails": {
+        "countryCode": "+7",
+        "phone": "1234567890"
+      },
+      "id": "7b4c6a3f-3aed-4e57-a2c8-ec96b490bd4e"
     }
   ],
   "passengers": [

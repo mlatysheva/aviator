@@ -27,6 +27,8 @@
   outline: none;
   border:#8e8798 0.5px solid;
   border-radius: 4px;
+  opacity: 0.8;
+  cursor: not-allowed;
 }
 
 .icon {
@@ -111,9 +113,12 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  color: var(--primary-color);
   text-decoration: none;
   font-size: 12px;
+
+  & p {
+    margin-bottom: 0;
+  }
 }
 
 .checkbox {
@@ -122,4 +127,5 @@
 
 .regular-text {
   margin-bottom: 0;
+  color: var(--primary-color);
 }

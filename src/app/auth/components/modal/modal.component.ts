@@ -12,7 +12,6 @@ export class ModalComponent {
   constructor(public authService: AuthService) {}
 
   public toggleSignInModal() {
-    console.log('toggleSignInModal');
     this.authService.isVisible$.subscribe(
       (showModal) => (this.isVisible = showModal)
     );

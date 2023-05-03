@@ -21,7 +21,7 @@ export class SignInComponent implements OnInit {
 
   userId$: string;
 
-  hide = true;
+  hidePassword = true;
 
   get email() {
     return this.signupForm.controls['email'];
@@ -59,6 +59,10 @@ export class SignInComponent implements OnInit {
     return this.signupForm.controls['citizenship'];
   }
 
+  get agreementCheck() {
+    return this.signupForm.controls['agreementCheck'];
+  }
+
   constructor(
     public authService: AuthService,
     private fb: FormBuilder,
@@ -81,13 +85,13 @@ export class SignInComponent implements OnInit {
         Validators.minLength(10), 
         Validators.maxLength(11)]],
       citizenship: [''],
+      agreementCheck: [false, [Validators.required]],
     });
     this.getCountryCodes();
   }
 
   public getCountryCodes(): Observable<ICountryCode[]> {
     this.countryCodes$ = this.userService.getCountryCodes();
-    // this.countryCodes$.subscribe((codes) => console.log(codes));
     return this.countryCodes$;
   }
 
@@ -132,7 +136,7 @@ export class SignInComponent implements OnInit {
     this.userService.registerUser(user).subscribe((res) => {
       console.log(res)
     });
-    this.router.navigate(['/auth/login']);
+    this.router.navigate(['']);
   }
 
   getEmailErrorMessage() {
@@ -169,5 +173,9 @@ export class SignInComponent implements OnInit {
       return 'Minimum 10 digits';
     } 
     return this.phone.hasError('maxLength') ? 'Maximum 11 digits' : '';
+  }
+
+  getAgreementCheckErrorMessage() {
+    return this.agreementCheck.hasError('required') ? 'You must agree to the terms and conditions' : '';
   }
 }
