@@ -4,11 +4,11 @@
       <img src="../../../../assets/icons/plane-to.svg" alt="plane">
       <p>{{from}} to {{to}}</p>
     </div>
-    <carousel [itemsPerSlide]="itemsPerSlide" [singleSlideOffset]="singleSlideOffset" [startFromIndex]="0"
-      [interval]="0">
+    <carousel class="carousel" [itemsPerSlide]="itemsPerSlide" [singleSlideOffset]="singleSlideOffset"
+      [startFromIndex]="0" [interval]="0">
       <slide class="slide" *ngFor="let slide of slides; let index=index" appDisallowChoiceDate
-        [isFly]="(dateService.isCanFly(slide))">
-        <div class="slide-date" appDisallowChoiceDate [isFly]="(dateService.isCanFly(slide))">{{slide | date :'dd LLL'}}
+        [isFly]="(dateService.isCanFly(slide))" (click)="onClick($event)">
+        <div class="slide-date">{{slide | date :'dd LLL'}}
         </div>
         <div class="slide-weekday">{{slide | date :'cccc'}}</div>
         <div class="is-fly" *ngIf="(dateService.isCanFly(slide))">
@@ -43,7 +43,7 @@
         <div>{{to}}</div>
       </div>
       <div class="flight-number">Flight no.{{flightNumber}}</div>
-      <div class="select">
+      <div class="price-warning">
         <div class="seats">{{seats}} seats available</div>
         <div class="price">Price <span>{{currency}}</span>{{price}}</div>
         <button class="select">Select</button>
@@ -56,11 +56,11 @@
       <img src="../../../../assets/icons/plane-from.svg" alt="plane">
       <p>{{to}} to {{from}}</p>
     </div>
-    <carousel [itemsPerSlide]="itemsPerSlide" [singleSlideOffset]="singleSlideOffset" [startFromIndex]="0"
-      [interval]="0">
+    <carousel class="carousel" [itemsPerSlide]="itemsPerSlide" [singleSlideOffset]="singleSlideOffset"
+      [startFromIndex]="0" [interval]="0">
       <slide class="slide" *ngFor="let slide of slidesFrom; let index=index" appDisallowChoiceDate
-        [isFly]="(dateService.isCanFly(slide))">
-        <div class="slide-date" appDisallowChoiceDate [isFly]="(dateService.isCanFly(slide))">{{slide | date :'dd LLL'}}
+        [isFly]="(dateService.isCanFly(slide))" (click)="onClick($event)">
+        <div class="slide-date">{{slide | date :'dd LLL'}}
         </div>
         <div class="slide-weekday">{{slide | date :'cccc'}} </div>
         <div class="is-fly" *ngIf="(dateService.isCanFly(slide))">
@@ -70,6 +70,7 @@
           <h5><span>{{currency}} </span>{{price }}</h5>
         </div>
         <div div class="carousel-caption"></div>
+
       </slide>
     </carousel>
     <div class="flight-details-from">
@@ -95,7 +96,7 @@
         <div>{{from}}</div>
       </div>
       <div class="flight-number">Flight no.{{flightNumber}}</div>
-      <div class="select">
+      <div class="price-warning">
         <div class="seats">{{seats}} seats available</div>
         <div class="price">Price <span>{{currency}}</span>{{price}}</div>
         <button class="select">Select</button>

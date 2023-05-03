@@ -10,6 +10,7 @@ import { DateService } from '../../services/date.service';
   selector: 'app-carousel-date',
   templateUrl: './carousel-date.component.html',
   styleUrls: ['./carousel-date.component.scss'],
+
 })
 export class CarouselDateComponent implements OnInit {
   isCanFly: boolean;
@@ -111,6 +112,27 @@ export class CarouselDateComponent implements OnInit {
     this.timeZoneTo = this.dateService.findOffset(this.cityTo);
 
   }
+  onClick(e: MouseEvent) {
+    e.preventDefault();
+    if ((e.target as HTMLElement).classList.contains('slide')) {
+      (e.target as HTMLElement).classList.toggle('large');
+      const children = (e.target as HTMLElement).children;
+      for (let i = 0; i < children.length; i++) {
+        if (children[i].classList.contains('slide-date')) {
+          children[i].classList.add('big-date');
+        }
+        if (children[i].classList.contains('slide-weekday')) {
+          children[i].classList.remove('slide-weekday');
+          children[i].classList.add('big-weekday');
+        }
+        if (children[i].classList.contains('slide-price')) {
+          children[i].classList.toggle('big-price');
+        }
 
+      }
 
+    }
+  }
 }
+
+

@@ -20,6 +20,16 @@ export class DisallowChoiceDateDirective implements OnInit {
       element.style.cursor = 'not-allowed';
       element.style.pointerEvents = 'none';
       element.style.opacity = '0.5';
+      // styles for children
+      const children = element.children;
+      for (let i = 0; i < children.length; i++) {
+        const child = children[i];
+        child.style.color = 'grey';
+        child.style.cursor = 'not-allowed';
+        child.style.pointerEvents = 'none';
+        child.style.opacity = '0.5';
+      }
+
     }
   }
 
