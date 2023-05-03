@@ -1,98 +1,107 @@
 <div class="wrapper">
-  <div class="flight-info one-way">
-    <img src="../../../../assets/icons/plane-to.svg" alt="plane">
-    <p>{{from}} to {{to}}</p>
-  </div>
-  <carousel [itemsPerSlide]="itemsPerSlide" [singleSlideOffset]="singleSlideOffset" [startFromIndex]="0" [interval]="0">
-    <slide class="slide" *ngFor="let slide of slides; let index=index">
-      <div class="slide-date">{{slide | date :'dd LLL'}}</div>
-      <div class="slide-weekday">{{slide | date :'cccc'}}</div>
-      <div class="is-fly" *ngIf="(dateService.isCanFly(slide))">
-        <img src="../../../../assets/icons/do-not-fly.svg" alt="no-fly">
+  <div class="one-way">
+    <div class="flight-info one-way">
+      <img src="../../../../assets/icons/plane-to.svg" alt="plane">
+      <p>{{from}} to {{to}}</p>
+    </div>
+    <carousel class="carousel" [itemsPerSlide]="itemsPerSlide" [singleSlideOffset]="singleSlideOffset"
+      [startFromIndex]="0" [interval]="0">
+      <slide class="slide" *ngFor="let slide of slides; let index=index" appDisallowChoiceDate
+        [isFly]="(dateService.isCanFly(slide))" (click)="onClick($event)">
+        <div class="slide-date">{{slide | date :'dd LLL'}}
+        </div>
+        <div class="slide-weekday">{{slide | date :'cccc'}}</div>
+        <div class="is-fly" *ngIf="(dateService.isCanFly(slide))">
+          <img src="../../../../assets/icons/do-not-fly.svg" alt="no-fly">
+        </div>
+        <div class="price" *ngIf="!(dateService.isCanFly(slide))">
+          <h5><span>{{currency}} </span>{{price }}</h5>
+        </div>
+        <div div class="carousel-caption"></div>
+      </slide>
+    </carousel>
+    <div class="flight-details-from">
+      <div class="details-departure">
+        <div>{{startDate | date : 'fullDate'}}</div>
+        <div>{{departureTime }}</div>
+        <div class="timeZone">UTC {{timeZoneFrom}}</div>
+        <div>{{from}}</div>
       </div>
-      <div class="price" *ngIf="!(dateService.isCanFly(slide))">
-        <h5><span>{{currency}} </span>{{price }}</h5>
+      <div class="duration">
+        <div class="duration-time"> {{hours}} h {{minutes}} m</div>
+        <div class="plane">
+          <div class="divider"></div>
+          <img src="../../../../assets/icons/take-off-to.svg" alt="plane">
+          <div class="divider"></div>
+          <div class="direct">Direct</div>
+        </div>
       </div>
-      <div div class="carousel-caption"></div>
-    </slide>
-  </carousel>
-  <div class="flight-details-from">
-    <div class="details-departure">
-      <div>{{startDate | date : 'fullDate'}}</div>
-      <div>{{departureTime }}</div>
-      <div class="timeZone">UTC {{timeZoneFrom}}</div>
-      <div>{{from}}</div>
-    </div>
-    <div class="duration">
-      <div class="duration-time"> {{hours}} h {{minutes}} m</div>
-      <div class="plane">
-        <div class="divider"></div>
-        <img src="../../../../assets/icons/take-off-to.svg" alt="plane">
-        <div class="divider"></div>
-        <div class="direct">Direct</div>
+      <div class="details-arriving">
+        <div>{{arrivingDateTo | date: 'fullDate'}}</div>
+        <div>{{arrivingDateTo | date: 'hh:mm'}}</div>
+        <div class="timeZone">UTC {{timeZoneTo}}</div>
+        <div>{{to}}</div>
       </div>
-    </div>
-    <div class="details-arriving">
-      <div>{{arrivingDateTo | date: 'fullDate'}}</div>
-      <div>{{arrivingDateTo | date: 'hh:mm'}}</div>
-      <div class="timeZone">UTC {{timeZoneTo}}</div>
-      <div>{{to}}</div>
-    </div>
-    <div class="flight-number">Flight no.{{flightNumber}}</div>
-    <div class="select">
-      <div class="seats">{{seats}} seats available</div>
-      <div class="price">Price <span>{{currency}}</span>{{price}}</div>
-      <button class="select">Select</button>
-    </div>
+      <div class="flight-number">Flight no.{{flightNumber}}</div>
+      <div class="price-warning">
+        <div class="seats">{{seats}} seats available</div>
+        <div class="price">Price <span>{{currency}}</span>{{price}}</div>
+        <button class="select">Select</button>
+      </div>
 
+    </div>
   </div>
+  <div class="two-way" *ngIf="!isOneWay">
+    <div class="flight-info two-way">
+      <img src="../../../../assets/icons/plane-from.svg" alt="plane">
+      <p>{{to}} to {{from}}</p>
+    </div>
+    <carousel class="carousel" [itemsPerSlide]="itemsPerSlide" [singleSlideOffset]="singleSlideOffset"
+      [startFromIndex]="0" [interval]="0">
+      <slide class="slide" *ngFor="let slide of slidesFrom; let index=index" appDisallowChoiceDate
+        [isFly]="(dateService.isCanFly(slide))" (click)="onClick($event)">
+        <div class="slide-date">{{slide | date :'dd LLL'}}
+        </div>
+        <div class="slide-weekday">{{slide | date :'cccc'}} </div>
+        <div class="is-fly" *ngIf="(dateService.isCanFly(slide))">
+          <img src="../../../../assets/icons/do-not-fly.svg" alt="no-fly">
+        </div>
+        <div class="price" *ngIf="!(dateService.isCanFly(slide))">
+          <h5><span>{{currency}} </span>{{price }}</h5>
+        </div>
+        <div div class="carousel-caption"></div>
 
-  <div class="flight-info two-way">
-    <img src="../../../../assets/icons/plane-from.svg" alt="plane">
-    <p>{{to}} to {{from}}</p>
+      </slide>
+    </carousel>
+    <div class="flight-details-from">
+      <div class="details-arriving">
+        <div>{{endDate | date : 'fullDate'}}</div>
+        <div>{{departureTime }}</div>
+        <div class="timeZone">UTC {{timeZoneTo}}</div>
+        <div>{{to}}</div>
+      </div>
+      <div class="duration">
+        <div class="duration-time"> {{hours}} h {{minutes}} m</div>
+        <div class="plane">
+          <div class="divider"></div>
+          <img src="../../../../assets/icons/take-off-from.svg" alt="plane">
+          <div class="divider"></div>
+          <div class="direct">Direct</div>
+        </div>
+      </div>
+      <div class="details-arriving">
+        <div>{{arrivingDateFrom | date: 'fullDate'}}</div>
+        <div>{{arrivingDateFrom | date: 'hh:mm'}}</div>
+        <div class="timeZone">UTC {{timeZoneFrom}}</div>
+        <div>{{from}}</div>
+      </div>
+      <div class="flight-number">Flight no.{{flightNumber}}</div>
+      <div class="price-warning">
+        <div class="seats">{{seats}} seats available</div>
+        <div class="price">Price <span>{{currency}}</span>{{price}}</div>
+        <button class="select">Select</button>
+      </div>
+
+    </div>
   </div>
-  <carousel [itemsPerSlide]="itemsPerSlide" [singleSlideOffset]="singleSlideOffset" [startFromIndex]="0" [interval]="0">
-    <slide class="slide" *ngFor="let slide of slidesFrom; let index=index">
-      <div class="slide-date">{{slide | date :'dd LLL'}}</div>
-      <div class="slide-weekday">{{slide | date :'cccc'}}</div>
-      <div class="is-fly" *ngIf="(dateService.isCanFly(slide))">
-        <img src="../../../../assets/icons/do-not-fly.svg" alt="no-fly">
-      </div>
-      <div class="price" *ngIf="!(dateService.isCanFly(slide))">
-        <h5><span>{{currency}} </span>{{price }}</h5>
-      </div>
-      <div div class="carousel-caption"></div>
-    </slide>
-  </carousel>
-  <div class="flight-details-from">
-    <div class="details-arriving">
-      <div>{{endDate | date : 'fullDate'}}</div>
-      <div>{{departureTime }}</div>
-      <div class="timeZone">UTC {{timeZoneTo}}</div>
-      <div>{{to}}</div>
-    </div>
-    <div class="duration">
-      <div class="duration-time"> {{hours}} h {{minutes}} m</div>
-      <div class="plane">
-        <div class="divider"></div>
-        <img src="../../../../assets/icons/take-off-from.svg" alt="plane">
-        <div class="divider"></div>
-        <div class="direct">Direct</div>
-      </div>
-    </div>
-    <div class="details-arriving">
-      <div>{{arrivingDateFrom | date: 'fullDate'}}</div>
-      <div>{{arrivingDateFrom | date: 'hh:mm'}}</div>
-      <div class="timeZone">UTC {{timeZoneFrom}}</div>
-      <div>{{from}}</div>
-    </div>
-    <div class="flight-number">Flight no.{{flightNumber}}</div>
-    <div class="select">
-      <div class="seats">{{seats}} seats available</div>
-      <div class="price">Price <span>{{currency}}</span>{{price}}</div>
-      <button class="select">Select</button>
-    </div>
-
-  </div>
-
 </div>

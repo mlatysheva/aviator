@@ -1,5 +1,6 @@
 import jsonServer from "json-server";
-import { v4 as uuidv4 } from 'uuid';
+import * as pkg from 'uuid';
+const { v4: uuidv4 } = pkg;
 import fs from 'fs';
 import { getResolvedPath } from './utils/getResolvedPath.js';
 import { fileURLToPath } from 'url';
@@ -32,7 +33,7 @@ server.use((req, res, next) => {
     const db = JSON.parse(
       fs.readFileSync(pathToDB, 'utf8'),
     );
-    
+
     const { users = [] } = db;
     const userFromBd = users.find((user: any) => user.email === email);
     if (userFromBd) {
@@ -48,7 +49,7 @@ server.post('/login', (req, res) => {
     const db = JSON.parse(
       fs.readFileSync(pathToDB, 'utf8'),
     );
-    
+
     const { users = [] } = db;
     const userFromBd = users.find(
       (user: any) => user.username === username && user.password === password,
@@ -70,9 +71,9 @@ server.get('/flightspair', (req, res) => {
     const { originAirportIataCode, destinationAirportIataCode } = req.body;
     const db = JSON.parse(
       fs.readFileSync(pathToDB, 'utf8'),
-    );  
+    );
     const { flights = [] } = db;
-    const departureFlight= flights.find(
+    const departureFlight = flights.find(
       (flight: IFlight) => flight.originAirportIataCode === originAirportIataCode && flight.destinationAirportIataCode === destinationAirportIataCode,
     );
     const indexOfOriginalFlight = flights.indexOf(departureFlight);
@@ -87,8 +88,8 @@ server.get('/flightspair', (req, res) => {
         (flight: IFlight) => flight.originAirportIataCode === destinationAirportIataCode && flight.destinationAirportIataCode === originAirportIataCode,
       );
     }
-    
-    return res.json({departureFlight, returnFlight});
+
+    return res.json({ departureFlight, returnFlight });
   } catch (e) {
     console.error(e);
     return res.status(500).json({ message: e.message });

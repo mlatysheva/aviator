@@ -25,6 +25,7 @@ import { searchReducer } from '../store/reducers/search.reducer';
 import { PassengersPageComponent } from './pages/passengers-page/passengers-page.component';
 import { ReviewPageComponent } from './pages/review-page/review-page.component';
 import { BookingReviewComponent } from './components/booking-review/booking-review.component';
+import { DisallowChoiceDateDirective } from './directives/disallow-choice-date.directive';
 
 
 @NgModule({
@@ -37,6 +38,7 @@ import { BookingReviewComponent } from './components/booking-review/booking-revi
     PassengersPageComponent,
     ReviewPageComponent,
     BookingReviewComponent,
+    DisallowChoiceDateDirective,
 
   ],
   imports: [
