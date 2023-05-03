@@ -1,5 +1,11 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { IAgeCategory, IPassenger } from 'backend/types';
@@ -17,80 +23,126 @@ import { PassengersService } from '../../services/passengers.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BookingPassengersComponent implements OnInit {
+  public passengersCollectionForm: FormGroup;
+
   public searchForm$!: Observable<ISearchForm | any>;
-  public passengers: IAgeTypeQuantity[];
-  public cards: IPassenger[] = [];
 
-  public passengersForm: FormGroup;
+  public passengersQuauntity = 0;
 
-  public genderType = 'male';
+  public gender = 'male';
+  // public passengers: IAgeTypeQuantity[];
+  // public cards: IPassenger[] = [];
 
-  public checked = false;
-  public disabled = false;
+  // public passengersForm: FormGroup;
+
+  // public checked = false;
+  // public disabled = false;
 
   constructor(
     private store: Store<AppState>,
     private router: Router,
-    private passengersService: PassengersService
+    private passengersService: PassengersService,
+    private fb: FormBuilder
   ) {}
 
+  // ngOnInit() {
+  //   this.searchForm$ = this.store.select(selectPassengers);
+  //   this.searchForm$
+  //     .pipe(map((value) => this.setPassengers(value)))
+  //     .subscribe();
+
+  //   this.passengersForm = new FormGroup({
+  //     firstName: new FormControl('', Validators.required),
+  //     lastName: new FormControl('', Validators.required),
+  //     genderType: new FormControl('male', Validators.required),
+  //     birthDate: new FormControl(''),
+  //     assistance: new FormControl(false),
+  //   });
+  // }
+
+  // public createNewPassenger(): IPassenger {
+  //   return {
+  //     id: '',
+  //     firstName: '',
+  //     lastName: '',
+  //     birthday: '',
+  //     age: 0,
+  //     ageCategory: IAgeCategory.infant,
+  //     seatNo: '',
+  //   };
+  // }
+
+  // public setPassengers(persons: IAgeTypeQuantity[]): void {
+  //   persons.forEach((person) => {
+  //     for (let i = 0; i < person.quantity; i++) {
+  //       const newPerson = this.createNewPassenger();
+  //       newPerson.ageCategory = person.ageCategory;
+  //       this.cards.push(newPerson);
+  //     }
+  //   });
+  // }
+
+  // public onSubmit() {
+  //   // console.log(this.passengersForm.value);
+  //   // console.log(this.cards);
+
+  //   this.cards.forEach((card) => {
+  //     card.firstName = this.passengersForm.get('firstName')?.value;
+  //     card.lastName = this.passengersForm.get('lastName')?.value;
+  //     card.birthday = this.passengersForm.get('birthDate')?.value;
+  //   });
+
+  //   this.passengersService.setPassengers(this.cards);
+  // }
+
+  // public onBackClick() {
+  //   this.onSubmit();
+  //   this.router.navigate(['booking']);
+  // }
+
+  // public onNextClick() {
+  //   this.onSubmit();
+  //   this.router.navigate(['review']);
+  // }
+
   ngOnInit() {
+    this.passengersCollectionForm = this.fb.group({
+      passengers: this.fb.array([]),
+    });
+
     this.searchForm$ = this.store.select(selectPassengers);
     this.searchForm$
-      .pipe(map((value) => this.setPassengers(value)))
+      .pipe(
+        map((passengers) => {
+          passengers.forEach(
+            (person: IAgeTypeQuantity) =>
+              (this.passengersQuauntity += person.quantity)
+          );
+        })
+      )
       .subscribe();
 
-    this.passengersForm = new FormGroup({
-      firstName: new FormControl('', Validators.required),
-      lastName: new FormControl('', Validators.required),
-      genderType: new FormControl('male', Validators.required),
-      birthDate: new FormControl(''),
-      assistance: new FormControl(false),
-    });
+    for (let i = 0; i < this.passengersQuauntity; i++) {
+      this.addPassenger();
+    }
   }
 
-  public createNewPassenger(): IPassenger {
-    return {
-      id: '',
-      firstName: '',
-      lastName: '',
-      birthday: '',
-      age: 0,
-      ageCategory: IAgeCategory.infant,
-      seatNo: '',
-    };
+  get passengersForms() {
+    return this.passengersCollectionForm.get('passengers') as FormArray;
   }
 
-  public setPassengers(persons: IAgeTypeQuantity[]): void {
-    persons.forEach((person) => {
-      for (let i = 0; i < person.quantity; i++) {
-        const newPerson = this.createNewPassenger();
-        newPerson.ageCategory = person.ageCategory;
-        this.cards.push(newPerson);
-      }
-    });
-  }
-
-  public onSubmit() {
-    // console.log(this.passengersForm.value);
-    // console.log(this.cards);
-
-    this.cards.forEach((card) => {
-      card.firstName = this.passengersForm.get('firstName')?.value;
-      card.lastName = this.passengersForm.get('lastName')?.value;
-      card.birthday = this.passengersForm.get('birthDate')?.value;
+  addPassenger() {
+    const item = this.fb.group({
+      firstName: ['', Validators.required],
+      lastName: ['', [Validators.required]],
+      gender: ['male'],
+      birthday: ['', [Validators.required]],
     });
 
-    this.passengersService.setPassengers(this.cards);
+    this.passengersForms.push(item);
   }
 
-  public onBackClick() {
-    this.onSubmit();
-    this.router.navigate(['booking']);
-  }
-
-  public onNextClick() {
-    this.onSubmit();
-    this.router.navigate(['review']);
+  onSubmit() {
+    console.log(this.passengersCollectionForm.value);
   }
 }

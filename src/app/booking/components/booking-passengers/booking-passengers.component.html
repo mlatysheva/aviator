@@ -6,7 +6,52 @@
         </div>
         <p class="title-text">Enter the passenger's names as they appear on document (passport or ID). </p>
     </div>
-    <mat-card *ngFor="let card of cards; index as i;" class="card">
+    
+    <form [formGroup]="passengersCollectionForm">
+        <div formArrayName="passengers">
+          <div *ngFor="let item of passengersForms.controls; let i=index" [formGroupName]="i">
+            
+            <mat-card class="card">
+                <mat-card-content class="form-content">
+                    <mat-form-field appearance="fill" class="form-field">
+                        <mat-label>First name</mat-label>
+                        <input matInput type="text" formControlName="firstName">
+                        <mat-icon matSuffix class="info-icon">
+                            <img src="../../../../assets/icons/info.svg">
+                        </mat-icon>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="fill" class="form-field">
+                        <mat-label>Last name</mat-label>
+                        <input matInput type="text" formControlName="lastName">
+                        <mat-icon matSuffix class="info-icon">
+                            <img src="../../../../assets/icons/info.svg">
+                        </mat-icon>
+                    </mat-form-field>
+
+                    <section class="toggle-gender">
+                        <mat-button-toggle-group formControlName="gender" [(ngModel)]="genderType">
+                            <mat-button-toggle value="male">Male</mat-button-toggle>
+                            <mat-button-toggle value="female">Female</mat-button-toggle>
+                        </mat-button-toggle-group>
+                    </section>
+
+                    
+                    <mat-form-field appearance="fill" class="birth-date-picker">
+                        <mat-label>Date of birth</mat-label>
+                        <input matInput [matDatepicker]="datepicker" formControlName="birthday">
+                        <mat-hint>MM/DD/YYYY</mat-hint>
+                        <mat-datepicker-toggle matIconSuffix [for]="datepicker"></mat-datepicker-toggle>
+                        <mat-datepicker #datepicker></mat-datepicker>
+                    </mat-form-field>
+                </mat-card-content>
+            </mat-card>
+
+          </div>
+        </div>
+      </form>
+    
+    <!-- <mat-card *ngFor="let card of cards; index as i;" class="card">
         <mat-card-content>
             <p class="card-title">{{i+1}}. {{card.ageCategory | titlecase}}</p>
             <form [formGroup]="passengersForm">
@@ -54,9 +99,9 @@
             </form>
 
         </mat-card-content>
-    </mat-card>
+    </mat-card> -->
 
-    <div class="title-section">
+    <!-- <div class="title-section">
         <div class="title">
             <img src="../../../../assets/icons/contact-details.svg" alt="passengers">
             <p class="title-heading">Contact details</p>
@@ -79,10 +124,10 @@
                 <input matInput type="email">
               </mat-form-field>
         </mat-card-content>
-    </mat-card>
+    </mat-card> -->
 
     <div class="stepper-btns">
-      <button mat-raised-button (click)="onBackClick()">Back</button>
-      <button mat-raised-button (click)="onNextClick()" color="primary">Continue</button>
+      <button mat-raised-button>Back</button>
+      <button mat-raised-button color="primary" (click)="onSubmit()">Continue</button>
   </div>
 </div>
