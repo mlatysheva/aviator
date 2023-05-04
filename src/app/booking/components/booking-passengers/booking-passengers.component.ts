@@ -30,13 +30,16 @@ export class BookingPassengersComponent implements OnInit {
   public passengersQuauntity = 0;
 
   public gender = 'male';
+
+  public checked = false;
+  public disabled = false;
+
+  public detailsForm: FormGroup;
+
   // public passengers: IAgeTypeQuantity[];
   // public cards: IPassenger[] = [];
 
   // public passengersForm: FormGroup;
-
-  // public checked = false;
-  // public disabled = false;
 
   constructor(
     private store: Store<AppState>,
@@ -44,21 +47,6 @@ export class BookingPassengersComponent implements OnInit {
     private passengersService: PassengersService,
     private fb: FormBuilder
   ) {}
-
-  // ngOnInit() {
-  //   this.searchForm$ = this.store.select(selectPassengers);
-  //   this.searchForm$
-  //     .pipe(map((value) => this.setPassengers(value)))
-  //     .subscribe();
-
-  //   this.passengersForm = new FormGroup({
-  //     firstName: new FormControl('', Validators.required),
-  //     lastName: new FormControl('', Validators.required),
-  //     genderType: new FormControl('male', Validators.required),
-  //     birthDate: new FormControl(''),
-  //     assistance: new FormControl(false),
-  //   });
-  // }
 
   // public createNewPassenger(): IPassenger {
   //   return {
@@ -82,29 +70,6 @@ export class BookingPassengersComponent implements OnInit {
   //   });
   // }
 
-  // public onSubmit() {
-  //   // console.log(this.passengersForm.value);
-  //   // console.log(this.cards);
-
-  //   this.cards.forEach((card) => {
-  //     card.firstName = this.passengersForm.get('firstName')?.value;
-  //     card.lastName = this.passengersForm.get('lastName')?.value;
-  //     card.birthday = this.passengersForm.get('birthDate')?.value;
-  //   });
-
-  //   this.passengersService.setPassengers(this.cards);
-  // }
-
-  // public onBackClick() {
-  //   this.onSubmit();
-  //   this.router.navigate(['booking']);
-  // }
-
-  // public onNextClick() {
-  //   this.onSubmit();
-  //   this.router.navigate(['review']);
-  // }
-
   ngOnInit() {
     this.passengersCollectionForm = this.fb.group({
       passengers: this.fb.array([]),
@@ -125,6 +90,8 @@ export class BookingPassengersComponent implements OnInit {
     for (let i = 0; i < this.passengersQuauntity; i++) {
       this.addPassenger();
     }
+
+    this.createDetailsForm();
   }
 
   get passengersForms() {
@@ -137,12 +104,32 @@ export class BookingPassengersComponent implements OnInit {
       lastName: ['', [Validators.required]],
       gender: ['male'],
       birthday: ['', [Validators.required]],
+      assistance: [false],
     });
 
     this.passengersForms.push(item);
   }
 
-  onSubmit() {
+  public createDetailsForm() {
+    this.detailsForm = new FormGroup({
+      countryCode: new FormControl(''),
+      phone: new FormControl('', Validators.required),
+      email: new FormControl('', [Validators.required, Validators.email]),
+    });
+  }
+
+  public onSubmit() {
     console.log(this.passengersCollectionForm.value);
+    // this.passengersService.setPassengers(this.passengersCollectionForm.value);
+  }
+
+  public onBackClick() {
+    this.onSubmit();
+    this.router.navigate(['booking']);
+  }
+
+  public onNextClick() {
+    this.onSubmit();
+    this.router.navigate(['review']);
   }
 }
