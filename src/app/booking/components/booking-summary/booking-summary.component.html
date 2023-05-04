@@ -16,8 +16,8 @@
                     <div *ngFor="let passenger of passengers$ | async">
                         <p>{{passenger.firstName + ' ' + passenger.lastName | uppercase}}</p>
                         <div class="passenger-details">
-                            <p>baggage</p>
-                            <p>baggage</p>
+                            <p>1 checked bag (total 23 kg) included</p>
+                            <p>1 cabin bag + 1 personal item (max. 8 kg) included</p>
                             <p>Seat 1F</p>
                         </div>
                     </div>
@@ -34,8 +34,8 @@
                     <div *ngFor="let passenger of passengers$ | async">
                         <p>{{passenger.firstName + ' ' + passenger.lastName | uppercase}}</p>
                         <div class="passenger-details">
-                            <p>baggage</p>
-                            <p>baggage</p>
+                            <p>1 checked bag (total 23 kg) included</p>
+                            <p>1 cabin bag + 1 personal item (max. 8 kg) included</p>
                             <p>Seat 1F</p>
                         </div>
                     </div>
@@ -43,4 +43,12 @@
             </mat-card-content>
         </mat-card>
     </div>
+
+    <mat-card>
+        <mat-card-content>
+            <div *ngFor="let passenger of passengers$ | async">
+                <p>1 x {{passenger.ageCategory | titlecase}} Fare</p>
+            </div>
+        </mat-card-content>
+    </mat-card>
 </div>

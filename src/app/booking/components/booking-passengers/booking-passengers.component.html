@@ -9,10 +9,11 @@
     
     <form [formGroup]="passengersCollectionForm">
         <div formArrayName="passengers">
-            <div *ngFor="let item of passengersForms.controls; let i=index" [formGroupName]="i">
+            <div *ngFor="let passengerForm of passengersForms.controls; let i=index" [formGroupName]="i">
             
                 <mat-card class="card">
                     <mat-card-content>
+                        <p class="card-title">{{i+1}}. {{ageCategoryCollection[i] | titlecase}}</p>
                         <div class="form-content">
                             <mat-form-field appearance="fill" class="form-field">
                                 <mat-label>First name</mat-label>
