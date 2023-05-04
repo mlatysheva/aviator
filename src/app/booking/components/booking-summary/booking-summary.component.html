@@ -1,0 +1,54 @@
+<div class="container">
+    <div class="title-section">
+        <div class="title">
+            <img src="../../../../assets/icons/summary.svg" alt="passengers">
+            <p class="title-heading">Summary</p>
+        </div>
+    </div>
+
+    <div class="passengers-info">
+        <mat-card class="card">
+            <div class="card-header">
+                <h3 class="card-header-title">FR 1925</h3>
+            </div>
+            <mat-card-content>
+                <div class="card-content">
+                    <div *ngFor="let passenger of passengers$ | async">
+                        <p>{{passenger.firstName + ' ' + passenger.lastName | uppercase}}</p>
+                        <div class="passenger-details">
+                            <p>1 checked bag (total 23 kg) included</p>
+                            <p>1 cabin bag + 1 personal item (max. 8 kg) included</p>
+                            <p>Seat 1F</p>
+                        </div>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+
+        <mat-card class="card" *ngIf="tripType === 'round-trip'">
+            <div class="card-header">
+                <h3 class="card-header-title">FR 1925</h3>
+            </div>
+            <mat-card-content>
+                <div class="card-content">
+                    <div *ngFor="let passenger of passengers$ | async">
+                        <p>{{passenger.firstName + ' ' + passenger.lastName | uppercase}}</p>
+                        <div class="passenger-details">
+                            <p>1 checked bag (total 23 kg) included</p>
+                            <p>1 cabin bag + 1 personal item (max. 8 kg) included</p>
+                            <p>Seat 1F</p>
+                        </div>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+
+    <mat-card>
+        <mat-card-content>
+            <div *ngFor="let passenger of passengers$ | async">
+                <p>1 x {{passenger.ageCategory | titlecase}} Fare</p>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

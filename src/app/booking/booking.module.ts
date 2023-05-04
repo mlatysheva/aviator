@@ -15,8 +15,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
 import { searchReducer } from '../store/reducers/search.reducer';
 import { PassengersPageComponent } from './pages/passengers-page/passengers-page.component';
-import { ReviewPageComponent } from './pages/review-page/review-page.component';
-import { BookingReviewComponent } from './components/booking-review/booking-review.component';
+import { SummaryPageComponent } from './pages/summary-page/summary-page.component';
+import { BookingSummaryComponent } from './components/booking-summary/booking-summary.component';
 import { DisallowChoiceDateDirective } from './directives/disallow-choice-date.directive';
 import { SharedModule } from '../shared/shared.module';
 import { passengersReducer } from '../store/reducers/passengers.reducer';
@@ -29,8 +29,8 @@ import { passengersReducer } from '../store/reducers/passengers.reducer';
     CarouselDateComponent,
     BookingPassengersComponent,
     PassengersPageComponent,
-    ReviewPageComponent,
-    BookingReviewComponent,
+    SummaryPageComponent,
+    BookingSummaryComponent,
     DisallowChoiceDateDirective,
   ],
   imports: [

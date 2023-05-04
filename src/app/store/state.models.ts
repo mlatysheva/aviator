@@ -9,11 +9,11 @@ import { UserState, userReducer } from './reducers/user.reducer';
 export interface AppState {
   user: UserState;
   search: SearchFormState;
-  passengers: PassengersState;
+  passengersInfo: PassengersState;
 }
 
 export const reducers: ActionReducerMap<AppState> = {
   user: userReducer,
   search: searchReducer,
-  passengers: passengersReducer,
+  passengersInfo: passengersReducer,
 };

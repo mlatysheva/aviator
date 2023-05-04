@@ -8,7 +8,7 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-// import { IAgeCategory, IPassenger } from 'backend/types';
+import { IAgeCategory, IPassenger } from 'backend/types';
 import { map, Observable } from 'rxjs';
 import { IAgeTypeQuantity } from 'src/app/avia/models/agetype-quantity.model';
 import { ISearchForm } from 'src/app/avia/models/search-form.model';
@@ -31,8 +31,6 @@ export class BookingPassengersComponent implements OnInit {
 
   public passengersQuauntity = 0;
 
-  public gender = 'male';
-
   public checked = false;
   public disabled = false;
 
@@ -40,8 +38,9 @@ export class BookingPassengersComponent implements OnInit {
 
   public detailsForm: FormGroup;
 
-  // public passengers: IAgeTypeQuantity[];
-  // public cards: IPassenger[] = [];
+  public ageCategoryCollection: string[] = [];
+
+  public passengers: IPassenger[] = [];
 
   constructor(
     private store: Store<AppState>,
@@ -50,28 +49,6 @@ export class BookingPassengersComponent implements OnInit {
     private fb: FormBuilder,
     private userService: UserService
   ) {}
-
-  // public createNewPassenger(): IPassenger {
-  //   return {
-  //     id: '',
-  //     firstName: '',
-  //     lastName: '',
-  //     birthday: '',
-  //     age: 0,
-  //     ageCategory: IAgeCategory.infant,
-  //     seatNo: '',
-  //   };
-  // }
-
-  // public setPassengers(persons: IAgeTypeQuantity[]): void {
-  //   persons.forEach((person) => {
-  //     for (let i = 0; i < person.quantity; i++) {
-  //       const newPerson = this.createNewPassenger();
-  //       newPerson.ageCategory = person.ageCategory;
-  //       this.cards.push(newPerson);
-  //     }
-  //   });
-  // }
 
   ngOnInit() {
     this.passengersCollectionForm = this.fb.group({
@@ -86,12 +63,13 @@ export class BookingPassengersComponent implements OnInit {
             (person: IAgeTypeQuantity) =>
               (this.passengersQuauntity += person.quantity)
           );
+          this.setAgeCategories(passengers);
         })
       )
       .subscribe();
 
     for (let i = 0; i < this.passengersQuauntity; i++) {
-      this.addPassenger();
+      this.addPassengerForm();
     }
 
     this.getCountryCodes();
@@ -106,8 +84,8 @@ export class BookingPassengersComponent implements OnInit {
     return this.detailsForm.controls['phone'];
   }
 
-  public addPassenger() {
-    const item = this.fb.group({
+  public addPassengerForm() {
+    const passenger = this.fb.group({
       firstName: ['', Validators.required],
       lastName: ['', [Validators.required]],
       gender: ['male'],
@@ -115,12 +93,42 @@ export class BookingPassengersComponent implements OnInit {
       assistance: [false],
     });
 
-    this.passengersForms.push(item);
+    this.passengersForms.push(passenger);
+  }
+
+  public createNewPassenger(): IPassenger {
+    return {
+      id: '',
+      firstName: '',
+      lastName: '',
+      birthday: '',
+      age: 0,
+      ageCategory: IAgeCategory.infant,
+      seatNo: '',
+    };
+  }
+
+  public setAgeCategories(persons: IAgeTypeQuantity[]): void {
+    persons.forEach((person) => {
+      for (let i = 0; i < person.quantity; i++) {
+        this.ageCategoryCollection.push(person.ageCategory as string);
+      }
+    });
+  }
+
+  public setPassengersCollection(passengers: IPassenger[]) {
+    passengers.forEach((person, i) => {
+      const newPerson = this.createNewPassenger();
+      newPerson.firstName = person.firstName;
+      newPerson.lastName = person.lastName;
+      newPerson.birthday = person.birthday;
+      newPerson.ageCategory = this.ageCategoryCollection[i] as IAgeCategory;
+      this.passengers.push(newPerson);
+    });
   }
 
   public getCountryCodes(): Observable<ICountryCode[]> {
     this.countryCodes$ = this.userService.getCountryCodes();
-    this.countryCodes$.subscribe((codes) => console.log(codes));
     return this.countryCodes$;
   }
 
@@ -135,21 +143,21 @@ export class BookingPassengersComponent implements OnInit {
     });
   }
 
-  public onSubmit() {
-    console.log(this.passengersCollectionForm.value);
-    this.passengersService.setPassengers(
+  public formSubmit() {
+    this.setPassengersCollection(
       this.passengersCollectionForm.value.passengers
     );
+    this.passengersService.setPassengers(this.passengers);
     this.passengersService.setContactDetails(this.detailsForm.value);
   }
 
   public onBackClick() {
-    this.onSubmit();
+    this.formSubmit();
     this.router.navigate(['booking']);
   }
 
   public onNextClick() {
-    this.onSubmit();
-    this.router.navigate(['review']);
+    this.formSubmit();
+    this.router.navigate(['summary']);
   }
 }

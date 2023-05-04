@@ -9,10 +9,11 @@
     
     <form [formGroup]="passengersCollectionForm">
         <div formArrayName="passengers">
-            <div *ngFor="let item of passengersForms.controls; let i=index" [formGroupName]="i">
+            <div *ngFor="let passengerForm of passengersForms.controls; let i=index" [formGroupName]="i">
             
                 <mat-card class="card">
                     <mat-card-content>
+                        <p class="card-title">{{i+1}}. {{ageCategoryCollection[i] | titlecase}}</p>
                         <div class="form-content">
                             <mat-form-field appearance="fill" class="form-field">
                                 <mat-label>First name</mat-label>
@@ -31,7 +32,7 @@
                             </mat-form-field>
         
                             <section class="toggle-gender">
-                                <mat-button-toggle-group formControlName="gender" [(ngModel)]="genderType">
+                                <mat-button-toggle-group formControlName="gender">
                                     <mat-button-toggle value="male">Male</mat-button-toggle>
                                     <mat-button-toggle value="female">Female</mat-button-toggle>
                                 </mat-button-toggle-group>

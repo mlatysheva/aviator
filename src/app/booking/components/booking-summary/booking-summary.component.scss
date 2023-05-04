@@ -1,0 +1,43 @@
+.title {
+  display: flex;
+  flex-direction: row;
+
+  &-heading {
+    font-size: 24px;
+    line-height: 28px;
+    font-weight: 700;
+    color: #11397e;
+    margin: 10px 0;
+    padding: 0 10px;
+  }
+}
+
+.passengers-info {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 1rem;
+  margin: 20px 0;
+}
+
+.card {
+  width: 100%;
+
+  &-header {
+    padding-top: 16px;
+    background-color: #f1f3f6;
+
+    &-title {
+      color: #11397e;
+    }
+  }
+
+  &-content {
+    padding-top: 16px;
+  }
+}
+
+.passenger-details {
+  padding-left: 20px;
+}
