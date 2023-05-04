@@ -1,14 +1,12 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component,  OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
-import { Store } from '@ngrx/store';
-import { setUserProfile } from '../../../store/actions/user.actions';
 import { AuthService } from '../../services/auth.service';
 import { getAge } from '../../../utils/getAge';
 import { Observable } from 'rxjs';
 import { ICountryCode } from '../../../models/countryCode';
 import { UserService } from '../../../user/services/user.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { USER_EMAIL, USER_PASSWORD } from '../../../constants/localStorage';
+import { Router } from '@angular/router';
+import { USER_EMAIL } from '../../../constants/localStorage';
 
 @Component({
   selector: 'app-signup',
@@ -16,7 +14,6 @@ import { USER_EMAIL, USER_PASSWORD } from '../../../constants/localStorage';
   styleUrls: ['./signup.component.scss']
 })
 export class SignupComponent implements OnInit {
-  // @Output() registrationComplete: EventEmitter<any> = new EventEmitter();
 
   signupForm!: FormGroup;
 
@@ -69,10 +66,8 @@ export class SignupComponent implements OnInit {
   constructor(
     public authService: AuthService,
     private fb: FormBuilder,
-    private store: Store,
     public userService: UserService,
     private router: Router,
-    private route: ActivatedRoute,
   ) { }
 
   ngOnInit() {
@@ -138,12 +133,9 @@ export class SignupComponent implements OnInit {
       }
     }
     this.userService.registerUser(user).subscribe((res) => {
-      console.log(res);
       localStorage.setItem(USER_EMAIL, email);
-      localStorage.setItem(USER_PASSWORD, password);
+      console.log(res);
     });
-    // this.registrationComplete.next($event);
-    // console.log($event);
     this.router.navigate([{ outlets: { modal: null } }]);
     this.router.navigate([{ outlets: { modal: 'auth' } }]);
   }

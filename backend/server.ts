@@ -59,7 +59,7 @@ server.post('/login', (req, res) => {
       return res.json(userFromBd);
     }
 
-    return res.status(403).json({ message: 'User not found' });
+    return res.status(403).json({ message: 'User with these email and password was not found' });
   } catch (e) {
     console.error(e);
     return res.status(500).json({ message: e.message });

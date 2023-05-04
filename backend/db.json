@@ -37,62 +37,6 @@
       "password": "sS1#qwert",
       "firstName": "Mar",
       "lastName": "Com",
-      "birthDate": "1977-01-06T23:00:00.000Z",
-      "gender": "male",
-      "citizenship": "Russia",
-      "contactDetails": {
-        "countryCode": "+7",
-        "phone": "1234567890"
-      },
-      "id": "9c340fcb-7aa7-46ed-82d4-e08bb2ec0e03"
-    },
-    {
-      "email": "mar@mar.com",
-      "password": "sS1#qwert",
-      "firstName": "Mar",
-      "lastName": "Lat",
-      "birthDate": "1977-07-20T23:00:00.000Z",
-      "gender": "female",
-      "citizenship": "Russia",
-      "contactDetails": {
-        "countryCode": "+7",
-        "phone": "0123456789"
-      },
-      "id": "796e752c-9ace-426a-8a9c-8ee8ea688592"
-    },
-    {
-      "email": "mar1@mar.com",
-      "password": "sS1#qwert",
-      "firstName": "Mar",
-      "lastName": "LAt",
-      "birthDate": "1977-06-30T23:00:00.000Z",
-      "gender": "male",
-      "citizenship": "Russia",
-      "contactDetails": {
-        "countryCode": "+7",
-        "phone": "0123456789"
-      },
-      "id": "313832de-cfa1-4b57-b173-fbdefe6f6dd2"
-    },
-    {
-      "email": "mar3@mar.com",
-      "password": "sS1#qwert",
-      "firstName": "Mar",
-      "lastName": "Com",
-      "birthDate": "2000-01-06T23:00:00.000Z",
-      "gender": "female",
-      "citizenship": "Russia",
-      "contactDetails": {
-        "countryCode": "+7",
-        "phone": "0123456789"
-      },
-      "id": "70694f78-eb6d-42f6-9e4c-92e3eef511d8"
-    },
-    {
-      "email": "mar4@mar.com",
-      "password": "sS1#qwert",
-      "firstName": "Mar",
-      "lastName": "Com",
       "birthDate": "1999-12-31T23:00:00.000Z",
       "gender": "female",
       "citizenship": "Russia",
@@ -100,7 +44,35 @@
         "countryCode": "+7",
         "phone": "0123456789"
       },
-      "id": "33cf12e3-0379-447f-a6ad-312d3833ddba"
+      "id": "35f05d80-7e5c-4bca-8a7e-8568a9699095"
+    },
+    {
+      "email": "mar1@mar.com",
+      "password": "sS1#qwerty",
+      "firstName": "Mar",
+      "lastName": "Com",
+      "birthDate": "1999-12-31T23:00:00.000Z",
+      "gender": "male",
+      "citizenship": "Russia",
+      "contactDetails": {
+        "countryCode": "+7",
+        "phone": "0123456789"
+      },
+      "id": "a713eb2c-b567-4411-bf0b-b9e811860d4e"
+    },
+    {
+      "email": "mar4@mar.com",
+      "password": "sS1#qwert",
+      "firstName": "Mar",
+      "lastName": "Com",
+      "birthDate": "1999-12-31T23:00:00.000Z",
+      "gender": "male",
+      "citizenship": "Russia",
+      "contactDetails": {
+        "countryCode": "+380",
+        "phone": "0123456789"
+      },
+      "id": "49149dce-6b54-4c65-957a-daaee0bcdceb"
     }
   ],
   "passengers": [

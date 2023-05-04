@@ -1,5 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { AuthService } from '../../services/auth.service';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -9,11 +8,8 @@ import { Router } from '@angular/router';
 })
 export class ModalComponent {
   @Output() modalClose: EventEmitter<any> = new EventEmitter();
-
-  // isVisible = false;
   
   constructor(
-    // public authService: AuthService,
     private router: Router,
     ) {}
 
@@ -28,11 +24,4 @@ export class ModalComponent {
       this.modalClose.next($event);
     }
   }
-
-  // public toggleSignInModal() {
-  //   this.authService.isVisible$.subscribe(
-  //     (showModal) => (this.isVisible = showModal)
-  //   );
-  //   this.authService.isVisible$.next(!this.isVisible);
-  // }
 }

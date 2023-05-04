@@ -1,3 +1,3 @@
 export const errors = {
-  USER_PROFILE_LOAD_FAILURE: 'Failed to load user profile',
+  USER_PROFILE_LOAD_FAILURE: 'No user with such email and password was found',
 };

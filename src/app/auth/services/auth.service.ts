@@ -21,7 +21,11 @@ export class AuthService {
   );
 
   userName$ = new BehaviorSubject<string>(
-    localStorage.getItem(USER_NAME) || localStorage.getItem(USER_EMAIL) || '',
+    localStorage.getItem(USER_NAME) || '',
+  );
+
+  email$ = new BehaviorSubject<string>(
+    localStorage.getItem(USER_EMAIL) || '',
   );
 
   constructor(
@@ -37,9 +41,11 @@ export class AuthService {
       }
       if (userData.firstName) {
         localStorage.setItem(USER_NAME, userData.firstName);
+        this.userName$.next(userData.firstName);
       } 
       if (userData.email) {
         localStorage.setItem(USER_EMAIL, userData.email);
+        this.email$.next(userData.email);
       }
       this.isAuth$.next(true);
       this.isVisible$.next(false);
@@ -47,8 +53,11 @@ export class AuthService {
     return response;
   }
 
+  onSignup(user: IUser) {
+    const response = this.http.post<IUser>(`${baseUrl}/users`, user);
+  }
+
   onLogout() {
-    console.log(`we are in auth service logout`);
     localStorage.clear();
     this.store.dispatch(clearUserState());
     this.isAuth$.next(false);
