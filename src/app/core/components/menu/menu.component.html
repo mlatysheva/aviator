@@ -14,6 +14,7 @@
   <button class="sign" *ngIf="!isAuth" (click)="toggleSignInModal()">
     <img src="../../../../assets/icons/signin.svg" alt="sign">Sign in
   </button>
+  <a [routerLink]="[ { outlets: { modal: 'auth'}}]">Auth</a>
 
   <div class="user-section" *ngIf="isAuth">
     <button       

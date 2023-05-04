@@ -16,9 +16,11 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { AuthRoutingModule } from './auth-routing.module';
 @NgModule({
   declarations: [LoginComponent, SignInComponent, ModalComponent],
   imports: [
+    AuthRoutingModule,
     CommonModule, 
     ReactiveFormsModule,
     FormsModule,
