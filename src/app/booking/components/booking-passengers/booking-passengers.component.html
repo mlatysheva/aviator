@@ -6,59 +6,109 @@
         </div>
         <p class="title-text">Enter the passenger's names as they appear on document (passport or ID). </p>
     </div>
-    <mat-card *ngFor="let card of cards; index as i;" class="card">
-        <mat-card-content>
-            <p class="card-title">{{i+1}}. {{card.ageCategory | titlecase}}</p>
-            <div class="form">
-                <mat-form-field appearance="fill" class="form-field">
-                    <mat-label>First name</mat-label>
-                    <input matInput type="text">
-                    <mat-icon matSuffix>
-                        <img src="../../../../assets/icons/info.svg">
-                    </mat-icon>
-                  </mat-form-field>
+    
+    <form [formGroup]="passengersCollectionForm">
+        <div formArrayName="passengers">
+            <div *ngFor="let item of passengersForms.controls; let i=index" [formGroupName]="i">
+            
+                <mat-card class="card">
+                    <mat-card-content>
+                        <div class="form-content">
+                            <mat-form-field appearance="fill" class="form-field">
+                                <mat-label>First name</mat-label>
+                                <input matInput type="text" formControlName="firstName">
+                                <mat-icon matSuffix class="info-icon">
+                                    <img src="../../../../assets/icons/info.svg">
+                                </mat-icon>
+                            </mat-form-field>
+        
+                            <mat-form-field appearance="fill" class="form-field">
+                                <mat-label>Last name</mat-label>
+                                <input matInput type="text" formControlName="lastName">
+                                <mat-icon matSuffix class="info-icon">
+                                    <img src="../../../../assets/icons/info.svg">
+                                </mat-icon>
+                            </mat-form-field>
+        
+                            <section class="toggle-gender">
+                                <mat-button-toggle-group formControlName="gender" [(ngModel)]="genderType">
+                                    <mat-button-toggle value="male">Male</mat-button-toggle>
+                                    <mat-button-toggle value="female">Female</mat-button-toggle>
+                                </mat-button-toggle-group>
+                            </section>
+        
+                            
+                            <mat-form-field appearance="fill" class="birth-date-picker">
+                                <mat-label>Date of birth</mat-label>
+                                <input matInput [matDatepicker]="datepicker" formControlName="birthday">
+                                <mat-hint>MM/DD/YYYY</mat-hint>
+                                <mat-datepicker-toggle matIconSuffix [for]="datepicker"></mat-datepicker-toggle>
+                                <mat-datepicker #datepicker></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                        <br>
+                        <mat-slide-toggle
+                            class="assistance-toggle"
+                            formControlName="assistance"
+                            [checked]="checked"
+                            [disabled]="disabled">
+                            <img class="assistance-icon" src="../../../../assets/icons/assistance.svg" alt="assistance">
+                            Need special assistance?
+                        </mat-slide-toggle>
+                    </mat-card-content>
+                </mat-card>
 
-                  <mat-form-field appearance="fill" class="form-field">
-                    <mat-label>Last name</mat-label>
-                    <input matInput type="text">
-                    <mat-icon matSuffix>
-                        <img src="../../../../assets/icons/info.svg">
-                    </mat-icon>
-                  </mat-form-field>
-
-                  <section class="toggle-sex">
-                    <mat-button-toggle-group [(ngModel)]="sex">
-                        <mat-button-toggle value="male">Male</mat-button-toggle>
-                        <mat-button-toggle value="female">Female</mat-button-toggle>
-                    </mat-button-toggle-group>
-                  </section>
-
-                  <mat-form-field appearance="fill" class="birth-date-picker">
-                    <mat-label>Date of birth</mat-label>
-                    <input matInput [matDatepicker]="datepicker">
-                    <mat-hint>MM/DD/YYYY</mat-hint>
-                    <mat-datepicker-toggle matIconSuffix [for]="datepicker"></mat-datepicker-toggle>
-                    <mat-datepicker #datepicker>
-                      <mat-datepicker-actions>
-                        <button mat-button matDatepickerCancel>Cancel</button>
-                        <button mat-raised-button color="primary" matDatepickerApply>Apply</button>
-                      </mat-datepicker-actions>
-                    </mat-datepicker>
-                  </mat-form-field>
             </div>
-            <br>
-            <mat-slide-toggle
-                class="assistance-toggle"
-                [checked]="checked"
-                [disabled]="disabled">
-                <img class="assistance-icon" src="../../../../assets/icons/assistance.svg" alt="assistance">
-                Need special assistance?
-          </mat-slide-toggle>
-        </mat-card-content>
-    </mat-card>
+        </div>
+    </form>
+
+    <div class="title-section">
+        <div class="title">
+            <img src="../../../../assets/icons/contact-details.svg" alt="passengers">
+            <p class="title-heading">Contact details</p>
+        </div>
+        <p class="title-text">We need contact details to be able to deliver the latest information regarding your flight. </p>
+    </div>
+
+    <form [formGroup]="detailsForm">
+        <mat-card class="contact-details">
+            <mat-card-content class="contact-details-content">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Country code</mat-label>
+                    <mat-select formControlName="countryCode">
+                      <mat-option 
+                        *ngFor="let countryCode of countryCodes$ | async "
+                        value="{{countryCode.dial_code}}" 
+                        class="countries-picker-option"
+                      >
+                        <p class="countries-picker-text">{{countryCode.name}} {{countryCode.dial_code}}</p>
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+
+                  <mat-form-field appearance="fill">
+                    <mat-label>Mobile phone number</mat-label>
+                    <input 
+                      matInput 
+                      placeholder="e.g. 123456789" 
+                      formControlName="phone" 
+                      required
+                    >
+                    <mat-error class="error" *ngIf="phone.invalid && phone.touched">
+                        Phone number is invalid
+                    </mat-error>
+                  </mat-form-field>
+
+                  <mat-form-field class="contact-details-field">
+                    <mat-label>Email</mat-label>
+                    <input matInput type="email" formControlName="email">
+                  </mat-form-field>
+            </mat-card-content>
+        </mat-card>
+    </form>
 
     <div class="stepper-btns">
       <button mat-raised-button (click)="onBackClick()">Back</button>
-      <button mat-raised-button (click)="onNextClick()" color="primary">Continue</button>
+      <button mat-raised-button color="primary" (click)="onNextClick()">Continue</button>
   </div>
 </div>

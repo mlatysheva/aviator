@@ -33,10 +33,20 @@
   }
 }
 
-.form {
+.form-content {
   display: flex;
+  flex-direction: row;
   justify-content: space-around;
-  align-items: baseline;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.info-icon {
+  margin-top: -20px;
+}
+
+::ng-deep .mat-button-toggle-label-content {
+  padding: 3px 13px !important;
 }
 
 .assistance-toggle {
@@ -48,6 +58,17 @@
 .assistance-icon {
   margin-bottom: -3px;
   padding: 0 5px;
+}
+
+.contact-details {
+  margin: 15px 0;
+
+  &-content {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 15px;
+  }
 }
 
 .stepper-btns {
