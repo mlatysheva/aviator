@@ -12,7 +12,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 const MaterialComponents = [
   MatRadioModule,
@@ -28,11 +29,12 @@ const MaterialComponents = [
   MatNativeDateModule,
   MatTabsModule,
   MatCheckboxModule,
+  MatSlideToggleModule,
+  MatButtonToggleModule,
 ];
 
 @NgModule({
   imports: [MaterialComponents],
   exports: [MaterialComponents],
 })
-
 export class MaterialModule {}

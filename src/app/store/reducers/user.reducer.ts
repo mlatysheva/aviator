@@ -1,6 +1,11 @@
 import { createReducer, on } from '@ngrx/store';
 import * as UserActions from '../actions/user.actions';
-import { CURRENCY, DATE_FORMAT, USER_ID, USER_NAME } from '../../constants/localStorage';
+import {
+  CURRENCY,
+  DATE_FORMAT,
+  USER_ID,
+  USER_NAME,
+} from '../../constants/localStorage';
 import { IUser } from '../../models';
 
 export const userFeatureKey = 'user';
@@ -24,9 +29,10 @@ export const initialState: UserState = {
     birthday: '',
     gender: undefined,
     contacts: {
-      countryCode: 0,
+      countryCode: '0',
       phone: '',
-    },  
+      email: '',
+    },
     id: localStorage.getItem(USER_ID) || '',
   },
   error: '',
@@ -36,34 +42,34 @@ export const initialState: UserState = {
 export const userReducer = createReducer(
   initialState,
   on(
-    UserActions.setCurrency, 
-    (state, payload ): UserState => ({ 
-      ...state, 
+    UserActions.setCurrency,
+    (state, payload): UserState => ({
+      ...state,
       currency: payload.currency,
-    }),
+    })
   ),
   on(
     UserActions.setDateFormat,
     (state, payload): UserState => ({
       ...state,
       dateFormat: payload.dateFormat,
-    }),
+    })
   ),
   on(
-    UserActions.setUserProfile, 
+    UserActions.setUserProfile,
     (state): UserState => ({
       ...state,
       isLoading: true,
-    }),
+    })
   ),
   on(
     UserActions.setUserProfileSuccess,
-    (state, {userProfile}): UserState => ({
+    (state, { userProfile }): UserState => ({
       ...state,
       userProfile,
       isLoading: false,
       error: '',
-    }),
+    })
   ),
   on(
     UserActions.setUserProfileFailure,
@@ -71,27 +77,25 @@ export const userReducer = createReducer(
       ...state,
       error,
       isLoading: false,
-    }),
+    })
   ),
-  on(
-    UserActions.clearUserState,
-    () => ({ 
-      ...initialState,
-      currency: 'EUR',
-      dateFormat: 'DD/MM/YYYY',
-      userProfile: {
+  on(UserActions.clearUserState, () => ({
+    ...initialState,
+    currency: 'EUR',
+    dateFormat: 'DD/MM/YYYY',
+    userProfile: {
+      email: '',
+      password: '',
+      firstName: '',
+      lastName: '',
+      birthday: '',
+      gender: undefined,
+      contacts: {
+        countryCode: '0',
+        phone: '',
         email: '',
-        password: '',
-        firstName: '',
-        lastName: '',
-        birthday: '',
-        gender: undefined,
-        contacts: {
-          countryCode: 0,
-          phone: '',
-        },  
-        id: '',
       },
-    }),
-  ),
+      id: '',
+    },
+  }))
 );

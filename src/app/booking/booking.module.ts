@@ -10,15 +10,7 @@ import { SecondMenuComponent } from './components/second-menu/second-menu.compon
 import { CarouselDateComponent } from './components/carousel-date/carousel-date.component';
 import { BookingPassengersComponent } from './components/booking-passengers/booking-passengers.component';
 
-import { FormsModule } from '@angular/forms';
-import { MatCardModule } from '@angular/material/card';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { MatButtonModule } from '@angular/material/button';
-import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { StoreModule } from '@ngrx/store';
 import { searchReducer } from '../store/reducers/search.reducer';
@@ -26,7 +18,8 @@ import { PassengersPageComponent } from './pages/passengers-page/passengers-page
 import { ReviewPageComponent } from './pages/review-page/review-page.component';
 import { BookingReviewComponent } from './components/booking-review/booking-review.component';
 import { DisallowChoiceDateDirective } from './directives/disallow-choice-date.directive';
-
+import { SharedModule } from '../shared/shared.module';
+import { passengersReducer } from '../store/reducers/passengers.reducer';
 
 @NgModule({
   declarations: [
@@ -39,23 +32,17 @@ import { DisallowChoiceDateDirective } from './directives/disallow-choice-date.d
     ReviewPageComponent,
     BookingReviewComponent,
     DisallowChoiceDateDirective,
-
   ],
   imports: [
     CommonModule,
+    SharedModule,
     RouterModule,
     CarouselModule.forRoot(),
     BookingRoutingModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatIconModule,
-    MatInputModule,
-    MatDatepickerModule,
-    MatSlideToggleModule,
-    MatButtonModule,
-    MatButtonToggleModule,
     FormsModule,
+    ReactiveFormsModule,
     StoreModule.forFeature('search', searchReducer),
+    StoreModule.forFeature('passengersInfo', passengersReducer),
   ],
 })
-export class BookingModule { }
+export class BookingModule {}
