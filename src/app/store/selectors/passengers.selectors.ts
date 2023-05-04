@@ -4,12 +4,12 @@ import { IPassenger } from 'src/app/models/passenger';
 import { AppState } from '../state.models';
 
 export const selectPassengers = (state: AppState) =>
-  state.passengers.passengers;
+  state.passengersInfo.passengers;
 
 export const selectContactDetails = (state: AppState) =>
-  state.passengers.details;
+  state.passengersInfo.details;
 
-export const selectTrip = createSelector(
+export const selectAllPassengers = createSelector(
   selectPassengers,
   (passengers: IPassenger[]) => passengers
 );

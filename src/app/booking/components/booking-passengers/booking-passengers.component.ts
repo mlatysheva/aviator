@@ -31,8 +31,6 @@ export class BookingPassengersComponent implements OnInit {
 
   public passengersQuauntity = 0;
 
-  public gender = 'male';
-
   public checked = false;
   public disabled = false;
 
@@ -136,7 +134,7 @@ export class BookingPassengersComponent implements OnInit {
   }
 
   public onSubmit() {
-    console.log(this.passengersCollectionForm.value);
+    // console.log(this.passengersCollectionForm.value);
     this.passengersService.setPassengers(
       this.passengersCollectionForm.value.passengers
     );
@@ -150,6 +148,6 @@ export class BookingPassengersComponent implements OnInit {
 
   public onNextClick() {
     this.onSubmit();
-    this.router.navigate(['review']);
+    this.router.navigate(['summary']);
   }
 }
