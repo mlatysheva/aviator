@@ -8,12 +8,14 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { IAgeCategory, IPassenger } from 'backend/types';
+// import { IAgeCategory, IPassenger } from 'backend/types';
 import { map, Observable } from 'rxjs';
 import { IAgeTypeQuantity } from 'src/app/avia/models/agetype-quantity.model';
 import { ISearchForm } from 'src/app/avia/models/search-form.model';
+import { ICountryCode } from 'src/app/models/countryCode';
 import { selectPassengers } from 'src/app/store/selectors/search.selectors';
 import { AppState } from 'src/app/store/state.models';
+import { UserService } from 'src/app/user/services/user.service';
 import { PassengersService } from '../../services/passengers.service';
 
 @Component({
@@ -34,18 +36,19 @@ export class BookingPassengersComponent implements OnInit {
   public checked = false;
   public disabled = false;
 
+  public countryCodes$: Observable<ICountryCode[]>;
+
   public detailsForm: FormGroup;
 
   // public passengers: IAgeTypeQuantity[];
   // public cards: IPassenger[] = [];
 
-  // public passengersForm: FormGroup;
-
   constructor(
     private store: Store<AppState>,
     private router: Router,
     private passengersService: PassengersService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private userService: UserService
   ) {}
 
   // public createNewPassenger(): IPassenger {
@@ -91,6 +94,7 @@ export class BookingPassengersComponent implements OnInit {
       this.addPassenger();
     }
 
+    this.getCountryCodes();
     this.createDetailsForm();
   }
 
@@ -98,7 +102,11 @@ export class BookingPassengersComponent implements OnInit {
     return this.passengersCollectionForm.get('passengers') as FormArray;
   }
 
-  addPassenger() {
+  get phone() {
+    return this.detailsForm.controls['phone'];
+  }
+
+  public addPassenger() {
     const item = this.fb.group({
       firstName: ['', Validators.required],
       lastName: ['', [Validators.required]],
@@ -110,17 +118,29 @@ export class BookingPassengersComponent implements OnInit {
     this.passengersForms.push(item);
   }
 
+  public getCountryCodes(): Observable<ICountryCode[]> {
+    this.countryCodes$ = this.userService.getCountryCodes();
+    this.countryCodes$.subscribe((codes) => console.log(codes));
+    return this.countryCodes$;
+  }
+
   public createDetailsForm() {
     this.detailsForm = new FormGroup({
-      countryCode: new FormControl(''),
-      phone: new FormControl('', Validators.required),
+      countryCode: new FormControl('+0', Validators.required),
+      phone: new FormControl('', [
+        Validators.required,
+        Validators.pattern('[0-9]*'),
+      ]),
       email: new FormControl('', [Validators.required, Validators.email]),
     });
   }
 
   public onSubmit() {
     console.log(this.passengersCollectionForm.value);
-    // this.passengersService.setPassengers(this.passengersCollectionForm.value);
+    this.passengersService.setPassengers(
+      this.passengersCollectionForm.value.passengers
+    );
+    this.passengersService.setContactDetails(this.detailsForm.value);
   }
 
   public onBackClick() {

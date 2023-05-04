@@ -20,7 +20,6 @@ import { BookingReviewComponent } from './components/booking-review/booking-revi
 import { DisallowChoiceDateDirective } from './directives/disallow-choice-date.directive';
 import { SharedModule } from '../shared/shared.module';
 import { passengersReducer } from '../store/reducers/passengers.reducer';
-import { BrowserModule } from '@angular/platform-browser';
 
 @NgModule({
   declarations: [
@@ -43,7 +42,7 @@ import { BrowserModule } from '@angular/platform-browser';
     FormsModule,
     ReactiveFormsModule,
     StoreModule.forFeature('search', searchReducer),
-    StoreModule.forFeature('passengers', passengersReducer),
+    StoreModule.forFeature('passengersInfo', passengersReducer),
   ],
 })
 export class BookingModule {}

@@ -1,4 +1,5 @@
 export interface IContacts {
-  countryCode: number;
+  countryCode: string;
   phone: string;
+  email: string;
 }

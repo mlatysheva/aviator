@@ -73,14 +73,32 @@
     <form [formGroup]="detailsForm">
         <mat-card class="contact-details">
             <mat-card-content class="contact-details-content">
-                <mat-form-field class="contact-details-field">
+                  <mat-form-field appearance="fill">
                     <mat-label>Country code</mat-label>
-                    <input matInput formControlName="countryCode">
+                    <mat-select formControlName="countryCode">
+                      <mat-option 
+                        *ngFor="let countryCode of countryCodes$ | async "
+                        value="{{countryCode.dial_code}}" 
+                        class="countries-picker-option"
+                      >
+                        <p class="countries-picker-text">{{countryCode.name}} {{countryCode.dial_code}}</p>
+                      </mat-option>
+                    </mat-select>
                   </mat-form-field>
-                  <mat-form-field class="contact-details-field">
+
+                  <mat-form-field appearance="fill">
                     <mat-label>Mobile phone number</mat-label>
-                    <input matInput type="phone" formControlName="phone">
+                    <input 
+                      matInput 
+                      placeholder="e.g. 123456789" 
+                      formControlName="phone" 
+                      required
+                    >
+                    <mat-error class="error" *ngIf="phone.invalid && phone.touched">
+                        Phone number is invalid
+                    </mat-error>
                   </mat-form-field>
+
                   <mat-form-field class="contact-details-field">
                     <mat-label>Email</mat-label>
                     <input matInput type="email" formControlName="email">
