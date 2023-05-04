@@ -3,7 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { NotFoundPageComponent } from './core/pages/not-found-page/not-found-page.component';
 import { LoginComponent } from './auth/components/login/login.component';
 import { ModalComponent } from './auth/components/modal/modal.component';
-import { SignInComponent } from './auth/components/sign-in/sign-in.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'main', pathMatch: 'full' },

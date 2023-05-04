@@ -3,6 +3,8 @@ import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn,
 import { AuthService } from '../../services/auth.service';
 import { Store } from '@ngrx/store';
 import { setUserProfile } from '../../../store/actions/user.actions';
+import { USER_EMAIL, USER_PASSWORD } from '../../../constants/localStorage';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -28,12 +30,13 @@ export class LoginComponent implements OnInit {
     public authService: AuthService,
     private fb: FormBuilder,
     private store: Store,
+    private router: Router,
   ) { }
 
   ngOnInit() {
     this.loginForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, this.passwordValidator()]],
+      email: [localStorage.getItem(USER_EMAIL) || '', [Validators.required, Validators.email]],
+      password: [localStorage.getItem(USER_PASSWORD) || '', [Validators.required, this.passwordValidator()]],
     });
   }
 
@@ -42,8 +45,7 @@ export class LoginComponent implements OnInit {
       const value = control.value as string;
       if (!value) return null;
       else {
-        const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
-        // const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#$@!%&*])[A-Za-z\d#$@!%&*]{8,20}$/;
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#$@!%&*])[A-Za-z\d#$@!%&*]{8,20}$/;
         return passwordRegex.test(value) ? null : { passwordValidator: true };
       }
     };
@@ -53,6 +55,8 @@ export class LoginComponent implements OnInit {
     const email = this.loginForm.value.email;
     const password = this.loginForm.value.password;
     this.store.dispatch(setUserProfile({ email, password }));
+    localStorage.removeItem(USER_PASSWORD);
+    this.router.navigate([{ outlets: { modal: null } }]);
   }
 
   getEmailErrorMessage() {

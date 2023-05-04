@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { setUserProfile } from '../../../store/actions/user.actions';
@@ -7,14 +7,17 @@ import { getAge } from '../../../utils/getAge';
 import { Observable } from 'rxjs';
 import { ICountryCode } from '../../../models/countryCode';
 import { UserService } from '../../../user/services/user.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { USER_EMAIL, USER_PASSWORD } from '../../../constants/localStorage';
 
 @Component({
-  selector: 'app-sign-in',
-  templateUrl: './sign-in.component.html',
-  styleUrls: ['./sign-in.component.scss']
+  selector: 'app-signup',
+  templateUrl: './signup.component.html',
+  styleUrls: ['./signup.component.scss']
 })
-export class SignInComponent implements OnInit {
+export class SignupComponent implements OnInit {
+  // @Output() registrationComplete: EventEmitter<any> = new EventEmitter();
+
   signupForm!: FormGroup;
 
   public countryCodes$: Observable<ICountryCode[]>;
@@ -69,6 +72,7 @@ export class SignInComponent implements OnInit {
     private store: Store,
     public userService: UserService,
     private router: Router,
+    private route: ActivatedRoute,
   ) { }
 
   ngOnInit() {
@@ -134,9 +138,14 @@ export class SignInComponent implements OnInit {
       }
     }
     this.userService.registerUser(user).subscribe((res) => {
-      console.log(res)
+      console.log(res);
+      localStorage.setItem(USER_EMAIL, email);
+      localStorage.setItem(USER_PASSWORD, password);
     });
-    this.router.navigate(['']);
+    // this.registrationComplete.next($event);
+    // console.log($event);
+    this.router.navigate([{ outlets: { modal: null } }]);
+    this.router.navigate([{ outlets: { modal: 'auth' } }]);
   }
 
   getEmailErrorMessage() {
@@ -144,7 +153,7 @@ export class SignInComponent implements OnInit {
   }
 
   getPasswordErrorMessage() {
-    return this.password.hasError('passwordValidator') ? 'Min 8 characters, including an uppercase letter and a number' : '';
+    return this.password.hasError('passwordValidator') ? 'Min 8 characters, an uppercase letter, a number and one of [#$@!%&*]' : '';
   }
 
   getFirstNameErrorMessage() {

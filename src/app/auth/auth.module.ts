@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LoginComponent } from './components/login/login.component';
-import { SignInComponent } from './components/sign-in/sign-in.component';
+import { SignupComponent } from './components/signup/signup.component';
 import { ModalComponent } from './components/modal/modal.component';
 // import {
 //   FacebookLoginProvider,
@@ -18,7 +18,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { AuthRoutingModule } from './auth-routing.module';
 @NgModule({
-  declarations: [LoginComponent, SignInComponent, ModalComponent],
+  declarations: [LoginComponent, SignupComponent, ModalComponent],
   imports: [
     AuthRoutingModule,
     CommonModule, 

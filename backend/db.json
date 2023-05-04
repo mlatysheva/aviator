@@ -33,9 +33,18 @@
       "id": "91839790-3019-4b51-8170-e8a19dd92fec"
     },
     {
-      "email": "luke11@gmail.com",
-      "password": "user3211123",
-      "id": "452aaa82-eafa-4d18-bf51-1118e0541f99"
+      "email": "mar@mar.com",
+      "password": "sS1#qwert",
+      "firstName": "Mar",
+      "lastName": "Com",
+      "birthDate": "1977-01-06T23:00:00.000Z",
+      "gender": "male",
+      "citizenship": "Russia",
+      "contactDetails": {
+        "countryCode": "+7",
+        "phone": "1234567890"
+      },
+      "id": "9c340fcb-7aa7-46ed-82d4-e08bb2ec0e03"
     },
     {
       "email": "mar@mar.com",
@@ -47,23 +56,51 @@
       "citizenship": "Russia",
       "contactDetails": {
         "countryCode": "+7",
-        "phone": "1234567890"
+        "phone": "0123456789"
       },
-      "id": "7eb458c2-3243-437c-ac3b-7de9864e47a1"
+      "id": "796e752c-9ace-426a-8a9c-8ee8ea688592"
     },
     {
-      "email": "bul@bul.com",
+      "email": "mar1@mar.com",
       "password": "sS1#qwert",
-      "firstName": "bul",
-      "lastName": "Kom",
-      "birthDate": "1992-05-18T22:00:00.000Z",
+      "firstName": "Mar",
+      "lastName": "LAt",
+      "birthDate": "1977-06-30T23:00:00.000Z",
       "gender": "male",
       "citizenship": "Russia",
       "contactDetails": {
         "countryCode": "+7",
-        "phone": "1234567890"
+        "phone": "0123456789"
       },
-      "id": "7b4c6a3f-3aed-4e57-a2c8-ec96b490bd4e"
+      "id": "313832de-cfa1-4b57-b173-fbdefe6f6dd2"
+    },
+    {
+      "email": "mar3@mar.com",
+      "password": "sS1#qwert",
+      "firstName": "Mar",
+      "lastName": "Com",
+      "birthDate": "2000-01-06T23:00:00.000Z",
+      "gender": "female",
+      "citizenship": "Russia",
+      "contactDetails": {
+        "countryCode": "+7",
+        "phone": "0123456789"
+      },
+      "id": "70694f78-eb6d-42f6-9e4c-92e3eef511d8"
+    },
+    {
+      "email": "mar4@mar.com",
+      "password": "sS1#qwert",
+      "firstName": "Mar",
+      "lastName": "Com",
+      "birthDate": "1999-12-31T23:00:00.000Z",
+      "gender": "female",
+      "citizenship": "Russia",
+      "contactDetails": {
+        "countryCode": "+7",
+        "phone": "0123456789"
+      },
+      "id": "33cf12e3-0379-447f-a6ad-312d3833ddba"
     }
   ],
   "passengers": [

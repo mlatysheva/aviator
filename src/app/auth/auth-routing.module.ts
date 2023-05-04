@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ModalComponent } from './components/modal/modal.component';
 import { LoginComponent } from './components/login/login.component';
-import { SignInComponent } from './components/sign-in/sign-in.component';
+import { SignupComponent } from './components/signup/signup.component';
 
 const routes: Routes = [
   { 
@@ -12,7 +12,7 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: 'login', pathMatch: 'full' },
       { path: 'login', component: LoginComponent },
-      { path: 'signup', component: SignInComponent }
+      { path: 'signup', component: SignupComponent }
     ]
   },
 ];

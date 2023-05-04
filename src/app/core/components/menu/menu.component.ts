@@ -50,12 +50,12 @@ export class MenuComponent implements OnInit, OnDestroy {
     );
   }
 
-  public toggleSignInModal() {
-    this.authService.isVisible$.subscribe(
-      (showModal) => (this.isVisible = showModal)
-    );
-    this.authService.isVisible$.next(!this.isVisible);
-  }
+  // public toggleSignInModal() {
+  //   this.authService.isVisible$.subscribe(
+  //     (showModal) => (this.isVisible = showModal)
+  //   );
+  //   this.authService.isVisible$.next(!this.isVisible);
+  // }
 
   public setUserName() {
     this.authService.isAuth$.subscribe((isAuth) => {
