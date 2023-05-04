@@ -21,6 +21,14 @@ export class ModalComponent {
     this.router.navigate([{ outlets: { modal: null } }]);
     this.modalClose.next($event);
   }
+
+  closeModalOverlay($event: any) {
+    if ($event.target.classList.contains("auth-modal-overlay")) {
+      this.router.navigate([{ outlets: { modal: null } }]);
+      this.modalClose.next($event);
+    }
+  }
+
   public toggleSignInModal() {
     this.authService.isVisible$.subscribe(
       (showModal) => (this.isVisible = showModal)

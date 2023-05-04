@@ -1,14 +1,12 @@
-
-<div class="auth-modal-overlay">
+<div class="auth-modal-overlay"
+  (click)="closeModalOverlay($event)"
+>
   <div class="auth-modal">
-    <mat-tab-group animationDuration="0ms">
-        <mat-tab class="login-tab" label="Login">
-            <app-login></app-login>
-        </mat-tab>
-        <mat-tab class="signup-tab" label="Sign up">
-            <app-sign-in></app-sign-in>
-        </mat-tab>>
-    </mat-tab-group>
+    <nav mat-tab-nav-bar ngClass="tabs" [tabPanel]="">
+      <a mat-tab-link routerLink="login" routerLinkActive="active-link">Login</a>
+      <a mat-tab-link routerLink="signup" routerLinkActive="active-link">Sign up</a>
+    </nav>  
+    <router-outlet></router-outlet>
     <button 
       mat-icon-button 
       (click)="closeModal($event)" 
