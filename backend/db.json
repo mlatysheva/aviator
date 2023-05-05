@@ -73,6 +73,20 @@
         "phone": "0123456789"
       },
       "id": "49149dce-6b54-4c65-957a-daaee0bcdceb"
+    },
+    {
+      "email": "lun@lun.com",
+      "password": "sS1#qwert",
+      "firstName": "Lun",
+      "lastName": "Com",
+      "birthDate": "1976-12-31T23:00:00.000Z",
+      "gender": "male",
+      "citizenship": "Russia",
+      "contactDetails": {
+        "countryCode": "+7",
+        "phone": "0123456789"
+      },
+      "id": "d284cb90-f3d0-461d-b72f-126f7c7934e4"
     }
   ],
   "passengers": [

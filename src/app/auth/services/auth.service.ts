@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject, catchError, retry, throwError } from 'rxjs';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { IUser } from '../../models';
 import { baseUrl } from '../../constants/apiUrls';
-import { Router } from '@angular/router';
 import { USER_EMAIL, USER_ID, USER_NAME } from '../../constants/localStorage';
 import { Store } from '@ngrx/store';
 import { clearUserState } from '../../store/actions/user.actions';
@@ -28,38 +27,68 @@ export class AuthService {
     localStorage.getItem(USER_EMAIL) || '',
   );
 
+  errorMessage$ = new BehaviorSubject<string>('');
+
   constructor(
     private http: HttpClient,
     private store: Store,
   ) {}
 
-  onLogin(login: string, password: string): Observable<IUser> {
-    const response = this.http.post<IUser>(`${baseUrl}/login`, { login, password });
-    response.subscribe((userData: IUser) => {
+  onLogin(email: string, password: string) {
+    const response$ = this.http.post<IUser>(`${baseUrl}/login`, { email, password });
+    response$
+      .pipe(
+        catchError(error => {
+          let message = '';
+          if (error.error instanceof ErrorEvent) {
+            message = `Error: ${error.error.message}`
+            this.errorMessage$.next(message);
+          } else {
+            message = `Error Code: ${error.status}; Message: ${error.message}`
+            this.errorMessage$.next(message);
+          }
+          return throwError(error);
+        })
+      )
+    .subscribe((userData: IUser) => {
       if (userData.id) {
         localStorage.setItem(USER_ID, userData.id);
       }
       if (userData.firstName) {
         localStorage.setItem(USER_NAME, userData.firstName);
-        this.userName$.next(userData.firstName);
       } 
       if (userData.email) {
         localStorage.setItem(USER_EMAIL, userData.email);
-        this.email$.next(userData.email);
       }
       this.isAuth$.next(true);
       this.isVisible$.next(false);
     });
-    return response;
+    return response$;    
   }
 
   onSignup(user: IUser) {
-    const response = this.http.post<IUser>(`${baseUrl}/users`, user);
+    return this.http.post<IUser>(`${baseUrl}/users`, user)
+      .pipe(retry(1), catchError(this.handleError));
   }
 
   onLogout() {
     localStorage.clear();
     this.store.dispatch(clearUserState());
     this.isAuth$.next(false);
+  }
+
+  handleError(error: any) {
+    console.log('we are in handleError');
+    let errorMessage = '';
+    if (error.error instanceof ErrorEvent) {
+      errorMessage = `Error: ${error.error.message}`;
+      this.errorMessage$.next(errorMessage);
+      console.log(this.errorMessage$);
+    } else {
+      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+      this.errorMessage$.next(errorMessage);
+      console.log('this.errorMessage$ is', this.errorMessage$);
+    }
+    return throwError(errorMessage);
   }
 }

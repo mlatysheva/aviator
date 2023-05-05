@@ -7,7 +7,7 @@
   <form 
     class="login-form" 
     [formGroup]="loginForm" 
-    (ngSubmit)="onSubmit()"
+    (ngSubmit)="onLogin()"
   >
     <mat-form-field appearance="fill">
       <mat-label>Email</mat-label>
@@ -43,7 +43,11 @@
       <a href="" class="hint-link">Forgot password?</a> 
     </div>
 
-    <div class="server-error" *ngIf="errorOnProfile$ | async as errorMessage">
+    <div class="server-error" *ngIf="loginError$ | async as errorMessage">
+      {{ errorMessage }}
+    </div>
+
+    <div class="server-error" *ngIf="this.authService.errorMessage$ | async as errorMessage">
       {{ errorMessage }}
     </div>
     

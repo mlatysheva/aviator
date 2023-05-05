@@ -132,6 +132,10 @@
     <mat-error class="error" *ngIf="agreementCheck.invalid && agreementCheck.touched">
       {{getAgreementCheckErrorMessage()}}
     </mat-error> 
+
+    <div class="server-error">
+      {{ signupError }}
+    </div>
     
     <button 
       mat-raised-button

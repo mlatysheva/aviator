@@ -2,11 +2,14 @@ import { Component,  OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { getAge } from '../../../utils/getAge';
-import { Observable } from 'rxjs';
+import { Observable, catchError, retry } from 'rxjs';
 import { ICountryCode } from '../../../models/countryCode';
 import { UserService } from '../../../user/services/user.service';
 import { Router } from '@angular/router';
 import { USER_EMAIL } from '../../../constants/localStorage';
+import { baseUrl } from '../../../constants/apiUrls';
+import { IUser } from '../../../models';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-signup',
@@ -14,6 +17,10 @@ import { USER_EMAIL } from '../../../constants/localStorage';
   styleUrls: ['./signup.component.scss']
 })
 export class SignupComponent implements OnInit {
+  
+  signupError = '';
+
+  signupError$: Observable<string>;
 
   signupForm!: FormGroup;
 
@@ -68,6 +75,7 @@ export class SignupComponent implements OnInit {
     private fb: FormBuilder,
     public userService: UserService,
     private router: Router,
+    private http: HttpClient,
   ) { }
 
   ngOnInit() {
@@ -87,6 +95,7 @@ export class SignupComponent implements OnInit {
       agreementCheck: [false, [Validators.required]],
     });
     this.getCountryCodes();
+    this.signupError$.subscribe(error => this.signupError = error);
   }
 
   public getCountryCodes(): Observable<ICountryCode[]> {
@@ -132,12 +141,19 @@ export class SignupComponent implements OnInit {
         phone,
       }
     }
-    this.userService.registerUser(user).subscribe((res) => {
-      localStorage.setItem(USER_EMAIL, email);
-      console.log(res);
+    this.authService.onSignup(user).subscribe({
+      next: (data) => {
+        console.log('data', data);
+        this.router.navigate([{ outlets: { modal: null } }]);
+        this.router.navigate([{ outlets: { modal: 'auth' } }]);
+      },
+      error: (error) => {
+        this.signupError$ = error.message;
+        this.signupError = error.message;
+        this.signupForm.setErrors({ signupError: true });
+        console.log('errorOnRegister$', this.signupError);
+      }
     });
-    this.router.navigate([{ outlets: { modal: null } }]);
-    this.router.navigate([{ outlets: { modal: 'auth' } }]);
   }
 
   getEmailErrorMessage() {

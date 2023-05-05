@@ -6,10 +6,9 @@ import { setUserProfile } from '../../../store/actions/user.actions';
 import { USER_EMAIL } from '../../../constants/localStorage';
 import { Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
-import { selectUserError, selectUserProfile } from '../../../store/selectors/user.selectors';
+import { selectUserError } from '../../../store/selectors/user.selectors';
 import { AppState } from '../../../store/state.models';
-import { IUser } from '../../../models';
-import { UserState } from '../../../store/reducers/user.reducer';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -19,7 +18,9 @@ import { UserState } from '../../../store/reducers/user.reducer';
 export class LoginComponent implements OnInit, OnDestroy {
   loginForm!: FormGroup;
 
-  errorOnProfile$ = this.store.select(selectUserError);
+  loginError$: Observable<string>;
+  
+  loginError: string;
 
   userId$: string;
 
@@ -42,7 +43,10 @@ export class LoginComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private store: Store<AppState>,
     private router: Router,
-  ) { }
+  ) { 
+    this.loginError$ = this.store.select(selectUserError);
+    this.loginError = '';
+  }
 
   ngOnInit() {
     this.emailSubscription = this.authService.email$.subscribe(email => {
@@ -52,8 +56,6 @@ export class LoginComponent implements OnInit, OnDestroy {
       email: [this.emailFromLS || '', [Validators.required, Validators.email]],
       password: ['', [Validators.required, this.passwordValidator()]],
     });
-    // this.errorOnProfile$ = this.store.select(selectUserError);
-    // console.log(this.errorOnProfile$);
   }
 
   passwordValidator(): ValidatorFn {
@@ -67,13 +69,23 @@ export class LoginComponent implements OnInit, OnDestroy {
     };
   }
 
-  onSubmit() {
+  onLogin() {
     const email = this.loginForm.value.email;
     const password = this.loginForm.value.password;
     this.store.dispatch(setUserProfile({ email, password }));
-    if (!this.errorOnProfile$) {
-      this.router.navigate([{ outlets: { modal: null } }]);
-    }
+    this.authService.errorMessage$.subscribe(
+      (error) => {
+        if (error) {
+          this.loginError = error;
+          this.loginForm.setErrors({ loginError: true });
+          console.log(`in onLogin loginError is ${this.loginError}`);
+          console.log(this.loginForm);
+        } else if (this.loginForm.status === 'VALID') {
+          console.log(this.loginForm);
+          // this.router.navigate([{ outlets: { modal: null } }]);
+        }
+      }
+    );
   }
 
   getEmailErrorMessage() {
