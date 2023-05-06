@@ -44,6 +44,7 @@ export class MenuComponent implements OnInit, OnDestroy {
         if (isAuth) {
           this.userName =
             localStorage.getItem(USER_NAME) || '';
+            console.log(`in menu this.userName: ${this.userName}`);
         }
       }
     );

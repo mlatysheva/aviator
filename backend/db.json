@@ -37,47 +37,19 @@
       "password": "sS1#qwert",
       "firstName": "Mar",
       "lastName": "Com",
-      "birthDate": "1999-12-31T23:00:00.000Z",
-      "gender": "female",
-      "citizenship": "Russia",
-      "contactDetails": {
-        "countryCode": "+7",
-        "phone": "0123456789"
-      },
-      "id": "35f05d80-7e5c-4bca-8a7e-8568a9699095"
-    },
-    {
-      "email": "mar1@mar.com",
-      "password": "sS1#qwerty",
-      "firstName": "Mar",
-      "lastName": "Com",
-      "birthDate": "1999-12-31T23:00:00.000Z",
+      "birthDate": "1976-12-31T23:00:00.000Z",
       "gender": "male",
       "citizenship": "Russia",
       "contactDetails": {
         "countryCode": "+7",
         "phone": "0123456789"
       },
-      "id": "a713eb2c-b567-4411-bf0b-b9e811860d4e"
+      "id": "0f04c977-c041-4fa4-9354-9c7d7cce9c0e"
     },
     {
-      "email": "mar4@mar.com",
+      "email": "yur@yur.com",
       "password": "sS1#qwert",
       "firstName": "Mar",
-      "lastName": "Com",
-      "birthDate": "1999-12-31T23:00:00.000Z",
-      "gender": "male",
-      "citizenship": "Russia",
-      "contactDetails": {
-        "countryCode": "+380",
-        "phone": "0123456789"
-      },
-      "id": "49149dce-6b54-4c65-957a-daaee0bcdceb"
-    },
-    {
-      "email": "lun@lun.com",
-      "password": "sS1#qwert",
-      "firstName": "Lun",
       "lastName": "Com",
       "birthDate": "1976-12-31T23:00:00.000Z",
       "gender": "male",
@@ -86,7 +58,21 @@
         "countryCode": "+7",
         "phone": "0123456789"
       },
-      "id": "d284cb90-f3d0-461d-b72f-126f7c7934e4"
+      "id": "2c5862ee-815f-4c89-8770-48f57d361938"
+    },
+    {
+      "email": "pol@pol.com",
+      "password": "sS1#qwert",
+      "firstName": "Pol",
+      "lastName": "Com",
+      "birthDate": "1976-12-31T23:00:00.000Z",
+      "gender": "male",
+      "citizenship": "Russia",
+      "contactDetails": {
+        "countryCode": "+7",
+        "phone": "0123456789"
+      },
+      "id": "8c0c0aa1-9360-4708-b0aa-434f597ee586"
     }
   ],
   "passengers": [
