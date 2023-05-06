@@ -153,7 +153,7 @@ export class BookingPassengersComponent implements OnInit {
 
   public onBackClick() {
     this.formSubmit();
-    this.router.navigate(['booking']);
+    this.router.navigate(['flights']);
   }
 
   public onNextClick() {
