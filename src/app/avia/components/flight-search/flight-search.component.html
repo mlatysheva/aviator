@@ -20,6 +20,9 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
+      <mat-error *ngIf="departure.errors && departure.invalid && departure.touched">
+          Please enter a departure airport
+      </mat-error>
 
       <div class="reverse-btn" (click)="changeValues()">
         <img src="../../../../assets/icons/reverse.svg" alt="reverse" class="reverse-btn-image">
@@ -37,6 +40,9 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
+      <mat-error *ngIf="destination.errors && destination.invalid && destination.touched">
+          Please enter a destination airport
+      </mat-error>
     </div>
 
     <div class="picker">
@@ -74,7 +80,14 @@
     </div>
 
     <div class="search-btn-container">
-      <button mat-raised-button class="search-btn">Search</button>
+      <button
+        mat-raised-button
+        class="search-btn"
+        color="primary"
+        [disabled]="!searchForm.valid"
+      >
+        Search
+    </button>
     </div>
 
   </form>

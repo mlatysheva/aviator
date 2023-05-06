@@ -104,7 +104,25 @@
   padding: 12px 24px;
   height: 60px;
   width: 126px;
-  background-color: #11397e !important;
+  // background-color: #11397e !important;
   color: #fff !important;
   border-radius: 0 !important;
+}
+
+@media (max-width: 768px) {
+  .search-form {
+    width: 100%;
+  }
+
+  .picker {
+    flex-direction: column;
+
+    &-date {
+      margin-right: 0px;
+    }
+
+    &-persons {
+      margin-left: 0px;
+    }
+  }
 }

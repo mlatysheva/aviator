@@ -47,11 +47,19 @@ export class FlightSearchComponent implements OnInit {
       tripType: new FormControl('round-trip'),
       departure: new FormControl('', Validators.required),
       destination: new FormControl('', Validators.required),
-      startDate: new FormControl(''),
+      startDate: new FormControl('', Validators.required),
       endDate: new FormControl(''),
       passengers: new FormControl(this.selectedItems, Validators.required),
     });
     this.getAirportsList();
+  }
+
+  get departure() {
+    return this.searchForm.controls['departure'];
+  }
+
+  get destination() {
+    return this.searchForm.controls['destination'];
   }
 
   public getAirportsList(): Observable<IAirport[]> {
@@ -64,11 +72,6 @@ export class FlightSearchComponent implements OnInit {
     const destination = this.searchForm.get('destination')?.value;
     this.searchForm.controls['departure'].setValue(destination);
     this.searchForm.controls['destination'].setValue(departure);
-  }
-
-  stopPropagationFn(event: Event) {
-    event.stopPropagation();
-    this.matOption._selectViaInteraction();
   }
 
   public increase(event: Event, specificAgeType: IAgeTypeQuantity) {
@@ -90,5 +93,10 @@ export class FlightSearchComponent implements OnInit {
     this.aviaService.isSearchSubmitted$.next(true);
     this.store.dispatch(setSearchForm(this.searchForm.value));
     this.router.navigate(['flights']);
+  }
+
+  private stopPropagationFn(event: Event) {
+    event.stopPropagation();
+    this.matOption._selectViaInteraction();
   }
 }
