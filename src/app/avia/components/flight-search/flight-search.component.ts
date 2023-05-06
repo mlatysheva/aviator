@@ -89,6 +89,6 @@ export class FlightSearchComponent implements OnInit {
     }
     this.aviaService.isSearchSubmitted$.next(true);
     this.store.dispatch(setSearchForm(this.searchForm.value));
-    this.router.navigate(['booking']);
+    this.router.navigate(['flights']);
   }
 }
