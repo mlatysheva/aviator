@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, catchError, retry, throwError } from 'rxjs';
+import { BehaviorSubject, Subscription, catchError, retry, throwError } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { IUser } from '../../models';
 import { baseUrl } from '../../constants/apiUrls';
@@ -22,6 +22,10 @@ export class AuthService {
     localStorage.getItem(USER_NAME) || '',
   );
 
+  userId$ = new BehaviorSubject<string>(
+    localStorage.getItem(USER_ID) || '',
+  );
+
   email$ = new BehaviorSubject<string>(
     localStorage.getItem(USER_EMAIL) || '',
   );
@@ -39,41 +43,62 @@ export class AuthService {
       .pipe(
         catchError(error => this.handleError(error))
       )
-    .subscribe((userData: IUser) => {
-      if (userData.id) {
-        localStorage.setItem(USER_ID, userData.id);
-      }
-      if (userData.firstName) {
-        localStorage.setItem(USER_NAME, userData.firstName);
-      } 
-      if (userData.email) {
-        localStorage.setItem(USER_EMAIL, userData.email);
-      }
-      this.isAuth$.next(true);
-      this.isVisible$.next(false);
-      this.errorMessage$.next('');
-    });
+      .subscribe((userData: IUser) => {
+        if (userData.firstName) {
+          localStorage.setItem(USER_NAME, userData.firstName);
+          this.userName$.next(userData.firstName);
+        } 
+        if (userData.email) {
+          localStorage.setItem(USER_EMAIL, userData.email);
+          this.email$.next(userData.email);
+        }
+        if (userData.id) {
+          localStorage.setItem(USER_ID, userData.id);
+          this.userId$.next(userData.id);
+        }
+        this.isAuth$.next(true);
+        this.isVisible$.next(false);
+        this.errorMessage$.next('');
+      });
     return response$;    
   }
 
   onSignup(user: IUser) {
-    return this.http.post<IUser>(`${baseUrl}/users`, user)
-      .pipe(retry(1), catchError(this.handleError));
+    const response$ = this.http.post<IUser>(`${baseUrl}/users`, user);
+    response$
+      .pipe(
+        catchError(error => this.handleError(error))
+      )
+      .subscribe((userData: IUser) => {
+        if (userData.firstName) {
+          localStorage.setItem(USER_NAME, userData.firstName);
+          this.userName$.next(userData.firstName);
+        } 
+        if (userData.email) {
+          localStorage.setItem(USER_EMAIL, userData.email);
+          this.email$.next(userData.email);
+        }
+        this.errorMessage$.next('');
+      });
+    return response$;
   }
 
   onLogout() {
     localStorage.clear();
     this.store.dispatch(clearUserState());
     this.isAuth$.next(false);
+    this.email$.next('');
+    this.userId$.next('');
+    this.userName$.next('');
   }
 
   handleError(error: any) {
     let errorMessage = '';
     if (error.error instanceof ErrorEvent) {
-      errorMessage = `Error: ${error.error.message}`;
+      errorMessage = error.error.message;
       this.errorMessage$.next(errorMessage);
     } else {
-      errorMessage = `Error Code: ${error.status}; Message: ${error.message}`;
+      errorMessage = `${error.error.message}; error code: ${error.status}`;
       this.errorMessage$.next(errorMessage);
     }
     return throwError(errorMessage);

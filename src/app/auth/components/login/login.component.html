@@ -27,12 +27,12 @@
       <mat-label>Password</mat-label>
       <input 
         matInput 
-        [type]="hide ? 'password' : 'text'"
+        [type]="hidePassword ? 'password' : 'text'"
         formControlName="password"
         required
       >
-      <mat-icon matIconSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
-        {{hide ? 'visibility_off' : 'visibility'}}
+      <mat-icon matIconSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
+        {{hidePassword ? 'visibility_off' : 'visibility'}}
       </mat-icon>
       <mat-error class="error" *ngIf="password.invalid && password.touched">
         {{getPasswordErrorMessage()}}
@@ -43,12 +43,8 @@
       <div class="hint-link">Forgot password?</div> 
     </div>
 
-    <div class="server-error" *ngIf="loginError$ | async as errorMessage">
-      {{ errorMessage }}
-    </div>
-
-    <div class="server-error" *ngIf="this.authService.errorMessage$ | async as errorMessage">
-      {{ errorMessage }}
+    <div class="server-error" *ngIf="this.authService.errorMessage$ | async as serverError">
+      {{ serverError }}
     </div>
     
     <button 

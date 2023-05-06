@@ -1,12 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Store } from '@ngrx/store';
 import { setUserProfile } from '../../../store/actions/user.actions';
 import { USER_EMAIL } from '../../../constants/localStorage';
 import { Router } from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
-import { selectUserError } from '../../../store/selectors/user.selectors';
 import { AppState } from '../../../store/state.models';
 
 @Component({
@@ -14,24 +12,13 @@ import { AppState } from '../../../store/state.models';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit, OnDestroy {
-  loginForm!: FormGroup;
-
-  // Error from store, more user friendly
-  loginError$: Observable<string>;
+export class LoginComponent implements OnInit {
   
-  // Error from server
-  loginError: string;
+  loginForm!: FormGroup;
+  
+  hidePassword = true;
 
-  errorSubscription: Subscription = new Subscription();
-
-  userId$: string;
-
-  hide = true;
-
-  emailFromLS = localStorage.getItem(USER_EMAIL) || '';
-
-  emailSubscription: Subscription = new Subscription();
+  emailFromLS: string;
 
   get email() {
     return this.loginForm.controls['email'];
@@ -47,17 +34,10 @@ export class LoginComponent implements OnInit, OnDestroy {
     private store: Store<AppState>,
     private router: Router,
   ) { 
-    this.loginError$ = this.store.select(selectUserError);
-    this.loginError = '';
+    this.emailFromLS = localStorage.getItem(USER_EMAIL) || '';
   }
 
   ngOnInit() {
-    this.emailSubscription = this.authService.email$.subscribe(email => {
-      this.emailFromLS = email;
-    });
-    this.errorSubscription = this.authService.errorMessage$.subscribe(error => {
-      this.loginError = error;
-    });
     this.loginForm = this.fb.group({
       email: [this.emailFromLS || '', [Validators.required, Validators.email]],
       password: ['', [Validators.required, this.passwordValidator()]],
@@ -83,10 +63,9 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.authService.errorMessage$.subscribe(
         (error) => {
           if (error !== '') {
-            this.loginError = error;
             this.loginForm.setErrors({ loginError: true });
           }
-          if (this.loginError == '') {
+          if (error == '') {
             this.router.navigate([{ outlets: { modal: null } }]);
           }
         }
@@ -106,10 +85,5 @@ export class LoginComponent implements OnInit, OnDestroy {
       return 'Password is required';
     }
     return this.password.hasError('passwordValidator') ? 'Min 8 characters, an uppercase letter, a number and one of [#$@!%&*]' : '';
-  }
-
-  ngOnDestroy(): void {
-    this.emailSubscription.unsubscribe();
-    this.errorSubscription.unsubscribe();
   }
 }

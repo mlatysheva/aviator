@@ -45,14 +45,14 @@ server.use((req, res, next) => {
 
 server.post('/login', (req, res) => {
   try {
-    const { username, password } = req.body;
+    const { email, password } = req.body;
     const db = JSON.parse(
       fs.readFileSync(pathToDB, 'utf8'),
     );
 
     const { users = [] } = db;
     const userFromBd = users.find(
-      (user: any) => user.username === username && user.password === password,
+      (user: any) => user.email === email && user.password === password,
     );
 
     if (userFromBd) {

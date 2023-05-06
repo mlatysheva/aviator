@@ -1,8 +1,24 @@
+.booking-page {
+  height: 850px;
+}
+
 .stepper-btns {
   display: flex;
   justify-content: flex-end;
 
   button {
     margin: 0 5px;
+  }
+}
+
+@media only screen and (max-width: 700px) {
+  .booking-page {
+    height: 950px;
+  }
+}
+
+@media only screen and (max-width: 450px) {
+  .booking-page {
+    height: 1200px;
   }
 }

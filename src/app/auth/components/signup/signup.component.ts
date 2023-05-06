@@ -2,11 +2,11 @@ import { Component,  OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { getAge } from '../../../utils/getAge';
-import { Observable, catchError, retry } from 'rxjs';
+import { Observable, Subscription, catchError, retry } from 'rxjs';
 import { ICountryCode } from '../../../models/countryCode';
 import { UserService } from '../../../user/services/user.service';
 import { Router } from '@angular/router';
-import { USER_EMAIL } from '../../../constants/localStorage';
+import { USER_EMAIL, USER_ID } from '../../../constants/localStorage';
 import { baseUrl } from '../../../constants/apiUrls';
 import { IUser } from '../../../models';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
@@ -17,16 +17,10 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
   styleUrls: ['./signup.component.scss']
 })
 export class SignupComponent implements OnInit {
-  
-  signupError = '';
-
-  signupError$: Observable<string>;
 
   signupForm!: FormGroup;
 
   public countryCodes$: Observable<ICountryCode[]>;
-
-  userId$: string;
 
   hidePassword = true;
 
@@ -75,8 +69,7 @@ export class SignupComponent implements OnInit {
     private fb: FormBuilder,
     public userService: UserService,
     private router: Router,
-    private http: HttpClient,
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.signupForm = this.fb.group({
@@ -94,13 +87,7 @@ export class SignupComponent implements OnInit {
       citizenship: [''],
       agreementCheck: [false, [Validators.required]],
     });
-    this.getCountryCodes();
-    this.signupError$.subscribe(error => this.signupError = error);
-  }
-
-  public getCountryCodes(): Observable<ICountryCode[]> {
     this.countryCodes$ = this.userService.getCountryCodes();
-    return this.countryCodes$;
   }
 
   passwordValidator(): ValidatorFn {
@@ -126,7 +113,7 @@ export class SignupComponent implements OnInit {
     };
   }
 
-  onSubmit() {
+  onSignup() {
     const { email, password, firstName, lastName, birthDate, gender, countryCode, phone, citizenship } = this.signupForm.value;
     const user = {
       email,
@@ -141,19 +128,19 @@ export class SignupComponent implements OnInit {
         phone,
       }
     }
-    this.authService.onSignup(user).subscribe({
-      next: (data) => {
-        console.log('data', data);
-        this.router.navigate([{ outlets: { modal: null } }]);
-        this.router.navigate([{ outlets: { modal: 'auth' } }]);
-      },
-      error: (error) => {
-        this.signupError$ = error.message;
-        this.signupError = error.message;
-        this.signupForm.setErrors({ signupError: true });
-        console.log('errorOnRegister$', this.signupError);
-      }
-    });
+    this.authService.onSignup(user);
+    setTimeout(() => {
+      this.authService.errorMessage$.subscribe(
+        (error) => {
+          if (error !== '') {
+            this.signupForm.setErrors({ signupError: true });
+          }
+          if (error == '') {
+            this.router.navigate([{ outlets: { modal: 'auth' } }]);
+          }
+        }
+      );
+    }, 500);
   }
 
   getEmailErrorMessage() {
