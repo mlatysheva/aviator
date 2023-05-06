@@ -7,7 +7,7 @@
   <form 
     class="signup-form" 
     [formGroup]="signupForm" 
-    (ngSubmit)="onSubmit()"
+    (ngSubmit)="onSignup()"
   >
     <mat-form-field appearance="fill">
       <mat-label>Email</mat-label>
@@ -133,8 +133,8 @@
       {{getAgreementCheckErrorMessage()}}
     </mat-error> 
 
-    <div class="server-error">
-      {{ signupError }}
+    <div class="server-error" *ngIf="this.authService.errorMessage$ | async as serverError">
+      {{ serverError }}
     </div>
     
     <button 

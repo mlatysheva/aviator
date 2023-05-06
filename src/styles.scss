@@ -86,9 +86,11 @@ body {
   width: 100%;
   // min-height: 130%;
   min-height: 100vh;
+  height: fit-content;
   margin: 0;
   position: relative;
   box-sizing: inherit;
+  overflow-y: scroll;
 }
 
 .container {
