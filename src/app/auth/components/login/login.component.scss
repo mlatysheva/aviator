@@ -76,6 +76,7 @@
   color: var(--primary-color);
   text-decoration: none;
   font-size: 12px;
+  cursor: not-allowed;
 
   &:hover {
     color: var(--link-hover-color);

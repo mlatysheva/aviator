@@ -2,11 +2,13 @@
   (click)="closeModalOverlay($event)"
 >
   <div class="auth-modal">
-    <nav mat-tab-nav-bar ngClass="tabs" [tabPanel]="">
+    <nav mat-tab-nav-bar ngClass="tabs" [tabPanel]="tabPanel">
       <a mat-tab-link routerLink="login" routerLinkActive="active-link" >Login</a>
       <a mat-tab-link routerLink="signup" routerLinkActive="active-link" >Sign up</a>
-    </nav>  
+    </nav> 
+    <mat-tab-nav-panel #tabPanel></mat-tab-nav-panel>
     <router-outlet></router-outlet>
+
     <button 
       mat-icon-button 
       (click)="closeModal($event)" 

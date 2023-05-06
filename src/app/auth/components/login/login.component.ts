@@ -8,7 +8,6 @@ import { Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 import { selectUserError } from '../../../store/selectors/user.selectors';
 import { AppState } from '../../../store/state.models';
-import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -18,9 +17,13 @@ import { HttpClient } from '@angular/common/http';
 export class LoginComponent implements OnInit, OnDestroy {
   loginForm!: FormGroup;
 
+  // Error from store, more user friendly
   loginError$: Observable<string>;
   
+  // Error from server
   loginError: string;
+
+  errorSubscription: Subscription = new Subscription();
 
   userId$: string;
 
@@ -52,6 +55,9 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.emailSubscription = this.authService.email$.subscribe(email => {
       this.emailFromLS = email;
     });
+    this.errorSubscription = this.authService.errorMessage$.subscribe(error => {
+      this.loginError = error;
+    });
     this.loginForm = this.fb.group({
       email: [this.emailFromLS || '', [Validators.required, Validators.email]],
       password: ['', [Validators.required, this.passwordValidator()]],
@@ -73,20 +79,20 @@ export class LoginComponent implements OnInit, OnDestroy {
     const email = this.loginForm.value.email;
     const password = this.loginForm.value.password;
     this.store.dispatch(setUserProfile({ email, password }));
-    this.authService.errorMessage$.subscribe(
-      (error) => {
-        if (error) {
-          this.loginError = error;
-          this.loginForm.setErrors({ loginError: true });
-          console.log(`in onLogin loginError is ${this.loginError}`);
-          console.log(this.loginForm);
-        } else if (this.loginForm.status === 'VALID') {
-          console.log(this.loginForm);
-          // this.router.navigate([{ outlets: { modal: null } }]);
+    setTimeout(() => {
+      this.authService.errorMessage$.subscribe(
+        (error) => {
+          if (error !== '') {
+            this.loginError = error;
+            this.loginForm.setErrors({ loginError: true });
+          }
+          if (this.loginError == '') {
+            this.router.navigate([{ outlets: { modal: null } }]);
+          }
         }
-      }
-    );
-  }
+      );
+    }, 500);
+}
 
   getEmailErrorMessage() {
     if (this.email.hasError('required')) {
@@ -104,5 +110,6 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.emailSubscription.unsubscribe();
+    this.errorSubscription.unsubscribe();
   }
 }

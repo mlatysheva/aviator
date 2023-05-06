@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, catchError, retry, throwError } from 'rxjs';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { IUser } from '../../models';
 import { baseUrl } from '../../constants/apiUrls';
 import { USER_EMAIL, USER_ID, USER_NAME } from '../../constants/localStorage';
 import { Store } from '@ngrx/store';
 import { clearUserState } from '../../store/actions/user.actions';
-
 
 @Injectable({
   providedIn: 'root',
@@ -38,17 +37,7 @@ export class AuthService {
     const response$ = this.http.post<IUser>(`${baseUrl}/login`, { email, password });
     response$
       .pipe(
-        catchError(error => {
-          let message = '';
-          if (error.error instanceof ErrorEvent) {
-            message = `Error: ${error.error.message}`
-            this.errorMessage$.next(message);
-          } else {
-            message = `Error Code: ${error.status}; Message: ${error.message}`
-            this.errorMessage$.next(message);
-          }
-          return throwError(error);
-        })
+        catchError(error => this.handleError(error))
       )
     .subscribe((userData: IUser) => {
       if (userData.id) {
@@ -62,6 +51,7 @@ export class AuthService {
       }
       this.isAuth$.next(true);
       this.isVisible$.next(false);
+      this.errorMessage$.next('');
     });
     return response$;    
   }
@@ -78,16 +68,13 @@ export class AuthService {
   }
 
   handleError(error: any) {
-    console.log('we are in handleError');
     let errorMessage = '';
     if (error.error instanceof ErrorEvent) {
       errorMessage = `Error: ${error.error.message}`;
       this.errorMessage$.next(errorMessage);
-      console.log(this.errorMessage$);
     } else {
-      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+      errorMessage = `Error Code: ${error.status}; Message: ${error.message}`;
       this.errorMessage$.next(errorMessage);
-      console.log('this.errorMessage$ is', this.errorMessage$);
     }
     return throwError(errorMessage);
   }
