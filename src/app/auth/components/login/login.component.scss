@@ -27,6 +27,8 @@
   outline: none;
   border:#8e8798 0.5px solid;
   border-radius: 4px;
+  opacity: 0.8;
+  cursor: not-allowed;
 }
 
 .icon {
@@ -67,15 +69,23 @@
 .right-align-div {
   align-self: flex-end;
   color: var(--primary-color);
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
 } 
 
 .hint-link {
   color: var(--primary-color);
   text-decoration: none;
   font-size: 12px;
+  cursor: not-allowed;
 
   &:hover {
     color: var(--link-hover-color);
   }
+}
+
+.server-error {
+  margin-bottom: 0.5rem;
+  padding-left: 0.5rem;
+  color: red;
+  font-size: 12px;
 }

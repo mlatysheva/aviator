@@ -33,9 +33,60 @@
       "id": "91839790-3019-4b51-8170-e8a19dd92fec"
     },
     {
-      "email": "luke11@gmail.com",
-      "password": "user3211123",
-      "id": "452aaa82-eafa-4d18-bf51-1118e0541f99"
+      "email": "mar@mar.com",
+      "password": "sS1#qwert",
+      "firstName": "Mar",
+      "lastName": "Com",
+      "birthDate": "1999-12-31T23:00:00.000Z",
+      "gender": "female",
+      "citizenship": "Russia",
+      "contactDetails": {
+        "countryCode": "+7",
+        "phone": "0123456789"
+      },
+      "id": "35f05d80-7e5c-4bca-8a7e-8568a9699095"
+    },
+    {
+      "email": "mar1@mar.com",
+      "password": "sS1#qwerty",
+      "firstName": "Mar",
+      "lastName": "Com",
+      "birthDate": "1999-12-31T23:00:00.000Z",
+      "gender": "male",
+      "citizenship": "Russia",
+      "contactDetails": {
+        "countryCode": "+7",
+        "phone": "0123456789"
+      },
+      "id": "a713eb2c-b567-4411-bf0b-b9e811860d4e"
+    },
+    {
+      "email": "mar4@mar.com",
+      "password": "sS1#qwert",
+      "firstName": "Mar",
+      "lastName": "Com",
+      "birthDate": "1999-12-31T23:00:00.000Z",
+      "gender": "male",
+      "citizenship": "Russia",
+      "contactDetails": {
+        "countryCode": "+380",
+        "phone": "0123456789"
+      },
+      "id": "49149dce-6b54-4c65-957a-daaee0bcdceb"
+    },
+    {
+      "email": "lun@lun.com",
+      "password": "sS1#qwert",
+      "firstName": "Lun",
+      "lastName": "Com",
+      "birthDate": "1976-12-31T23:00:00.000Z",
+      "gender": "male",
+      "citizenship": "Russia",
+      "contactDetails": {
+        "countryCode": "+7",
+        "phone": "0123456789"
+      },
+      "id": "d284cb90-f3d0-461d-b72f-126f7c7934e4"
     }
   ],
   "passengers": [

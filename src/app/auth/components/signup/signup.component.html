@@ -26,12 +26,12 @@
       <mat-label>Password</mat-label>
       <input 
         matInput 
-        [type]="hide ? 'password' : 'text'"
+        [type]="hidePassword ? 'password' : 'text'"
         formControlName="password"
         required
       >
-      <mat-icon matIconSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
-        {{hide ? 'visibility_off' : 'visibility'}}
+      <mat-icon matIconSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
+        {{hidePassword ? 'visibility_off' : 'visibility'}}
       </mat-icon>
       <mat-error class="error" *ngIf="password.invalid && password.touched">
         {{getPasswordErrorMessage()}}
@@ -69,12 +69,12 @@
       <input 
         matInput 
         [matDatepicker]="picker1" 
-        formControlName="birthdate"
+        formControlName="birthDate"
         required
       >
       <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
       <mat-datepicker #picker1></mat-datepicker>
-      <mat-error class="error" *ngIf="birthdate.invalid && birthdate.touched">
+      <mat-error class="error" *ngIf="birthDate.invalid && birthDate.touched">
         {{getBirthdateErrorMessage()}}
       </mat-error>
     </mat-form-field>
@@ -102,7 +102,7 @@
         <mat-label>Mobile number</mat-label>
         <input 
           matInput 
-          placeholder="e.g. 123456789" 
+          placeholder="e.g. 1234567890" 
           formControlName="phone" 
           required
         >
@@ -126,14 +126,21 @@
     </mat-form-field>
 
     <div class="policy-wrapper">
-      <mat-checkbox class="checkbox"></mat-checkbox>
-      <p class="regular-text">I agree to Airway's Privacy Policy and Terms of Use</p> 
+      <mat-checkbox class="checkbox" formControlName="agreementCheck" required></mat-checkbox>
+      <p>I agree to Airway's <span class="regular-text">Privacy Policy</span> and <span class="regular-text">Terms of Use</span></p>
+    </div>
+    <mat-error class="error" *ngIf="agreementCheck.invalid && agreementCheck.touched">
+      {{getAgreementCheckErrorMessage()}}
+    </mat-error> 
+
+    <div class="server-error">
+      {{ signupError }}
     </div>
     
     <button 
       mat-raised-button
       color="primary"
-      
+      [disabled]="!signupForm.valid"
     >Sign up</button>
   </form>
 </div>

@@ -34,3 +34,7 @@
   right: 0;
   cursor: pointer;
 }
+
+.active-link {
+  border-bottom: 2px var(--primary-color) solid;
+}

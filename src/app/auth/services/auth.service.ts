@@ -1,13 +1,11 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, catchError, retry, throwError } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { IUser } from '../../models';
 import { baseUrl } from '../../constants/apiUrls';
-import { Router } from '@angular/router';
 import { USER_EMAIL, USER_ID, USER_NAME } from '../../constants/localStorage';
 import { Store } from '@ngrx/store';
 import { clearUserState } from '../../store/actions/user.actions';
-
 
 @Injectable({
   providedIn: 'root',
@@ -21,17 +19,27 @@ export class AuthService {
   );
 
   userName$ = new BehaviorSubject<string>(
-    localStorage.getItem(USER_NAME) || localStorage.getItem(USER_EMAIL) || '',
+    localStorage.getItem(USER_NAME) || '',
   );
+
+  email$ = new BehaviorSubject<string>(
+    localStorage.getItem(USER_EMAIL) || '',
+  );
+
+  errorMessage$ = new BehaviorSubject<string>('');
 
   constructor(
     private http: HttpClient,
     private store: Store,
   ) {}
 
-  onLogin(login: string, password: string): Observable<IUser> {
-    const response = this.http.post<IUser>(`${baseUrl}/login`, { login, password });
-    response.subscribe((userData: IUser) => {
+  onLogin(email: string, password: string) {
+    const response$ = this.http.post<IUser>(`${baseUrl}/login`, { email, password });
+    response$
+      .pipe(
+        catchError(error => this.handleError(error))
+      )
+    .subscribe((userData: IUser) => {
       if (userData.id) {
         localStorage.setItem(USER_ID, userData.id);
       }
@@ -43,14 +51,31 @@ export class AuthService {
       }
       this.isAuth$.next(true);
       this.isVisible$.next(false);
+      this.errorMessage$.next('');
     });
-    return response;
+    return response$;    
+  }
+
+  onSignup(user: IUser) {
+    return this.http.post<IUser>(`${baseUrl}/users`, user)
+      .pipe(retry(1), catchError(this.handleError));
   }
 
   onLogout() {
-    console.log(`we are in auth service logout`);
     localStorage.clear();
     this.store.dispatch(clearUserState());
     this.isAuth$.next(false);
+  }
+
+  handleError(error: any) {
+    let errorMessage = '';
+    if (error.error instanceof ErrorEvent) {
+      errorMessage = `Error: ${error.error.message}`;
+      this.errorMessage$.next(errorMessage);
+    } else {
+      errorMessage = `Error Code: ${error.status}; Message: ${error.message}`;
+      this.errorMessage$.next(errorMessage);
+    }
+    return throwError(errorMessage);
   }
 }

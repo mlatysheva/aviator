@@ -11,9 +11,9 @@
     <option [selected]="selectedCurrency==='USD'" class="currency" value="USD">USD</option>
     <option [selected]="selectedCurrency==='PLN'" class="currency" value="PLN">PLN</option>
   </select>
-  <button class="sign" *ngIf="!isAuth" (click)="toggleSignInModal()">
+  <a *ngIf="!isAuth" [routerLink]="[ { outlets: { modal: 'auth' }}]" class="sign" >
     <img src="../../../../assets/icons/signin.svg" alt="sign">Sign in
-  </button>
+  </a>
 
   <div class="user-section" *ngIf="isAuth">
     <button       
@@ -24,7 +24,7 @@
     >
       <mat-icon color="white" fontIcon="logout"></mat-icon>       
     </button>
-    <div>{{userName}}</div> 
+    <div>{{ userName }}</div> 
   </div>
 
   <div class="shop">

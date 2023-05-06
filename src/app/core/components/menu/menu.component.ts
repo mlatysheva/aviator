@@ -21,7 +21,7 @@ import { AviaService } from 'src/app/avia/services/avia.service';
 })
 export class MenuComponent implements OnInit, OnDestroy {
   public isVisible = false;
-  public userName = localStorage.getItem('userName') || '';
+  public userName = localStorage.getItem(USER_NAME) || '';
   isAuth = false;
 
   authSubscription: Subscription = new Subscription();
@@ -38,35 +38,18 @@ export class MenuComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.setUserName();
     this.authSubscription = this.authService.isAuth$.subscribe(
-      (isAuth) => (this.isAuth = isAuth)
+      (isAuth) => {
+        this.isAuth = isAuth;
+        if (isAuth) {
+          this.userName =
+            localStorage.getItem(USER_NAME) || '';
+        }
+      }
     );
-    this.userName =
-      localStorage.getItem(USER_NAME) || localStorage.getItem(USER_EMAIL) || '';
-    console.log('this.isAuth', this.isAuth);
     this.aviaService.isSearchSubmitted$.subscribe(
       (isSubmitted) => (this.isSubmitted = isSubmitted)
     );
-  }
-
-  public toggleSignInModal() {
-    this.authService.isVisible$.subscribe(
-      (showModal) => (this.isVisible = showModal)
-    );
-    this.authService.isVisible$.next(!this.isVisible);
-  }
-
-  public setUserName() {
-    this.authService.isAuth$.subscribe((isAuth) => {
-      if (isAuth) {
-        this.userName =
-          localStorage.getItem(USER_NAME) ||
-          localStorage.getItem(USER_EMAIL) ||
-          '';
-        this.isAuth = isAuth;
-      }
-    });
   }
 
   setUserCurrency(currency: string) {
@@ -84,7 +67,7 @@ export class MenuComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.authService.isVisible$.unsubscribe();
     this.aviaService.isSearchSubmitted$.unsubscribe();
+    this.authService.isAuth$.unsubscribe();
   }
 }
