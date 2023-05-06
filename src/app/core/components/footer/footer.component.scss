@@ -3,8 +3,8 @@
   justify-content: space-around;
   align-items: center;
   position: sticky;
-  top: 100vh;
-  height: 92px;
+  top: calc(100vh - var(--footer-height));
+  height: var(--footer-height);
   left: 0px;
   right: 0px;
   bottom: 0px;
