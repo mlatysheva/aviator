@@ -63,6 +63,26 @@ export const userReducer = createReducer(
     })
   ),
   on(
+    UserActions.setUserContactDetails,
+    (state, payload): UserState => ({
+      ...state,
+      userProfile: {
+        email: '',
+        password: '',
+        firstName: localStorage.getItem(USER_NAME) || '',
+        lastName: '',
+        birthday: '',
+        gender: undefined,
+        contacts: {
+          countryCode: payload.countryCode,
+          phone: payload.phone,
+          email: payload.email,
+        },
+        id: localStorage.getItem(USER_ID) || '',
+      },
+    })
+  ),
+  on(
     UserActions.setUserProfileSuccess,
     (state, { userProfile }): UserState => ({
       ...state,

@@ -3,35 +3,43 @@ import { IUser } from '../../../../backend/types';
 
 export const setCurrency = createAction(
   '[Header] Set Currency',
-  props<{ currency: string }>(),
+  props<{ currency: string }>()
 );
 
 export const setDateFormat = createAction(
   '[Header] Set Date Format',
-  props<{ dateFormat: string }>(),
+  props<{ dateFormat: string }>()
 );
 
 export const setUserProfile = createAction(
   '[Login] Set User Profile',
-  props<{ 
-    email: string, password: string,
-  }>(),
+  props<{
+    email: string;
+    password: string;
+  }>()
+);
+
+export const setUserContactDetails = createAction(
+  '[Booking Passengers] Set User Contact Details',
+  props<{
+    countryCode: string;
+    phone: string;
+    email: string;
+  }>()
 );
 
 export const setUserProfileSuccess = createAction(
   '[Login] Set User Profile Successfully',
   props<{
-    userProfile: IUser
-  }>(),
+    userProfile: IUser;
+  }>()
 );
 
 export const setUserProfileFailure = createAction(
   '[Login] Failed to Set User Profile',
-  props<{ error: string }>(),
+  props<{ error: string }>()
 );
 
-export const clearUserState = createAction('[Header Logout] Cleared User State');
-
-
-
-
+export const clearUserState = createAction(
+  '[Header Logout] Cleared User State'
+);
