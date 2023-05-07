@@ -25,13 +25,22 @@ export class DateService {
   }
 
   dateSlideTo(date: string) {
+    const today = date;
+    const tomorrow = this.addOneDay(today);
+    const dayAfterTomorrow = this.addOneDay(tomorrow);
+    const twoDaysAfterTomorrow = this.addOneDay(dayAfterTomorrow);
+    const yesterday = this.minusOneDay(today);
+    const dayBeforeYesterday = this.minusOneDay(yesterday);
+    const twoDaysBeforeYesterday = this.minusOneDay(dayBeforeYesterday);
 
     const slide = [
-      this.minusOneDay(this.minusOneDay(date)),
-      this.minusOneDay(date),
-      date,
-      this.addOneDay(date),
-      this.addOneDay(this.addOneDay(date)),
+      twoDaysBeforeYesterday,
+      dayBeforeYesterday,
+      yesterday,
+      today,
+      tomorrow,
+      dayAfterTomorrow,
+      twoDaysAfterTomorrow
     ]
     slide.forEach((item) => {
       const departureDate = item;
@@ -48,6 +57,7 @@ export class DateService {
       const dateCopy = new Date(departureDate);
       const addMinutes = dateCopy.getTime() + duration * 60000;
       const arrivingDate = new Date(addMinutes);
+      console.log(departureDate, duration, arrivingDate)
       return arrivingDate.toISOString().slice(0, -1);
     }
   }
