@@ -2,10 +2,8 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { IPassenger } from 'backend/types';
 import { IContacts } from 'src/app/models';
-import {
-  setPassengers,
-  setContactDetails,
-} from 'src/app/store/actions/passengers.actions';
+import { setPassengers } from 'src/app/store/actions/passengers.actions';
+import { setUserContactDetails } from 'src/app/store/actions/user.actions';
 
 @Injectable({
   providedIn: 'root',
@@ -18,6 +16,6 @@ export class PassengersService {
   }
 
   public setContactDetails(contactDetails: IContacts): void {
-    this.store.dispatch(setContactDetails({ contactDetails }));
+    this.store.dispatch(setUserContactDetails(contactDetails));
   }
 }

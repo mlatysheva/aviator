@@ -80,3 +80,15 @@
     margin: 0 5px;
   }
 }
+
+@media (max-width: 768px) {
+  .form-content {
+    flex-direction: column;
+  }
+
+  .contact-details {
+    &-content {
+      flex-direction: column;
+    }
+  }
+}
