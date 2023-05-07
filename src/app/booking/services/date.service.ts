@@ -57,6 +57,7 @@ export class DateService {
       const dateCopy = new Date(departureDate);
       const addMinutes = dateCopy.getTime() + duration * 60000;
       const arrivingDate = new Date(addMinutes);
+      console.log(departureDate, duration, arrivingDate)
       return arrivingDate.toISOString().slice(0, -1);
     }
   }

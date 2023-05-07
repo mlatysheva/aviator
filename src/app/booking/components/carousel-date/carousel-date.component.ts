@@ -14,11 +14,23 @@ import { DateService } from '../../services/date.service';
 
 })
 export class CarouselDateComponent implements OnInit {
+  @Input() isFly: string;
+  $event: MouseEvent;
   isCanFly: boolean;
   isOneWay: boolean;
-  @Input() isFly: string;
+  isTo: boolean;
+  i: number;
+
   state$: Observable<AppState>;
   state: AppState;
+
+  // slider
+  slides: Array<string>;
+  slidesFrom: Array<string>;
+  itemsPerSlide = 7;
+  singleSlideOffset = true;
+
+  //details of flights
   from: string;
   to: string;
   codFrom: string;
@@ -28,19 +40,22 @@ export class CarouselDateComponent implements OnInit {
   startDate: string;
   endDate: string;
   currency: string | undefined;
-  // slider
-  slides: Array<string>;
-  slidesFrom: Array<string>;
-  itemsPerSlide = 7;
-  singleSlideOffset = true;
-
   price: number;
+  priceFrom: number;
   prices: number[] = [];
   details$: Observable<IFlight[]>;
-  flightDetail: IFlight | undefined;
-  details: IFlight[] = [];
+  returnDetails$: Observable<IFlight[]>;
   result: IFlight[] = [];
+  returnDetails: IFlight[] = [];
   seats: number;
+  seatsFrom: number;
+  direct: boolean;
+  directFrom: boolean;
+  flightNumber: string;
+  flightNumberFrom: string;
+  duration: number;
+  durationFrom: number;
+  returnFlightId: string;
 
   //time
   hours: number;
@@ -48,14 +63,11 @@ export class CarouselDateComponent implements OnInit {
   timeZoneFrom: string | undefined;
   timeZoneTo: string | undefined;
   departureTime: string;
+  departureTimeFrom: string;
   arrivingDateTo: string | undefined;
   arrivingDateFrom?: string | undefined;
-
-  direct: boolean;
-  flightNumber: string;
-  duration: number;
-
-  $event: MouseEvent;
+  hoursFrom: number;
+  minutesFrom: number;
 
   constructor(
     private store: Store<AppState>,
@@ -67,16 +79,16 @@ export class CarouselDateComponent implements OnInit {
     this.details$ = this.aviaService.getAllFlights();
     this.details$.subscribe((value) => {
       for (let i = 0; i < value.length; i++) {
-        this.details.push(value[i]);
-        const result = this.details.filter(
+
+        const result = value.filter(
           (item) =>
             item.originAirportIataCode === from.toString().trim() &&
             item.destinationAirportIataCode === to.toString().trim())
         this.result = result;
       }
-      // Maria changed priceAdult to pricesAdult[0]
       this.price = this.result[0].pricesAdult[0];
       this.prices = this.result[0].pricesAdult;
+      this.i = this.result[0].pricesAdult.length;
       this.seats = this.result[0].totalSeats;
       this.departureTime = this.result[0].departureTime;
       this.direct = this.result[0].direct;
@@ -85,12 +97,35 @@ export class CarouselDateComponent implements OnInit {
       this.hours = this.dateService.getHours(this.duration);
       this.minutes = this.dateService.getMinutes(this.duration);
       this.arrivingDateTo = this.dateService.getArrivingDate(this.startDate, this.duration);
-      this.arrivingDateFrom = this.dateService.getArrivingDate(this.endDate, this.duration);
-
-    }
-
-    );
+      this.returnFlightId = this.result[0].returnFlightId;
+      this.getReturnDetailsList(this.returnFlightId);
+    });
     return this.details$;
+  }
+
+  public getReturnDetailsList(id: string): Observable<IFlight[]> {
+    this.returnDetails$ = this.aviaService.getAllFlights();
+    this.returnDetails$.subscribe((value) => {
+      for (let i = 0; i < value.length; i++) {
+        this.returnDetails.push(value[i]);
+        const result = this.returnDetails.filter(
+          (item) =>
+            item.id === id.trim())
+        this.returnDetails = result;
+      }
+      this.priceFrom = this.returnDetails[0].pricesAdult[0];
+      this.prices = this.returnDetails[0].pricesAdult;
+      this.seatsFrom = this.returnDetails[0].totalSeats;
+      this.departureTimeFrom = this.returnDetails[0].departureTime;
+      this.directFrom = this.returnDetails[0].direct;
+      this.flightNumberFrom = this.returnDetails[0].flightNumber;
+      this.durationFrom = this.returnDetails[0].duration;
+      this.hoursFrom = this.dateService.getHours(this.durationFrom);
+      this.minutesFrom = this.dateService.getMinutes(this.durationFrom);
+      this.arrivingDateFrom = this.dateService.getArrivingDate(this.endDate, this.durationFrom);
+    }
+    );
+    return this.returnDetails$;
   }
 
   ngOnInit() {
@@ -106,18 +141,20 @@ export class CarouselDateComponent implements OnInit {
       this.endDate = state.search.endDate;
       this.currency = getSymbolFromCurrency(state.user.currency);
       this.isOneWay = state.search.tripType === 'one-way' ? true : false;
-
     }
     );
     this.slides = this.dateService.dateSlideTo(this.startDate);
+    for (let i = 0; i < this.slides.length; i++) {
+      this.i = i;
+    }
     this.slidesFrom = this.dateService.dateSlideTo(this.endDate);
     this.getDetailsList(this.codFrom, this.codTo);
     this.isCanFly = this.dateService.isCanFly(this.startDate);
     this.isFly = this.isCanFly ? 'true' : 'false';
     this.timeZoneFrom = this.dateService.findOffset(this.cityFrom);
     this.timeZoneTo = this.dateService.findOffset(this.cityTo);
-
   }
+
   onClick(e: Event) {
     console.log((e.target as HTMLElement).innerHTML);
     if ((e.target as HTMLElement).classList.contains('slide')) {
@@ -134,12 +171,8 @@ export class CarouselDateComponent implements OnInit {
         }
         if (children[i].classList.contains('slide-price')) {
           children[i].classList.toggle('big-price');
-
         }
-
-
       }
-
     }
   }
 }

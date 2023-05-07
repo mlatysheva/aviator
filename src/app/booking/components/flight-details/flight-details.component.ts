@@ -15,6 +15,7 @@ export class FlightDetailsComponent {
   @Input() currency: string;
   @Input() index: number;
   @Input() prices: number[] = [];
+  @Input() price: number
   @Input() seats: number;
   @Input() hours: number;
   @Input() minutes: number;
@@ -24,6 +25,7 @@ export class FlightDetailsComponent {
   @Input() arrivingDateTo: string | undefined;
   @Input() flightNumber: string;
   @Input() onClick: (e: MouseEvent) => void;
+  @Input() isTo: boolean;
 
   constructor(
     public dateService: DateService

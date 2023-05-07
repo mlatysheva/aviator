@@ -1,9 +1,9 @@
 export interface IFlight {
   id?: string,
   date?: Date,
-  originAirportIataCode: string, 
+  originAirportIataCode: string,
   destinationAirportIataCode: string,
-  returnFlightId?: string,
+  returnFlightId: string,
   duration: number,
   departureTime: string,
   direct: boolean,

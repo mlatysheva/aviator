@@ -21,6 +21,23 @@ export class AviaService {
     const flightsRequestUrl = 'http://localhost:3000/flights';
     return this.http.get<IFlight[]>(flightsRequestUrl);
   }
+  public getAllFlightsByDate(date: string): Observable<IFlight[]> {
+    const flightsRequestUrl = `http://localhost:3000/flights?date=${date}`;
+    return this.http.get<IFlight[]>(flightsRequestUrl);
+  }
+  public getAllFlightsByDateAndFrom(date: string, from: string): Observable<IFlight[]> {
+    const flightsRequestUrl = `http://localhost:3000/flights?date=${date}&from=${from}`;
+    return this.http.get<IFlight[]>(flightsRequestUrl);
+  }
+  public getAllFlightsByDateAndTo(date: string, to: string): Observable<IFlight[]> {
+    const flightsRequestUrl = `http://localhost:3000/flights?date=${date}&to=${to}`;
+    return this.http.get<IFlight[]>(flightsRequestUrl);
+  }
+  public getFlightById(id: string): Observable<IFlight[]> {
+    const flightsRequestUrl = `http://localhost:3000/flights/${id}`;
+    return this.http.get<IFlight[]>(flightsRequestUrl);
+  }
+
 
 
 
