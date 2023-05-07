@@ -30,6 +30,23 @@ export const setUserProfileFailure = createAction(
   props<{ error: string }>(),
 );
 
+export const loadUserProfile = createAction(
+  '[App] Load User Profile',
+  props<{ id: string }>(),
+);
+
+export const loadUserProfileSuccess = createAction(
+  '[App] Load User Profile Successfully',
+  props<{
+    userProfile: IUser
+  }>(),
+);
+
+export const loadUserProfileFailure = createAction(
+  '[App] Failed to Load User Profile',
+  props<{ error: string }>(),
+);
+
 export const clearUserState = createAction('[Header Logout] Cleared User State');
 
 

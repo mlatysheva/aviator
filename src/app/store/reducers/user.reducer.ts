@@ -79,6 +79,30 @@ export const userReducer = createReducer(
       isLoading: false,
     })
   ),
+  on (
+    UserActions.loadUserProfile,
+    (state): UserState => ({
+      ...state,
+      isLoading: true,
+    })
+  ),
+  on (
+    UserActions.loadUserProfileSuccess,
+    (state, { userProfile }): UserState => ({
+      ...state,
+      userProfile,
+      isLoading: false,
+      error: '',
+    })
+  ),
+  on (
+    UserActions.loadUserProfileFailure,
+    (state, { error }): UserState => ({
+      ...state,
+      error,
+      isLoading: false,
+    })
+  ),
   on(UserActions.clearUserState, () => ({
     ...initialState,
     currency: 'EUR',
