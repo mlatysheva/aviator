@@ -22,16 +22,6 @@ export class AviaService {
     return this.http.get<IFlight[]>(flightsRequestUrl);
   }
 
-  // public getFlightDetail(from: string, to: string): Observable<IFlight[]> {
-  //   const flightsDetailRequestUrl = 'http://localhost:3000/flightspair';
-
-  //   return this.http.get<IFlight[]>(flightsDetailRequestUrl, {
-  //     params: {
-  //       "originAirportIataCode": from,
-  //       "destinationAirportIataCode": to
-  //     }
-  //   });
-  // }
 
 
   public search() {

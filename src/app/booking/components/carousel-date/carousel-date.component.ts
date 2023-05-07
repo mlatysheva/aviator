@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import getSymbolFromCurrency from 'currency-symbol-map'
 import { AppState } from 'src/app/store/state.models';
 import { AviaService } from '../../../avia/services/avia.service';
 import { IFlight } from '../../../models/flight';
@@ -26,14 +27,15 @@ export class CarouselDateComponent implements OnInit {
   cityTo: string;
   startDate: string;
   endDate: string;
-  currency: string;
+  currency: string | undefined;
   // slider
   slides: Array<string>;
   slidesFrom: Array<string>;
-  itemsPerSlide = 5;
+  itemsPerSlide = 7;
   singleSlideOffset = true;
 
   price: number;
+  prices: number[] = [];
   details$: Observable<IFlight[]>;
   flightDetail: IFlight | undefined;
   details: IFlight[] = [];
@@ -52,6 +54,8 @@ export class CarouselDateComponent implements OnInit {
   direct: boolean;
   flightNumber: string;
   duration: number;
+
+  $event: MouseEvent;
 
   constructor(
     private store: Store<AppState>,
@@ -72,6 +76,7 @@ export class CarouselDateComponent implements OnInit {
       }
       // Maria changed priceAdult to pricesAdult[0]
       this.price = this.result[0].pricesAdult[0];
+      this.prices = this.result[0].pricesAdult;
       this.seats = this.result[0].totalSeats;
       this.departureTime = this.result[0].departureTime;
       this.direct = this.result[0].direct;
@@ -99,7 +104,7 @@ export class CarouselDateComponent implements OnInit {
       this.codTo = state.search.destination.split(',').slice(2, 3).join('');
       this.startDate = state.search.startDate;
       this.endDate = state.search.endDate;
-      this.currency = state.user.currency;
+      this.currency = getSymbolFromCurrency(state.user.currency);
       this.isOneWay = state.search.tripType === 'one-way' ? true : false;
 
     }
@@ -113,11 +118,12 @@ export class CarouselDateComponent implements OnInit {
     this.timeZoneTo = this.dateService.findOffset(this.cityTo);
 
   }
-  onClick(e: MouseEvent) {
-    e.preventDefault();
+  onClick(e: Event) {
+    console.log((e.target as HTMLElement).innerHTML);
     if ((e.target as HTMLElement).classList.contains('slide')) {
       (e.target as HTMLElement).classList.toggle('large');
       const children = (e.target as HTMLElement).children;
+
       for (let i = 0; i < children.length; i++) {
         if (children[i].classList.contains('slide-date')) {
           children[i].classList.add('big-date');
@@ -128,12 +134,12 @@ export class CarouselDateComponent implements OnInit {
         }
         if (children[i].classList.contains('slide-price')) {
           children[i].classList.toggle('big-price');
+
         }
+
 
       }
 
     }
   }
 }
-
-
