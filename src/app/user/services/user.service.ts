@@ -18,4 +18,8 @@ export class UserService {
     return this.http.get<ICountryCode[]>(countryCodesUrl);
   }
 
+  public onLoad(id: string): Observable<any> {
+    const userProfileUrl = `${baseUrl}/users/${id}`;
+    return this.http.get<any>(userProfileUrl);
+  }
 }
