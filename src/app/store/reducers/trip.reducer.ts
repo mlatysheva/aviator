@@ -7,7 +7,7 @@ export interface TripState {
   id?: string;
   userId: string;
   roundTrip: boolean;
-  flightsIds: string[];
+  airportsIataCodes: string[];
   originAirportName: string;
   destinationAirportName: string;
   outboundFlightNo: string;
@@ -28,7 +28,7 @@ export const initialState: TripState = {
   id: '',
   userId: '',
   roundTrip: true,
-  flightsIds: [],
+  airportsIataCodes: [],
   originAirportName: '',
   destinationAirportName: '',
   outboundFlightNo: '',
