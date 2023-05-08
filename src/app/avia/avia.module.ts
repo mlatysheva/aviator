@@ -10,9 +10,17 @@ import { FlightSearchComponent } from './components/flight-search/flight-search.
 import { AuthModule } from '../auth/auth.module';
 import { searchReducer } from '../store/reducers/search.reducer';
 import { SharedModule } from '../shared/shared.module';
+import { StringifyPassengersPipe } from '../avia/pipes/stringify-passengers.pipe';
+import { AirportValuePipe } from './pipes/airport-name.pipe';
+import { tripReducer } from '../store/reducers/trip.reducer';
 
 @NgModule({
-  declarations: [MainPageComponent, FlightSearchComponent],
+  declarations: [
+    MainPageComponent,
+    FlightSearchComponent,
+    StringifyPassengersPipe,
+    AirportValuePipe,
+  ],
   imports: [
     CommonModule,
     SharedModule,
@@ -22,6 +30,7 @@ import { SharedModule } from '../shared/shared.module';
     AuthModule,
     HttpClientModule,
     StoreModule.forFeature('search', searchReducer),
+    StoreModule.forFeature('trip', tripReducer),
   ],
 })
 export class AviaModule {}
