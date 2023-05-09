@@ -15,21 +15,53 @@
                     <mat-card-content>
                         <p class="card-title">{{i+1}}. {{ageCategoryCollection[i] | titlecase}}</p>
                         <div class="form-content">
-                            <mat-form-field appearance="fill" class="form-field">
-                                <mat-label>First name</mat-label>
-                                <input matInput type="text" formControlName="firstName">
-                                <mat-icon matSuffix class="info-icon">
-                                    <img src="../../../../assets/icons/info.svg">
-                                </mat-icon>
-                            </mat-form-field>
+                            <div class="mat-field-wrapper">
+                                <mat-form-field appearance="fill" class="form-field">
+                                    <mat-label>First name</mat-label>
+                                    <input matInput type="text" formControlName="firstName">
+                                    <mat-icon
+                                        matSuffix
+                                        class="info-icon"
+                                        [matTooltip]="infoText"
+                                        matTooltipTrigger="hover"
+                                    >
+                                        <img src="{{passengerForm.get('firstName')?.errors &&
+                                            passengerForm.get('firstName')?.touched ?
+                                            '../../../../assets/icons/info-error.svg' :
+                                            '../../../../assets/icons/info.svg'}}">
+                                    </mat-icon>
+                                </mat-form-field>
+                                <mat-error
+                                    *ngIf="passengerForm.get('firstName')?.errors && 
+                                        passengerForm.get('firstName')?.touched"
+                                >
+                                    Please, enter your first name
+                                </mat-error>
+                            </div>
         
-                            <mat-form-field appearance="fill" class="form-field">
-                                <mat-label>Last name</mat-label>
-                                <input matInput type="text" formControlName="lastName">
-                                <mat-icon matSuffix class="info-icon">
-                                    <img src="../../../../assets/icons/info.svg">
-                                </mat-icon>
-                            </mat-form-field>
+                            <div class="mat-field-wrapper">
+                                <mat-form-field appearance="fill" class="form-field">
+                                    <mat-label>Last name</mat-label>
+                                    <input matInput type="text" formControlName="lastName">
+                                    <mat-icon
+                                        matSuffix
+                                        class="info-icon"
+                                        [matTooltip]="infoText"
+                                        matTooltipTrigger="hover"
+                                    >
+                                        <img src="{{passengerForm.get('lastName')?.errors &&
+                                            passengerForm.get('lastName')?.touched ?
+                                            '../../../../assets/icons/info-error.svg' :
+                                            '../../../../assets/icons/info.svg'}}">
+                                    </mat-icon>
+                                </mat-form-field>
+                                <mat-error
+                                    *ngIf="passengerForm.get('lastName')?.errors && 
+                                        passengerForm.get('lastName')?.touched"
+                                >
+                                    Please, enter your last name
+                                </mat-error>
+                            </div>
         
                             <section class="toggle-gender">
                                 <mat-button-toggle-group formControlName="gender">
@@ -38,14 +70,18 @@
                                 </mat-button-toggle-group>
                             </section>
         
-                            
-                            <mat-form-field appearance="fill" class="birth-date-picker">
-                                <mat-label>Date of birth</mat-label>
-                                <input matInput [matDatepicker]="datepicker" formControlName="birthday">
-                                <mat-hint>MM/DD/YYYY</mat-hint>
-                                <mat-datepicker-toggle matIconSuffix [for]="datepicker"></mat-datepicker-toggle>
-                                <mat-datepicker #datepicker></mat-datepicker>
-                            </mat-form-field>
+                            <div class="mat-field-wrapper">
+                                <mat-form-field appearance="fill" class="birth-date-picker">
+                                    <mat-label>Date of birth</mat-label>
+                                    <input matInput [matDatepicker]="datepicker" formControlName="birthday">
+                                    <mat-hint>MM/DD/YYYY</mat-hint>
+                                    <mat-datepicker-toggle matIconSuffix [for]="datepicker"></mat-datepicker-toggle>
+                                    <mat-datepicker #datepicker></mat-datepicker>
+                                </mat-form-field>
+                                <mat-error *ngIf="passengerForm.get('birthday')?.errors && passengerForm.get('birthday')?.touched" class="error">
+                                    Please fill in a birth date
+                                </mat-error>
+                            </div>
                         </div>
                         <br>
                         <mat-slide-toggle
@@ -109,7 +145,12 @@
     </form>
 
     <div class="stepper-btns">
-      <button mat-raised-button (click)="onBackClick()">Back</button>
-      <button mat-raised-button color="primary" (click)="onNextClick()">Continue</button>
+        <button mat-raised-button (click)="onBackClick()">Back</button>
+        <button
+            mat-raised-button
+            color="primary"
+            (click)="onNextClick()"
+            [disabled]="!detailsForm.valid || !passengersCollectionForm.valid"
+        >Continue</button>
   </div>
 </div>

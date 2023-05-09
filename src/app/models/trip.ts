@@ -9,7 +9,7 @@ export interface ITrip {
   originCity: string;
   destinationCity: string;
   outboundFlightNo: string;
-  outboundDepartureDate: string; 
+  outboundDepartureDate: string;
   outboundDepartureTime: string;
   outboundArrivalTime: string;
   returnFlightNo?: string;

@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 
-
 import { BookingRoutingModule } from './booking-routing.module';
 import { BookingComponent } from './booking.component';
 import { BookingPageComponent } from './pages/booking-page/booking-page.component';
@@ -20,8 +19,8 @@ import { SummaryPageComponent } from './pages/summary-page/summary-page.componen
 import { BookingSummaryComponent } from './components/booking-summary/booking-summary.component';
 import { DisallowChoiceDateDirective } from './directives/disallow-choice-date.directive';
 import { SharedModule } from '../shared/shared.module';
-import { passengersReducer } from '../store/reducers/passengers.reducer';
 import { FlightDetailsComponent } from './components/flight-details/flight-details.component';
+import { tripReducer } from '../store/reducers/trip.reducer';
 
 @NgModule({
   declarations: [
@@ -45,7 +44,7 @@ import { FlightDetailsComponent } from './components/flight-details/flight-detai
     FormsModule,
     ReactiveFormsModule,
     StoreModule.forFeature('search', searchReducer),
-    StoreModule.forFeature('passengersInfo', passengersReducer),
+    StoreModule.forFeature('trip', tripReducer),
   ],
 })
-export class BookingModule { }
+export class BookingModule {}

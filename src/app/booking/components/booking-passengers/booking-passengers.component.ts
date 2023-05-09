@@ -1,9 +1,12 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {
+  AbstractControl,
   FormArray,
   FormBuilder,
   FormControl,
   FormGroup,
+  ValidationErrors,
+  ValidatorFn,
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -13,9 +16,12 @@ import { map, Observable } from 'rxjs';
 import { IAgeTypeQuantity } from 'src/app/avia/models/agetype-quantity.model';
 import { ISearchForm } from 'src/app/avia/models/search-form.model';
 import { ICountryCode } from 'src/app/models/countryCode';
+import { IUser } from 'src/app/models/user';
 import { selectPassengers } from 'src/app/store/selectors/search.selectors';
+import { selectUserProfile } from 'src/app/store/selectors/user.selectors';
 import { AppState } from 'src/app/store/state.models';
 import { UserService } from 'src/app/user/services/user.service';
+import { getAge } from 'src/app/utils/getAge';
 import { PassengersService } from '../../services/passengers.service';
 
 @Component({
@@ -28,6 +34,7 @@ export class BookingPassengersComponent implements OnInit {
   public passengersCollectionForm: FormGroup;
 
   public searchForm$!: Observable<ISearchForm | any>;
+  public userProfile$!: Observable<IUser>;
 
   public passengersQuauntity = 0;
 
@@ -41,6 +48,9 @@ export class BookingPassengersComponent implements OnInit {
   public ageCategoryCollection: string[] = [];
 
   public passengers: IPassenger[] = [];
+
+  public infoText =
+    "Add the passenger's name as it is written on their documents (passport or ID). Do not use any accents or special characters. Do not use a nickname.";
 
   constructor(
     private store: Store<AppState>,
@@ -68,12 +78,20 @@ export class BookingPassengersComponent implements OnInit {
       )
       .subscribe();
 
+    this.userProfile$ = this.store.select(selectUserProfile);
+    this.userProfile$
+      .pipe(
+        map((userProfile) => {
+          this.createDetailsForm(userProfile as IUser);
+        })
+      )
+      .subscribe();
+
     for (let i = 0; i < this.passengersQuauntity; i++) {
       this.addPassengerForm();
     }
 
     this.getCountryCodes();
-    this.createDetailsForm();
   }
 
   get passengersForms() {
@@ -122,6 +140,7 @@ export class BookingPassengersComponent implements OnInit {
       newPerson.firstName = person.firstName;
       newPerson.lastName = person.lastName;
       newPerson.birthday = person.birthday;
+      newPerson.age = this.calculateAge(person.birthday);
       newPerson.ageCategory = this.ageCategoryCollection[i] as IAgeCategory;
       this.passengers.push(newPerson);
     });
@@ -132,15 +151,32 @@ export class BookingPassengersComponent implements OnInit {
     return this.countryCodes$;
   }
 
-  public createDetailsForm() {
+  public createDetailsForm(userProfile: IUser): void {
     this.detailsForm = new FormGroup({
-      countryCode: new FormControl('+0', Validators.required),
-      phone: new FormControl('', [
+      countryCode: new FormControl(
+        userProfile.contactDetails?.countryCode,
+        Validators.required
+      ),
+      phone: new FormControl(userProfile.contactDetails?.phone, [
         Validators.required,
         Validators.pattern('[0-9]*'),
       ]),
-      email: new FormControl('', [Validators.required, Validators.email]),
+      email: new FormControl(userProfile.email, [
+        Validators.required,
+        Validators.email,
+      ]),
     });
+  }
+
+  public birthdateValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const value = new Date(control.value).getTime();
+      if (!value) return null;
+      else {
+        const age = getAge(value);
+        return age >= 18 ? null : { birthdateValidator: true };
+      }
+    };
   }
 
   public formSubmit() {
@@ -148,7 +184,10 @@ export class BookingPassengersComponent implements OnInit {
       this.passengersCollectionForm.value.passengers
     );
     this.passengersService.setPassengers(this.passengers);
-    this.passengersService.setContactDetails(this.detailsForm.value);
+    this.passengersService.setContactDetails({
+      countryCode: this.detailsForm.controls['countryCode'].value,
+      phone: this.detailsForm.controls['phone'].value,
+    });
   }
 
   public onBackClick() {
@@ -159,5 +198,13 @@ export class BookingPassengersComponent implements OnInit {
   public onNextClick() {
     this.formSubmit();
     this.router.navigate(['summary']);
+  }
+
+  private calculateAge(date: string): number {
+    const birthday: any = new Date(date);
+    const today: any = new Date();
+
+    const age = (today - birthday) / (1000 * 3600 * 24) / 365;
+    return Math.floor(age);
   }
 }

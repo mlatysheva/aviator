@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { IPassenger } from 'backend/types';
 import { map, Observable } from 'rxjs';
-import { selectAllPassengers } from 'src/app/store/selectors/passengers.selectors';
+import { selectAllPassengers } from 'src/app/store/selectors/trip.selectors';
 import { selectTrip } from 'src/app/store/selectors/search.selectors';
 import { AppState } from 'src/app/store/state.models';
 

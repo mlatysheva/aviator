@@ -28,10 +28,9 @@ export const initialState: UserState = {
     lastName: '',
     birthday: '',
     gender: undefined,
-    contacts: {
+    contactDetails: {
       countryCode: '0',
       phone: '',
-      email: '',
     },
     id: localStorage.getItem(USER_ID) || '',
   },
@@ -63,26 +62,6 @@ export const userReducer = createReducer(
     })
   ),
   on(
-    UserActions.setUserContactDetails,
-    (state, payload): UserState => ({
-      ...state,
-      userProfile: {
-        email: '',
-        password: '',
-        firstName: localStorage.getItem(USER_NAME) || '',
-        lastName: '',
-        birthday: '',
-        gender: undefined,
-        contacts: {
-          countryCode: payload.countryCode,
-          phone: payload.phone,
-          email: payload.email,
-        },
-        id: localStorage.getItem(USER_ID) || '',
-      },
-    })
-  ),
-  on(
     UserActions.setUserProfileSuccess,
     (state, { userProfile }): UserState => ({
       ...state,
@@ -99,14 +78,14 @@ export const userReducer = createReducer(
       isLoading: false,
     })
   ),
-  on (
+  on(
     UserActions.loadUserProfile,
     (state): UserState => ({
       ...state,
       isLoading: true,
     })
   ),
-  on (
+  on(
     UserActions.loadUserProfileSuccess,
     (state, { userProfile }): UserState => ({
       ...state,
@@ -115,7 +94,7 @@ export const userReducer = createReducer(
       error: '',
     })
   ),
-  on (
+  on(
     UserActions.loadUserProfileFailure,
     (state, { error }): UserState => ({
       ...state,
@@ -137,7 +116,6 @@ export const userReducer = createReducer(
       contacts: {
         countryCode: '0',
         phone: '',
-        email: '',
       },
       id: '',
     },
