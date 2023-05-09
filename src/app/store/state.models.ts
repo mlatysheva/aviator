@@ -10,10 +10,12 @@ export interface AppState {
   user: UserState;
   search: SearchFormState;
   passengersInfo: PassengersState;
+  // cart: CartState;
 }
 
 export const reducers: ActionReducerMap<AppState> = {
   user: userReducer,
   search: searchReducer,
   passengersInfo: passengersReducer,
+  // cart: cartReducer,
 };

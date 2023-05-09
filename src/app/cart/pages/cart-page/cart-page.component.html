@@ -1,3 +1,15 @@
 <div class="cart-page">
   <h1 class="title">Cart</h1>
+  <button
+    (click)="clearSelection()"
+  >Clear selection</button>
+  <ag-grid-angular
+    class="ag-theme-alpine"
+    style="max-width: 1100px; height: 500px;"
+    [rowData]="trips$ | async"
+    [columnDefs]="colDefs"
+    [defaultColDef]="defaultColDef"
+    [rowSelection]="'multiple'"
+    (cellClicked)="onCellClicked($event)"
+  ></ag-grid-angular>
 </div>
