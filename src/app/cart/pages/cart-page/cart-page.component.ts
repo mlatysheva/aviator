@@ -9,6 +9,8 @@ import { ICart } from '../../../models/cart';
 import { ITrip } from '../../../models';
 import { Observable, Subscription } from 'rxjs';
 import { AgGridAngular } from 'ag-grid-angular';
+import { NewLineKind } from 'typescript';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cart-page',
@@ -32,42 +34,51 @@ export class CartPageComponent implements OnInit {
       checkboxSelection: true,
       width: 120,
       showDisabledCheckboxes: true,
-      cellStyle: { color: '#0090BD', 'fontWeight': '700',  padding: '1rem', 
-      lineHeight: '1.5rem', 
-      height: '100%',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center'},
+      cellStyle: { color: '#0090BD', 'fontWeight': '700'},
       valueGetter: flightNosGetter,
     },
     { 
-      headerName: 'Price',
-      field: 'totalAmount',
+      headerName: 'Flight',
+      filter: true,
+      floatingFilter: false,
+      cellRenderer: flightGetter,
+    },
+    {
+      headerName: 'Trip Type',
+      width: 140,
+      valueGetter: tripTypeGetter,
+      sortable: true,
+      unSortIcon: true
+    },
+    {
+      headerName: 'Date & Time',
+      minWidth: 230,
+      cellRenderer: dateTimeGetter,
+      sortable: true,
+      unSortIcon: true,
+    },
+    {
+      headerName: 'Passengers',
+      width: 140,
+      cellRenderer: passengersGetter,
     },
     { 
-      headerName: 'Flight',
-      cellRenderer: function flightGetter(params: ValueGetterParams) {
-        return params.data.originCity + ' - ' + params.data.destinationCity + (params.data.roundTrip ? '<br>' + params.data.destinationCity + ' - ' + params.data.originCity : '');
-      },
-      cellStyle: { 'lineHeight': '1.5rem' },
+      headerName: 'Price',
+      width: 120,
+      field: 'totalAmount',
+      cellStyle: { color: "#7F8906" },
+      sortable: true,
+      unSortIcon: true
     },
-    // {
-    //   headerName: 'Trip Type',
-    //   valueGetter: tripTypeGetter,
-    // },
-  //   {
-  //     headerName: 'Date & Time',
-  //     valueGetter: dateTimeGetter,
-  //   },
-  //   {
-  //     headerName: 'Passengers',
-  //     valueGetter: passengersGetter,
-  //   },
+    {
+      width: 70,
+      cellRenderer: moreActionsRenderer,
+      cellStyle: { cursor: 'pointer' },
+      onCellClicked: this.showActionsMenu.bind(this),
+    }
   ];
 
   defaultColDef: ColDef = {
-    sortable: true,
-    filter: true,
     resizable: true,
     autoHeight: true,
     wrapText: true, 
@@ -79,12 +90,13 @@ export class CartPageComponent implements OnInit {
       height: '100%',
       display: 'flex',
       justifyContent: 'center',
-      alignItems: 'center'
+      alignItems: 'center',
+      fontWeight: '500',
     },
   };
 
   constructor(
-    private store: Store<AppState>,
+    private router: Router,
     private http: HttpClient,
     private cartApiService: CartApiService,
   ) {}
@@ -98,33 +110,98 @@ export class CartPageComponent implements OnInit {
     // this.trips$ = this.cartApiService.getTripsByCartId(this.cartId);
   }
 
-  onCellClicked(event: CellClickedEvent) {
+  showActionsMenu(event: CellClickedEvent) {
     console.log(event);
   }
 
   clearSelection() {
     this.agGrid.api.deselectAll();
   }
+
+  addNewTrip() {
+    this.router.navigate(['main']);
+  }
 }
 
 function flightNosGetter(params: ValueGetterParams) {
-  console.log(params);
   return params.data.outboundFlightNo + '  \n' + params.data.returnFlightNo;
 }
 
-function flightGetter (params: ValueGetterParams) {
-  return params.data.originCity + ' - ' + params.data.destinationCity + (params.data.roundTrip ? ' \n' + params.data.destinationCity + ' - ' + params.data.originCity : '');
+function flightGetter(params: ValueGetterParams) {
+  return params.data.originCity + ' - ' + params.data.destinationCity + (params.data.roundTrip ? '<br>' + params.data.destinationCity + ' - ' + params.data.originCity : '');
 }
 
 function tripTypeGetter (params: ValueGetterParams) {
-  console.log(params);
-  return params.data.flight.roundTrip ? 'Round Trip' : 'One Way';
+  return params.data.roundTrip ? 'Round Trip' : 'One Way';
 }
 
 function dateTimeGetter (params: ValueGetterParams) {
-  return params.data.flight.departureDate + ' ' + params.data.flight.departureTime + (params.data.flight.returnFlightId ? ', ' + params.data.flight.returnDate + ' ' + params.data.flight.returnTime : '');
+  return params.data.outboundDepartureDate + ', ' + params.data.outboundDepartureTime + ' - ' + params.data.outboundArrivalTime + (params.data.roundTrip ? '<br>' + params.data.returnDepartureDate + ', ' + params.data.returnDepartureTime  + ' - ' + params.data.returnArrivalTime : '');
 }
 
 function passengersGetter (params: ValueGetterParams) {
-  return params.data.flight.passengers.adult + ' x Adult' + (params.data.flight.passengers.child ? ', ' + params.data.flight.passengers.child + ' x Child' : '') + (params.data.flight.passengers.infant ? ', ' + params.data.flight.passengers.infant + ' x Infant' : '');
+  let adult = 0;
+  let child = 0;
+  let infant = 0;
+  params.data.passengers.map((passenger: any) => {
+    if (passenger.ageCategory === 'adult') {
+      adult++;
+    } else if (passenger.ageCategory === 'child') {
+      child++;
+    } else if (passenger.ageCategory === 'infant') {
+      infant++;
+    }
+  });
+  return adult + ' x Adult' + (child ? '<br>' + child + ' x Child' : '') + (infant ? '<br>' + infant + ' x Infant' : '');
+}
+
+function moreActionsRenderer() {
+  return '<i class="material-icons">more_vert</i>'
+  // const eIconGui = document.createElement('div');         
+  // return eIconGui.innerHTML = `
+  //   <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+  //     <mat-icon>more_vert</mat-icon>
+  //   </button>
+  //   <mat-menu #menu="matMenu">
+  //     <button mat-menu-item>
+  //       <mat-icon>dialpad</mat-icon>
+  //       <span>Redial</span>
+  //     </button>
+  //     <button mat-menu-item disabled>
+  //       <mat-icon>voicemail</mat-icon>
+  //       <span>Check voice mail</span>
+  //     </button>
+  //     <button mat-menu-item>
+  //       <mat-icon>notifications_off</mat-icon>
+  //       <span>Disable alerts</span>
+  //     </button>
+  //   </mat-menu>
+  // `
+} 
+
+// <mat-icon>more_vert</mat-icon>
+
+function actionCellRenderer(params: any) {
+  const eGui = document.createElement("div");
+
+  const editingCells = params.api.getEditingCells();
+  // checks if the rowIndex matches in at least one of the editing cells
+  const isCurrentRowEditing = editingCells.some((cell: any) => {
+    return cell.rowIndex === params.node.rowIndex;
+  });
+
+  if (isCurrentRowEditing) {
+    eGui.innerHTML = `
+    <mat-icon>more_vert</mat-icon>
+      <button  class="action-button update"  data-action="update"> update  </button>
+      <button  class="action-button cancel"  data-action="cancel" > cancel </button>
+    `;
+  } else {
+    eGui.innerHTML = `
+      <button class="action-button edit"  data-action="edit" > edit  </button>
+      <button class="action-button delete" data-action="delete" > delete </button>
+    `;
+  }
+
+  return eGui;
 }

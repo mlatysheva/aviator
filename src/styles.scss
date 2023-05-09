@@ -71,6 +71,7 @@ $avia_client-theme: mat.define-light-theme((color: (primary: $avia_client-primar
   // sizes
   --auth-modal-width: 490px;
   --auth-modal-height: auto;
+  --header-height: 88px;
   --footer-height: 92px;
 }
 
@@ -98,6 +99,11 @@ body {
 .container {
   width: 100%;
   margin: 0 auto;
+}
+
+.main-content {
+  position: relative;
+  top: var(--header-height);
 }
 
 /* Importing Bootstrap SCSS file. */
