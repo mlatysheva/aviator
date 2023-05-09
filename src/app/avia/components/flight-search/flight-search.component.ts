@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IAirport } from '../../../models/airport';
 import { Observable } from 'rxjs';
 import { AviaService } from '../../services/avia.service';
@@ -11,6 +11,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store/state.models';
 import { setSearchForm } from '../../../store/actions/search.actions';
 import { IAgeCategory } from 'src/app/models/passenger';
+import { setSearchParameters } from 'src/app/store/actions/trip.actions';
 
 @Component({
   selector: 'app-flight-search',
@@ -37,19 +38,20 @@ export class FlightSearchComponent implements OnInit {
   constructor(
     private aviaService: AviaService,
     private router: Router,
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    private fb: FormBuilder
   ) {
     this.passengersList.map((option) => this.selectedItems.push(option));
   }
 
   ngOnInit() {
-    this.searchForm = new FormGroup({
-      tripType: new FormControl('round-trip'),
-      departure: new FormControl('', Validators.required),
-      destination: new FormControl('', Validators.required),
-      startDate: new FormControl('', Validators.required),
-      endDate: new FormControl(''),
-      passengers: new FormControl(this.selectedItems, Validators.required),
+    this.searchForm = this.fb.group({
+      tripType: ['round-trip'],
+      departure: ['', [Validators.required]],
+      destination: ['', [Validators.required]],
+      startDate: ['', [Validators.required]],
+      endDate: [''],
+      passengers: [this.selectedItems, Validators.required],
     });
     this.getAirportsList();
   }
@@ -60,6 +62,10 @@ export class FlightSearchComponent implements OnInit {
 
   get destination() {
     return this.searchForm.controls['destination'];
+  }
+
+  get passengers() {
+    return this.searchForm.controls['passengers'];
   }
 
   public getAirportsList(): Observable<IAirport[]> {
@@ -91,8 +97,28 @@ export class FlightSearchComponent implements OnInit {
       this.aviaService.search();
     }
     this.aviaService.isSearchSubmitted$.next(true);
+
+    this.store.dispatch(
+      setSearchParameters({
+        roundTrip: this.searchForm.controls['tripType'].value === 'round-trip',
+        originCity: this.getCityName(
+          this.searchForm.controls['departure'].value
+        ),
+        destinationCity: this.getCityName(
+          this.searchForm.controls['destination'].value
+        ),
+      })
+    );
+
     this.store.dispatch(setSearchForm(this.searchForm.value));
     this.router.navigate(['flights']);
+  }
+
+  private getCityName(controlValue: string): string {
+    let resultString = '';
+    const airportArray = controlValue.split(',');
+    resultString = airportArray[1];
+    return resultString.trim();
   }
 
   private stopPropagationFn(event: Event) {

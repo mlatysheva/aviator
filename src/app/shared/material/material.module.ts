@@ -14,6 +14,8 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 const MaterialComponents = [
   MatRadioModule,
@@ -31,6 +33,8 @@ const MaterialComponents = [
   MatCheckboxModule,
   MatSlideToggleModule,
   MatButtonToggleModule,
+  MatTooltipModule,
+  MatAutocompleteModule,
 ];
 
 @NgModule({

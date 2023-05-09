@@ -11,7 +11,7 @@ export interface IUser {
   lastName?: string;
   birthday?: string;
   gender?: IGender;
-  contacts?: IContacts;
+  contactDetails?: IContacts;
   currency?: ICurrency;
   dateFormat?: IDateFormat;
   cartsIds?: string[];

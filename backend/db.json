@@ -87,14 +87,42 @@
   ],
   "trips": [
     {
+      "id": "010252d9-a720-49d8-a0f0-79cb45e30adf",
+      "userId": "0f04c977-c041-4fa4-9354-9c7d7cce9c0e",
       "roundTrip": true,
-      "departureDate": "24/04/2023",
-      "returnDate": "30/04/2023",
-      "departureFlightId": "asldfjkas-asdklfj-aklsfj",
-      "returnFlightId": "alskdf23-23lkjdfs-2afs",
-      "passengersIds": [
-        "askldfj0-alskdf-asdf",
-        "0b52e00c-dded-488b-a824-bb59e22344ac"
+      "airportsIataCodes": [
+        "PEK",
+        "JFK"
+      ],
+      "originCity": "Pekin",
+      "destinationCity": "New York",
+      "outboundFlightNo": "FK-720",
+      "outboundDepartureDate": "06/30/2023",
+      "outboundDepartureTime": "09:15",
+      "outboundArrivalTime": "21:20",
+      "returnFlightNo": "FK-721",
+      "returnDepartureDate": "07/10/2023",
+      "returnDepartureTime": "08:35",
+      "returnArrivalTime": "20:45",
+      "passengers": [
+        {
+          "firstName": "Darth",
+          "lastName": "Vader",
+          "birthday": "04/12/1980",
+          "ageCategory": "adult"
+        },
+        {
+          "firstName": "Luke",
+          "lastName": "Skywalker",
+          "birthday": "01/11/2001",
+          "ageCategory": "child"
+        },
+        {
+          "firstName": "Han",
+          "lastName": "Solo",
+          "birthday": "01/11/2001",
+          "ageCategory": "infant"
+        }
       ],
       "totalAmount": 750,
       "totalTax": 112.5,
@@ -102,18 +130,64 @@
         "email": "darth@vader.com",
         "countryCode": "7",
         "phone": "123456789"
-      },
-      "promoCode": "starWars",
-      "id": "77cec714-b2a2-4b87-abaf-1c7a6ee28f10"
+      }
+    },
+    {
+      "id": "77cec714-b2a2-4b87-abaf-1c7a6ee28f10",
+      "userId": "0f04c977-c041-4fa4-9354-9c7d7cce9c0e",
+      "roundTrip": false,
+      "airportsIataCodes": [
+        "LHR",
+        "CDG"
+      ],
+      "originCity": "London",
+      "destinationCity": "Paris",
+      "outboundFlightNo": "FR-924",
+      "outboundDepartureDate": "08/05/2023",
+      "outboundDepartureTime": "11:25",
+      "outboundArrivalTime": "13:20",
+      "returnFlightNo": "FR-925",
+      "returnDepartureDate": "08/18/2023",
+      "returnDepartureTime": "18:35",
+      "returnArrivalTime": "20:45",
+      "passengers": [
+        {
+          "firstName": "Chewbacca",
+          "lastName": "Chewbacca",
+          "birthday": "01/11/2001",
+          "ageCategory": "adult"
+        },
+        {
+          "firstName": "Obi-Wan",
+          "lastName": "Kenobi",
+          "birthday": "01/11/2001",
+          "ageCategory": "adult"
+        },
+        {
+          "firstName": "Leia",
+          "lastName": "Organa",
+          "birthday": "01/11/2001",
+          "ageCategory": "child"
+        }
+      ],
+      "totalAmount": 1250,
+      "totalTax": 202.5,
+      "contactDetails": {
+        "email": "darth@vader.com",
+        "countryCode": "7",
+        "phone": "123456789"
+      }
     }
   ],
   "carts": [
     {
-      "userId": "0b52e00c-dded-488b-a824-bb59e22344ac",
+      "id": "00e0d78e-b1e7-4099-a1c7-7b73cd92d12f",
+      "userId": "0f04c977-c041-4fa4-9354-9c7d7cce9c0e",
       "tripsIds": [
+        "010252d9-a720-49d8-a0f0-79cb45e30adf",
         "77cec714-b2a2-4b87-abaf-1c7a6ee28f10"
       ],
-      "id": "43b76d00-ce4b-4f53-8956-37333b3a6ca5"
+      "promoCode": "Star Wars"
     }
   ],
   "login": {},
