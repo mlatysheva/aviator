@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Subscription, catchError, retry, throwError } from 'rxjs';
+import { BehaviorSubject, catchError, throwError } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { IUser } from '../../models';
 import { baseUrl } from '../../constants/apiUrls';
