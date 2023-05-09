@@ -118,7 +118,6 @@ export class FlightSearchComponent implements OnInit {
     let resultString = '';
     const airportArray = controlValue.split(',');
     resultString = airportArray[1];
-    console.log('////', resultString);
     return resultString.trim();
   }
 
