@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ElementRef } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import getSymbolFromCurrency from 'currency-symbol-map'
@@ -74,7 +74,8 @@ export class CarouselDateComponent implements OnInit {
   constructor(
     private store: Store<AppState>,
     private aviaService: AviaService,
-    public dateService: DateService
+    public dateService: DateService,
+    private el: ElementRef
   ) { }
 
   public getDetailsList(from: string, to: string): Observable<IFlight[]> {
@@ -101,8 +102,8 @@ export class CarouselDateComponent implements OnInit {
       this.returnFlightId = this.result[0].returnFlightId;
       this.getReturnDetailsList(this.returnFlightId);
       this.flightDaysTo = this.result[0].flightDays;
-      console.log(this.prices[this.dateService.getIndexOfDate(this.startDate, this.flightDaysTo)]);
-
+      this.price = this.prices[this.dateService.getIndexOfDate(this.startDate, this.flightDaysTo)];
+      console.log(this.price);
     });
     return this.details$;
   }
@@ -136,32 +137,27 @@ export class CarouselDateComponent implements OnInit {
     this.state$ = this.store.select((appState) => appState);
     this.state$.subscribe((state: AppState) => {
       this.from = state.search.departure.split(',').slice(0, 2).join('');
-      this.cityFrom = state.search.departure.split(',').slice(1, 2).join('').trim();
-      this.cityTo = state.search.destination.split(',').slice(1, 2).join('').trim();
       this.to = state.search.destination.split(',').slice(0, 2).join('');
       this.codFrom = state.search.departure.split(',').slice(2, 3).join('');
       this.codTo = state.search.destination.split(',').slice(2, 3).join('');
+      this.cityFrom = state.search.departure.split(',').slice(1, 2).join('').trim();
+      this.cityTo = state.search.destination.split(',').slice(1, 2).join('').trim();
       this.startDate = state.search.startDate;
       this.endDate = state.search.endDate;
       this.currency = getSymbolFromCurrency(state.user.currency);
       this.isOneWay = state.search.tripType === 'one-way' ? true : false;
     }
     );
-    this.slides = this.dateService.dateSlideTo(this.startDate);
-    for (let i = 0; i < this.slides.length; i++) {
-      this.i = i;
-    }
-    this.slidesFrom = this.dateService.dateSlideTo(this.endDate);
     this.getDetailsList(this.codFrom, this.codTo);
     this.isCanFly = this.dateService.isCanFly(this.startDate);
     this.isFly = this.isCanFly ? 'true' : 'false';
-
     this.timeZoneFrom = this.dateService.findOffset(this.cityFrom);
     this.timeZoneTo = this.dateService.findOffset(this.cityTo);
+    this.slides = this.dateService.dateSlideTo(this.startDate);
+    this.slidesFrom = this.dateService.dateSlideTo(this.endDate);
   }
 
   onClick(e: Event) {
-    console.log((e.target as HTMLElement).innerHTML);
     if ((e.target as HTMLElement).classList.contains('slide')) {
       (e.target as HTMLElement).classList.toggle('large');
       const children = (e.target as HTMLElement).children;
@@ -180,4 +176,55 @@ export class CarouselDateComponent implements OnInit {
       }
     }
   }
+
+  onSelectFirst(e: Event) {
+    //remove unused slides
+    this.slides = [];
+    const element = this.el.nativeElement.querySelectorAll('.seats');
+    const button = this.el.nativeElement.querySelectorAll('.select');
+    const editButton = this.el.nativeElement.querySelectorAll('.edit-btn');
+    element[0].classList.add('none');
+    button[0].classList.add('none');
+    editButton[0].classList.remove('none');
+
+    // put flight details to store
+    // this.store.dispatch(new ({
+    //   price: this.price,
+    //   seats: this.seats,
+    //   departureTime: this.departureTime,
+    //   direct: this.direct,
+    //   flightNumber: this.flightNumber,
+    //   duration: this.duration,
+    //   hours: this.hours,
+    //   minutes: this.minutes,
+    //   arrivingDateTo: this.arrivingDateTo,
+    //   priceFrom: this.priceFrom,
+    //   seatsFrom: this.seatsFrom,
+    //   departureTimeFrom: this.departureTimeFrom,
+    //   directFrom: this.directFrom,
+    //   flightNumberFrom: this.flightNumberFrom,
+    //   durationFrom: this.durationFrom,
+    //   hoursFrom: this.hoursFrom,
+    //   minutesFrom: this.minutesFrom,
+    //   arrivingDateFrom: this.arrivingDateFrom,
+    //   currency: this.currency,
+    //   cityFrom: this.cityFrom,
+    //   cityTo: this.cityTo,
+    //   timeZoneFrom: this.timeZoneFrom,
+    //   timeZoneTo: this.timeZoneTo,
+
+
+    // }));
+    //this.router.navigate(['/booking']);
+  }
+  onSelectSecond(e: Event) {
+    this.slidesFrom = [];
+    const element = this.el.nativeElement.querySelectorAll('.seats');
+    const button = this.el.nativeElement.querySelectorAll('.select');
+    const editButton = this.el.nativeElement.querySelectorAll('.edit-btn');
+    element[1].classList.add('none');
+    button[1].classList.add('none');
+    editButton[1].classList.remove('none');
+  }
 }
+

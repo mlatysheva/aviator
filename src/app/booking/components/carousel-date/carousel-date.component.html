@@ -1,12 +1,12 @@
 <div class="wrapper">
-  <div class="one-way">
+  <div class="one-way" (click)="onSelectFirst($event)">
     <div class="flight-info one-way">
       <img src="../../../../assets/icons/plane-to.svg" alt="plane">
       <p>{{from}} to {{to}}</p>
     </div>
     <carousel class="carousel" [itemsPerSlide]="itemsPerSlide" [singleSlideOffset]="singleSlideOffset"
       [startFromIndex]="0" [interval]="0">
-      <slide class="slide" *ngFor="let slide of slides; let i=index" appDisallowChoiceDate
+      <slide class="slide" *ngFor="let slide of slides, let i = index" appDisallowChoiceDate
         [isFly]="(dateService.isCanFly(slide))" (click)="onClick($event)">
         <div class="slide-date">{{slide | date :'dd LLL'}}
         </div>
@@ -16,8 +16,8 @@
         </div>
         <div class="price" *ngIf="!dateService.isCanFly(slide)">
           <h5><span>{{currency}}
-            </span>{{prices[i] }}</h5>
-          <h6>No flights today</h6>
+            </span>{{price }}</h5>
+          <h6 *ngIf="(!dateService.isFlightDay(slide, flightDaysTo))">No flights today</h6>
         </div>
         <div div class="carousel-caption"></div>
       </slide>
@@ -26,9 +26,10 @@
     <app-flight-details class="flight-details-to" [from]="from" [to]="to" [startDate]="startDate"
       [departureTime]="departureTime" [timeZoneFrom]="timeZoneFrom" [arrivingDateTo]="arrivingDateTo"
       [timeZoneTo]="timeZoneTo" [flightNumber]="flightNumber" [seats]="seats" [currency]="currency" [hours]="hours"
-      [minutes]="minutes" [price]="price" [onClick]="onClick" [isTo]="true"></app-flight-details>
+      [minutes]="minutes" [price]="price" [onClick]="onClick" [onSelect]="onSelectFirst"
+      [isTo]="true"></app-flight-details>
   </div>
-  <div class="two-way" *ngIf="!isOneWay">
+  <div class="two-way" *ngIf="!isOneWay" (click)="onSelectSecond($event)">
     <div class="flight-info two-way">
       <img src="../../../../assets/icons/plane-from.svg" alt="plane">
       <p>{{to}} to {{from}}</p>
@@ -53,7 +54,7 @@
     <app-flight-details class="flight-details-from" [from]="to" [to]="from" [startDate]="endDate"
       [departureTime]="departureTimeFrom" [timeZoneFrom]="timeZoneTo" [arrivingDateTo]="arrivingDateFrom"
       [timeZoneTo]="timeZoneFrom" [flightNumber]="flightNumberFrom" [seats]="seatsFrom" [currency]="currency"
-      [hours]="hoursFrom" [minutes]="minutesFrom" [price]="priceFrom" [onClick]="onClick"
+      [hours]="hoursFrom" [minutes]="minutesFrom" [price]="priceFrom" [onClick]="onClick" [onSelect]="onSelectSecond"
       [isTo]="false"></app-flight-details>
   </div>
 </div>

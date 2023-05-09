@@ -27,7 +27,10 @@ export class DateService {
   isFlightDay(date: string, flightDays: number[]) {
     const dateCopy = new Date(date);
     const day = dateCopy.getDay();
-    return flightDays.includes(day) ? true : false;
+    if (flightDays.includes(day)) {
+      return true;
+    }
+    return false;
   }
 
   getIndexOfDate(date: string, flightDays: number[]) {
@@ -37,7 +40,6 @@ export class DateService {
     if (index === -1) {
       return 0;
     }
-    console.log(date, flightDays, index)
     return index;
   }
 

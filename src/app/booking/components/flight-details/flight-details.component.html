@@ -28,8 +28,8 @@
   <div class="flight-number">Flight no.{{flightNumber}}</div>
   <div class="price-warning">
     <div class="seats">{{seats}} seats available</div>
-    <div class="price"><span>Price</span> <span>{{currency}} {{prices[0]}}</span></div>
+    <div class="price"><span>Price</span> <span>{{currency}} {{price}}</span></div>
   </div>
-  <button class="select">Select</button>
-
+  <button (click)="onSelect" class="select">Select</button>
+  <button mat-raised-button class="edit-btn none" color="primary">Edit</button>
 </div>
