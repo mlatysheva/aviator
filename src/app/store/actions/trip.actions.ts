@@ -6,8 +6,8 @@ export const setSearchParameters = createAction(
   '[Main Page - Search] Set Search Parameters',
   props<{
     roundTrip: boolean;
-    originAirportName: string;
-    destinationAirportName: string;
+    originCity: string;
+    destinationCity: string;
   }>()
 );
 

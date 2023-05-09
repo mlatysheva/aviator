@@ -101,13 +101,24 @@ export class FlightSearchComponent implements OnInit {
     this.store.dispatch(
       setSearchParameters({
         roundTrip: this.searchForm.controls['tripType'].value === 'round-trip',
-        originAirportName: this.searchForm.controls['departure'].value,
-        destinationAirportName: this.searchForm.controls['destination'].value,
+        originCity: this.getCityName(
+          this.searchForm.controls['departure'].value
+        ),
+        destinationCity: this.getCityName(
+          this.searchForm.controls['destination'].value
+        ),
       })
     );
 
     this.store.dispatch(setSearchForm(this.searchForm.value));
     this.router.navigate(['flights']);
+  }
+
+  private getCityName(controlValue: string): string {
+    let resultString = '';
+    const airportArray = controlValue.split(',');
+    resultString = airportArray[1];
+    return resultString.trim();
   }
 
   private stopPropagationFn(event: Event) {
