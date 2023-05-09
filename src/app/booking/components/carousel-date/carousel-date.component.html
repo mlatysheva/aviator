@@ -14,8 +14,10 @@
         <div class="is-fly" *ngIf="(dateService.isCanFly(slide))">
           <img src="../../../../assets/icons/do-not-fly.svg" alt="no-fly">
         </div>
-        <div class="price" *ngIf="!(dateService.isCanFly(slide))">
-          <h5><span>{{currency}} </span>{{prices[i] }}</h5>
+        <div class="price" *ngIf="!dateService.isCanFly(slide)">
+          <h5><span>{{currency}}
+            </span>{{prices[i] }}</h5>
+          <h6>No flights today</h6>
         </div>
         <div div class="carousel-caption"></div>
       </slide>

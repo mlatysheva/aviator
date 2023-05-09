@@ -24,6 +24,23 @@ export class DateService {
     return dateCopy < today;
   }
 
+  isFlightDay(date: string, flightDays: number[]) {
+    const dateCopy = new Date(date);
+    const day = dateCopy.getDay();
+    return flightDays.includes(day) ? true : false;
+  }
+
+  getIndexOfDate(date: string, flightDays: number[]) {
+    const dateCopy = new Date(date);
+    const valueDateCopy = dateCopy.getDay();
+    const index = flightDays.indexOf(valueDateCopy);
+    if (index === -1) {
+      return 0;
+    }
+    console.log(date, flightDays, index)
+    return index;
+  }
+
   dateSlideTo(date: string) {
     const today = date;
     const tomorrow = this.addOneDay(today);
@@ -57,9 +74,13 @@ export class DateService {
       const dateCopy = new Date(departureDate);
       const addMinutes = dateCopy.getTime() + duration * 60000;
       const arrivingDate = new Date(addMinutes);
-      console.log(departureDate, duration, arrivingDate)
       return arrivingDate.toISOString().slice(0, -1);
     }
+  }
+  getDay(date: string) {
+    const dateCopy = new Date(date);
+    console.log(dateCopy.getDay());
+    return dateCopy.getDay();
   }
 
   getMinutes(duration: number) {

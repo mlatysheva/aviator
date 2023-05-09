@@ -19,6 +19,7 @@ export class CarouselDateComponent implements OnInit {
   isCanFly: boolean;
   isOneWay: boolean;
   isTo: boolean;
+  isFlightDay: boolean;
   i: number;
 
   state$: Observable<AppState>;
@@ -56,6 +57,7 @@ export class CarouselDateComponent implements OnInit {
   duration: number;
   durationFrom: number;
   returnFlightId: string;
+  flightDaysTo: number[];
 
   //time
   hours: number;
@@ -88,7 +90,6 @@ export class CarouselDateComponent implements OnInit {
       }
       this.price = this.result[0].pricesAdult[0];
       this.prices = this.result[0].pricesAdult;
-      this.i = this.result[0].pricesAdult.length;
       this.seats = this.result[0].totalSeats;
       this.departureTime = this.result[0].departureTime;
       this.direct = this.result[0].direct;
@@ -99,6 +100,9 @@ export class CarouselDateComponent implements OnInit {
       this.arrivingDateTo = this.dateService.getArrivingDate(this.startDate, this.duration);
       this.returnFlightId = this.result[0].returnFlightId;
       this.getReturnDetailsList(this.returnFlightId);
+      this.flightDaysTo = this.result[0].flightDays;
+      console.log(this.prices[this.dateService.getIndexOfDate(this.startDate, this.flightDaysTo)]);
+
     });
     return this.details$;
   }
@@ -151,6 +155,7 @@ export class CarouselDateComponent implements OnInit {
     this.getDetailsList(this.codFrom, this.codTo);
     this.isCanFly = this.dateService.isCanFly(this.startDate);
     this.isFly = this.isCanFly ? 'true' : 'false';
+
     this.timeZoneFrom = this.dateService.findOffset(this.cityFrom);
     this.timeZoneTo = this.dateService.findOffset(this.cityTo);
   }
