@@ -9,7 +9,8 @@ import { Observable, Subscription, map } from 'rxjs';
 import { AgGridAngular } from 'ag-grid-angular';
 import { Router } from '@angular/router';
 import { selectUserCurrency } from '../../../store/selectors/user.selectors';
-import { state } from '@angular/animations';
+import getSymbolFromCurrency from 'currency-symbol-map'
+
 
 
 @Component({
@@ -24,7 +25,8 @@ export class CartPageComponent implements OnInit {
   trips$: Observable<ITrip[]>;
   totalPrice$: Observable<number>;
 
-  currency = this.store.select(selectUserCurrency);
+  currency$ = this.store.select(selectUserCurrency);
+  currency: string | undefined;
 
   @ViewChild(AgGridAngular) agGrid!: AgGridAngular;
   colDefs: ColDef[];
@@ -121,30 +123,26 @@ export class CartPageComponent implements OnInit {
     };
   }
 
-
-  private onDataChangeHandler() {
-    console.log('onDataChangeHandler');
-  }
-
   ngOnInit(): void {
-    console.log('we are in ngOnInit');
+    this.currency$.subscribe((currency) => {
+      this.currency = currency;
+    });
   }
 
   onGridReady(params: GridReadyEvent) {
-    console.log('we are in onGridReady');
     this.cart$ = this.cartApiService.getCart(this.cartId);
     this.trips$ = this.cartApiService.getTripsByCartId(this.cartId);
-    this.currency = this.store.select(state => state.user.currency);
-    console.log(this.currency);
 
     this.totalPrice$ = this.trips$.pipe(
       map((trips) => {
-        console.log(trips);
         const price =  trips.reduce((acc, trip) => acc + trip.totalAmount, 0);
-        console.log(price);
         return price;
       }
     ));
+  }
+
+  private onDataChangeHandler() {
+    // console.log('onDataChangeHandler');
   }
 
   renderMenuWithActions(params: ICellRendererParams) {
@@ -183,11 +181,8 @@ export class CartPageComponent implements OnInit {
   }
 
   onCellClicked(params: any) {
-    console.log('in onCellClicked colId is: ', params.column.colId);
-    console.log('target.dataset.action is ', params.event.target.dataset.action);
     if (params.column.colId === "moreActions" && params.event.target.dataset.action) {
       const action = params.event.target.dataset.action;
-      console.log('we are in moreActions');
 
       if (action === "edit") {
         this.router.navigate(['flights', this.cartId]);
@@ -200,7 +195,6 @@ export class CartPageComponent implements OnInit {
       }
 
       if (action === "delete") {
-        console.log('in delete', params.node.data);
 
         params.api.applyTransaction({
           remove: [params.node.data]

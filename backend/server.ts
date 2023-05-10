@@ -69,8 +69,6 @@ server.post('/login', (req, res) => {
 server.post('/flightspair', (req, res) => {
   try {
     const { originAirportIataCode, destinationAirportIataCode } = req.body;
-    console.log('originAirportIataCode', originAirportIataCode);
-    console.log('destinationAirportIataCode', destinationAirportIataCode);
     const db = JSON.parse(
       fs.readFileSync(pathToDB, 'utf8'),
     );
@@ -79,7 +77,6 @@ server.post('/flightspair', (req, res) => {
       (flight: IFlight) => flight.originAirportIataCode === originAirportIataCode && flight.destinationAirportIataCode === destinationAirportIataCode,
     );
     const indexOfOriginalFlight = flights.indexOf(departureFlight);
-    console.log('departureFlight', departureFlight);
     let returnFlight;
     if (flights[indexOfOriginalFlight + 1] && flights[indexOfOriginalFlight + 1].originAirportIataCode === destinationAirportIataCode && flights[indexOfOriginalFlight + 1].destinationAirportIataCode === originAirportIataCode) {
       returnFlight = flights[indexOfOriginalFlight + 1];
@@ -90,8 +87,6 @@ server.post('/flightspair', (req, res) => {
         (flight: IFlight) => flight.originAirportIataCode === destinationAirportIataCode && flight.destinationAirportIataCode === originAirportIataCode,
       );
     }
-    console.log('departureFlight', departureFlight);
-    console.log('returnFlight', returnFlight);
 
     return res.json([ departureFlight, returnFlight ]);
   } catch (e) {
