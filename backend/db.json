@@ -205,7 +205,7 @@
     }
   ],
   "login": {},
-  "flightspair": {},
+  "flightspair": [],
   "airports": [
     {
       "name": "Capital Intl",

@@ -2,7 +2,7 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
-  position: sticky;
+  position: fixed;
   top: calc(100vh - var(--footer-height));
   height: var(--footer-height);
   left: 0px;

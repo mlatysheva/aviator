@@ -66,7 +66,7 @@ server.post('/login', (req, res) => {
   }
 });
 
-server.get('/flightspair', (req, res) => {
+server.post('/flightspair', (req, res) => {
   try {
     const { originAirportIataCode, destinationAirportIataCode } = req.body;
     const db = JSON.parse(
@@ -77,8 +77,7 @@ server.get('/flightspair', (req, res) => {
       (flight: IFlight) => flight.originAirportIataCode === originAirportIataCode && flight.destinationAirportIataCode === destinationAirportIataCode,
     );
     const indexOfOriginalFlight = flights.indexOf(departureFlight);
-
-    let returnFlight = null;
+    let returnFlight;
     if (flights[indexOfOriginalFlight + 1] && flights[indexOfOriginalFlight + 1].originAirportIataCode === destinationAirportIataCode && flights[indexOfOriginalFlight + 1].destinationAirportIataCode === originAirportIataCode) {
       returnFlight = flights[indexOfOriginalFlight + 1];
     } else if (flights[indexOfOriginalFlight - 1] && flights[indexOfOriginalFlight - 1].originAirportIataCode === destinationAirportIataCode && flights[indexOfOriginalFlight - 1].destinationAirportIataCode === originAirportIataCode) {
@@ -89,7 +88,7 @@ server.get('/flightspair', (req, res) => {
       );
     }
 
-    return res.json({ departureFlight, returnFlight });
+    return res.json([ departureFlight, returnFlight ]);
   } catch (e) {
     console.error(e);
     return res.status(500).json({ message: e.message });

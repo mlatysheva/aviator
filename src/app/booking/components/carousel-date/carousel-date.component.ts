@@ -47,6 +47,7 @@ export class CarouselDateComponent implements OnInit {
   price: number;
   priceFrom: number;
   prices: number[] = [];
+  // details$: Observable<IFlight[]>;
   details$: Observable<IFlight[]>;
   returnDetails$: Observable<IFlight[]>;
   result: IFlight[] = [];
