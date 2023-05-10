@@ -22,3 +22,4 @@ export const setTripContactDetails = createAction(
 );
 
 export const clearTripState = createAction('[] Cleared Trip State');
+

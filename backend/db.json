@@ -73,6 +73,20 @@
         "phone": "0123456789"
       },
       "id": "8c0c0aa1-9360-4708-b0aa-434f597ee586"
+    },
+    {
+      "email": "gasmin07@gmail.com",
+      "password": "11!!qqQQ",
+      "firstName": "Olena",
+      "lastName": "Honcharuk",
+      "birthDate": "1965-05-07T07:00:00.000Z",
+      "gender": "female",
+      "citizenship": "Ukraine",
+      "contactDetails": {
+        "countryCode": "+380",
+        "phone": "0958187111"
+      },
+      "id": "f855e72e-ae21-4a01-8f8e-7491d422664b"
     }
   ],
   "passengers": [

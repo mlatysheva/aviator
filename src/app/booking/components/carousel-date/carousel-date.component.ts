@@ -2,10 +2,12 @@ import { Component, OnInit, Input, ElementRef } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import getSymbolFromCurrency from 'currency-symbol-map'
-import { AppState } from 'src/app/store/state.models';
+import { AppState } from '../../../store/state.models';
 import { AviaService } from '../../../avia/services/avia.service';
 import { IFlight } from '../../../models/flight';
 import { DateService } from '../../services/date.service';
+import { setSelectedTrip } from '../../../store/actions/select.actions';
+import { IAgeTypeQuantity } from '../../../avia/models/agetype-quantity.model';
 
 @Component({
   selector: 'app-carousel-date',
@@ -58,6 +60,12 @@ export class CarouselDateComponent implements OnInit {
   durationFrom: number;
   returnFlightId: string;
   flightDaysTo: number[];
+  numberOfPassengers: IAgeTypeQuantity[];
+  passengersFrom: IAgeTypeQuantity[];
+  totalAmount: number;
+  totalAmountFrom: number;
+  totalTax: number;
+  totalTaxFrom: number;
 
   //time
   hours: number;
@@ -103,7 +111,8 @@ export class CarouselDateComponent implements OnInit {
       this.getReturnDetailsList(this.returnFlightId);
       this.flightDaysTo = this.result[0].flightDays;
       this.price = this.prices[this.dateService.getIndexOfDate(this.startDate, this.flightDaysTo)];
-      console.log(this.price);
+      this.totalAmount = this.price * this.numberOfPassengers[0].quantity;
+      this.totalTax = this.totalAmount * 0.2;
     });
     return this.details$;
   }
@@ -146,6 +155,7 @@ export class CarouselDateComponent implements OnInit {
       this.endDate = state.search.endDate;
       this.currency = getSymbolFromCurrency(state.user.currency);
       this.isOneWay = state.search.tripType === 'one-way' ? true : false;
+      this.numberOfPassengers = state.search.passengers;
     }
     );
     this.getDetailsList(this.codFrom, this.codTo);
@@ -155,6 +165,7 @@ export class CarouselDateComponent implements OnInit {
     this.timeZoneTo = this.dateService.findOffset(this.cityTo);
     this.slides = this.dateService.dateSlideTo(this.startDate);
     this.slidesFrom = this.dateService.dateSlideTo(this.endDate);
+
   }
 
   onClick(e: Event) {
@@ -188,35 +199,26 @@ export class CarouselDateComponent implements OnInit {
     editButton[0].classList.remove('none');
 
     // put flight details to store
-    // this.store.dispatch(new ({
-    //   price: this.price,
-    //   seats: this.seats,
-    //   departureTime: this.departureTime,
-    //   direct: this.direct,
-    //   flightNumber: this.flightNumber,
-    //   duration: this.duration,
-    //   hours: this.hours,
-    //   minutes: this.minutes,
-    //   arrivingDateTo: this.arrivingDateTo,
-    //   priceFrom: this.priceFrom,
-    //   seatsFrom: this.seatsFrom,
-    //   departureTimeFrom: this.departureTimeFrom,
-    //   directFrom: this.directFrom,
-    //   flightNumberFrom: this.flightNumberFrom,
-    //   durationFrom: this.durationFrom,
-    //   hoursFrom: this.hoursFrom,
-    //   minutesFrom: this.minutesFrom,
-    //   arrivingDateFrom: this.arrivingDateFrom,
-    //   currency: this.currency,
-    //   cityFrom: this.cityFrom,
-    //   cityTo: this.cityTo,
-    //   timeZoneFrom: this.timeZoneFrom,
-    //   timeZoneTo: this.timeZoneTo,
+    this.store.dispatch(setSelectedTrip({
+      roundTrip: this.isOneWay ? false : true,
+      originCity: this.cityFrom,
+      destinationCity: this.cityTo,
+      outboundFlightNo: this.flightNumber,
+      airportsIataCodes: [this.codFrom, this.codTo],
+      outboundDepartureDate: this.startDate,
+      outboundDepartureTime: this.departureTime,
+      outboundArrivalTime: this.arrivingDateTo ? this.arrivingDateTo : '',
+      returnFlightNo: this.flightNumberFrom,
+      returnDepartureDate: this.endDate,
+      returnDepartureTime: this.departureTimeFrom,
+      returnArrivalTime: this.arrivingDateFrom ? this.arrivingDateFrom : '',
+      numberOfPassengers: this.numberOfPassengers,
+      totalAmount: this.totalAmount,
+      totalTax: this.totalTax,
 
-
-    // }));
-    //this.router.navigate(['/booking']);
+    }));
   }
+
   onSelectSecond(e: Event) {
     this.slidesFrom = [];
     const element = this.el.nativeElement.querySelectorAll('.seats');

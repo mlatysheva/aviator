@@ -2,6 +2,8 @@ import { createReducer, on } from '@ngrx/store';
 import { IContacts } from 'src/app/models/contacts';
 import { IPassenger } from 'src/app/models/passenger';
 import * as TripActions from '../actions/trip.actions';
+import * as SelectedActions from '../actions/select.actions';
+import { IAgeTypeQuantity } from 'src/app/avia/models/agetype-quantity.model';
 
 export interface TripState {
   id?: string;
@@ -22,6 +24,7 @@ export interface TripState {
   totalAmount: number;
   totalTax: number;
   contactDetails: IContacts;
+  numberOfPassengers: IAgeTypeQuantity[];
 }
 
 export const initialState: TripState = {
@@ -40,6 +43,7 @@ export const initialState: TripState = {
   returnDepartureTime: '',
   returnArrivalTime: '',
   passengers: [],
+  numberOfPassengers: [],
   totalAmount: 0,
   totalTax: 0,
   contactDetails: {
@@ -52,6 +56,13 @@ export const tripReducer = createReducer(
   initialState,
   on(
     TripActions.setSearchParameters,
+    (state, payload): TripState => ({
+      ...state,
+      ...payload,
+    })
+  ),
+  on(
+    SelectedActions.setSelectedTrip,
     (state, payload): TripState => ({
       ...state,
       ...payload,
