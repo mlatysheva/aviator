@@ -31,13 +31,11 @@ export class CartApiService {
           cart.tripsIds.forEach(tripId => {
             this.getTrip(tripId).subscribe(trip => {
               cart?.trips?.push(trip);
-              console.log(cart);
             });
           });
         }
         this.errorMessage$.next('');
       });
-      console.log(response$);
     return response$;    
   }
 
@@ -46,7 +44,6 @@ export class CartApiService {
       catchError(error => this.handleError(error))
     )
     .subscribe((cart: ICart) => {
-      console.log(cart);
       this.errorMessage$.next('');
     });
   }
@@ -69,7 +66,6 @@ export class CartApiService {
         }
         this.errorMessage$.next('');
       });
-    console.log(trips);
     return trips;
   }
 

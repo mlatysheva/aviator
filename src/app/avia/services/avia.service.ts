@@ -3,6 +3,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { IAirport } from '../../models/airport';
 import { HttpClient } from '@angular/common/http';
 import { IFlight } from 'src/app/models/flight';
+import { baseUrl } from '../../constants/apiUrls';
 
 @Injectable({
   providedIn: 'root',
@@ -38,8 +39,10 @@ export class AviaService {
     return this.http.get<IFlight[]>(flightsRequestUrl);
   }
 
-
-
+  public getFlightsPair(from: string, to: string): Observable<any> {
+    const flightsRequestUrl = `${baseUrl}/flightspair`;
+    return this.http.post(flightsRequestUrl, { originAirportIataCode: from.trim(), destinationAirportIataCode: to.trim() });
+  }
 
   public search() {
     console.log('Search the flight');

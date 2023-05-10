@@ -9,6 +9,8 @@
   height: 68px;
   background-color: #fafafa;
   border-bottom: 1px solid #e5e5e5;
+  max-width: var(--max-content-width);
+  margin: 0 auto;
 }
 
 .destination,
