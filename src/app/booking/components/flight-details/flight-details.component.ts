@@ -31,6 +31,7 @@ export class FlightDetailsComponent {
   @Input() isTo: boolean;
   @Input() onSelect: (e: MouseEvent) => void;
   @Input() onClick: (e: MouseEvent) => void;
+  @Input() onEdit: (e: MouseEvent) => void;
 
   constructor(
     public dateService: DateService

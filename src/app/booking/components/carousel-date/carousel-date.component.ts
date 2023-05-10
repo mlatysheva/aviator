@@ -6,7 +6,8 @@ import { AppState } from '../../../store/state.models';
 import { AviaService } from '../../../avia/services/avia.service';
 import { IFlight } from '../../../models/flight';
 import { DateService } from '../../services/date.service';
-import { setSelectedTrip } from '../../../store/actions/select.actions';
+import { setSelectedTrip, clearSelectedTrip } from '../../../store/actions/select.actions';
+import { clearTripState } from 'src/app/store/actions/trip.actions';
 import { IAgeTypeQuantity } from '../../../avia/models/agetype-quantity.model';
 
 @Component({
@@ -198,6 +199,8 @@ export class CarouselDateComponent implements OnInit {
     button[0].classList.add('none');
     editButton[0].classList.remove('none');
 
+    //clear store before put new data
+    //this.store.dispatch(clearSelectedTrip());
     // put flight details to store
     this.store.dispatch(setSelectedTrip({
       roundTrip: this.isOneWay ? false : true,
@@ -227,6 +230,17 @@ export class CarouselDateComponent implements OnInit {
     element[1].classList.add('none');
     button[1].classList.add('none');
     editButton[1].classList.remove('none');
+  }
+
+  onEditFirstFlight(e: Event) {
+    this.slides = this.dateService.dateSlideTo(this.startDate);
+    const element = this.el.nativeElement.querySelectorAll('.seats');
+    const button = this.el.nativeElement.querySelectorAll('.select');
+    const editButton = this.el.nativeElement.querySelectorAll('.edit-btn');
+    element[0].classList.remove('none');
+    button[0].classList.remove('none');
+    editButton[0].classList.add('none');
+    this.store.dispatch(clearTripState());
   }
 }
 

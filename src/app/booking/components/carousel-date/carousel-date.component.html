@@ -22,12 +22,15 @@
         <div div class="carousel-caption"></div>
       </slide>
     </carousel>
+    <div class="flight-wrapper" (click)="onEditFirstFlight($event)">
 
-    <app-flight-details class="flight-details-to" [from]="from" [to]="to" [startDate]="startDate"
-      [departureTime]="departureTime" [timeZoneFrom]="timeZoneFrom" [arrivingDateTo]="arrivingDateTo"
-      [timeZoneTo]="timeZoneTo" [flightNumber]="flightNumber" [seats]="seats" [currency]="currency" [hours]="hours"
-      [minutes]="minutes" [price]="price" [onClick]="onClick" [onSelect]="onSelectFirst"
-      [isTo]="true"></app-flight-details>
+      <app-flight-details class="flight-details-to" [from]="from" [to]="to" [startDate]="startDate"
+        [departureTime]="departureTime" [timeZoneFrom]="timeZoneFrom" [arrivingDateTo]="arrivingDateTo"
+        [timeZoneTo]="timeZoneTo" [flightNumber]="flightNumber" [seats]="seats" [currency]="currency" [hours]="hours"
+        [minutes]="minutes" [price]="price" [onClick]="onClick" [onSelect]="onSelectFirst" [onEdit]="onEditFirstFlight"
+        [isTo]="true"></app-flight-details>
+    </div>
+
   </div>
   <div class="two-way" *ngIf="!isOneWay" (click)="onSelectSecond($event)">
     <div class="flight-info two-way">

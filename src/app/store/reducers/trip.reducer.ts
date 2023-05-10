@@ -69,6 +69,13 @@ export const tripReducer = createReducer(
     })
   ),
   on(
+    SelectedActions.clearSelectedTrip,
+    (state, payload): TripState => ({
+      ...initialState,
+      ...payload,
+    })
+  ),
+  on(
     TripActions.setPassengers,
     (state, payload): TripState => ({
       ...state,
