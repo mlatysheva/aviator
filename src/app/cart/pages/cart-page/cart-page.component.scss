@@ -18,3 +18,19 @@
   padding: 0 10px;
 }
 
+.middle-section {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.regular {
+  font-weight: 500;
+}
+
+.subtitle {
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: #11397E;
+}
+

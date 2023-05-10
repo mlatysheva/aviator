@@ -7,9 +7,22 @@
     [columnDefs]="colDefs"
     [defaultColDef]="defaultColDef"
     [rowSelection]="'multiple'"
+    (gridReady)="onGridReady($event)"
+    (rowEditingStopped)="onRowEditingStopped($event)"
+    (rowEditingStarted)="onRowEditingStarted($event)"
+    (cellClicked)="onCellClicked($event)"
+    editType="fullRow"
+    [suppressClickEdit]="true"
+    (gridReady)="onGridReady($event)"
   ></ag-grid-angular>
-  <button
-    (click)="addNewTrip()"
-  >+ Add new trip
-  </button>
+  <div class="middle-section">
+    <button
+      (click)="addNewTrip()"
+    >+ Add new trip
+    </button>
+    <div class="price-section">
+      <span class="regular">Total </span><span class="subtitle">{{currency}} {{ totalPrice$ | async }}</span>
+    </div>
+  </div>
+  
 </div>

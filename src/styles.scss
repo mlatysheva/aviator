@@ -104,6 +104,7 @@ body {
 .main-content {
   position: relative;
   top: var(--header-height);
+  margin: 0 auto;
 }
 
 /* Importing Bootstrap SCSS file. */
