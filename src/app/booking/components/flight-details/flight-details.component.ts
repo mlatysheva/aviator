@@ -24,8 +24,14 @@ export class FlightDetailsComponent {
   @Input() departureTime: string;
   @Input() arrivingDateTo: string | undefined;
   @Input() flightNumber: string;
-  @Input() onClick: (e: MouseEvent) => void;
+  @Input() isCanFly: boolean;
+  @Input() isFlightDay: boolean;
+  @Input() i: number;
+  @Input() isOneWay: boolean;
   @Input() isTo: boolean;
+  @Input() onSelect: (e: MouseEvent) => void;
+  @Input() onClick: (e: MouseEvent) => void;
+  @Input() onEdit: (e: MouseEvent) => void;
 
   constructor(
     public dateService: DateService
