@@ -10,6 +10,7 @@ import { AgGridAngular } from 'ag-grid-angular';
 import { Router } from '@angular/router';
 import { selectUserCurrency } from '../../../store/selectors/user.selectors';
 import getSymbolFromCurrency from 'currency-symbol-map';
+import { CURRENT_TRIP } from '../../../constants/localStorage';
 
 
 
@@ -190,16 +191,13 @@ export class CartPageComponent implements OnInit {
       console.log('tripId', tripId);
 
       if (action === "edit") {
+        localStorage.setItem(CURRENT_TRIP, tripId);
+        // TODO: dispatch setCurrentTrip action
         this.router.navigate(['flights']);
-
-        params.api.startEditingCell({
-          rowIndex: params.node.rowIndex,
-          // gets the first columnKey
-          colKey: params.columnApi.getDisplayedCenterColumns()[0].colId
-        });
       }
 
       if (action === "delete") {
+        this.cartApiService.deleteTrip(tripId);
         params.api.applyTransaction({
           remove: [params.node.data]
         });

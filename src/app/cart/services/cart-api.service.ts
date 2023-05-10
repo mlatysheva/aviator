@@ -19,26 +19,6 @@ export class CartApiService {
     private store: Store,
   ) {}
 
-  getCart2(id: string) {
-    const response$ = this.http.get<ICart>(`${baseUrl}/carts/${id}`);
-    response$
-      .pipe(
-        catchError(error => this.handleError(error))
-      )
-      .subscribe((cart: ICart) => {
-        if(cart.tripsIds?.length) {
-          cart.trips = [];
-          cart.tripsIds.forEach(tripId => {
-            this.getTrip(tripId).subscribe(trip => {
-              cart?.trips?.push(trip);
-            });
-          });
-        }
-        this.errorMessage$.next('');
-      });
-    return response$;    
-  }
-
   getCart(id: string) {
     return this.http.get<ICart>(`${baseUrl}/carts/${id}`).pipe(
       catchError(error => this.handleError(error))
@@ -46,27 +26,6 @@ export class CartApiService {
     .subscribe((cart: ICart) => {
       this.errorMessage$.next('');
     });
-  }
-
-  getTripsByCartId2(id: string) {
-    const response$ = this.http.get<ICart>(`${baseUrl}/carts/${id}`);
-    const trips: ITrip[] = [];
-    response$
-      .pipe(
-        catchError(error => this.handleError(error))
-      )
-      .subscribe((cart: ICart) => {
-        if(cart.tripsIds?.length) {          
-          cart.tripsIds.forEach(tripId => {
-            this.getTrip(tripId).subscribe(trip => {
-              trips.push(trip);
-            });
-          });
-          // return trips;
-        }
-        this.errorMessage$.next('');
-      });
-    return trips;
   }
 
   getTripsByCartId(id: string) {
@@ -83,6 +42,18 @@ export class CartApiService {
 
   getTrip(id: string) {
     const response$ = this.http.get<ITrip>(`${baseUrl}/trips/${id}`);
+    response$
+      .pipe(
+        catchError(error => this.handleError(error))
+      )
+      .subscribe((trip: ITrip) => {
+        this.errorMessage$.next('');
+      });
+    return response$;
+  }
+
+  deleteTrip(id: string) {
+    const response$ = this.http.delete<ITrip>(`${baseUrl}/trips/${id}`);
     response$
       .pipe(
         catchError(error => this.handleError(error))
