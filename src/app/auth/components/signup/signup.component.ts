@@ -2,14 +2,10 @@ import { Component,  OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { getAge } from '../../../utils/getAge';
-import { Observable, Subscription, catchError, retry } from 'rxjs';
+import { Observable } from 'rxjs';
 import { ICountryCode } from '../../../models/countryCode';
 import { UserService } from '../../../user/services/user.service';
 import { Router } from '@angular/router';
-import { USER_EMAIL, USER_ID } from '../../../constants/localStorage';
-import { baseUrl } from '../../../constants/apiUrls';
-import { IUser } from '../../../models';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-signup',

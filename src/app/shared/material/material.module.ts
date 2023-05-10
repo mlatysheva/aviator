@@ -16,6 +16,8 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatDividerModule } from '@angular/material/divider';
+
 
 const MaterialComponents = [
   MatRadioModule,
@@ -35,6 +37,7 @@ const MaterialComponents = [
   MatButtonToggleModule,
   MatTooltipModule,
   MatAutocompleteModule,
+  MatDividerModule,
 ];
 
 @NgModule({

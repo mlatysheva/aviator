@@ -1,26 +1,39 @@
-<div class="cart-page main-content">
+<div class="cart-page width-container main-content">
   <h1 class="title">Cart</h1>
   <ag-grid-angular
     class="ag-theme-alpine"
-    style="max-width: 1100px; height: 500px;"
+    style="max-width: 1100px; height: 250px;"
     [rowData]="trips$ | async"
     [columnDefs]="colDefs"
     [defaultColDef]="defaultColDef"
     [rowSelection]="'multiple'"
     (gridReady)="onGridReady($event)"
-    (rowEditingStopped)="onRowEditingStopped($event)"
-    (rowEditingStarted)="onRowEditingStarted($event)"
+    (onClick)="onCellClicked($event)"
     editType="fullRow"
     [suppressClickEdit]="true"
-    (gridReady)="onGridReady($event)"
   ></ag-grid-angular>
   <div class="middle-section">
-    <button
-      (click)="addNewTrip()"
-    >+ Add new trip
-    </button>
+    <button mat-raised-button (click)="addNewTrip()">+ Add new trip</button>
     <div class="price-section">
-      <span class="regular">Total </span><span class="subtitle">{{currency}} {{ totalPrice$ | async }}</span>
+      <span class="regular label">Total </span><span class="subtitle">{{currency}} {{ totalPrice$ | async }}</span>
+    </div>
+  </div>
+  <mat-divider></mat-divider>
+  <div class="bottom-section">
+    <mat-form-field appearance="outline" class="promo-wrapper">
+      <mat-label>Promo Code</mat-label>
+      <input matInput type="text" [(ngModel)]="promoCode" id="promoCode">
+      <button mat-icon-button matSuffix (click)="applyPromoCode()">
+        <mat-icon>navigate_next</mat-icon>
+      </button>
+    </mat-form-field>
+
+    <div class="bottom-right-section">
+      <div class="selected-section">
+        {{ selectedRows }} selected
+      </div>
+
+      <button mat-raised-button (click)="onPayment()" color="primary">Payment</button>
     </div>
   </div>
   
