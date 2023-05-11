@@ -13,9 +13,10 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { IAgeCategory, IPassenger } from 'backend/types';
 import { map, Observable } from 'rxjs';
-import { IAgeTypeQuantity } from 'src/app/avia/models/agetype-quantity.model';
-import { ISearchForm } from 'src/app/avia/models/search-form.model';
+import { IAgeTypeQuantity } from 'src/app/models/agetype-quantity.model';
+
 import { ICountryCode } from 'src/app/models/countryCode';
+import { ISearchForm } from 'src/app/models/search-form.model';
 import { IUser } from 'src/app/models/user';
 import { selectPassengers } from 'src/app/store/selectors/search.selectors';
 import { selectUserProfile } from 'src/app/store/selectors/user.selectors';
@@ -51,8 +52,6 @@ export class BookingPassengersComponent implements OnInit {
 
   public infoText =
     "Add the passenger's name as it is written on their documents (passport or ID). Do not use any accents or special characters. Do not use a nickname.";
-
-  public canNavigate = false;
 
   constructor(
     private store: Store<AppState>,
@@ -181,7 +180,7 @@ export class BookingPassengersComponent implements OnInit {
     };
   }
 
-  public formSubmit() {
+  public formSubmit(routeToNavigate: string): void {
     this.setPassengersCollection(
       this.passengersCollectionForm.value.passengers
     );
@@ -200,23 +199,19 @@ export class BookingPassengersComponent implements OnInit {
             savePassengersError: true,
           });
         }
-        if (error == '') {
-          this.canNavigate = true;
+        if (error === '') {
+          this.router.navigate([routeToNavigate]);
         }
       });
     }, 500);
   }
 
   public onBackClick() {
-    this.formSubmit();
-    this.router.navigate(['flights']);
+    this.formSubmit('flights');
   }
 
   public onNextClick() {
-    this.formSubmit();
-    if (this.canNavigate) {
-      this.router.navigate(['summary']);
-    }
+    this.formSubmit('summary');
   }
 
   private calculateAge(date: string): number {

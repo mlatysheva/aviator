@@ -9,34 +9,48 @@
     <div class="passengers-info">
         <mat-card class="card">
             <div class="card-header">
-                <h3 class="card-header-title">FR 1925</h3>
+                <div class="card-header-details">
+                    <h3 class="title">{{trip.outboundFlightNo}}</h3>
+                    <p class="city-title">{{trip.originCity}} - {{trip.destinationCity}}</p>
+                </div>
+                <div class="card-header-details">
+                    <small class="date">{{trip.outboundDepartureDate | date:'fullDate'}}</small>
+                    <small>{{trip.outboundDepartureTime}} - {{trip.outboundArrivalTime | date:'h:mm a'}}</small>
+                </div>
             </div>
             <mat-card-content>
                 <div class="card-content">
-                    <div *ngFor="let passenger of passengers$ | async">
+                    <div *ngFor="let passenger of trip.passengers">
                         <p>{{passenger.firstName + ' ' + passenger.lastName | uppercase}}</p>
                         <div class="passenger-details">
                             <p>1 checked bag (total 23 kg) included</p>
                             <p>1 cabin bag + 1 personal item (max. 8 kg) included</p>
-                            <p>Seat 1F</p>
+                            <p *ngIf="!passenger.ageCategory.infant">Seat {{passenger.seatNo}}</p>
                         </div>
                     </div>
                 </div>
             </mat-card-content>
         </mat-card>
 
-        <mat-card class="card" *ngIf="tripType === 'round-trip'">
+        <mat-card class="card" *ngIf="trip.roundTrip">
             <div class="card-header">
-                <h3 class="card-header-title">FR 1925</h3>
+                <div class="card-header-details">
+                    <h3 class="title">{{trip.returnFlightNo}}</h3>
+                    <p class="city-title">{{trip.destinationCity}} - {{trip.originCity}}</p>
+                </div>
+                <div class="card-header-details">
+                    <small class="date">{{trip.returnDepartureDate | date:'fullDate'}}</small>
+                    <small>{{trip.returnDepartureTime}} - {{trip.returnArrivalTime | date:'h:mm a'}}</small>
+                </div>
             </div>
             <mat-card-content>
                 <div class="card-content">
-                    <div *ngFor="let passenger of passengers$ | async">
+                    <div *ngFor="let passenger of trip.passengers">
                         <p>{{passenger.firstName + ' ' + passenger.lastName | uppercase}}</p>
                         <div class="passenger-details">
                             <p>1 checked bag (total 23 kg) included</p>
                             <p>1 cabin bag + 1 personal item (max. 8 kg) included</p>
-                            <p>Seat 1F</p>
+                            <p *ngIf="!passenger.ageCategory.infant">Seat {{passenger.seatNo}}</p>
                         </div>
                     </div>
                 </div>
@@ -46,9 +60,15 @@
 
     <mat-card>
         <mat-card-content>
-            <div *ngFor="let passenger of passengers$ | async">
+            <div *ngFor="let passenger of trip.passengers">
                 <p>1 x {{passenger.ageCategory | titlecase}} Fare</p>
             </div>
         </mat-card-content>
     </mat-card>
+
+    <div class="width-container stepper-btns">
+        <button mat-button color="primary" (click)="onBackClick()">Back</button>
+        <button mat-stroked-button>Add to order cart</button>
+        <button mat-raised-button color="primary">Buy now</button>
+    </div>
 </div>

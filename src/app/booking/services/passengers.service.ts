@@ -30,7 +30,6 @@ export class PassengersService {
   }
 
   public savePassengers(passengers: IPassenger[], id: string) {
-    debugger;
     const response$ = this.http.patch<ITrip[]>(`${baseUrl}/trips/${id}/`, {
       passengers,
     });

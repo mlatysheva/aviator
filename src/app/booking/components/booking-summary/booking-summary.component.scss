@@ -32,8 +32,28 @@
     padding-top: 16px;
     background-color: #f1f3f6;
 
-    &-title {
-      color: #11397e;
+    &-details {
+      display: flex;
+      flex-direction: row;
+
+      .title {
+        margin-right: 15px;
+        font-size: 20px;
+        line-height: 24px;
+        font-weight: bold;
+        color: #11397e;
+      }
+
+      .city-title {
+        font-size: 20px;
+        line-height: 24px;
+        font-weight: bold;
+        color: #000;
+      }
+
+      .date {
+        margin-right: 15px;
+      }
     }
   }
 
@@ -44,4 +64,15 @@
 
 .passenger-details {
   padding-left: 20px;
+}
+
+.stepper-btns {
+  display: flex;
+  justify-content: flex-end;
+  padding: 40px 0;
+
+  button {
+    margin: 0 5px;
+    padding: 20px;
+  }
 }

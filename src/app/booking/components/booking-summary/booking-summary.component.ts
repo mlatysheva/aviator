@@ -2,9 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { IPassenger } from 'backend/types';
 import { map, Observable } from 'rxjs';
-import { selectAllPassengers } from 'src/app/store/selectors/trip.selectors';
-import { selectTrip } from 'src/app/store/selectors/search.selectors';
+
 import { AppState } from 'src/app/store/state.models';
+import { ITrip } from 'src/app/models/trip';
+import { selectTheTrip } from 'src/app/store/selectors/trip.selectors';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-booking-summary',
@@ -12,17 +14,17 @@ import { AppState } from 'src/app/store/state.models';
   styleUrls: ['./booking-summary.component.scss'],
 })
 export class BookingSummaryComponent implements OnInit {
-  public passengers$!: Observable<IPassenger[] | any>;
-  public tripType$!: Observable<string>;
-  public tripType: string;
+  public trip$!: Observable<ITrip>;
+  public trip: ITrip;
 
-  constructor(private store: Store<AppState>) {}
+  constructor(private store: Store<AppState>, private router: Router) {}
 
   ngOnInit() {
-    this.passengers$ = this.store.select(selectAllPassengers);
-    this.tripType$ = this.store.select(selectTrip);
-    this.tripType$
-      .pipe(map((tripType) => (this.tripType = tripType)))
-      .subscribe();
+    this.trip$ = this.store.select(selectTheTrip);
+    this.trip$.pipe(map((trip) => (this.trip = trip))).subscribe();
+  }
+
+  onBackClick() {
+    this.router.navigate(['passengers']);
   }
 }
