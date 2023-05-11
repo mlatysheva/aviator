@@ -8,7 +8,7 @@ import { IFlight } from '../../../models/flight';
 import { DateService } from '../../services/date.service';
 import { IAgeTypeQuantity } from '../../../avia/models/agetype-quantity.model';
 import { FlightDetailsComponent } from '../flight-details/flight-details.component';
-
+import { SumPriceService } from '../../services/sum-price.service';
 @Component({
   selector: 'app-carousel-date',
   templateUrl: './carousel-date.component.html',
@@ -70,7 +70,7 @@ export class CarouselDateComponent implements OnInit {
   passengersFrom: IAgeTypeQuantity[];
   totalAmount: number;
   totalAmountFrom: number;
-  totalTax: number;
+  totalTax: number | undefined;
   totalTaxFrom: number;
 
   //time
@@ -89,6 +89,7 @@ export class CarouselDateComponent implements OnInit {
     private store: Store<AppState>,
     private aviaService: AviaService,
     public dateService: DateService,
+    private sumPriceService: SumPriceService,
 
   ) { }
 
@@ -117,8 +118,8 @@ export class CarouselDateComponent implements OnInit {
       this.getReturnDetailsList(this.returnFlightId);
       this.flightDaysTo = this.result[0].flightDays;
       this.price = this.prices[this.dateService.getIndexOfDate(this.startDate, this.flightDaysTo)];
-      this.totalAmount = this.price * this.numberOfPassengers[0].quantity;
-      this.totalTax = this.totalAmount * 0.2;
+      this.totalTax = this.sumPriceService.sumpPricesAdult(this.result[0], this.numberOfPassengers).totalTax;
+      this.totalAmount = this.sumPriceService.sumpPricesAdult(this.result[0], this.numberOfPassengers).sumPrice;
     });
     return this.details$;
   }
