@@ -129,7 +129,10 @@
 }
 
 .none {
-  //visibility: hidden;
-  //opacity: 0;
   display: none;
+}
+
+.no-fly {
+  color: #74767a;
+  opacity: 0.5;
 }

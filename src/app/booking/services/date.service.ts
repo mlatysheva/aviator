@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as cityTimezones from 'city-timezones';
 import * as timeOffset from 'countries-and-timezones';
+import { IFlight } from 'src/app/models/flight';
 
 @Injectable({
   providedIn: 'root'
@@ -24,21 +25,24 @@ export class DateService {
     return dateCopy < today;
   }
 
-  isFlightDay(date: string, flightDays: number[]) {
+  isFlightDay(date: string, flight: IFlight) {
     const dateCopy = new Date(date);
     const day = dateCopy.getDay();
-    if (flightDays.includes(day)) {
-      return true;
+    if (flight !== undefined) {
+      const index = flight.flightDays.indexOf(day);
+      if (index !== -1) {
+        return true;
+      }
     }
     return false;
   }
 
   getIndexOfDate(date: string, flightDays: number[]) {
     const dateCopy = new Date(date);
-    const valueDateCopy = dateCopy.getDay();
-    const index = flightDays.indexOf(valueDateCopy);
+    const day = dateCopy.getDay();
+    const index = flightDays.indexOf(day);
     if (index === -1) {
-      return 0;
+      return -1;
     }
     return index;
   }

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ElementRef, ViewChildren, QueryList } from '@angular/core';
+import { Component, OnInit, Input, ViewChildren, QueryList } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import getSymbolFromCurrency from 'currency-symbol-map'
@@ -51,7 +51,6 @@ export class CarouselDateComponent implements OnInit {
   price: number;
   priceFrom: number;
   prices: number[] = [];
-  // details$: Observable<IFlight[]>;
   details$: Observable<IFlight[]>;
   returnDetails$: Observable<IFlight[]>;
   result: IFlight[] = [];
@@ -66,6 +65,7 @@ export class CarouselDateComponent implements OnInit {
   durationFrom: number;
   returnFlightId: string;
   flightDaysTo: number[];
+  flightDaysFrom: number[];
   numberOfPassengers: IAgeTypeQuantity[];
   passengersFrom: IAgeTypeQuantity[];
   totalAmount: number;
@@ -97,7 +97,6 @@ export class CarouselDateComponent implements OnInit {
     this.details$ = this.aviaService.getAllFlights();
     this.details$.subscribe((value) => {
       for (let i = 0; i < value.length; i++) {
-
         const result = value.filter(
           (item) =>
             item.originAirportIataCode === from.toString().trim() &&
@@ -117,7 +116,8 @@ export class CarouselDateComponent implements OnInit {
       this.returnFlightId = this.result[0].returnFlightId;
       this.getReturnDetailsList(this.returnFlightId);
       this.flightDaysTo = this.result[0].flightDays;
-      this.price = this.prices[this.dateService.getIndexOfDate(this.startDate, this.flightDaysTo)];
+      //this.price = this.prices[this.dateService.getIndexOfDate(this.startDate, this.flightDaysTo)];
+      this.prices = this.result[0].pricesAdult;
       this.totalTax = this.sumPriceService.sumpPricesAdult(this.result[0], this.numberOfPassengers).totalTax;
       this.totalAmount = this.sumPriceService.sumpPricesAdult(this.result[0], this.numberOfPassengers).sumPrice;
     });
@@ -144,6 +144,7 @@ export class CarouselDateComponent implements OnInit {
       this.hoursFrom = this.dateService.getHours(this.durationFrom);
       this.minutesFrom = this.dateService.getMinutes(this.durationFrom);
       this.arrivingDateFrom = this.dateService.getArrivingDate(this.endDate, this.durationFrom);
+      this.flightDaysFrom = this.returnDetails[0].flightDays;
     }
     );
     return this.returnDetails$;
@@ -173,7 +174,6 @@ export class CarouselDateComponent implements OnInit {
     this.timeZoneTo = this.dateService.findOffset(this.cityTo);
     this.slides = this.dateService.dateSlideTo(this.startDate);
     this.slidesFrom = this.dateService.dateSlideTo(this.endDate);
-
   }
 
   onClick(e: Event) {
