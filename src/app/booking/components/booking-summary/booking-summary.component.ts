@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { IPassenger } from 'backend/types';
 import { map, Observable } from 'rxjs';
 
 import { AppState } from 'src/app/store/state.models';
 import { ITrip } from 'src/app/models/trip';
 import { selectTheTrip } from 'src/app/store/selectors/trip.selectors';
 import { Router } from '@angular/router';
+import { CartApiService } from 'src/app/cart/services/cart-api.service';
+import { ICart } from 'src/app/models/cart';
 
 @Component({
   selector: 'app-booking-summary',
@@ -16,12 +17,26 @@ import { Router } from '@angular/router';
 export class BookingSummaryComponent implements OnInit {
   public trip$!: Observable<ITrip>;
   public trip: ITrip;
+  public trips: ITrip[];
 
-  constructor(private store: Store<AppState>, private router: Router) {}
+  public cart$!: Observable<any>;
+  public cart: ICart;
+
+  public tripIds: string[];
+
+  constructor(
+    private store: Store<AppState>,
+    private router: Router,
+    private cartApiService: CartApiService
+  ) {}
 
   ngOnInit() {
     this.trip$ = this.store.select(selectTheTrip);
     this.trip$.pipe(map((trip) => (this.trip = trip))).subscribe();
+
+    this.cartApiService
+      .getTripsByCartId('99t0y12e-b1e7-4011-a1c7-7b73cw92d11f')
+      .subscribe((trips) => (this.trips = trips));
   }
 
   public onBackClick() {
@@ -29,6 +44,14 @@ export class BookingSummaryComponent implements OnInit {
   }
 
   public onBuyClick() {
-    this.router.navigate(['cart']);
+    if (this.trips.length) {
+      this.router.navigate(['cart']);
+    }
+  }
+
+  private createTripsIdsCollection(trips: ITrip[]): string[] {
+    trips.forEach((trip) => this.tripIds.push(trip.id as string));
+    return this.tripIds;
+    // this.cartApiService.getCart('99t0y12e-b1e7-4011-a1c7-7b73cw92d11f');
   }
 }
