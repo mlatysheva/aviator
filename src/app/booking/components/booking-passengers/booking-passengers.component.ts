@@ -52,6 +52,8 @@ export class BookingPassengersComponent implements OnInit {
   public infoText =
     "Add the passenger's name as it is written on their documents (passport or ID). Do not use any accents or special characters. Do not use a nickname.";
 
+  public canNavigate = false;
+
   constructor(
     private store: Store<AppState>,
     private router: Router,
@@ -142,7 +144,7 @@ export class BookingPassengersComponent implements OnInit {
       newPerson.birthday = person.birthday;
       newPerson.age = this.calculateAge(person.birthday);
       newPerson.ageCategory = this.ageCategoryCollection[i] as IAgeCategory;
-      this.passengers.push(newPerson);
+      this.passengers.push(newPerson as IPassenger);
     });
   }
 
@@ -188,6 +190,21 @@ export class BookingPassengersComponent implements OnInit {
       countryCode: this.detailsForm.controls['countryCode'].value,
       phone: this.detailsForm.controls['phone'].value,
     });
+
+    const trip_id = localStorage.getItem('aviator_trip_id') as string;
+    this.passengersService.savePassengers(this.passengers, trip_id);
+    setTimeout(() => {
+      this.passengersService.errorMessage$.subscribe((error) => {
+        if (error !== '') {
+          this.passengersCollectionForm.setErrors({
+            savePassengersError: true,
+          });
+        }
+        if (error == '') {
+          this.canNavigate = true;
+        }
+      });
+    }, 500);
   }
 
   public onBackClick() {
@@ -197,7 +214,9 @@ export class BookingPassengersComponent implements OnInit {
 
   public onNextClick() {
     this.formSubmit();
-    this.router.navigate(['summary']);
+    if (this.canNavigate) {
+      this.router.navigate(['summary']);
+    }
   }
 
   private calculateAge(date: string): number {

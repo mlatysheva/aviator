@@ -87,6 +87,20 @@
         "phone": "0958187111"
       },
       "id": "f855e72e-ae21-4a01-8f8e-7491d422664b"
+    },
+    {
+      "email": "admin@admin.pl",
+      "password": "Thursday22&",
+      "firstName": "Admin",
+      "lastName": "Admin",
+      "birthDate": "2000-05-26T22:00:00.000Z",
+      "gender": "female",
+      "citizenship": "Angola",
+      "contactDetails": {
+        "countryCode": "+244",
+        "phone": "1234567890"
+      },
+      "id": "c5d0b76f-985f-485b-91cb-c1085fe1f75d"
     }
   ],
   "passengers": [
@@ -188,6 +202,52 @@
       "totalTax": 202.5,
       "contactDetails": {
         "email": "darth@vader.com",
+        "countryCode": "7",
+        "phone": "123456789"
+      }
+    },
+    {
+      "id": "88cec744-b2a2-4b87-abaf-1c7a6ee22f11",
+      "userId": "c5d0b76f-985f-485b-91cb-c1085fe1f75d",
+      "roundTrip": false,
+      "airportsIataCodes": [
+        "LHR",
+        "CDG"
+      ],
+      "originCity": "London",
+      "destinationCity": "Paris",
+      "outboundFlightNo": "FR-924",
+      "outboundDepartureDate": "08/05/2023",
+      "outboundDepartureTime": "11:25",
+      "outboundArrivalTime": "13:20",
+      "returnFlightNo": "FR-925",
+      "returnDepartureDate": "08/18/2023",
+      "returnDepartureTime": "18:35",
+      "returnArrivalTime": "20:45",
+      "passengers": [
+        {
+          "id": "",
+          "firstName": "test",
+          "lastName": "test",
+          "birthday": "1999-05-11T22:00:00.000Z",
+          "age": 24,
+          "ageCategory": "adult",
+          "seatNo": ""
+        },
+        {
+          "id": "",
+          "firstName": "test2",
+          "lastName": "test2",
+          "birthday": "2017-05-12T22:00:00.000Z",
+          "age": 5,
+          "ageCategory": "child",
+          "seatNo": ""
+        }
+      ],
+      "totalAmount": 1250,
+      "totalTax": 202.5,
+      "contactDetails": {
+        "email": "admin@admin.com",
         "countryCode": "7",
         "phone": "123456789"
       }
