@@ -24,7 +24,11 @@ export class BookingSummaryComponent implements OnInit {
     this.trip$.pipe(map((trip) => (this.trip = trip))).subscribe();
   }
 
-  onBackClick() {
+  public onBackClick() {
     this.router.navigate(['passengers']);
+  }
+
+  public onBuyClick() {
+    this.router.navigate(['cart']);
   }
 }
