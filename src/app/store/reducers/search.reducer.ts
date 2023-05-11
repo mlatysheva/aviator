@@ -1,7 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
 import * as SearchActions from '../actions/search.actions';
 import { TRIP_TYPE } from '../../constants/localStorage';
-import { IAgeTypeQuantity } from 'src/app/avia/models/agetype-quantity.model';
+import { IAgeTypeQuantity } from 'src/app/models/agetype-quantity.model';
 
 export interface SearchFormState {
   tripType: string;

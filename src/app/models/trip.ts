@@ -1,6 +1,6 @@
 import { IContacts } from './contacts';
 import { IPassenger } from './passenger';
-import { IAgeTypeQuantity } from '../avia/models/agetype-quantity.model';
+import { IAgeTypeQuantity } from './agetype-quantity.model';
 
 export interface ITrip {
   id?: string;
