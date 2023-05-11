@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, ElementRef, ViewChildren, QueryList } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import getSymbolFromCurrency from 'currency-symbol-map'
@@ -6,9 +6,8 @@ import { AppState } from '../../../store/state.models';
 import { AviaService } from '../../../avia/services/avia.service';
 import { IFlight } from '../../../models/flight';
 import { DateService } from '../../services/date.service';
-import { setSelectedTrip, clearSelectedTrip } from '../../../store/actions/select.actions';
-import { clearTripState } from 'src/app/store/actions/trip.actions';
 import { IAgeTypeQuantity } from '../../../avia/models/agetype-quantity.model';
+import { FlightDetailsComponent } from '../flight-details/flight-details.component';
 
 @Component({
   selector: 'app-carousel-date',
@@ -18,6 +17,11 @@ import { IAgeTypeQuantity } from '../../../avia/models/agetype-quantity.model';
 })
 export class CarouselDateComponent implements OnInit {
   @Input() isFly: string;
+  event: Event;
+  oneWay: number;
+
+  @ViewChildren(FlightDetailsComponent) el: QueryList<FlightDetailsComponent>;
+
   $event: MouseEvent;
   isCanFly: boolean;
   isOneWay: boolean;
@@ -85,7 +89,7 @@ export class CarouselDateComponent implements OnInit {
     private store: Store<AppState>,
     private aviaService: AviaService,
     public dateService: DateService,
-    private el: ElementRef
+
   ) { }
 
   public getDetailsList(from: string, to: string): Observable<IFlight[]> {
@@ -158,6 +162,7 @@ export class CarouselDateComponent implements OnInit {
       this.currency = getSymbolFromCurrency(state.user.currency);
       this.isOneWay = state.search.tripType === 'one-way' ? true : false;
       this.numberOfPassengers = state.search.passengers;
+      this.oneWay = state.search.tripType === 'one-way' ? 0 : 1;
     }
     );
     this.getDetailsList(this.codFrom, this.codTo);
@@ -190,58 +195,5 @@ export class CarouselDateComponent implements OnInit {
     }
   }
 
-  onSelectFirst(e: Event) {
-    //remove unused slides
-    this.slides = [];
-    const element = this.el.nativeElement.querySelectorAll('.seats');
-    const button = this.el.nativeElement.querySelectorAll('.select');
-    const editButton = this.el.nativeElement.querySelectorAll('.edit-btn');
-    element[0].classList.add('none');
-    button[0].classList.add('none');
-    editButton[0].classList.remove('none');
-
-    //clear store before put new data
-    //this.store.dispatch(clearSelectedTrip());
-    // put flight details to store
-    this.store.dispatch(setSelectedTrip({
-      roundTrip: this.isOneWay ? false : true,
-      originCity: this.cityFrom,
-      destinationCity: this.cityTo,
-      outboundFlightNo: this.flightNumber,
-      airportsIataCodes: [this.codFrom, this.codTo],
-      outboundDepartureDate: this.startDate,
-      outboundDepartureTime: this.departureTime,
-      outboundArrivalTime: this.arrivingDateTo ? this.arrivingDateTo : '',
-      returnFlightNo: this.flightNumberFrom,
-      returnDepartureDate: this.endDate,
-      returnDepartureTime: this.departureTimeFrom,
-      returnArrivalTime: this.arrivingDateFrom ? this.arrivingDateFrom : '',
-      numberOfPassengers: this.numberOfPassengers,
-      totalAmount: this.totalAmount,
-      totalTax: this.totalTax,
-
-    }));
-  }
-
-  onSelectSecond(e: Event) {
-    this.slidesFrom = [];
-    const element = this.el.nativeElement.querySelectorAll('.seats');
-    const button = this.el.nativeElement.querySelectorAll('.select');
-    const editButton = this.el.nativeElement.querySelectorAll('.edit-btn');
-    element[1].classList.add('none');
-    button[1].classList.add('none');
-    editButton[1].classList.remove('none');
-  }
-
-  onEditFirstFlight(e: Event) {
-    this.slides = this.dateService.dateSlideTo(this.startDate);
-    const element = this.el.nativeElement.querySelectorAll('.seats');
-    const button = this.el.nativeElement.querySelectorAll('.select');
-    const editButton = this.el.nativeElement.querySelectorAll('.edit-btn');
-    element[0].classList.remove('none');
-    button[0].classList.remove('none');
-    editButton[0].classList.add('none');
-    this.store.dispatch(clearTripState());
-  }
 }
 
