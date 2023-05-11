@@ -13,9 +13,10 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { IAgeCategory, IPassenger } from 'backend/types';
 import { map, Observable } from 'rxjs';
-import { IAgeTypeQuantity } from 'src/app/avia/models/agetype-quantity.model';
-import { ISearchForm } from 'src/app/avia/models/search-form.model';
+import { IAgeTypeQuantity } from 'src/app/models/agetype-quantity.model';
+
 import { ICountryCode } from 'src/app/models/countryCode';
+import { ISearchForm } from 'src/app/models/search-form.model';
 import { IUser } from 'src/app/models/user';
 import { selectPassengers } from 'src/app/store/selectors/search.selectors';
 import { selectUserProfile } from 'src/app/store/selectors/user.selectors';
@@ -142,7 +143,7 @@ export class BookingPassengersComponent implements OnInit {
       newPerson.birthday = person.birthday;
       newPerson.age = this.calculateAge(person.birthday);
       newPerson.ageCategory = this.ageCategoryCollection[i] as IAgeCategory;
-      this.passengers.push(newPerson);
+      this.passengers.push(newPerson as IPassenger);
     });
   }
 
@@ -179,7 +180,7 @@ export class BookingPassengersComponent implements OnInit {
     };
   }
 
-  public formSubmit() {
+  public formSubmit(routeToNavigate: string): void {
     this.setPassengersCollection(
       this.passengersCollectionForm.value.passengers
     );
@@ -188,16 +189,29 @@ export class BookingPassengersComponent implements OnInit {
       countryCode: this.detailsForm.controls['countryCode'].value,
       phone: this.detailsForm.controls['phone'].value,
     });
+
+    const trip_id = localStorage.getItem('aviator_trip_id') as string;
+    this.passengersService.savePassengers(this.passengers, trip_id);
+    setTimeout(() => {
+      this.passengersService.errorMessage$.subscribe((error) => {
+        if (error !== '') {
+          this.passengersCollectionForm.setErrors({
+            savePassengersError: true,
+          });
+        }
+        if (error === '') {
+          this.router.navigate([routeToNavigate]);
+        }
+      });
+    }, 500);
   }
 
   public onBackClick() {
-    this.formSubmit();
-    this.router.navigate(['flights']);
+    this.formSubmit('flights');
   }
 
   public onNextClick() {
-    this.formSubmit();
-    this.router.navigate(['summary']);
+    this.formSubmit('summary');
   }
 
   private calculateAge(date: string): number {

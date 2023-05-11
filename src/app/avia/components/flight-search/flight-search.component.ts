@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IAirport } from '../../../models/airport';
 import { Observable } from 'rxjs';
 import { AviaService } from '../../services/avia.service';
-import { IAgeTypeQuantity } from '../../models/agetype-quantity.model';
+import { IAgeTypeQuantity } from '../../../models/agetype-quantity.model';
 import { MatOption } from '@angular/material/core';
 import { Router } from '@angular/router';
 import { TRIP_TYPE } from '../../../constants/localStorage';

@@ -1,19 +1,19 @@
 import { Component, OnInit, Input, ViewChildren, QueryList } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import getSymbolFromCurrency from 'currency-symbol-map'
+import getSymbolFromCurrency from 'currency-symbol-map';
 import { AppState } from '../../../store/state.models';
 import { AviaService } from '../../../avia/services/avia.service';
 import { IFlight } from '../../../models/flight';
 import { DateService } from '../../services/date.service';
-import { IAgeTypeQuantity } from '../../../avia/models/agetype-quantity.model';
 import { FlightDetailsComponent } from '../flight-details/flight-details.component';
 import { SumPriceService } from '../../services/sum-price.service';
+import { IAgeTypeQuantity } from '../../../models/agetype-quantity.model';
+
 @Component({
   selector: 'app-carousel-date',
   templateUrl: './carousel-date.component.html',
   styleUrls: ['./carousel-date.component.scss'],
-
 })
 export class CarouselDateComponent implements OnInit {
   @Input() isFly: string;
@@ -53,7 +53,7 @@ export class CarouselDateComponent implements OnInit {
   prices: number[] = [];
   details$: Observable<IFlight[]>;
   returnDetails$: Observable<IFlight[]>;
-  result: IFlight[] = [];
+  result: IFlight[];
   returnDetails: IFlight[] = [];
   seats: number;
   seatsFrom: number;
@@ -64,8 +64,8 @@ export class CarouselDateComponent implements OnInit {
   duration: number;
   durationFrom: number;
   returnFlightId: string;
-  flightDaysTo: number[];
-  flightDaysFrom: number[];
+  flightDaysTo: IFlight["flightDays"] = [];
+  flightDaysFrom: IFlight["flightDays"] = [];
   numberOfPassengers: IAgeTypeQuantity[];
   passengersFrom: IAgeTypeQuantity[];
   totalAmount: number;
@@ -93,6 +93,7 @@ export class CarouselDateComponent implements OnInit {
 
   ) { }
 
+
   public getDetailsList(from: string, to: string): Observable<IFlight[]> {
     this.details$ = this.aviaService.getAllFlights();
     this.details$.subscribe((value) => {
@@ -100,7 +101,8 @@ export class CarouselDateComponent implements OnInit {
         const result = value.filter(
           (item) =>
             item.originAirportIataCode === from.toString().trim() &&
-            item.destinationAirportIataCode === to.toString().trim())
+            item.destinationAirportIataCode === to.toString().trim()
+        );
         this.result = result;
       }
       this.price = this.result[0].pricesAdult[0];
@@ -112,11 +114,13 @@ export class CarouselDateComponent implements OnInit {
       this.duration = this.result[0].duration;
       this.hours = this.dateService.getHours(this.duration);
       this.minutes = this.dateService.getMinutes(this.duration);
-      this.arrivingDateTo = this.dateService.getArrivingDate(this.startDate, this.duration);
+      this.arrivingDateTo = this.dateService.getArrivingDate(
+        this.startDate,
+        this.duration
+      );
       this.returnFlightId = this.result[0].returnFlightId;
       this.getReturnDetailsList(this.returnFlightId);
       this.flightDaysTo = this.result[0].flightDays;
-      //this.price = this.prices[this.dateService.getIndexOfDate(this.startDate, this.flightDaysTo)];
       this.prices = this.result[0].pricesAdult;
       this.totalTax = this.sumPriceService.sumpPricesAdult(this.result[0], this.numberOfPassengers).totalTax;
       this.totalAmount = this.sumPriceService.sumpPricesAdult(this.result[0], this.numberOfPassengers).sumPrice;
@@ -130,8 +134,8 @@ export class CarouselDateComponent implements OnInit {
       for (let i = 0; i < value.length; i++) {
         this.returnDetails.push(value[i]);
         const result = this.returnDetails.filter(
-          (item) =>
-            item.id === id.trim())
+          (item) => item.id === id.trim()
+        );
         this.returnDetails = result;
       }
       this.priceFrom = this.returnDetails[0].pricesAdult[0];
@@ -157,8 +161,16 @@ export class CarouselDateComponent implements OnInit {
       this.to = state.search.destination.split(',').slice(0, 2).join('');
       this.codFrom = state.search.departure.split(',').slice(2, 3).join('');
       this.codTo = state.search.destination.split(',').slice(2, 3).join('');
-      this.cityFrom = state.search.departure.split(',').slice(1, 2).join('').trim();
-      this.cityTo = state.search.destination.split(',').slice(1, 2).join('').trim();
+      this.cityFrom = state.search.departure
+        .split(',')
+        .slice(1, 2)
+        .join('')
+        .trim();
+      this.cityTo = state.search.destination
+        .split(',')
+        .slice(1, 2)
+        .join('')
+        .trim();
       this.startDate = state.search.startDate;
       this.endDate = state.search.endDate;
       this.currency = getSymbolFromCurrency(state.user.currency);
@@ -197,4 +209,3 @@ export class CarouselDateComponent implements OnInit {
   }
 
 }
-

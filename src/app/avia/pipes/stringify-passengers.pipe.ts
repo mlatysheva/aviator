@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { IAgeTypeQuantity } from '../models/agetype-quantity.model';
+import { IAgeTypeQuantity } from '../../models/agetype-quantity.model';
 
 @Pipe({
   name: 'stringifyPassengers',

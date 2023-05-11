@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { DateService } from '../../services/date.service';
 import { clearSelectedTrip, setSelectedTrip } from 'src/app/store/actions/select.actions';
 import { AppState } from 'src/app/store/state.models';
-import { IAgeTypeQuantity } from 'src/app/avia/models/agetype-quantity.model';
+import { IAgeTypeQuantity } from '../../../models/agetype-quantity.model';
 
 @Component({
   selector: 'app-flight-details',

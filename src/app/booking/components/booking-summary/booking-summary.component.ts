@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { IPassenger } from 'backend/types';
 import { map, Observable } from 'rxjs';
-import { selectAllPassengers } from 'src/app/store/selectors/trip.selectors';
-import { selectTrip } from 'src/app/store/selectors/search.selectors';
+
 import { AppState } from 'src/app/store/state.models';
+import { ITrip } from 'src/app/models/trip';
+import { selectTheTrip } from 'src/app/store/selectors/trip.selectors';
+import { Router } from '@angular/router';
+import { CartApiService } from 'src/app/cart/services/cart-api.service';
+import { ICart } from 'src/app/models/cart';
 
 @Component({
   selector: 'app-booking-summary',
@@ -12,17 +15,43 @@ import { AppState } from 'src/app/store/state.models';
   styleUrls: ['./booking-summary.component.scss'],
 })
 export class BookingSummaryComponent implements OnInit {
-  public passengers$!: Observable<IPassenger[] | any>;
-  public tripType$!: Observable<string>;
-  public tripType: string;
+  public trip$!: Observable<ITrip>;
+  public trip: ITrip;
+  public trips: ITrip[];
 
-  constructor(private store: Store<AppState>) {}
+  public cart$!: Observable<any>;
+  public cart: ICart;
+
+  public tripIds: string[];
+
+  constructor(
+    private store: Store<AppState>,
+    private router: Router,
+    private cartApiService: CartApiService
+  ) {}
 
   ngOnInit() {
-    this.passengers$ = this.store.select(selectAllPassengers);
-    this.tripType$ = this.store.select(selectTrip);
-    this.tripType$
-      .pipe(map((tripType) => (this.tripType = tripType)))
-      .subscribe();
+    this.trip$ = this.store.select(selectTheTrip);
+    this.trip$.pipe(map((trip) => (this.trip = trip))).subscribe();
+
+    this.cartApiService
+      .getTripsByCartId('99t0y12e-b1e7-4011-a1c7-7b73cw92d11f')
+      .subscribe((trips) => (this.trips = trips));
+  }
+
+  public onBackClick() {
+    this.router.navigate(['passengers']);
+  }
+
+  public onBuyClick() {
+    if (this.trips.length) {
+      this.router.navigate(['cart']);
+    }
+  }
+
+  private createTripsIdsCollection(trips: ITrip[]): string[] {
+    trips.forEach((trip) => this.tripIds.push(trip.id as string));
+    return this.tripIds;
+    // this.cartApiService.getCart('99t0y12e-b1e7-4011-a1c7-7b73cw92d11f');
   }
 }
