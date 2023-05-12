@@ -10,7 +10,7 @@ import { AgGridAngular } from 'ag-grid-angular';
 import { Router } from '@angular/router';
 import { selectUserCurrency } from '../../../store/selectors/user.selectors';
 import getSymbolFromCurrency from 'currency-symbol-map';
-import { CURRENT_TRIP } from '../../../constants/localStorage';
+import { TRIP_ID } from '../../../constants/localStorage';
 
 
 
@@ -55,11 +55,11 @@ export class CartPageComponent implements OnInit {
         onCellClicked: this.onCheckboxClicked.bind(this),
         width: 120,
         showDisabledCheckboxes: true,
-        cellStyle: { color: '#0090BD', 'fontWeight': '700'},
+        cellStyle: { color: '#0090BD', 'fontWeight': '700' },
         headerClass: 'ag-header-cell--centered',
         valueGetter: flightNosGetter,
       },
-      { 
+      {
         headerName: 'Flight',
         cellRenderer: flightGetter,
       },
@@ -80,7 +80,7 @@ export class CartPageComponent implements OnInit {
         width: 140,
         cellRenderer: passengersGetter,
       },
-      { 
+      {
         headerName: 'Price',
         width: 120,
         field: 'totalAmount',
@@ -95,27 +95,27 @@ export class CartPageComponent implements OnInit {
         cellEditorPopup: true,
         colId: 'moreActions',
         cellRenderer: this.actionCellRenderer.bind(this),
-        cellStyle: { 
+        cellStyle: {
           cursor: 'pointer',
           opacity: '0.5',
           display: 'flex',
           flexDirection: 'row',
           justifyContent: 'space-between',
-         },
+        },
         onCellClicked: this.onActionMenuClicked.bind(this),
         cellEditor: 'agSelectCellEditor',
       },
     ];
-  
+
     this.defaultColDef = {
       resizable: true,
       autoHeight: true,
-      wrapText: true, 
+      wrapText: true,
       wrapHeaderText: true,
-      autoHeaderHeight: true,    
-      cellStyle: { 
-        padding: '1rem', 
-        lineHeight: '1.5rem', 
+      autoHeaderHeight: true,
+      cellStyle: {
+        padding: '1rem',
+        lineHeight: '1.5rem',
         height: '100%',
         display: 'flex',
         justifyContent: 'center',
@@ -139,14 +139,14 @@ export class CartPageComponent implements OnInit {
 
     this.totalPrice$ = this.trips$.pipe(
       map((trips) => {
-        const price =  trips.reduce((acc, trip) => acc + trip.totalAmount, 0);
+        const price = trips.reduce((acc, trip) => acc + trip.totalAmount, 0);
         this.totalPrice = price;
         return price;
       }
-    ));
+      ));
   }
 
-  onCellClicked(e: any) { 
+  onCellClicked(e: any) {
     this.selectedRows = this.agGrid?.gridOptions?.api?.getSelectedNodes().length;
     console.log(this.selectedRows);
   }
@@ -191,7 +191,7 @@ export class CartPageComponent implements OnInit {
       console.log('tripId', tripId);
 
       if (action === "edit") {
-        localStorage.setItem(CURRENT_TRIP, tripId);
+        localStorage.setItem(TRIP_ID, tripId);
         // TODO: dispatch setCurrentTrip action
         this.router.navigate(['flights']);
       }
@@ -230,15 +230,15 @@ function flightGetter(params: ValueGetterParams) {
   return params.data.originCity + ' - ' + params.data.destinationCity + (params.data.roundTrip ? '<br>' + params.data.destinationCity + ' - ' + params.data.originCity : '');
 }
 
-function tripTypeGetter (params: ValueGetterParams) {
+function tripTypeGetter(params: ValueGetterParams) {
   return params.data.roundTrip ? 'Round Trip' : 'One Way';
 }
 
-function dateTimeGetter (params: ValueGetterParams) {
-  return params.data.outboundDepartureDate + ', ' + params.data.outboundDepartureTime + ' - ' + params.data.outboundArrivalTime + (params.data.roundTrip ? '<br>' + params.data.returnDepartureDate + ', ' + params.data.returnDepartureTime  + ' - ' + params.data.returnArrivalTime : '');
+function dateTimeGetter(params: ValueGetterParams) {
+  return params.data.outboundDepartureDate + ', ' + params.data.outboundDepartureTime + ' - ' + params.data.outboundArrivalTime + (params.data.roundTrip ? '<br>' + params.data.returnDepartureDate + ', ' + params.data.returnDepartureTime + ' - ' + params.data.returnArrivalTime : '');
 }
 
-function passengersGetter (params: ValueGetterParams) {
+function passengersGetter(params: ValueGetterParams) {
   let adult = 0;
   let child = 0;
   let infant = 0;

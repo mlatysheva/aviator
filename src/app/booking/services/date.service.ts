@@ -73,19 +73,25 @@ export class DateService {
     return slide;
   }
 
-  getArrivingDate(departureDate: string, duration: number): string {
+  getArrivingDate(departureDate: string, departureTime: string, duration: number): string {
     if (departureDate === undefined) {
-      return new Date().toString();
+      return new Date().toISOString().slice(0, -1);
     } else {
       const dateCopy = new Date(departureDate);
+      const time = departureTime.split(':');
+      dateCopy.setHours(+time[0]);
+      dateCopy.setMinutes(+time[1]);
       const addMinutes = dateCopy.getTime() + duration * 60000;
       const arrivingDate = new Date(addMinutes);
-      return arrivingDate.toISOString().slice(0, -1);
+      console.log(arrivingDate.toLocaleString());
+      console.log(arrivingDate.toISOString());
+      console.log(arrivingDate.toUTCString());
+      console.log(arrivingDate.toString());
+      return arrivingDate.toString();
     }
   }
   getDay(date: string) {
     const dateCopy = new Date(date);
-    console.log(dateCopy.getDay());
     return dateCopy.getDay();
   }
 

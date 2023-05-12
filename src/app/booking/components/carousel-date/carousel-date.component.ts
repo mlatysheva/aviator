@@ -120,8 +120,12 @@ export class CarouselDateComponent implements OnInit {
       this.minutes = this.dateService.getMinutes(this.duration);
       this.arrivingDateTo = this.dateService.getArrivingDate(
         this.startDate,
-        this.duration
+        this.departureTime,
+        this.duration,
       );
+
+      console.log(this.startDate, this.departureTime, this.duration, this.arrivingDateTo);
+
       this.returnFlightId = this.result[0].returnFlightId;
       this.getReturnDetailsList(this.returnFlightId);
       this.flightDaysTo = this.result[0].flightDays;
@@ -151,7 +155,7 @@ export class CarouselDateComponent implements OnInit {
       this.durationFrom = this.returnDetails[0].duration;
       this.hoursFrom = this.dateService.getHours(this.durationFrom);
       this.minutesFrom = this.dateService.getMinutes(this.durationFrom);
-      this.arrivingDateFrom = this.dateService.getArrivingDate(this.endDate, this.durationFrom);
+      this.arrivingDateFrom = this.dateService.getArrivingDate(this.endDate, this.departureTimeFrom, this.durationFrom);
       this.flightDaysFrom = this.returnDetails[0].flightDays;
     }
     );
@@ -199,12 +203,12 @@ export class CarouselDateComponent implements OnInit {
       const children = element.children;
       if (element.dataset['index'] === '1') {
         this.startDate = element.id;
-        this.arrivingDateTo = this.dateService.getArrivingDate(this.startDate, this.duration);
+        this.arrivingDateTo = this.dateService.getArrivingDate(this.startDate, this.departureTime, this.duration,);
 
       }
       if (element.dataset['index'] === '2') {
         this.endDate = element.id;
-        this.arrivingDateFrom = this.dateService.getArrivingDate(this.endDate, this.duration);
+        this.arrivingDateFrom = this.dateService.getArrivingDate(this.endDate, this.departureTimeFrom, this.duration);
       }
       for (let i = 0; i < children.length; i++) {
         if (children[i].classList.contains('slide-date')) {
