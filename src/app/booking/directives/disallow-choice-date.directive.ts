@@ -28,8 +28,6 @@ export class DisallowChoiceDateDirective implements OnInit {
         child.style.pointerEvents = 'none';
         child.style.opacity = '0.5';
       }
-
     }
   }
-
 }

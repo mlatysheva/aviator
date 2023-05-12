@@ -3,7 +3,7 @@ import { IContacts } from 'src/app/models/contacts';
 import { IPassenger } from 'src/app/models/passenger';
 import * as TripActions from '../actions/trip.actions';
 import * as SelectedActions from '../actions/select.actions';
-import { IAgeTypeQuantity } from 'src/app/avia/models/agetype-quantity.model';
+import { IAgeTypeQuantity } from 'src/app/models/agetype-quantity.model';
 
 export interface TripState {
   id?: string;
@@ -70,9 +70,14 @@ export const tripReducer = createReducer(
   ),
   on(
     SelectedActions.clearSelectedTrip,
-    (state, payload): TripState => ({
+    (): TripState => ({
       ...initialState,
-      ...payload,
+      outboundDepartureDate: '',
+      outboundDepartureTime: '',
+      outboundArrivalTime: '',
+      returnDepartureDate: '',
+      returnDepartureTime: '',
+      returnArrivalTime: '',
     })
   ),
   on(

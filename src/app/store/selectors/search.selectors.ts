@@ -1,5 +1,5 @@
 import { createSelector } from '@ngrx/store';
-import { IAgeTypeQuantity } from 'src/app/avia/models/agetype-quantity.model';
+import { IAgeTypeQuantity } from 'src/app/models/agetype-quantity.model';
 import { AppState } from '../state.models';
 
 export const selectTripType = (state: AppState) => state.search.tripType;

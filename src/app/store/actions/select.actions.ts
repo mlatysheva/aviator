@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { IAgeTypeQuantity } from '../../avia/models/agetype-quantity.model';
+import { IAgeTypeQuantity } from '../../models/agetype-quantity.model';
 
 export const setSelectedTrip = createAction(
   '[Flight Select] Set Selected Trip',
@@ -19,11 +19,9 @@ export const setSelectedTrip = createAction(
     numberOfPassengers: IAgeTypeQuantity[];
     totalAmount: number;
     totalTax: number;
-
   }>()
 );
 
 export const clearSelectedTrip = createAction(
   '[Flight Select] Cleared Selected Trip'
 );
-
