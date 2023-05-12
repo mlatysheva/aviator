@@ -103,6 +103,7 @@ option:active,
 }
 
 .shop {
+  position: relative;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -113,8 +114,22 @@ option:active,
   border: none;
   cursor: pointer;
   padding-left: 5px;
+  background-image: url('../../../../assets/icons/shopping-basket.svg');
 
   &:hover {
     background-color: rgba(116, 118, 122, 0.2);
   }
+}
+
+.cart-count {
+  width: 16px;
+  height: 16px;
+  top: 6px;
+  right: 12px;
+  text-align: center;
+  background-color: rgb(144, 1, 1);
+  border-radius: 50%;
+  position: absolute;
+  color: white;
+  font-size: 12px;
 }

@@ -6,4 +6,5 @@ export interface ICart {
   tripsIds?: string[];
   trips?: ITrip[];
   promoCode?: string;
+  isCodeApplied?: boolean;
 }
