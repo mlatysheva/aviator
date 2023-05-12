@@ -1,13 +1,13 @@
 <div class="wrapper">
-  <div class="one-way" (click)="onSelectFirst($event)">
+  <div class="one-way">
     <div class="flight-info one-way">
       <img src="../../../../assets/icons/plane-to.svg" alt="plane">
       <p>{{from}} to {{to}}</p>
     </div>
-    <carousel class="carousel" [itemsPerSlide]="itemsPerSlide" [singleSlideOffset]="singleSlideOffset"
-      [startFromIndex]="0" [interval]="0">
-      <slide class="slide" *ngFor="let slide of slides, let i = index" appDisallowChoiceDate
-        [isFly]="(dateService.isCanFly(slide))" (click)="onClick($event)">
+    <carousel class="carousel {{flightTo.classTo}}" [itemsPerSlide]="itemsPerSlide"
+      [singleSlideOffset]="singleSlideOffset" [startFromIndex]="0" [interval]="0">
+      <slide data-index="1" class="slide" *ngFor="let slide of slides, let i = index" id={{slides[i]}}
+        appDisallowChoiceDate [isFly]="(dateService.isCanFly(slide))" (click)="onClick($event)">
         <div class="slide-date">{{slide | date :'dd LLL'}}
         </div>
         <div class="slide-weekday">{{slide | date :'cccc'}}</div>
@@ -15,49 +15,50 @@
           <img src="../../../../assets/icons/do-not-fly.svg" alt="no-fly">
         </div>
         <div class="price" *ngIf="!dateService.isCanFly(slide)">
-          <h5><span>{{currency}}
-            </span>{{price }}</h5>
-          <h6 *ngIf="(!dateService.isFlightDay(slide, flightDaysTo))">No flights today</h6>
+          <h5 *ngIf="(dateService.isFlightDay(slide, result[0]))"><span>{{currency}}
+            </span>{{prices[(dateService.getIndexOfDate(slide, flightDaysTo))] }}</h5>
+          <h6 *ngIf="(!dateService.isFlightDay(slide, result[0]))" class="no-fly">No flights today</h6>
         </div>
         <div div class="carousel-caption"></div>
       </slide>
     </carousel>
-    <div class="flight-wrapper" (click)="onEditFirstFlight($event)">
-
-      <app-flight-details class="flight-details-to" [from]="from" [to]="to" [startDate]="startDate"
-        [departureTime]="departureTime" [timeZoneFrom]="timeZoneFrom" [arrivingDateTo]="arrivingDateTo"
-        [timeZoneTo]="timeZoneTo" [flightNumber]="flightNumber" [seats]="seats" [currency]="currency" [hours]="hours"
-        [minutes]="minutes" [price]="price" [onClick]="onClick" [onSelect]="onSelectFirst" [onEdit]="onEditFirstFlight"
-        [isTo]="true"></app-flight-details>
-    </div>
-
+    <app-flight-details #flightTo [type]="1" class="flight-details-to" [from]="from" [to]="to" [startDate]="startDate"
+      [departureTime]="departureTime" [timeZoneFrom]="timeZoneFrom" [arrivingDateTo]="arrivingDateTo"
+      [timeZoneTo]="timeZoneTo" [flightNumber]="flightNumber" [seats]="seats" [currency]="currency" [hours]="hours"
+      [minutes]="minutes" [price]="prices[(dateService.getIndexOfDate(startDate, flightDaysTo))]" [onClick]="onClick"
+      [cityFrom]="cityFrom" [cityTo]="cityTo" [flightDaysTo]="flightDaysTo" [codFrom]="codFrom" [codTo]="codTo"
+      [isTo]="true"></app-flight-details>
   </div>
-  <div class="two-way" *ngIf="!isOneWay" (click)="onSelectSecond($event)">
+  <div class="two-way" *ngIf="!isOneWay">
     <div class="flight-info two-way">
       <img src="../../../../assets/icons/plane-from.svg" alt="plane">
       <p>{{to}} to {{from}}</p>
     </div>
-    <carousel class="carousel" [itemsPerSlide]="itemsPerSlide" [singleSlideOffset]="singleSlideOffset"
-      [startFromIndex]="0" [interval]="0">
-      <slide class="slide" *ngFor="let slide of slidesFrom; let i=index" appDisallowChoiceDate
-        [isFly]="(dateService.isCanFly(slide))" (click)="onClick($event)">
+    <carousel class="carousel {{flightFrom.classFrom}}" [itemsPerSlide]="itemsPerSlide"
+      [singleSlideOffset]="singleSlideOffset" [startFromIndex]="0" [interval]="0">
+      <slide data-index="2" class="slide" *ngFor="let slide of slidesFrom; let i=index" id={{slidesFrom[i]}}
+        appDisallowChoiceDate [isFly]="(dateService.isCanFly(slide))" (click)="onClick($event)">
         <div class="slide-date">{{slide | date :'dd LLL'}}
         </div>
         <div class="slide-weekday">{{slide | date :'cccc'}} </div>
         <div class="is-fly" *ngIf="(dateService.isCanFly(slide))">
           <img src="../../../../assets/icons/do-not-fly.svg" alt="no-fly">
         </div>
-        <div class="price" *ngIf="!(dateService.isCanFly(slide))">
-          <h5><span>{{currency}} </span>{{prices[i] }}</h5>
+        <div class="price" *ngIf="!dateService.isCanFly(slide)">
+          <h5 *ngIf="(dateService.isFlightDay(slide, returnDetails[0]))"><span>{{currency}}
+            </span>{{pricesFrom[(dateService.getIndexOfDate(slide, flightDaysFrom))] }}</h5>
+          <h6 *ngIf="(!dateService.isFlightDay(slide, returnDetails[0]))" class="no-fly">No flights today</h6>
         </div>
         <div div class="carousel-caption"></div>
 
       </slide>
     </carousel>
-    <app-flight-details class="flight-details-from" [from]="to" [to]="from" [startDate]="endDate"
+    <app-flight-details #flightFrom [type]="2" class="flight-details-from" [from]="to" [to]="from" [startDate]="endDate"
       [departureTime]="departureTimeFrom" [timeZoneFrom]="timeZoneTo" [arrivingDateTo]="arrivingDateFrom"
       [timeZoneTo]="timeZoneFrom" [flightNumber]="flightNumberFrom" [seats]="seatsFrom" [currency]="currency"
-      [hours]="hoursFrom" [minutes]="minutesFrom" [price]="priceFrom" [onClick]="onClick" [onSelect]="onSelectSecond"
+      [hours]="hoursFrom" [minutes]="minutesFrom"
+      [price]="pricesFrom[(dateService.getIndexOfDate(endDate, flightDaysFrom))]" [onClick]="onClick"
+      [cityFrom]="cityTo" [cityTo]="cityFrom" [flightDaysTo]="flightDaysFrom" [codFrom]="codTo" [codTo]="codFrom"
       [isTo]="false"></app-flight-details>
   </div>
 </div>

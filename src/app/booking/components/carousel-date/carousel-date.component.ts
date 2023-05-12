@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, ViewChildren, QueryList } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import getSymbolFromCurrency from 'currency-symbol-map';
@@ -6,12 +6,10 @@ import { AppState } from '../../../store/state.models';
 import { AviaService } from '../../../avia/services/avia.service';
 import { IFlight } from '../../../models/flight';
 import { DateService } from '../../services/date.service';
-import {
-  setSelectedTrip,
-  clearSelectedTrip,
-} from '../../../store/actions/select.actions';
-import { clearTripState } from 'src/app/store/actions/trip.actions';
-import { IAgeTypeQuantity } from 'src/app/models/agetype-quantity.model';
+import { FlightDetailsComponent } from '../flight-details/flight-details.component';
+import { SumPriceService } from '../../services/sum-price.service';
+import { IAgeTypeQuantity } from '../../../models/agetype-quantity.model';
+import { setSelectedTrip } from 'src/app/store/actions/select.actions';
 
 @Component({
   selector: 'app-carousel-date',
@@ -20,12 +18,19 @@ import { IAgeTypeQuantity } from 'src/app/models/agetype-quantity.model';
 })
 export class CarouselDateComponent implements OnInit {
   @Input() isFly: string;
+  event: Event;
+  oneWay: number;
+
+  @ViewChildren(FlightDetailsComponent) el: QueryList<FlightDetailsComponent>;
+
   $event: MouseEvent;
   isCanFly: boolean;
   isOneWay: boolean;
   isTo: boolean;
   isFlightDay: boolean;
   i: number;
+
+  type: number;
 
   state$: Observable<AppState>;
   state: AppState;
@@ -49,10 +54,10 @@ export class CarouselDateComponent implements OnInit {
   price: number;
   priceFrom: number;
   prices: number[] = [];
-  // details$: Observable<IFlight[]>;
+  pricesFrom: number[] = [];
   details$: Observable<IFlight[]>;
   returnDetails$: Observable<IFlight[]>;
-  result: IFlight[] = [];
+  result: IFlight[];
   returnDetails: IFlight[] = [];
   seats: number;
   seatsFrom: number;
@@ -63,12 +68,13 @@ export class CarouselDateComponent implements OnInit {
   duration: number;
   durationFrom: number;
   returnFlightId: string;
-  flightDaysTo: number[];
+  flightDaysTo: IFlight["flightDays"] = [];
+  flightDaysFrom: IFlight["flightDays"] = [];
   numberOfPassengers: IAgeTypeQuantity[];
   passengersFrom: IAgeTypeQuantity[];
   totalAmount: number;
   totalAmountFrom: number;
-  totalTax: number;
+  totalTax: number | undefined;
   totalTaxFrom: number;
 
   //time
@@ -87,8 +93,10 @@ export class CarouselDateComponent implements OnInit {
     private store: Store<AppState>,
     private aviaService: AviaService,
     public dateService: DateService,
-    private el: ElementRef
-  ) {}
+    private sumPriceService: SumPriceService,
+
+  ) { }
+
 
   public getDetailsList(from: string, to: string): Observable<IFlight[]> {
     this.details$ = this.aviaService.getAllFlights();
@@ -117,12 +125,9 @@ export class CarouselDateComponent implements OnInit {
       this.returnFlightId = this.result[0].returnFlightId;
       this.getReturnDetailsList(this.returnFlightId);
       this.flightDaysTo = this.result[0].flightDays;
-      this.price =
-        this.prices[
-          this.dateService.getIndexOfDate(this.startDate, this.flightDaysTo)
-        ];
-      this.totalAmount = this.price * this.numberOfPassengers[0].quantity;
-      this.totalTax = this.totalAmount * 0.2;
+      this.prices = this.result[0].pricesAdult;
+      this.totalTax = this.sumPriceService.sumpPricesAdult(this.result[0], this.numberOfPassengers).totalTax;
+      this.totalAmount = this.sumPriceService.sumpPricesAdult(this.result[0], this.numberOfPassengers).sumPrice;
     });
     return this.details$;
   }
@@ -138,7 +143,7 @@ export class CarouselDateComponent implements OnInit {
         this.returnDetails = result;
       }
       this.priceFrom = this.returnDetails[0].pricesAdult[0];
-      this.prices = this.returnDetails[0].pricesAdult;
+      this.pricesFrom = this.returnDetails[0].pricesAdult;
       this.seatsFrom = this.returnDetails[0].totalSeats;
       this.departureTimeFrom = this.returnDetails[0].departureTime;
       this.directFrom = this.returnDetails[0].direct;
@@ -146,11 +151,10 @@ export class CarouselDateComponent implements OnInit {
       this.durationFrom = this.returnDetails[0].duration;
       this.hoursFrom = this.dateService.getHours(this.durationFrom);
       this.minutesFrom = this.dateService.getMinutes(this.durationFrom);
-      this.arrivingDateFrom = this.dateService.getArrivingDate(
-        this.endDate,
-        this.durationFrom
-      );
-    });
+      this.arrivingDateFrom = this.dateService.getArrivingDate(this.endDate, this.durationFrom);
+      this.flightDaysFrom = this.returnDetails[0].flightDays;
+    }
+    );
     return this.returnDetails$;
   }
 
@@ -176,7 +180,9 @@ export class CarouselDateComponent implements OnInit {
       this.currency = getSymbolFromCurrency(state.user.currency);
       this.isOneWay = state.search.tripType === 'one-way' ? true : false;
       this.numberOfPassengers = state.search.passengers;
-    });
+      this.oneWay = state.search.tripType === 'one-way' ? 0 : 1;
+    }
+    );
     this.getDetailsList(this.codFrom, this.codTo);
     this.isCanFly = this.dateService.isCanFly(this.startDate);
     this.isFly = this.isCanFly ? 'true' : 'false';
@@ -187,17 +193,26 @@ export class CarouselDateComponent implements OnInit {
   }
 
   onClick(e: Event) {
-    if ((e.target as HTMLElement).classList.contains('slide')) {
-      (e.target as HTMLElement).classList.toggle('large');
-      const children = (e.target as HTMLElement).children;
+    const element = e.target as HTMLElement;
+    if (element.classList.contains('slide')) {
+      element.classList.toggle('large');
+      const children = element.children;
+      if (element.dataset['index'] === '1') {
+        this.startDate = element.id;
+        this.arrivingDateTo = this.dateService.getArrivingDate(this.startDate, this.duration);
 
+      }
+      if (element.dataset['index'] === '2') {
+        this.endDate = element.id;
+        this.arrivingDateFrom = this.dateService.getArrivingDate(this.endDate, this.duration);
+      }
       for (let i = 0; i < children.length; i++) {
         if (children[i].classList.contains('slide-date')) {
-          children[i].classList.add('big-date');
+          children[i].classList.toggle('big-date');
+
         }
         if (children[i].classList.contains('slide-weekday')) {
-          children[i].classList.remove('slide-weekday');
-          children[i].classList.add('big-weekday');
+          children[i].classList.toggle('big-weekday');
         }
         if (children[i].classList.contains('slide-price')) {
           children[i].classList.toggle('big-price');
@@ -206,58 +221,4 @@ export class CarouselDateComponent implements OnInit {
     }
   }
 
-  onSelectFirst(e: Event) {
-    //remove unused slides
-    this.slides = [];
-    const element = this.el.nativeElement.querySelectorAll('.seats');
-    const button = this.el.nativeElement.querySelectorAll('.select');
-    const editButton = this.el.nativeElement.querySelectorAll('.edit-btn');
-    element[0].classList.add('none');
-    button[0].classList.add('none');
-    editButton[0].classList.remove('none');
-
-    //clear store before put new data
-    //this.store.dispatch(clearSelectedTrip());
-    // put flight details to store
-    this.store.dispatch(
-      setSelectedTrip({
-        roundTrip: this.isOneWay ? false : true,
-        originCity: this.cityFrom,
-        destinationCity: this.cityTo,
-        outboundFlightNo: this.flightNumber,
-        airportsIataCodes: [this.codFrom, this.codTo],
-        outboundDepartureDate: this.startDate,
-        outboundDepartureTime: this.departureTime,
-        outboundArrivalTime: this.arrivingDateTo ? this.arrivingDateTo : '',
-        returnFlightNo: this.flightNumberFrom,
-        returnDepartureDate: this.endDate,
-        returnDepartureTime: this.departureTimeFrom,
-        returnArrivalTime: this.arrivingDateFrom ? this.arrivingDateFrom : '',
-        numberOfPassengers: this.numberOfPassengers,
-        totalAmount: this.totalAmount,
-        totalTax: this.totalTax,
-      })
-    );
-  }
-
-  onSelectSecond(e: Event) {
-    this.slidesFrom = [];
-    const element = this.el.nativeElement.querySelectorAll('.seats');
-    const button = this.el.nativeElement.querySelectorAll('.select');
-    const editButton = this.el.nativeElement.querySelectorAll('.edit-btn');
-    element[1].classList.add('none');
-    button[1].classList.add('none');
-    editButton[1].classList.remove('none');
-  }
-
-  onEditFirstFlight(e: Event) {
-    this.slides = this.dateService.dateSlideTo(this.startDate);
-    const element = this.el.nativeElement.querySelectorAll('.seats');
-    const button = this.el.nativeElement.querySelectorAll('.select');
-    const editButton = this.el.nativeElement.querySelectorAll('.edit-btn');
-    element[0].classList.remove('none');
-    button[0].classList.remove('none');
-    editButton[0].classList.add('none');
-    this.store.dispatch(clearTripState());
-  }
 }

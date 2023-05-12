@@ -30,6 +30,6 @@
     <div class="seats">{{seats}} seats available</div>
     <div class="price"><span>Price</span> <span>{{currency}} {{price}}</span></div>
   </div>
-  <button (click)="onSelect" class="select">Select</button>
-  <button mat-raised-button class="edit-btn none" color="primary" (click)="onEdit">Edit</button>
+  <button (click)="onSelectFlight($event)" class="select">Select</button>
+  <button mat-raised-button class="edit-btn none" color="primary" (click)="onEditFlight($event)">Edit</button>
 </div>
