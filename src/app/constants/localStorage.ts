@@ -11,3 +11,4 @@ export const USER_EMAIL = 'aviator_user_email';
 export const USER_NAME = 'aviator_user_name';
 
 export const TRIP_ID = 'aviator_trip_id';
+

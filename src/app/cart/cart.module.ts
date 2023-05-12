@@ -3,8 +3,9 @@ import { CommonModule } from '@angular/common';
 import { CartRoutingModule } from './cart-routing.module';
 import { CartPageComponent } from './pages/cart-page/cart-page.component';
 import { AgGridModule } from 'ag-grid-angular';
-import { FormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
+import { FormsModule } from '@angular/forms';
+
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import { SharedModule } from '../shared/shared.module';
     CartRoutingModule,
     AgGridModule,
     SharedModule,
+    FormsModule,
   ]
 })
 export class CartModule { }

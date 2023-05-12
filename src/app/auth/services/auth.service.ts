@@ -92,6 +92,7 @@ export class AuthService {
     this.userName$.next('');
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   handleError(error: any) {
     let errorMessage = '';
     if (error.error instanceof ErrorEvent) {
