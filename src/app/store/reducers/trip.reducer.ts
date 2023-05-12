@@ -72,22 +72,12 @@ export const tripReducer = createReducer(
     SelectedActions.clearSelectedTrip,
     (): TripState => ({
       ...initialState,
-      airportsIataCodes: [],
-      originCity: '',
-      destinationCity: '',
-      outboundFlightNo: '',
       outboundDepartureDate: '',
       outboundDepartureTime: '',
       outboundArrivalTime: '',
-      returnFlightNo: '',
       returnDepartureDate: '',
       returnDepartureTime: '',
       returnArrivalTime: '',
-      passengers: [],
-      numberOfPassengers: [],
-      totalAmount: 0,
-      totalTax: 0,
-
     })
   ),
   on(

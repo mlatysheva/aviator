@@ -73,7 +73,7 @@ export class DateService {
     return slide;
   }
 
-  getArrivingDate(departureDate: string, duration: number): string | undefined {
+  getArrivingDate(departureDate: string, duration: number): string {
     if (departureDate === undefined) {
       return new Date().toString();
     } else {

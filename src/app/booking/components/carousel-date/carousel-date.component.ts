@@ -9,6 +9,7 @@ import { DateService } from '../../services/date.service';
 import { FlightDetailsComponent } from '../flight-details/flight-details.component';
 import { SumPriceService } from '../../services/sum-price.service';
 import { IAgeTypeQuantity } from '../../../models/agetype-quantity.model';
+import { setSelectedTrip } from 'src/app/store/actions/select.actions';
 
 @Component({
   selector: 'app-carousel-date',
@@ -28,6 +29,8 @@ export class CarouselDateComponent implements OnInit {
   isTo: boolean;
   isFlightDay: boolean;
   i: number;
+
+  type: number;
 
   state$: Observable<AppState>;
   state: AppState;
@@ -51,6 +54,7 @@ export class CarouselDateComponent implements OnInit {
   price: number;
   priceFrom: number;
   prices: number[] = [];
+  pricesFrom: number[] = [];
   details$: Observable<IFlight[]>;
   returnDetails$: Observable<IFlight[]>;
   result: IFlight[];
@@ -139,7 +143,7 @@ export class CarouselDateComponent implements OnInit {
         this.returnDetails = result;
       }
       this.priceFrom = this.returnDetails[0].pricesAdult[0];
-      this.prices = this.returnDetails[0].pricesAdult;
+      this.pricesFrom = this.returnDetails[0].pricesAdult;
       this.seatsFrom = this.returnDetails[0].totalSeats;
       this.departureTimeFrom = this.returnDetails[0].departureTime;
       this.directFrom = this.returnDetails[0].direct;
@@ -189,17 +193,26 @@ export class CarouselDateComponent implements OnInit {
   }
 
   onClick(e: Event) {
-    if ((e.target as HTMLElement).classList.contains('slide')) {
-      (e.target as HTMLElement).classList.toggle('large');
-      const children = (e.target as HTMLElement).children;
+    const element = e.target as HTMLElement;
+    if (element.classList.contains('slide')) {
+      element.classList.toggle('large');
+      const children = element.children;
+      if (element.dataset['index'] === '1') {
+        this.startDate = element.id;
+        this.arrivingDateTo = this.dateService.getArrivingDate(this.startDate, this.duration);
 
+      }
+      if (element.dataset['index'] === '2') {
+        this.endDate = element.id;
+        this.arrivingDateFrom = this.dateService.getArrivingDate(this.endDate, this.duration);
+      }
       for (let i = 0; i < children.length; i++) {
         if (children[i].classList.contains('slide-date')) {
-          children[i].classList.add('big-date');
+          children[i].classList.toggle('big-date');
+
         }
         if (children[i].classList.contains('slide-weekday')) {
-          children[i].classList.remove('slide-weekday');
-          children[i].classList.add('big-weekday');
+          children[i].classList.toggle('big-weekday');
         }
         if (children[i].classList.contains('slide-price')) {
           children[i].classList.toggle('big-price');
