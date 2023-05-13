@@ -8,7 +8,7 @@
     [defaultColDef]="defaultColDef"
     [rowSelection]="'multiple'"
     (gridReady)="onGridReady($event)"
-    (onClick)="onCellClicked($event)"
+    (onClick)="onSelectionChanged($event)"
     editType="fullRow"
     [suppressClickEdit]="true"
   ></ag-grid-angular>
@@ -30,7 +30,7 @@
 
     <div class="bottom-right-section">
       <div class="selected-section">
-        {{ selectedRows }} selected
+        {{ selectedRows$ | async }} selected
       </div>
 
       <button mat-raised-button (click)="onPayment()" color="primary">Payment</button>

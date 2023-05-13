@@ -12,3 +12,5 @@ export const USER_NAME = 'aviator_user_name';
 
 export const TRIP_ID = 'aviator_trip_id';
 
+export const CART_ID = 'aviator_cart_id';
+
