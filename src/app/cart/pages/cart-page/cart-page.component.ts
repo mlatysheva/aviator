@@ -1,11 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { CellClickedEvent, ColDef, GridReadyEvent, ICellRendererParams, SelectCellEditor, ValueGetterParams } from 'ag-grid-community';
+import { CellClickedEvent, ColDef, GridReadyEvent, ValueGetterParams } from 'ag-grid-community';
 import { AppState } from '../../../store/state.models';
 import { HttpClient } from '@angular/common/http';
 import { CartApiService } from '../../services/cart-api.service';
 import { ITrip } from '../../../models';
-import { Observable, Subscription, map, take } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { AgGridAngular } from 'ag-grid-angular';
 import { Router } from '@angular/router';
 import { selectUserCurrency } from '../../../store/selectors/user.selectors';
@@ -195,7 +195,7 @@ export class CartPageComponent implements OnInit {
       map((trips) => {
         const price =  trips.reduce((acc, trip) => acc + trip.totalAmount, 0);
         this.totalPrice = price;
-        return price * factor;
+        return Math.round(price * factor);
       }
     ));
   }
@@ -232,9 +232,14 @@ export class CartPageComponent implements OnInit {
   applyPromoCode() {
     if (this.promoCode && !this.isCodeApplied) {
       this.recalculateTotalPrice(0.95);
-      this.cartApiService.applyPromoCode(this.cartId, PROMO_DISOUNT);
-      this.trips$ = this.cartApiService.getTripsByCartId(this.cartId);
+      this.isCodeApplied = true;
+      this.trips$ = this.cartApiService.applyPromoCode(this.cartId, PROMO_DISOUNT);
+      this.trips$.subscribe((trips) => {
+        console.log('trips', trips);
+      });
       alert(`Promo Code "${this.promoCode}" with a 5% discount will be applied!`);
+    } else if (this.isCodeApplied) {
+      alert('Promo Code has already been applied!');
     } else {
       alert('Please enter a valid promo code!');
     }

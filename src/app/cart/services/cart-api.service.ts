@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, catchError, concatMap, forkJoin, map, mergeMap, of, switchMap, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, concatMap, forkJoin, map, mergeMap, of, switchMap, tap, throwError } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { baseUrl } from '../../constants/apiUrls';
 import { Store } from '@ngrx/store';
@@ -68,39 +68,31 @@ export class CartApiService {
     return response$;
   }
 
-  updateTripPrice(id: string, price: number) {
-    console.log('we are in updateTripPrice');
-    const response$ = this.http.patch<ITrip>(`${baseUrl}/trips/${id}`, { price });
+  updateTripPrice(id: string, totalAmount: number) {
+    const response$ = this.http.patch<ITrip>(`${baseUrl}/trips/${id}`, { totalAmount });
     response$
       .pipe(
         catchError(error => this.handleError(error))
       )
       .subscribe((trip: ITrip) => {
-        console.log('trip', trip);
         this.errorMessage$.next('');
       });
     return response$;
   }
 
-  applyPromoCode(id: string, factor = 0.95) {
-    console.log('we are in applyPromoCode');
-    const trips = this.getTripsByCartId(id);
-    console.log('trips', trips);
-    trips
-    .pipe(
+  applyPromoCode(id: string, factor = 0.95): Observable<ITrip[]> {
+    return this.http.patch<ICart>(`${baseUrl}/carts/${id}`, { isCodeApplied: true }).pipe(
+      switchMap(() => this.getTripsByCartId(id)),
       catchError(error => this.handleError(error)),
-    )
-    .subscribe((trips: ITrip[]) => {
-      console.log('trips', trips);
-      trips.map((trip: ITrip) => {
-        console.log('trip', trip);
-        if (trip.id) {
-          const response$ = this.updateTripPrice(trip.id, trip.totalAmount * factor);
-          console.log('response$', response$);
-        }
-      });
-      return trips;
-    });
+      tap((trips: ITrip[]) => {
+        trips.forEach((trip: ITrip) => {
+          if (trip.id) {
+            this.updateTripPrice(trip.id, Math.round(trip.totalAmount * factor));
+          }
+        });
+      }),
+      switchMap(() => this.getTripsByCartId(id)),
+    );
   }
 
   handleError(error: any) {

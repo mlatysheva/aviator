@@ -152,7 +152,7 @@
           "ageCategory": "infant"
         }
       ],
-      "totalAmount": 750,
+      "totalAmount": 348,
       "totalTax": 112.5,
       "contactDetails": {
         "email": "darth@vader.com",
@@ -183,7 +183,7 @@
         {
           "id": "",
           "firstName": "Mar",
-          "lastName": "Com",
+          "lastName": "Cod",
           "birthday": "1976-12-31T23:00:00.000Z",
           "age": 46,
           "ageCategory": "adult",
@@ -236,7 +236,7 @@
           "ageCategory": "child"
         }
       ],
-      "totalAmount": 1250,
+      "totalAmount": 580,
       "totalTax": 202.5,
       "contactDetails": {
         "email": "darth@vader.com",
@@ -254,7 +254,8 @@
         "010252d9-a720-49d8-a0f0-79cb45e30adf",
         "77cec714-b2a2-4b87-abaf-1c7a6ee28f10"
       ],
-      "promoCode": "Star Wars"
+      "promoCode": "Star Wars",
+      "isCodeApplied": true
     },
     {
       "id": "99t0y12e-b1e7-4011-a1c7-7b73cw92d11f",
@@ -262,7 +263,8 @@
       "tripsIds": [
         "88cec744-b2a2-4b87-abaf-1c7a6ee22f11"
       ],
-      "promoCode": "May2023"
+      "promoCode": "May2023",
+      "isCodeApplied": false
     }
   ],
   "login": {},
