@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { CellClickedEvent, ColDef, GridReadyEvent, ValueGetterParams } from 'ag-grid-community';
+import { CellClickedEvent, ColDef, ColumnApi, GridApi, GridReadyEvent, ValueGetterParams } from 'ag-grid-community';
 import { AppState } from '../../../store/state.models';
 import { HttpClient } from '@angular/common/http';
 import { CartApiService } from '../../services/cart-api.service';
@@ -13,7 +13,7 @@ import getSymbolFromCurrency from 'currency-symbol-map';
 import { TRIP_ID } from '../../../constants/localStorage';
 import { ICart } from '../../../models/cart';
 import { PROMO_DISOUNT } from '../../../constants/appConstants';
-
+import { BehaviorSubject } from 'rxjs';
 
 
 
@@ -40,7 +40,8 @@ export class CartPageComponent implements OnInit {
   isCodeApplied = false;
   promoCode: string | undefined;
 
-  selectedRows$: Observable<number>;
+  // selectedRows$: Observable<number>;
+  selectedRows$ = new BehaviorSubject<number>(0);
   selectedRows: number | undefined;
 
   @ViewChild(AgGridAngular) agGrid!: AgGridAngular;
@@ -58,7 +59,7 @@ export class CartPageComponent implements OnInit {
         headerName: 'No.',
         headerCheckboxSelection: true,
         checkboxSelection: true,
-        onCellClicked: this.onCheckboxClicked.bind(this),
+        onCellClicked: this.onSelectionChanged.bind(this),
         width: 120,
         showDisabledCheckboxes: true,
         cellStyle: { color: '#0090BD', 'fontWeight': '700'},
@@ -130,6 +131,7 @@ export class CartPageComponent implements OnInit {
         textAlign: 'center',
       },
       cellClass: 'cellCenter',
+      onCellClicked: this.onCellClicked.bind(this),
     };
   }
 
@@ -150,31 +152,30 @@ export class CartPageComponent implements OnInit {
       this.cartApiService.cartCount$.next(trips.length);
       this.cartCount = trips.length;
     });
-
+    this.selectedRows$.next(this.agGrid.api.getSelectedNodes().length);
     this.recalculateTotalPrice(1);
+
   }
 
   onCellClicked(e: any) { 
-    this.selectedRows = this.agGrid?.gridOptions?.api?.getSelectedNodes().length;
-    console.log(this.selectedRows);
+    this.selectedRows$.next(this.agGrid.api.getSelectedNodes().length);
+    console.log(this.selectedRows$.value);
   }
 
   onCheckboxClicked(event: CellClickedEvent) {
     // this.selectedRows = this.agGrid.gridOptions.api.getSelectedRows().length;
     console.log('onCheckboxClicked', event);
 
-    this.selectedRows = this.agGrid?.gridOptions?.api?.getSelectedNodes().length;
+    this.selectedRows$.next(this.agGrid.api.getSelectedNodes().length);
     console.log('selectedRows', this.selectedRows);
   }
 
   onSelectionChanged(event: any) {
-    console.log('onSelectionChanged', event);
-
-    // this.selectedRows = event.api.getSelectedRows().length;
-    this.selectedRows = this.agGrid?.gridOptions?.api?.getSelectedNodes().length;
-    console.log('selectedRows', this.selectedRows);
+    this.selectedRows$.next(this.agGrid.api.getSelectedNodes().length);
+    console.log(this.selectedRows$.value);
+    const displayedRows = this.agGrid.api.getDisplayedRowCount();
+    console.log('displayedRows', displayedRows);
   }
-
 
   priceRenderer(params: ValueGetterParams) {
     return `${this.currency} ${params.data.totalAmount}`;
