@@ -8,7 +8,7 @@
     [defaultColDef]="defaultColDef"
     [rowSelection]="'multiple'"
     (gridReady)="onGridReady($event)"
-    (onClick)="onCellClicked($event)"
+    (onClick)="onSelectionChanged($event)"
     editType="fullRow"
     [suppressClickEdit]="true"
   ></ag-grid-angular>

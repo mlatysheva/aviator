@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { CellClickedEvent, ColDef, ColumnApi, GridApi, GridReadyEvent, ValueGetterParams } from 'ag-grid-community';
+import { ColDef, GridReadyEvent, ValueGetterParams } from 'ag-grid-community';
 import { AppState } from '../../../store/state.models';
 import { HttpClient } from '@angular/common/http';
 import { CartApiService } from '../../services/cart-api.service';
@@ -10,10 +10,11 @@ import { AgGridAngular } from 'ag-grid-angular';
 import { Router } from '@angular/router';
 import { selectUserCurrency } from '../../../store/selectors/user.selectors';
 import getSymbolFromCurrency from 'currency-symbol-map';
-import { TRIP_ID } from '../../../constants/localStorage';
+import { CART_ID, TRIP_ID } from '../../../constants/localStorage';
 import { ICart } from '../../../models/cart';
 import { PROMO_DISOUNT } from '../../../constants/appConstants';
 import { BehaviorSubject } from 'rxjs';
+import { clearSelectedTrip, setSelectedTrip } from '../../../store/actions/select.actions';
 
 
 
@@ -24,7 +25,7 @@ import { BehaviorSubject } from 'rxjs';
 })
 
 export class CartPageComponent implements OnInit {
-  cartId = '00e0d78e-b1e7-4099-a1c7-7b73cd92d12f';
+  cartId = localStorage.getItem(CART_ID) || '00e0d78e-b1e7-4099-a1c7-7b73cd92d12f';
   cart$: Observable<ICart>;
   trips$: Observable<ITrip[]>;
 
@@ -40,7 +41,6 @@ export class CartPageComponent implements OnInit {
   isCodeApplied = false;
   promoCode: string | undefined;
 
-  // selectedRows$: Observable<number>;
   selectedRows$ = new BehaviorSubject<number>(0);
   selectedRows: number | undefined;
 
@@ -59,7 +59,7 @@ export class CartPageComponent implements OnInit {
         headerName: 'No.',
         headerCheckboxSelection: true,
         checkboxSelection: true,
-        onCellClicked: this.onSelectionChanged.bind(this),
+        // onCellClicked: this.onSelectionChanged.bind(this),
         width: 120,
         showDisabledCheckboxes: true,
         cellStyle: { color: '#0090BD', 'fontWeight': '700'},
@@ -131,7 +131,7 @@ export class CartPageComponent implements OnInit {
         textAlign: 'center',
       },
       cellClass: 'cellCenter',
-      onCellClicked: this.onCellClicked.bind(this),
+      onCellClicked: this.onSelectionChanged.bind(this),
     };
   }
 
@@ -152,29 +152,12 @@ export class CartPageComponent implements OnInit {
       this.cartApiService.cartCount$.next(trips.length);
       this.cartCount = trips.length;
     });
-    this.selectedRows$.next(this.agGrid.api.getSelectedNodes().length);
     this.recalculateTotalPrice(1);
-
-  }
-
-  onCellClicked(e: any) { 
     this.selectedRows$.next(this.agGrid.api.getSelectedNodes().length);
-    console.log(this.selectedRows$.value);
-  }
-
-  onCheckboxClicked(event: CellClickedEvent) {
-    // this.selectedRows = this.agGrid.gridOptions.api.getSelectedRows().length;
-    console.log('onCheckboxClicked', event);
-
-    this.selectedRows$.next(this.agGrid.api.getSelectedNodes().length);
-    console.log('selectedRows', this.selectedRows);
   }
 
   onSelectionChanged(event: any) {
     this.selectedRows$.next(this.agGrid.api.getSelectedNodes().length);
-    console.log(this.selectedRows$.value);
-    const displayedRows = this.agGrid.api.getDisplayedRowCount();
-    console.log('displayedRows', displayedRows);
   }
 
   priceRenderer(params: ValueGetterParams) {
@@ -207,18 +190,21 @@ export class CartPageComponent implements OnInit {
     if (params.column.colId === "moreActions" && params.event.target.dataset.action) {
       const action = params.event.target.dataset.action;
       const tripId = params.node.data.id;
-      console.log('tripId', tripId);
 
       if (action === "edit") {
         localStorage.setItem(TRIP_ID, tripId);
-        // TODO: dispatch setCurrentTrip action
-        this.router.navigate(['flights']);
+        const currentTrip$ = this.cartApiService.getTrip(tripId);
+        currentTrip$.subscribe((currentTrip) => {
+          this.store.dispatch(setSelectedTrip({ ...currentTrip }));
+          this.router.navigate(['flights']);
+        });
       }
 
       if (action === "delete") {
         this.cartApiService.deleteTrip(tripId);
         this.cartApiService.cartCount$.next(this.cartCount - 1);
         this.recalculateTotalPrice(1);
+        this.store.dispatch(clearSelectedTrip());
         params.api.applyTransaction({
           remove: [params.node.data]
         });
@@ -235,9 +221,6 @@ export class CartPageComponent implements OnInit {
       this.recalculateTotalPrice(0.95);
       this.isCodeApplied = true;
       this.trips$ = this.cartApiService.applyPromoCode(this.cartId, PROMO_DISOUNT);
-      this.trips$.subscribe((trips) => {
-        console.log('trips', trips);
-      });
       alert(`Promo Code "${this.promoCode}" with a 5% discount will be applied!`);
     } else if (this.isCodeApplied) {
       alert('Promo Code has already been applied!');
