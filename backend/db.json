@@ -152,7 +152,7 @@
           "ageCategory": "infant"
         }
       ],
-      "totalAmount": 750,
+      "totalAmount": 713,
       "totalTax": 112.5,
       "contactDetails": {
         "email": "darth@vader.com",
@@ -198,7 +198,7 @@
           "ageCategory": "child"
         }
       ],
-      "totalAmount": 1250,
+      "totalAmount": 1188,
       "totalTax": 202.5,
       "contactDetails": {
         "email": "darth@vader.com",
@@ -227,11 +227,38 @@
       "passengers": [
         {
           "id": "",
-          "firstName": "",
-          "lastName": "",
-          "birthday": "",
-          "age": null,
+          "firstName": "jjj",
+          "lastName": "jj",
+          "birthday": "1992-05-13T07:00:00.000Z",
+          "age": 31,
           "ageCategory": "adult",
+          "seatNo": ""
+        },
+        {
+          "id": "",
+          "firstName": "jjj",
+          "lastName": "jjj",
+          "birthday": "1992-05-11T07:00:00.000Z",
+          "age": 31,
+          "ageCategory": "adult",
+          "seatNo": ""
+        },
+        {
+          "id": "",
+          "firstName": "jjj",
+          "lastName": "jjj",
+          "birthday": "2023-05-08T07:00:00.000Z",
+          "age": 0,
+          "ageCategory": "child",
+          "seatNo": ""
+        },
+        {
+          "id": "",
+          "firstName": "jjj",
+          "lastName": "jjj",
+          "birthday": "2023-05-01T07:00:00.000Z",
+          "age": 0,
+          "ageCategory": "child",
           "seatNo": ""
         }
       ],
@@ -252,7 +279,8 @@
         "010252d9-a720-49d8-a0f0-79cb45e30adf",
         "77cec714-b2a2-4b87-abaf-1c7a6ee28f10"
       ],
-      "promoCode": "Star Wars"
+      "promoCode": "Star Wars",
+      "isCodeApplied": true
     },
     {
       "id": "99t0y12e-b1e7-4011-a1c7-7b73cw92d11f",

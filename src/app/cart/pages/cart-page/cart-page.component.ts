@@ -1,17 +1,20 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { CellClickedEvent, ColDef, GridReadyEvent, ICellRendererParams, SelectCellEditor, ValueGetterParams } from 'ag-grid-community';
+import { ColDef, GridReadyEvent, ValueGetterParams } from 'ag-grid-community';
 import { AppState } from '../../../store/state.models';
 import { HttpClient } from '@angular/common/http';
 import { CartApiService } from '../../services/cart-api.service';
 import { ITrip } from '../../../models';
-import { Observable, Subscription, map } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { AgGridAngular } from 'ag-grid-angular';
 import { Router } from '@angular/router';
 import { selectUserCurrency } from '../../../store/selectors/user.selectors';
 import getSymbolFromCurrency from 'currency-symbol-map';
-import { TRIP_ID } from '../../../constants/localStorage';
-
+import { CART_ID, TRIP_ID } from '../../../constants/localStorage';
+import { ICart } from '../../../models/cart';
+import { PROMO_DISOUNT } from '../../../constants/appConstants';
+import { BehaviorSubject } from 'rxjs';
+import { clearSelectedTrip, setSelectedTrip } from '../../../store/actions/select.actions';
 
 
 
@@ -22,9 +25,12 @@ import { TRIP_ID } from '../../../constants/localStorage';
 })
 
 export class CartPageComponent implements OnInit {
-  cartId = '00e0d78e-b1e7-4099-a1c7-7b73cd92d12f';
-  cart$: Subscription;
+  cartId = localStorage.getItem(CART_ID) || '00e0d78e-b1e7-4099-a1c7-7b73cd92d12f';
+  cart$: Observable<ICart>;
   trips$: Observable<ITrip[]>;
+
+  cartCount$: Observable<number>;
+  cartCount: number;
 
   totalPrice$: Observable<number>;
   totalPrice: number;
@@ -32,9 +38,10 @@ export class CartPageComponent implements OnInit {
   currency$ = this.store.select(selectUserCurrency);
   currency: string | undefined;
 
+  isCodeApplied = false;
   promoCode: string | undefined;
 
-  selectedRows$: Observable<number>;
+  selectedRows$ = new BehaviorSubject<number>(0);
   selectedRows: number | undefined;
 
   @ViewChild(AgGridAngular) agGrid!: AgGridAngular;
@@ -52,7 +59,7 @@ export class CartPageComponent implements OnInit {
         headerName: 'No.',
         headerCheckboxSelection: true,
         checkboxSelection: true,
-        onCellClicked: this.onCheckboxClicked.bind(this),
+        // onCellClicked: this.onSelectionChanged.bind(this),
         width: 120,
         showDisabledCheckboxes: true,
         cellStyle: { color: '#0090BD', 'fontWeight': '700' },
@@ -124,6 +131,7 @@ export class CartPageComponent implements OnInit {
         textAlign: 'center',
       },
       cellClass: 'cellCenter',
+      onCellClicked: this.onSelectionChanged.bind(this),
     };
   }
 
@@ -135,38 +143,22 @@ export class CartPageComponent implements OnInit {
 
   onGridReady(params: GridReadyEvent) {
     this.cart$ = this.cartApiService.getCart(this.cartId);
+    this.cart$.subscribe((cart) => {
+      this.promoCode = cart.promoCode;
+      this.isCodeApplied = cart.isCodeApplied || false;
+    });
     this.trips$ = this.cartApiService.getTripsByCartId(this.cartId);
-
-    this.totalPrice$ = this.trips$.pipe(
-      map((trips) => {
-        const price = trips.reduce((acc, trip) => acc + trip.totalAmount, 0);
-        this.totalPrice = price;
-        return price;
-      }
-      ));
-  }
-
-  onCellClicked(e: any) {
-    this.selectedRows = this.agGrid?.gridOptions?.api?.getSelectedNodes().length;
-    console.log(this.selectedRows);
-  }
-
-  onCheckboxClicked(event: CellClickedEvent) {
-    // this.selectedRows = this.agGrid.gridOptions.api.getSelectedRows().length;
-    console.log('onCheckboxClicked', event);
-
-    this.selectedRows = this.agGrid?.gridOptions?.api?.getSelectedNodes().length;
-    console.log('selectedRows', this.selectedRows);
+    this.trips$.subscribe((trips) => {
+      this.cartApiService.cartCount$.next(trips.length);
+      this.cartCount = trips.length;
+    });
+    this.recalculateTotalPrice(1);
+    this.selectedRows$.next(this.agGrid.api.getSelectedNodes().length);
   }
 
   onSelectionChanged(event: any) {
-    console.log('onSelectionChanged', event);
-
-    // this.selectedRows = event.api.getSelectedRows().length;
-    this.selectedRows = this.agGrid?.gridOptions?.api?.getSelectedNodes().length;
-    console.log('selectedRows', this.selectedRows);
+    this.selectedRows$.next(this.agGrid.api.getSelectedNodes().length);
   }
-
 
   priceRenderer(params: ValueGetterParams) {
     return `${this.currency} ${params.data.totalAmount}`;
@@ -182,22 +174,37 @@ export class CartPageComponent implements OnInit {
     return eGui;
   }
 
+  recalculateTotalPrice(factor = 1) {
+    this.totalPrice$ = this.trips$.pipe(
+      map((trips) => {
+        const price = trips.reduce((acc, trip) => acc + trip.totalAmount, 0);
+        this.totalPrice = price;
+        return Math.round(price * factor);
+      }
+      ));
+  }
+
   onActionMenuClicked(params: any) {
     this.selectedRows = this.agGrid?.gridOptions?.api?.getSelectedNodes().length;
 
     if (params.column.colId === "moreActions" && params.event.target.dataset.action) {
       const action = params.event.target.dataset.action;
       const tripId = params.node.data.id;
-      console.log('tripId', tripId);
 
       if (action === "edit") {
         localStorage.setItem(TRIP_ID, tripId);
-        // TODO: dispatch setCurrentTrip action
-        this.router.navigate(['flights']);
+        const currentTrip$ = this.cartApiService.getTrip(tripId);
+        currentTrip$.subscribe((currentTrip) => {
+          this.store.dispatch(setSelectedTrip({ ...currentTrip }));
+          this.router.navigate(['flights']);
+        });
       }
 
       if (action === "delete") {
         this.cartApiService.deleteTrip(tripId);
+        this.cartApiService.cartCount$.next(this.cartCount - 1);
+        this.recalculateTotalPrice(1);
+        this.store.dispatch(clearSelectedTrip());
         params.api.applyTransaction({
           remove: [params.node.data]
         });
@@ -210,15 +217,20 @@ export class CartPageComponent implements OnInit {
   }
 
   applyPromoCode() {
-    if (this.promoCode) {
-      alert(`Promo Code "${this.promoCode}" has been applied!`);
+    if (this.promoCode && !this.isCodeApplied) {
+      this.recalculateTotalPrice(0.95);
+      this.isCodeApplied = true;
+      this.trips$ = this.cartApiService.applyPromoCode(this.cartId, PROMO_DISOUNT);
+      alert(`Promo Code "${this.promoCode}" with a 5% discount will be applied!`);
+    } else if (this.isCodeApplied) {
+      alert('Promo Code has already been applied!');
     } else {
       alert('Please enter a valid promo code!');
     }
   }
 
   onPayment() {
-    alert(`Payment of ${this.currency}${this.totalPrice} is successful!`);
+    alert(`Payment of ${this.currency}${this.totalPrice} has been successful!`);
   }
 }
 

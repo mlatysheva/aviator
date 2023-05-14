@@ -36,8 +36,8 @@ export class CarouselDateComponent implements OnInit {
   state: AppState;
 
   // slider
-  slides: Array<string>;
-  slidesFrom: Array<string>;
+  slides: Array<string | undefined>;
+  slidesFrom: Array<string | undefined>;
   itemsPerSlide = 7;
   singleSlideOffset = true;
 
@@ -49,7 +49,7 @@ export class CarouselDateComponent implements OnInit {
   cityFrom: string;
   cityTo: string;
   startDate: string;
-  endDate: string;
+  endDate: string | undefined;
   currency: string | undefined;
   price: number;
   priceFrom: number;
@@ -162,7 +162,7 @@ export class CarouselDateComponent implements OnInit {
     return this.returnDetails$;
   }
 
-  ngOnInit() {
+  public getSearchState() {
     this.state$ = this.store.select((appState) => appState);
     this.state$.subscribe((state: AppState) => {
       this.from = state.search.departure.split(',').slice(0, 2).join('');
@@ -180,23 +180,73 @@ export class CarouselDateComponent implements OnInit {
         .join('')
         .trim();
       this.startDate = state.search.startDate;
-      console.log(this.startDate, new Date(this.startDate).toISOString().split('T')[0]);
       this.endDate = state.search.endDate;
       this.currency = getSymbolFromCurrency(state.user.currency);
       this.isOneWay = state.search.tripType === 'one-way' ? true : false;
       this.numberOfPassengers = state.search.passengers;
       this.oneWay = state.search.tripType === 'one-way' ? 0 : 1;
       this.dateFormat = state.user.dateFormat;
+    });
+  }
 
+  public getTripState() {
+    this.state$ = this.store.select((appState) => appState);
+    this.state$.subscribe((state: AppState) => {
+      this.codFrom = state.trip.airportsIataCodes[0];
+      this.codTo = state.trip.airportsIataCodes[1];
+      this.cityFrom = state.trip.originCity;
+      this.cityTo = state.trip.destinationCity;
+      this.from = state.trip.originCity + ', ' + state.trip.airportsIataCodes[0];
+      this.to = state.trip.destinationCity + ', ' + state.trip.airportsIataCodes[1];
+      this.startDate = state.trip.outboundDepartureDate;
+      this.endDate = state.trip.returnDepartureDate;
+      this.flightNumber = state.trip.outboundFlightNo;
+      this.numberOfPassengers = state.trip.numberOfPassengers;
+      this.currency = getSymbolFromCurrency(state.user.currency);
+      this.isOneWay = state.trip.roundTrip === true ? false : true;
+      this.oneWay = state.trip.roundTrip === false ? 1 : 0;
+      this.slides = this.dateService.dateSlideTo(this.startDate);
+      this.slidesFrom = this.dateService.dateSlideTo(this.endDate);
     }
     );
+  }
+
+  ngOnInit() {
+    // this.state$ = this.store.select((appState) => appState);
+    // this.state$.subscribe((state: AppState) => {
+    //   this.from = state.search.departure.split(',').slice(0, 2).join('');
+    //   this.to = state.search.destination.split(',').slice(0, 2).join('');
+    //   this.codFrom = state.search.departure.split(',').slice(2, 3).join('');
+    //   this.codTo = state.search.destination.split(',').slice(2, 3).join('');
+    //   this.cityFrom = state.search.departure
+    //     .split(',')
+    //     .slice(1, 2)
+    //     .join('')
+    //     .trim();
+    //   this.cityTo = state.search.destination
+    //     .split(',')
+    //     .slice(1, 2)
+    //     .join('')
+    //     .trim();
+    //   this.startDate = state.search.startDate;
+    //   this.endDate = state.search.endDate;
+    //   this.currency = getSymbolFromCurrency(state.user.currency);
+    //   this.isOneWay = state.search.tripType === 'one-way' ? true : false;
+    //   this.numberOfPassengers = state.search.passengers;
+    //   this.oneWay = state.search.tripType === 'one-way' ? 0 : 1;
+    //   this.dateFormat = state.user.dateFormat;
+
+    // }
+    // );
+    this.getTripState();
+    //this.getSearchState();
     this.getDetailsList(this.codFrom, this.codTo);
     this.isCanFly = this.dateService.isCanFly(this.startDate);
     this.isFly = this.isCanFly ? 'true' : 'false';
     this.timeZoneFrom = this.dateService.findOffset(this.cityFrom);
     this.timeZoneTo = this.dateService.findOffset(this.cityTo);
-    this.slides = this.dateService.dateSlideTo(this.startDate);
-    this.slidesFrom = this.dateService.dateSlideTo(this.endDate);
+    //this.slides = this.dateService.dateSlideTo(this.startDate);
+    //this.slidesFrom = this.dateService.dateSlideTo(this.endDate);
   }
 
   onClick(e: Event) {

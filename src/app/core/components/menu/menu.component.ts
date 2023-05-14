@@ -13,6 +13,7 @@ import {
 } from '../../../constants/localStorage';
 import { Subscription } from 'rxjs';
 import { AviaService } from 'src/app/avia/services/avia.service';
+import { CartApiService } from '../../../cart/services/cart-api.service';
 
 @Component({
   selector: 'app-menu',
@@ -23,8 +24,10 @@ export class MenuComponent implements OnInit, OnDestroy {
   public isVisible = false;
   public userName = localStorage.getItem(USER_NAME) || '';
   isAuth = false;
+  cartCount: number | undefined;
 
   authSubscription: Subscription = new Subscription();
+  cartSubscription: Subscription = new Subscription();
 
   selectedCurrency = localStorage.getItem(CURRENCY) || 'EUR';
   selectedDateFormat = localStorage.getItem(DATE_FORMAT) || 'DD/MM/YYYY';
@@ -34,7 +37,8 @@ export class MenuComponent implements OnInit, OnDestroy {
   constructor(
     private authService: AuthService,
     private aviaService: AviaService,
-    private store: Store
+    private store: Store,
+    private cartApiService: CartApiService,
   ) {}
 
   ngOnInit(): void {
@@ -47,6 +51,11 @@ export class MenuComponent implements OnInit, OnDestroy {
         }
       }
     );
+
+    this.cartSubscription = this.cartApiService.cartCount$.subscribe(
+      (cartCount) => (this.cartCount = cartCount)
+    );
+
     this.aviaService.isSearchSubmitted$.subscribe(
       (isSubmitted) => (this.isSubmitted = isSubmitted)
     );

@@ -1,0 +1,1 @@
+export const PROMO_DISOUNT = 0.95;

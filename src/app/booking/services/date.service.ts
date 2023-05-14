@@ -7,13 +7,19 @@ import { IFlight } from 'src/app/models/flight';
   providedIn: 'root'
 })
 export class DateService {
-  addOneDay(date: string) {
+  addOneDay(date: string | undefined) {
+    if (date === undefined) {
+      return new Date().toISOString().slice(0, -1);
+    }
     const dateCopy = new Date(date);
     dateCopy.setDate(dateCopy.getDate() + 1);
     return dateCopy.toString();
   }
 
-  minusOneDay(date: string) {
+  minusOneDay(date: string | undefined) {
+    if (date === undefined) {
+      return new Date().toISOString().slice(0, -1);
+    }
     const dateCopy = new Date(date);
     dateCopy.setDate(dateCopy.getDate() - 1);
     return dateCopy.toString();
@@ -50,7 +56,7 @@ export class DateService {
     return index;
   }
 
-  dateSlideTo(date: string) {
+  dateSlideTo(date: string | undefined) {
     const today = date;
     const tomorrow = this.addOneDay(today);
     const dayAfterTomorrow = this.addOneDay(tomorrow);
@@ -76,7 +82,7 @@ export class DateService {
     return slide;
   }
 
-  getArrivingDate(departureDate: string, departureTime: string, duration: number): string {
+  getArrivingDate(departureDate: string | undefined, departureTime: string, duration: number): string | undefined {
     if (departureDate === undefined) {
       return new Date().toISOString().slice(0, -1);
     } else {
