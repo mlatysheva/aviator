@@ -159,7 +159,7 @@
         "countryCode": "7",
         "phone": "123456789"
       },
-      "isPaid": true
+      "isPaid": false
     },
     {
       "id": "88cec744-b2a2-4b87-abaf-1c7a6ee22f11",
@@ -244,7 +244,7 @@
         "countryCode": "7",
         "phone": "123456789"
       },
-      "isPaid": true
+      "isPaid": false
     }
   ],
   "carts": [
