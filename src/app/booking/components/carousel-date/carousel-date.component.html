@@ -27,7 +27,7 @@
       [timeZoneTo]="timeZoneTo" [flightNumber]="flightNumber" [seats]="seats" [currency]="currency" [hours]="hours"
       [minutes]="minutes" [price]="prices[(dateService.getIndexOfDate(startDate, flightDaysTo))]" [onClick]="onClick"
       [cityFrom]="cityFrom" [cityTo]="cityTo" [flightDaysTo]="flightDaysTo" [codFrom]="codFrom" [codTo]="codTo"
-      [isTo]="true"></app-flight-details>
+      [dateFormat]="dateFormat" [isTo]="true"></app-flight-details>
   </div>
   <div class="two-way" *ngIf="!isOneWay">
     <div class="flight-info two-way">
@@ -59,6 +59,6 @@
       [hours]="hoursFrom" [minutes]="minutesFrom"
       [price]="pricesFrom[(dateService.getIndexOfDate(endDate, flightDaysFrom))]" [onClick]="onClick"
       [cityFrom]="cityTo" [cityTo]="cityFrom" [flightDaysTo]="flightDaysFrom" [codFrom]="codTo" [codTo]="codFrom"
-      [isTo]="false"></app-flight-details>
+      [dateFormat]="dateFormat" [isTo]="false"></app-flight-details>
   </div>
 </div>

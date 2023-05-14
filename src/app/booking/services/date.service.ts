@@ -26,9 +26,12 @@ export class DateService {
   }
 
   isFlightDay(date: string, flight: IFlight) {
+    if (flight === undefined || date === undefined || flight.flightDays === undefined) {
+      return false;
+    }
     const dateCopy = new Date(date);
     const day = dateCopy.getDay();
-    if (flight !== undefined) {
+    if (flight !== undefined && flight.flightDays !== undefined && date !== undefined) {
       const index = flight.flightDays.indexOf(day);
       if (index !== -1) {
         return true;
@@ -83,10 +86,6 @@ export class DateService {
       dateCopy.setMinutes(+time[1]);
       const addMinutes = dateCopy.getTime() + duration * 60000;
       const arrivingDate = new Date(addMinutes);
-      console.log(arrivingDate.toLocaleString());
-      console.log(arrivingDate.toISOString());
-      console.log(arrivingDate.toUTCString());
-      console.log(arrivingDate.toString());
       return arrivingDate.toString();
     }
   }

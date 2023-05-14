@@ -47,6 +47,8 @@ export class FlightDetailsComponent {
   @Input() totalTax: number;
   @Input() type: number;
   @Input() flightDaysTo: number[];
+  @Input() flightDaysFrom: number[];
+  @Input() dateFormat: string;
   classTo = '';
   classFrom = '';
 

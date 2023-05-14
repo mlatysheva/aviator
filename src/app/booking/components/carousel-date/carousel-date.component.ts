@@ -88,6 +88,7 @@ export class CarouselDateComponent implements OnInit {
   arrivingDateFrom?: string | undefined;
   hoursFrom: number;
   minutesFrom: number;
+  dateFormat: string;
 
   constructor(
     private store: Store<AppState>,
@@ -109,7 +110,8 @@ export class CarouselDateComponent implements OnInit {
         );
         this.result = result;
       }
-      this.price = this.result[0].pricesAdult[0];
+      if (this.result[0] !== undefined && this.result.length > 0)
+        this.price = this.result[0].pricesAdult[0];
       this.prices = this.result[0].pricesAdult;
       this.seats = this.result[0].totalSeats;
       this.departureTime = this.result[0].departureTime;
@@ -123,9 +125,6 @@ export class CarouselDateComponent implements OnInit {
         this.departureTime,
         this.duration,
       );
-
-      console.log(this.startDate, this.departureTime, this.duration, this.arrivingDateTo);
-
       this.returnFlightId = this.result[0].returnFlightId;
       this.getReturnDetailsList(this.returnFlightId);
       this.flightDaysTo = this.result[0].flightDays;
@@ -146,7 +145,8 @@ export class CarouselDateComponent implements OnInit {
         );
         this.returnDetails = result;
       }
-      this.priceFrom = this.returnDetails[0].pricesAdult[0];
+      if (this.returnDetails[0] !== undefined && this.returnDetails.length > 0)
+        this.priceFrom = this.returnDetails[0].pricesAdult[0];
       this.pricesFrom = this.returnDetails[0].pricesAdult;
       this.seatsFrom = this.returnDetails[0].totalSeats;
       this.departureTimeFrom = this.returnDetails[0].departureTime;
@@ -180,11 +180,14 @@ export class CarouselDateComponent implements OnInit {
         .join('')
         .trim();
       this.startDate = state.search.startDate;
+      console.log(this.startDate, new Date(this.startDate).toISOString().split('T')[0]);
       this.endDate = state.search.endDate;
       this.currency = getSymbolFromCurrency(state.user.currency);
       this.isOneWay = state.search.tripType === 'one-way' ? true : false;
       this.numberOfPassengers = state.search.passengers;
       this.oneWay = state.search.tripType === 'one-way' ? 0 : 1;
+      this.dateFormat = state.user.dateFormat;
+
     }
     );
     this.getDetailsList(this.codFrom, this.codTo);
