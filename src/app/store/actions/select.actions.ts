@@ -25,3 +25,26 @@ export const setSelectedTrip = createAction(
 export const clearSelectedTrip = createAction(
   '[Flight Select] Cleared Selected Trip'
 );
+
+export const setSelectedDepartureDate = createAction(
+  '[Flight Select] Set Selected Departure Date',
+  props<{ departureDate: string }>()
+);
+
+export const setSelectedReturnDate = createAction(
+  '[Flight Select] Set Selected Return Date',
+  props<{ returnDate: string }>()
+);
+export const setSelectedOriginCity = createAction(
+  '[Flight Select] Set Selected Origin City',
+  props<{ originCity: string }>()
+);
+export const setSelectedDestinationCity = createAction(
+  '[Flight Select] Set Selected Destination City',
+  props<{ destinationCity: string }>()
+);
+export const setSelectedTripType = createAction(
+  '[Flight Select] Set Selected Trip Type',
+  props<{ roundTrip: boolean }>()
+);
+

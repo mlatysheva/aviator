@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IAirport } from '../../../models/airport';
 import { Observable } from 'rxjs';
+
 import { AviaService } from '../../services/avia.service';
 import { IAgeTypeQuantity } from '../../../models/agetype-quantity.model';
 import { MatOption } from '@angular/material/core';
@@ -18,6 +19,7 @@ import { setSearchParameters } from 'src/app/store/actions/trip.actions';
   templateUrl: './flight-search.component.html',
   styleUrls: ['./flight-search.component.scss'],
 })
+
 export class FlightSearchComponent implements OnInit {
   @ViewChild(MatOption) matOption: MatOption;
 
@@ -32,6 +34,10 @@ export class FlightSearchComponent implements OnInit {
   ];
 
   tripType = localStorage.getItem(TRIP_TYPE) || 'round-trip';
+
+  dateFormat: string;
+
+  state$: Observable<AppState>;
 
   public selectedItems: IAgeTypeQuantity[] = [];
 
@@ -54,6 +60,11 @@ export class FlightSearchComponent implements OnInit {
       passengers: [this.selectedItems, Validators.required],
     });
     this.getAirportsList();
+    this.state$ = this.store.select((appState) => appState);
+    this.state$.subscribe((state: AppState) => {
+      this.dateFormat = state.user.dateFormat;
+      
+    });
   }
 
   get departure() {

@@ -62,11 +62,11 @@ export class CartPageComponent implements OnInit {
         onCellClicked: this.onCellClicked.bind(this),
         width: 120,
         showDisabledCheckboxes: true,
-        cellStyle: { color: '#0090BD', 'fontWeight': '700'},
+        cellStyle: { color: '#0090BD', 'fontWeight': '700' },
         headerClass: 'ag-header-cell--centered',
         valueGetter: flightNosGetter,
       },
-      { 
+      {
         headerName: 'Flight',
         cellRenderer: flightGetter,
       },
@@ -87,7 +87,7 @@ export class CartPageComponent implements OnInit {
         width: 140,
         cellRenderer: passengersGetter,
       },
-      { 
+      {
         headerName: 'Price',
         width: 120,
         field: 'totalAmount',
@@ -102,27 +102,27 @@ export class CartPageComponent implements OnInit {
         cellEditorPopup: true,
         colId: 'moreActions',
         cellRenderer: this.actionCellRenderer.bind(this),
-        cellStyle: { 
+        cellStyle: {
           cursor: 'pointer',
           opacity: '0.5',
           display: 'flex',
           flexDirection: 'row',
           justifyContent: 'space-between',
-         },
+        },
         onCellClicked: this.onActionMenuClicked.bind(this),
         cellEditor: 'agSelectCellEditor',
       },
     ];
-  
+
     this.defaultColDef = {
       resizable: true,
       autoHeight: true,
-      wrapText: true, 
+      wrapText: true,
       wrapHeaderText: true,
-      autoHeaderHeight: true,    
-      cellStyle: { 
-        padding: '1rem', 
-        lineHeight: '1.5rem', 
+      autoHeaderHeight: true,
+      cellStyle: {
+        padding: '1rem',
+        lineHeight: '1.5rem',
         height: '100%',
         display: 'flex',
         justifyContent: 'center',
@@ -186,7 +186,7 @@ export class CartPageComponent implements OnInit {
         console.log(price);
         return Math.round(price * factor);
       }
-    ));
+      ));
   }
 
   onActionMenuClicked(params: any) {
@@ -240,10 +240,10 @@ export class CartPageComponent implements OnInit {
       alert('Please select a row to make a payment');
       return;
     }
-  
+
     const selectedData = selectedNodes.map(node => node.data);
     const totalPrice = selectedData.reduce((total, data) => total + data.totalAmount, 0);
-    
+
     alert(`Payment of ${this.currency}${totalPrice} has been successful!`);
     for (const data of selectedData) {
       this.cartApiService.payTrip(data.id);
@@ -265,15 +265,15 @@ function flightGetter(params: ValueGetterParams) {
   return params.data.originCity + ' - ' + params.data.destinationCity + (params.data.roundTrip ? '<br>' + params.data.destinationCity + ' - ' + params.data.originCity : '');
 }
 
-function tripTypeGetter (params: ValueGetterParams) {
+function tripTypeGetter(params: ValueGetterParams) {
   return params.data.roundTrip ? 'Round Trip' : 'One Way';
 }
 
-function dateTimeGetter (params: ValueGetterParams) {
-  return params.data.outboundDepartureDate + ', ' + params.data.outboundDepartureTime + ' - ' + params.data.outboundArrivalTime + (params.data.roundTrip ? '<br>' + params.data.returnDepartureDate + ', ' + params.data.returnDepartureTime  + ' - ' + params.data.returnArrivalTime : '');
+function dateTimeGetter(params: ValueGetterParams) {
+  return params.data.outboundDepartureDate + ', ' + params.data.outboundDepartureTime + ' - ' + params.data.outboundArrivalTime + (params.data.roundTrip ? '<br>' + params.data.returnDepartureDate + ', ' + params.data.returnDepartureTime + ' - ' + params.data.returnArrivalTime : '');
 }
 
-function passengersGetter (params: ValueGetterParams) {
+function passengersGetter(params: ValueGetterParams) {
   let adult = 0;
   let child = 0;
   let infant = 0;
