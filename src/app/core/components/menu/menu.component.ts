@@ -14,6 +14,7 @@ import {
 import { Subscription } from 'rxjs';
 import { AviaService } from 'src/app/avia/services/avia.service';
 import { CartApiService } from '../../../cart/services/cart-api.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-menu',
@@ -39,6 +40,7 @@ export class MenuComponent implements OnInit, OnDestroy {
     private aviaService: AviaService,
     private store: Store,
     private cartApiService: CartApiService,
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -73,6 +75,10 @@ export class MenuComponent implements OnInit, OnDestroy {
 
   onLogout() {
     this.authService.onLogout();
+  }
+
+  toUserAccount() {
+    this.router.navigate(['account']);
   }
 
   ngOnDestroy() {

@@ -5,11 +5,13 @@ import { CartPageComponent } from './pages/cart-page/cart-page.component';
 import { AgGridModule } from 'ag-grid-angular';
 import { SharedModule } from '../shared/shared.module';
 import { FormsModule } from '@angular/forms';
+import { AccountPageComponent } from './pages/account-page/account-page.component';
 
 
 @NgModule({
   declarations: [
-    CartPageComponent
+    CartPageComponent,
+    AccountPageComponent
   ],
   imports: [
     CommonModule,
