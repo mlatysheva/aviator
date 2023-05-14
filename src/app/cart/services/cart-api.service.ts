@@ -44,6 +44,20 @@ export class CartApiService {
     )
   }
 
+  getUnpaidTripsByCartId(id: string) {
+    return this.http.get<ICart>(`${baseUrl}/carts/${id}`).pipe(
+      catchError(error => this.handleError(error)),
+      switchMap((cart: ICart) => {
+        if(cart.tripsIds?.length) {
+          return forkJoin(cart.tripsIds.map(tripId => this.getTrip(tripId))).pipe(
+            map((trips: ITrip[]) => trips.filter(trip => !trip.isPaid))
+          );
+        }
+        return of([]);
+      })
+    )
+  }
+
   getTrip(id: string) {
     const response$ = this.http.get<ITrip>(`${baseUrl}/trips/${id}`);
     response$
@@ -70,6 +84,18 @@ export class CartApiService {
 
   updateTripPrice(id: string, totalAmount: number) {
     const response$ = this.http.patch<ITrip>(`${baseUrl}/trips/${id}`, { totalAmount });
+    response$
+      .pipe(
+        catchError(error => this.handleError(error))
+      )
+      .subscribe((trip: ITrip) => {
+        this.errorMessage$.next('');
+      });
+    return response$;
+  }
+
+  payTrip(id: string) {
+    const response$ = this.http.patch<ITrip>(`${baseUrl}/trips/${id}`, { isPaid: true });
     response$
       .pipe(
         catchError(error => this.handleError(error))

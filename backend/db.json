@@ -152,13 +152,14 @@
           "ageCategory": "infant"
         }
       ],
-      "totalAmount": 713,
+      "totalAmount": 298,
       "totalTax": 112.5,
       "contactDetails": {
         "email": "darth@vader.com",
         "countryCode": "7",
         "phone": "123456789"
-      }
+      },
+      "price": 712.5
     },
     {
       "id": "77cec714-b2a2-4b87-abaf-1c7a6ee28f10",
@@ -204,7 +205,8 @@
         "email": "darth@vader.com",
         "countryCode": "7",
         "phone": "123456789"
-      }
+      },
+      "isPaid": false
     },
     {
       "id": "88cec744-b2a2-4b87-abaf-1c7a6ee22f11",
@@ -262,13 +264,14 @@
           "seatNo": ""
         }
       ],
-      "totalAmount": 1250,
+      "totalAmount": 580,
       "totalTax": 202.5,
       "contactDetails": {
         "email": "admin@admin.com",
         "countryCode": "7",
         "phone": "123456789"
-      }
+      },
+      "price": 1187.5
     }
   ],
   "carts": [
