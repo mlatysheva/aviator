@@ -16,6 +16,8 @@ export interface TripState {
   outboundDepartureDate: string;
   outboundDepartureTime: string;
   outboundArrivalTime: string;
+  originAiroportName: string;
+  destinationAiroportName: string;
   returnFlightNo?: string;
   returnDepartureDate?: string;
   returnDepartureTime?: string;
@@ -42,6 +44,8 @@ export const initialState: TripState = {
   returnDepartureDate: '',
   returnDepartureTime: '',
   returnArrivalTime: '',
+  originAiroportName: '',
+  destinationAiroportName: '',
   passengers: [],
   numberOfPassengers: [],
   totalAmount: 0,
@@ -69,6 +73,64 @@ export const tripReducer = createReducer(
     })
   ),
   on(
+    SelectedActions.setSelectedDepartureDate,
+    (state, payload): TripState => ({
+      ...state,
+      ...payload,
+    })
+  ),
+  on(
+    SelectedActions.setSelectedReturnDate,
+    (state, payload): TripState => ({
+      ...state,
+      ...payload,
+    })
+  ),
+  on(
+    SelectedActions.setSelectedOriginCity,
+    (state, payload): TripState => ({
+      ...state,
+      ...payload,
+    })
+  ),
+  on(
+    SelectedActions.setSelectedDestinationCity,
+    (state, payload): TripState => ({
+      ...state,
+      ...payload,
+    })
+  ),
+  on(
+    SelectedActions.setSelectedTripType,
+    (state, payload): TripState => ({
+      ...state,
+      ...payload,
+    })
+  ),
+  on(
+    SelectedActions.setSelectedAiroports,
+    (state, payload): TripState => ({
+      ...state,
+      ...payload,
+    })
+  ),
+  on(
+    SelectedActions.setSelectedOriginAiroportName,
+    (state, payload): TripState => ({
+      ...state,
+      ...payload,
+    })
+  ),
+  on(
+    SelectedActions.setSelectedDestinationAiroportName,
+    (state, payload): TripState => ({
+      ...state,
+      ...payload,
+    })
+  ),
+
+
+  on(
     SelectedActions.clearSelectedTrip,
     (): TripState => ({
       ...initialState,
@@ -78,6 +140,8 @@ export const tripReducer = createReducer(
       returnDepartureDate: '',
       returnDepartureTime: '',
       returnArrivalTime: '',
+      originAiroportName: '',
+      destinationAiroportName: '',
     })
   ),
   on(
@@ -110,6 +174,8 @@ export const tripReducer = createReducer(
     returnDepartureDate: '',
     returnDepartureTime: '',
     returnArrivalTime: '',
+    originAiroportName: '',
+    destinationAiroportName: '',
     passengers: [],
     totalAmount: 0,
     totalTax: 0,
