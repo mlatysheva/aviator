@@ -159,7 +159,45 @@
         "countryCode": "7",
         "phone": "123456789"
       },
-      "price": 712.5
+      "isPaid": true
+    },
+    {
+      "id": "88cec744-b2a2-4b87-abaf-1c7a6ee22f11",
+      "userId": "c5d0b76f-985f-485b-91cb-c1085fe1f75d",
+      "roundTrip": false,
+      "airportsIataCodes": [
+        "LHR",
+        "CDG"
+      ],
+      "originCity": "London",
+      "destinationCity": "Paris",
+      "outboundFlightNo": "FR-924",
+      "outboundDepartureDate": "08/05/2023",
+      "outboundDepartureTime": "11:25",
+      "outboundArrivalTime": "13:20",
+      "returnFlightNo": "FR-925",
+      "returnDepartureDate": "08/18/2023",
+      "returnDepartureTime": "18:35",
+      "returnArrivalTime": "20:45",
+      "passengers": [
+        {
+          "id": "",
+          "firstName": "Mar",
+          "lastName": "Com",
+          "birthday": "1976-12-31T23:00:00.000Z",
+          "age": 46,
+          "ageCategory": "adult",
+          "seatNo": ""
+        }
+      ],
+      "totalAmount": 1250,
+      "totalTax": 202.5,
+      "contactDetails": {
+        "email": "admin@admin.com",
+        "countryCode": "7",
+        "phone": "123456789"
+      },
+      "isPaid": false
     },
     {
       "id": "77cec714-b2a2-4b87-abaf-1c7a6ee28f10",
@@ -199,79 +237,14 @@
           "ageCategory": "child"
         }
       ],
-      "totalAmount": 1188,
+      "totalAmount": 497,
       "totalTax": 202.5,
       "contactDetails": {
         "email": "darth@vader.com",
         "countryCode": "7",
         "phone": "123456789"
       },
-      "isPaid": false
-    },
-    {
-      "id": "88cec744-b2a2-4b87-abaf-1c7a6ee22f11",
-      "userId": "c5d0b76f-985f-485b-91cb-c1085fe1f75d",
-      "roundTrip": false,
-      "airportsIataCodes": [
-        "LHR",
-        "CDG"
-      ],
-      "originCity": "London",
-      "destinationCity": "Paris",
-      "outboundFlightNo": "FR-924",
-      "outboundDepartureDate": "08/05/2023",
-      "outboundDepartureTime": "11:25",
-      "outboundArrivalTime": "13:20",
-      "returnFlightNo": "FR-925",
-      "returnDepartureDate": "08/18/2023",
-      "returnDepartureTime": "18:35",
-      "returnArrivalTime": "20:45",
-      "passengers": [
-        {
-          "id": "",
-          "firstName": "jjj",
-          "lastName": "jj",
-          "birthday": "1992-05-13T07:00:00.000Z",
-          "age": 31,
-          "ageCategory": "adult",
-          "seatNo": ""
-        },
-        {
-          "id": "",
-          "firstName": "jjj",
-          "lastName": "jjj",
-          "birthday": "1992-05-11T07:00:00.000Z",
-          "age": 31,
-          "ageCategory": "adult",
-          "seatNo": ""
-        },
-        {
-          "id": "",
-          "firstName": "jjj",
-          "lastName": "jjj",
-          "birthday": "2023-05-08T07:00:00.000Z",
-          "age": 0,
-          "ageCategory": "child",
-          "seatNo": ""
-        },
-        {
-          "id": "",
-          "firstName": "jjj",
-          "lastName": "jjj",
-          "birthday": "2023-05-01T07:00:00.000Z",
-          "age": 0,
-          "ageCategory": "child",
-          "seatNo": ""
-        }
-      ],
-      "totalAmount": 580,
-      "totalTax": 202.5,
-      "contactDetails": {
-        "email": "admin@admin.com",
-        "countryCode": "7",
-        "phone": "123456789"
-      },
-      "price": 1187.5
+      "isPaid": true
     }
   ],
   "carts": [
