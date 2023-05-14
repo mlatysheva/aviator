@@ -60,8 +60,10 @@
 
     <mat-card>
         <mat-card-content>
-            <div *ngFor="let passenger of trip.passengers">
-                <p>1 x {{passenger.ageCategory | titlecase}} Fare</p>
+            <div *ngFor="let passenger of trip.numberOfPassengers">
+                <p>{{passenger.quantity}} x {{passenger.ageCategory | titlecase}} Fare</p>
+                <p>Fare {{passenger.fare}}</p>
+                <p>Tax & Service Charge {{passenger.tax}}</p>
             </div>
         </mat-card-content>
     </mat-card>
