@@ -22,4 +22,5 @@ export interface ITrip {
   totalAmount: number;
   totalTax: number;
   contactDetails: IContacts;
+  isPaid?: boolean;
 }

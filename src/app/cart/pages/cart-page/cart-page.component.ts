@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { ColDef, GridReadyEvent, ValueGetterParams } from 'ag-grid-community';
+import { CheckboxChangedEvent, ColDef, GridReadyEvent, ValueGetterParams } from 'ag-grid-community';
 import { AppState } from '../../../store/state.models';
 import { HttpClient } from '@angular/common/http';
 import { CartApiService } from '../../services/cart-api.service';
@@ -57,9 +57,9 @@ export class CartPageComponent implements OnInit {
     this.colDefs = [
       {
         headerName: 'No.',
-        headerCheckboxSelection: true,
         checkboxSelection: true,
-        // onCellClicked: this.onSelectionChanged.bind(this),
+        headerCheckboxSelection: true,
+        onCellClicked: this.onCellClicked.bind(this),
         width: 120,
         showDisabledCheckboxes: true,
         cellStyle: { color: '#0090BD', 'fontWeight': '700'},
@@ -147,12 +147,16 @@ export class CartPageComponent implements OnInit {
       this.promoCode = cart.promoCode;
       this.isCodeApplied = cart.isCodeApplied || false;
     });
-    this.trips$ = this.cartApiService.getTripsByCartId(this.cartId);
+    this.trips$ = this.cartApiService.getUnpaidTripsByCartId(this.cartId);
     this.trips$.subscribe((trips) => {
       this.cartApiService.cartCount$.next(trips.length);
       this.cartCount = trips.length;
     });
     this.recalculateTotalPrice(1);
+    this.selectedRows$.next(this.agGrid.api.getSelectedNodes().length);
+  }
+
+  onCellClicked(event: any) {
     this.selectedRows$.next(this.agGrid.api.getSelectedNodes().length);
   }
 
@@ -178,7 +182,8 @@ export class CartPageComponent implements OnInit {
     this.totalPrice$ = this.trips$.pipe(
       map((trips) => {
         const price =  trips.reduce((acc, trip) => acc + trip.totalAmount, 0);
-        this.totalPrice = price;
+        // this.totalPrice = price;
+        console.log(price);
         return Math.round(price * factor);
       }
     ));
@@ -230,7 +235,25 @@ export class CartPageComponent implements OnInit {
   }
 
   onPayment() {
-    alert(`Payment of ${this.currency}${this.totalPrice} has been successful!`);
+    const selectedNodes = this.agGrid.api.getSelectedNodes();
+    if (selectedNodes.length === 0) {
+      alert('Please select a row to make a payment');
+      return;
+    }
+  
+    const selectedData = selectedNodes.map(node => node.data);
+    const totalPrice = selectedData.reduce((total, data) => total + data.totalAmount, 0);
+    
+    alert(`Payment of ${this.currency}${totalPrice} has been successful!`);
+    for (const data of selectedData) {
+      this.cartApiService.payTrip(data.id);
+    }
+    this.cartApiService.cartCount$.next(this.cartCount - selectedData.length);
+    this.store.dispatch(clearSelectedTrip());
+    this.agGrid.api.applyTransaction({
+      remove: selectedData
+    });
+    this.recalculateTotalPrice(1);
   }
 }
 
