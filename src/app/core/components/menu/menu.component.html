@@ -1,4 +1,4 @@
-<div class="menu">
+<div class="menu" [ngClass]="{ 'bg-solid': isSubmitted }">
   <div *ngIf="!isSubmitted" class="text" routerLink="flights">Book flights</div>
   <select class="select-date" #dateFormat (change)="setDateFormat(dateFormat.value)">
     <option [selected]="selectedDateFormat==='DD/MM/YYYY'" class="date" value="DD/MM/YYYY">"DD/MM/YYYY"</option>

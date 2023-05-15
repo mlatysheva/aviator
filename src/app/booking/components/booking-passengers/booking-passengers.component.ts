@@ -13,16 +13,16 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { IAgeCategory, IPassenger } from 'backend/types';
 import { map, Observable } from 'rxjs';
-import { IAgeTypeQuantity } from 'src/app/models/agetype-quantity.model';
+import { IAgeTypeQuantity } from '../../../models/agetype-quantity.model';
 
-import { ICountryCode } from 'src/app/models/countryCode';
-import { ISearchForm } from 'src/app/models/search-form.model';
-import { IUser } from 'src/app/models/user';
-import { selectPassengers } from 'src/app/store/selectors/search.selectors';
-import { selectUserProfile } from 'src/app/store/selectors/user.selectors';
-import { AppState } from 'src/app/store/state.models';
-import { UserService } from 'src/app/user/services/user.service';
-import { getAge } from 'src/app/utils/getAge';
+import { ICountryCode } from '../../../models/countryCode';
+import { ISearchForm } from '../../../models/search-form.model';
+import { IUser } from '../../../models/user';
+import { selectPassengers } from '../../../store/selectors/search.selectors';
+import { selectUserProfile } from '../../../store/selectors/user.selectors';
+import { AppState } from '../../../store/state.models';
+import { UserService } from '../../../user/services/user.service';
+import { getAge } from '../../../utils/getAge';
 import { PassengersService } from '../../services/passengers.service';
 
 @Component({

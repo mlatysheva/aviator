@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AviaService } from 'src/app/avia/services/avia.service';
+import { AviaService } from '../../../avia/services/avia.service';
 
 @Component({
   selector: 'app-header',
@@ -7,5 +7,11 @@ import { AviaService } from 'src/app/avia/services/avia.service';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent {
-  constructor(public aviaService: AviaService) {}
+  public isSubmitted = false;
+
+  constructor(public aviaService: AviaService) {
+    this.aviaService.isSearchSubmitted$.subscribe(
+      (isSubmitted) => (this.isSubmitted = isSubmitted)
+    );
+  }
 }
