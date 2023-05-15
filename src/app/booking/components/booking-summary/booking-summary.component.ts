@@ -33,10 +33,6 @@ export class BookingSummaryComponent implements OnInit {
   ngOnInit() {
     this.trip$ = this.store.select(selectTheTrip);
     this.trip$.pipe(map((trip) => (this.trip = trip))).subscribe();
-
-    this.cartApiService
-      .getTripsByCartId('99t0y12e-b1e7-4011-a1c7-7b73cw92d11f')
-      .subscribe((trips) => (this.trips = trips));
   }
 
   public onBackClick() {
@@ -47,11 +43,5 @@ export class BookingSummaryComponent implements OnInit {
     if (this.trips.length) {
       this.router.navigate(['cart']);
     }
-  }
-
-  private createTripsIdsCollection(trips: ITrip[]): string[] {
-    trips.forEach((trip) => this.tripIds.push(trip.id as string));
-    return this.tripIds;
-    // this.cartApiService.getCart('99t0y12e-b1e7-4011-a1c7-7b73cw92d11f');
   }
 }

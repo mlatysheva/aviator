@@ -58,7 +58,7 @@
                 </mat-card-content>
             </mat-card>
     
-            <mat-card>
+            <mat-card class="fares-and-taxes">
                 <mat-card-content>
                     <div *ngFor="let passenger of trip.numberOfPassengers">
                         <p><b>{{passenger.quantity}} x {{passenger.ageCategory | titlecase}} Fare</b></p>
@@ -78,27 +78,6 @@
             </mat-card>
         </div>
     </div>
-
-    <!-- <div class="passengers-fares-and-taxes">
-        <mat-card class="fares-and-taxes-card">
-            <mat-card-content>
-                <div *ngFor="let passenger of trip.numberOfPassengers">
-                    <p><b>{{passenger.quantity}} x {{passenger.ageCategory | titlecase}} Fare</b></p>
-                    <div class="fare-and-taxes-table">
-                        <div class="titles-column">
-                            <p>Fare</p>
-                            <p>Tax & Service Charge</p>
-                        </div>
-                        <div class="prices-column">
-                            <p>{{passenger.fare}}</p>
-                            <p>{{passenger.tax}}</p>
-                        </div>
-                    </div>
-                </div>
-                <p><b>Total: </b></p>
-            </mat-card-content>
-        </mat-card>
-    </div> -->
 
     <div class="width-container stepper-btns">
         <button mat-button color="primary" (click)="onBackClick()">Back</button>

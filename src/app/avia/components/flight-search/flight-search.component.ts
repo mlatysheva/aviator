@@ -13,16 +13,6 @@ import { AppState } from '../../../store/state.models';
 import { setSearchForm } from '../../../store/actions/search.actions';
 import { IAgeCategory } from '../../../models/passenger';
 import { setSearchParameters } from '../../../store/actions/trip.actions';
-import {
-  setSelectedAiroports,
-  setSelectedDepartureDate,
-  setSelectedDestinationAiroportName,
-  setSelectedDestinationCity,
-  setSelectedOriginAiroportName,
-  setSelectedOriginCity,
-  setSelectedReturnDate,
-  setSelectedTripType,
-} from 'src/app/store/actions/select.actions';
 
 @Component({
   selector: 'app-flight-search',
