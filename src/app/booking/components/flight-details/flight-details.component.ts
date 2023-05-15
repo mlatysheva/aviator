@@ -68,7 +68,7 @@ export class FlightDetailsComponent {
       button[0].classList.remove('none');
       editButton[0].classList.add('none');
       this.classTo = '';
-      this.store.dispatch(clearSelectedTrip());
+      // this.store.dispatch(clearSelectedTrip());
     } if (this.type === 2) {
       element[0].classList.remove('none');
       button[0].classList.remove('none');
@@ -93,6 +93,8 @@ export class FlightDetailsComponent {
         destinationCity: this.cityTo,
         outboundFlightNo: this.flightNumber,
         airportsIataCodes: [this.codFrom, this.codTo],
+        originAiroportName: this.from,
+        destinationAiroportName: this.to,
         outboundDepartureDate: this.startDate,
         outboundDepartureTime: this.departureTime,
         outboundArrivalTime: this.arrivingDateTo ? this.arrivingDateTo : '',

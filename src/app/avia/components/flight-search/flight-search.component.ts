@@ -13,6 +13,7 @@ import { AppState } from 'src/app/store/state.models';
 import { setSearchForm } from '../../../store/actions/search.actions';
 import { IAgeCategory } from 'src/app/models/passenger';
 import { setSearchParameters } from 'src/app/store/actions/trip.actions';
+import { setSelectedAiroports, setSelectedDepartureDate, setSelectedDestinationAiroportName, setSelectedDestinationCity, setSelectedOriginAiroportName, setSelectedOriginCity, setSelectedReturnDate, setSelectedTripType } from 'src/app/store/actions/select.actions';
 
 @Component({
   selector: 'app-flight-search',
@@ -63,7 +64,7 @@ export class FlightSearchComponent implements OnInit {
     this.state$ = this.store.select((appState) => appState);
     this.state$.subscribe((state: AppState) => {
       this.dateFormat = state.user.dateFormat;
-      
+
     });
   }
 
@@ -120,6 +121,38 @@ export class FlightSearchComponent implements OnInit {
         ),
       })
     );
+    this.store.dispatch(setSelectedTripType({ roundTrip: this.searchForm.controls['tripType'].value === 'round-trip' ? true : false })
+    );
+    this.store.dispatch(setSelectedDepartureDate({ outboundDepartureDate: this.searchForm.controls['startDate'].value }
+    )
+    );
+    this.store.dispatch(setSelectedReturnDate({ returnDepartureDate: this.searchForm.controls['endDate'].value })
+    );
+    this.store.dispatch(setSelectedOriginCity({
+      originCity: this.getCityName(this.searchForm.controls['departure'].value
+      )
+    })
+    );
+    this.store.dispatch(setSelectedDestinationCity({
+      destinationCity: this.getCityName(this.searchForm.controls['destination'].value)
+    })
+    );
+    this.store.dispatch(setSelectedAiroports({
+      airportsIataCodes: [this.searchForm.controls['departure'].value.split(',').slice(2, 3).join(''),
+      this.searchForm.controls['destination'].value.split(',').slice(2, 3).join('')]
+    })
+    );
+    this.store.dispatch(setSelectedOriginAiroportName({
+
+      originAiroportName: this.searchForm.controls['departure'].value.split(',').slice(0, 2).join('')
+    })
+    );
+    this.store.dispatch(setSelectedDestinationAiroportName({
+      destinationAiroportName: this.searchForm.controls['destination'].value.split(',').slice(0, 2).join('')
+    })
+    );
+
+
 
     this.store.dispatch(setSearchForm(this.searchForm.value));
     this.router.navigate(['flights']);

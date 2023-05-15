@@ -196,8 +196,8 @@ export class CarouselDateComponent implements OnInit {
       this.codTo = state.trip.airportsIataCodes[1];
       this.cityFrom = state.trip.originCity;
       this.cityTo = state.trip.destinationCity;
-      this.from = state.trip.originCity + ', ' + state.trip.airportsIataCodes[0];
-      this.to = state.trip.destinationCity + ', ' + state.trip.airportsIataCodes[1];
+      this.from = state.trip.originAiroportName;
+      this.to = state.trip.destinationAiroportName;
       this.startDate = state.trip.outboundDepartureDate;
       this.endDate = state.trip.returnDepartureDate;
       this.flightNumber = state.trip.outboundFlightNo;
