@@ -8,10 +8,10 @@ import { MatOption } from '@angular/material/core';
 import { Router } from '@angular/router';
 import { TRIP_TYPE } from '../../../constants/localStorage';
 import { Store } from '@ngrx/store';
-import { AppState } from 'src/app/store/state.models';
+import { AppState } from '../../../store/state.models';
 import { setSearchForm } from '../../../store/actions/search.actions';
-import { IAgeCategory } from 'src/app/models/passenger';
-import { setSearchParameters } from 'src/app/store/actions/trip.actions';
+import { IAgeCategory } from '../../../models/passenger';
+import { setSearchParameters } from '../../../store/actions/trip.actions';
 
 @Component({
   selector: 'app-flight-search',

@@ -2,12 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { map, Observable } from 'rxjs';
 
-import { AppState } from 'src/app/store/state.models';
-import { ITrip } from 'src/app/models/trip';
-import { selectTheTrip } from 'src/app/store/selectors/trip.selectors';
+import { AppState } from '../../../store/state.models';
+import { ITrip } from '../../../models/trip';
+import { selectTheTrip } from '../../../store/selectors/trip.selectors';
 import { Router } from '@angular/router';
-import { CartApiService } from 'src/app/cart/services/cart-api.service';
-import { ICart } from 'src/app/models/cart';
+import { CartApiService } from '../../../cart/services/cart-api.service';
+import { ICart } from '../../../models/cart';
 
 @Component({
   selector: 'app-booking-summary',

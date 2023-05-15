@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { TRIP_ID } from 'src/app/constants/localStorage';
+import { TRIP_ID } from '../../../constants/localStorage';
 
 @Component({
   selector: 'app-booking-page',

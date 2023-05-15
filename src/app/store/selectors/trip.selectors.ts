@@ -1,6 +1,6 @@
 import { createSelector } from '@ngrx/store';
-import { IPassenger } from 'src/app/models/passenger';
-import { ITrip } from 'src/app/models/trip';
+import { IPassenger } from '../../models/passenger';
+import { ITrip } from '../../models/trip';
 import { AppState } from '../state.models';
 
 export const selectPassengers = (state: AppState) => state.trip.passengers;

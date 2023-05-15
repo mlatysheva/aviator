@@ -1,6 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import { IContacts } from 'backend/types';
-import { IPassenger } from 'src/app/models/passenger';
+import { IPassenger } from '../../models/passenger';
 
 export const setSearchParameters = createAction(
   '[Main Page - Search] Set Search Parameters',
@@ -22,4 +22,3 @@ export const setTripContactDetails = createAction(
 );
 
 export const clearTripState = createAction('[] Cleared Trip State');
-

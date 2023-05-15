@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { IAirport } from '../../models/airport';
 import { HttpClient } from '@angular/common/http';
-import { IFlight } from 'src/app/models/flight';
+import { IFlight } from '../../models/flight';
 import { baseUrl } from '../../constants/apiUrls';
 
 @Injectable({
