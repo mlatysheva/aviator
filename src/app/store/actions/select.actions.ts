@@ -7,6 +7,8 @@ export const setSelectedTrip = createAction(
     roundTrip: boolean;
     originCity: string;
     destinationCity: string;
+    originAiroportName: string;
+    destinationAiroportName?: string;
     airportsIataCodes: string[];
     outboundDepartureDate: string;
     outboundDepartureTime: string;
@@ -25,3 +27,68 @@ export const setSelectedTrip = createAction(
 export const clearSelectedTrip = createAction(
   '[Flight Select] Cleared Selected Trip'
 );
+
+export const setSelectedDepartureDate = createAction(
+  '[Flight Select] Set Selected Departure Date',
+  props<{ outboundDepartureDate: string }>()
+);
+
+export const setSelectedReturnDate = createAction(
+  '[Flight Select] Set Selected Return Date',
+  props<{ returnDepartureDate: string }>()
+);
+export const setSelectedOriginCity = createAction(
+  '[Flight Select] Set Selected Origin City',
+  props<{ originCity: string }>()
+);
+export const setSelectedDestinationCity = createAction(
+  '[Flight Select] Set Selected Destination City',
+  props<{ destinationCity: string }>()
+);
+export const setSelectedTripType = createAction(
+  '[Flight Select] Set Selected Trip Type',
+  props<{ roundTrip: boolean }>()
+);
+export const setSelectedAiroports = createAction(
+  '[Flight Select] Set Selected Airoports',
+  props<{ airportsIataCodes: string[] }>()
+);
+export const setSelectedOriginAiroportName = createAction(
+  '[Flight Select] Set Selected Origin Airoport Name',
+  props<{ originAiroportName: string }>()
+);
+export const setSelectedDestinationAiroportName = createAction(
+  '[Flight Select] Set Selected Destination Airoport Name',
+  props<{ destinationAiroportName: string }>()
+);
+export const setSelectedOutboundDepartureTime = createAction(
+  '[Flight Select] Set Selected Outbound Departure Time',
+  props<{ outboundDepartureTime: string }>()
+);
+export const setSelectedOutboundArrivalTime = createAction(
+  '[Flight Select] Set Selected Outbound Arrival Time',
+  props<{ outboundArrivalTime: string }>()
+);
+export const setSelectedOutboundFlightNo = createAction(
+  '[Flight Select] Set Selected Outbound Flight No',
+  props<{ outboundFlightNo: string }>()
+);
+export const setSelectedReturnDepartureTime = createAction(
+  '[Flight Select] Set Selected Return Departure Time',
+  props<{ returnDepartureTime: string }>()
+);
+export const setSelectedReturnArrivalTime = createAction(
+  '[Flight Select] Set Selected Return Arrival Time',
+  props<{ returnArrivalTime: string }>()
+);
+export const setSelectedReturnFlightNo = createAction(
+  '[Flight Select] Set Selected Return Flight No',
+  props<{ returnFlightNo: string }>()
+);
+export const setSelectedNumberOfPassengers = createAction(
+  '[Flight Select] Set Selected Number Of Passengers',
+  props<{ numberOfPassengers: IAgeTypeQuantity[] }>()
+);
+
+
+

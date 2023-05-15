@@ -50,6 +50,8 @@ export class FlightDetailsComponent implements OnInit {
   @Input() totalTax: number;
   @Input() type: number;
   @Input() flightDaysTo: number[];
+  @Input() flightDaysFrom: number[];
+  @Input() dateFormat: string;
   classTo = '';
   classFrom = '';
 
@@ -76,7 +78,7 @@ export class FlightDetailsComponent implements OnInit {
       button[0].classList.remove('none');
       editButton[0].classList.add('none');
       this.classTo = '';
-      this.store.dispatch(clearSelectedTrip());
+      // this.store.dispatch(clearSelectedTrip());
     }
     if (this.type === 2) {
       element[0].classList.remove('none');
@@ -103,6 +105,8 @@ export class FlightDetailsComponent implements OnInit {
           destinationCity: this.cityTo,
           outboundFlightNo: this.flightNumber,
           airportsIataCodes: [this.codFrom, this.codTo],
+          originAiroportName: this.from,
+          destinationAiroportName: this.to,
           outboundDepartureDate: this.startDate,
           outboundDepartureTime: this.departureTime,
           outboundArrivalTime: this.arrivingDateTo ? this.arrivingDateTo : '',

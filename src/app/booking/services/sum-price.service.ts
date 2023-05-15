@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { IFlight } from '../../models/flight';
 import { IAgeTypeQuantity } from '../../models/agetype-quantity.model';
+import { IFlight } from '../../models/flight';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
