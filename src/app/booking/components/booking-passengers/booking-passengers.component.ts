@@ -13,17 +13,16 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { IAgeCategory, IPassenger } from 'backend/types';
 import { map, Observable } from 'rxjs';
+import { ITrip } from '../../../models/trip';
 import { IAgeTypeQuantity } from '../../../models/agetype-quantity.model';
-
 import { ICountryCode } from '../../../models/countryCode';
-import { ISearchForm } from '../../../models/search-form.model';
 import { IUser } from '../../../models/user';
-import { selectPassengers } from '../../../store/selectors/search.selectors';
 import { selectUserProfile } from '../../../store/selectors/user.selectors';
 import { AppState } from '../../../store/state.models';
 import { UserService } from '../../../user/services/user.service';
 import { getAge } from '../../../utils/getAge';
 import { PassengersService } from '../../services/passengers.service';
+import { selectTheTrip } from '../../../store/selectors/trip.selectors';
 
 @Component({
   selector: 'app-booking-passengers',
@@ -34,7 +33,7 @@ import { PassengersService } from '../../services/passengers.service';
 export class BookingPassengersComponent implements OnInit {
   public passengersCollectionForm: FormGroup;
 
-  public searchForm$!: Observable<ISearchForm | any>;
+  public trip$!: Observable<ITrip | any>;
   public userProfile$!: Observable<IUser>;
 
   public passengersQuauntity = 0;
@@ -66,15 +65,15 @@ export class BookingPassengersComponent implements OnInit {
       passengers: this.fb.array([]),
     });
 
-    this.searchForm$ = this.store.select(selectPassengers);
-    this.searchForm$
+    this.trip$ = this.store.select(selectTheTrip);
+    this.trip$
       .pipe(
-        map((passengers) => {
-          passengers.forEach(
+        map((trip) => {
+          trip.numberOfPassengers.forEach(
             (person: IAgeTypeQuantity) =>
               (this.passengersQuauntity += person.quantity)
           );
-          this.setAgeCategories(passengers);
+          this.setAgeCategories(trip.numberOfPassengers);
         })
       )
       .subscribe();

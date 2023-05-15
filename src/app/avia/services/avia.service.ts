@@ -2,14 +2,14 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { IAirport } from '../../models/airport';
 import { HttpClient } from '@angular/common/http';
-import { IFlight } from 'src/app/models/flight';
+import { IFlight } from '../../models/flight';
 import { baseUrl } from '../../constants/apiUrls';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AviaService {
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   public isSearchSubmitted$ = new BehaviorSubject<boolean>(false);
 
@@ -26,11 +26,17 @@ export class AviaService {
     const flightsRequestUrl = `http://localhost:3000/flights?date=${date}`;
     return this.http.get<IFlight[]>(flightsRequestUrl);
   }
-  public getAllFlightsByDateAndFrom(date: string, from: string): Observable<IFlight[]> {
+  public getAllFlightsByDateAndFrom(
+    date: string,
+    from: string
+  ): Observable<IFlight[]> {
     const flightsRequestUrl = `http://localhost:3000/flights?date=${date}&from=${from}`;
     return this.http.get<IFlight[]>(flightsRequestUrl);
   }
-  public getAllFlightsByDateAndTo(date: string, to: string): Observable<IFlight[]> {
+  public getAllFlightsByDateAndTo(
+    date: string,
+    to: string
+  ): Observable<IFlight[]> {
     const flightsRequestUrl = `http://localhost:3000/flights?date=${date}&to=${to}`;
     return this.http.get<IFlight[]>(flightsRequestUrl);
   }
@@ -41,10 +47,9 @@ export class AviaService {
 
   public getFlightsPair(from: string, to: string): Observable<any> {
     const flightsRequestUrl = `${baseUrl}/flightspair`;
-    return this.http.post(flightsRequestUrl, { originAirportIataCode: from.trim(), destinationAirportIataCode: to.trim() });
-  }
-
-  public search() {
-    console.log('Search the flight');
+    return this.http.post(flightsRequestUrl, {
+      originAirportIataCode: from.trim(),
+      destinationAirportIataCode: to.trim(),
+    });
   }
 }
