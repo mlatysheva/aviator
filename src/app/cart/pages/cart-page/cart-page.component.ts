@@ -1,20 +1,20 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { CheckboxChangedEvent, ColDef, GridReadyEvent, ValueGetterParams } from 'ag-grid-community';
+import { ColDef, GridReadyEvent, ValueGetterParams } from 'ag-grid-community';
 import { AppState } from '../../../store/state.models';
 import { HttpClient } from '@angular/common/http';
 import { CartApiService } from '../../services/cart-api.service';
-import { ITrip } from '../../../models';
+import { ITrip, IUser } from '../../../models';
 import { Observable, map } from 'rxjs';
 import { AgGridAngular } from 'ag-grid-angular';
 import { Router } from '@angular/router';
 import { selectUserCurrency } from '../../../store/selectors/user.selectors';
 import getSymbolFromCurrency from 'currency-symbol-map';
-import { CART_ID, TRIP_ID } from '../../../constants/localStorage';
-import { ICart } from '../../../models/cart';
+import { TRIP_ID, USER_ID } from '../../../constants/localStorage';
 import { PROMO_DISOUNT } from '../../../constants/appConstants';
 import { BehaviorSubject } from 'rxjs';
 import { clearSelectedTrip, setSelectedTrip } from '../../../store/actions/select.actions';
+import { UserService } from '../../../user/services/user.service';
 
 
 
@@ -25,8 +25,10 @@ import { clearSelectedTrip, setSelectedTrip } from '../../../store/actions/selec
 })
 
 export class CartPageComponent implements OnInit {
-  cartId = localStorage.getItem(CART_ID) || '00e0d78e-b1e7-4099-a1c7-7b73cd92d12f';
-  cart$: Observable<ICart>;
+
+  userId = localStorage.getItem(USER_ID) || '';
+  user$: Observable<IUser>;
+
   trips$: Observable<ITrip[]>;
 
   cartCount$: Observable<number>;
@@ -53,6 +55,7 @@ export class CartPageComponent implements OnInit {
     private store: Store<AppState>,
     private http: HttpClient,
     private cartApiService: CartApiService,
+    private userService: UserService,
   ) {
     this.colDefs = [
       {
@@ -142,16 +145,19 @@ export class CartPageComponent implements OnInit {
   }
 
   onGridReady(params: GridReadyEvent) {
-    this.cart$ = this.cartApiService.getCart(this.cartId);
-    this.cart$.subscribe((cart) => {
-      this.promoCode = cart.promoCode;
-      this.isCodeApplied = cart.isCodeApplied || false;
+    this.user$ = this.userService.getUserById(this.userId);
+    this.user$.subscribe((user) => {
+      this.promoCode = user.promoCode;
+      this.isCodeApplied = user.isCodeApplied || false;
     });
-    this.trips$ = this.cartApiService.getUnpaidTripsByCartId(this.cartId);
+    
+    this.trips$ = this.cartApiService.getUnpaidTripsByUserId(this.userId);
+
     this.trips$.subscribe((trips) => {
       this.cartApiService.cartCount$.next(trips.length);
       this.cartCount = trips.length;
     });
+
     this.recalculateTotalPrice(1);
     this.selectedRows$.next(this.agGrid.api.getSelectedNodes().length);
   }
@@ -183,7 +189,6 @@ export class CartPageComponent implements OnInit {
       map((trips) => {
         const price =  trips.reduce((acc, trip) => acc + trip.totalAmount, 0);
         // this.totalPrice = price;
-        console.log(price);
         return Math.round(price * factor);
       }
     ));
@@ -207,9 +212,11 @@ export class CartPageComponent implements OnInit {
 
       if (action === "delete") {
         this.cartApiService.deleteTrip(tripId);
+        // this.cartCount--;
         this.cartApiService.cartCount$.next(this.cartCount - 1);
         this.recalculateTotalPrice(1);
         this.store.dispatch(clearSelectedTrip());
+        localStorage.removeItem(TRIP_ID);
         params.api.applyTransaction({
           remove: [params.node.data]
         });
@@ -219,13 +226,14 @@ export class CartPageComponent implements OnInit {
 
   addNewTrip() {
     this.router.navigate(['main']);
+    localStorage.removeItem(TRIP_ID);
   }
 
   applyPromoCode() {
     if (this.promoCode && !this.isCodeApplied) {
       this.recalculateTotalPrice(0.95);
       this.isCodeApplied = true;
-      this.trips$ = this.cartApiService.applyPromoCode(this.cartId, PROMO_DISOUNT);
+      this.trips$ = this.cartApiService.applyPromoCode(this.userId, PROMO_DISOUNT);
       alert(`Promo Code "${this.promoCode}" with a 5% discount will be applied!`);
     } else if (this.isCodeApplied) {
       alert('Promo Code has already been applied!');

@@ -44,7 +44,13 @@
         "countryCode": "+7",
         "phone": "0123456789"
       },
-      "id": "0f04c977-c041-4fa4-9354-9c7d7cce9c0e"
+      "id": "0f04c977-c041-4fa4-9354-9c7d7cce9c0e",
+      "tripsIds": [
+        "010252d9-a720-49d8-a0f0-79cb45e30adf",
+        "77cec714-b2a2-4b87-abaf-1c7a6ee28f10"
+      ],
+      "promoCode": "Star Wars",
+      "isCodeApplied": true
     },
     {
       "email": "yur@yur.com",
@@ -152,14 +158,14 @@
           "ageCategory": "infant"
         }
       ],
-      "totalAmount": 298,
+      "totalAmount": 283,
       "totalTax": 112.5,
       "contactDetails": {
         "email": "darth@vader.com",
         "countryCode": "7",
         "phone": "123456789"
       },
-      "isPaid": false
+      "isPaid": true
     },
     {
       "id": "88cec744-b2a2-4b87-abaf-1c7a6ee22f11",
@@ -237,7 +243,7 @@
           "ageCategory": "child"
         }
       ],
-      "totalAmount": 497,
+      "totalAmount": 448,
       "totalTax": 202.5,
       "contactDetails": {
         "email": "darth@vader.com",

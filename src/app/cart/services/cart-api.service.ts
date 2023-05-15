@@ -5,6 +5,7 @@ import { baseUrl } from '../../constants/apiUrls';
 import { Store } from '@ngrx/store';
 import { ICart } from '../../models/cart';
 import { ITrip } from '../../models/trip';
+import { IUser } from '../../models';
 
 @Injectable({
   providedIn: 'root'
@@ -38,6 +39,53 @@ export class CartApiService {
       switchMap((cart: ICart) => {
         if(cart.tripsIds?.length) {
           return forkJoin(cart.tripsIds.map(tripId => this.getTrip(tripId)));
+        }
+        return of([]);
+      })
+    )
+  }
+
+  getTripsByUserId(id: string) {
+    return this.http.get<IUser>(`${baseUrl}/users/${id}`).pipe(
+      catchError(error => this.handleError(error)),
+      switchMap((user: IUser) => {
+        if(user.tripsIds?.length) {
+          return forkJoin(user.tripsIds.map(tripId => this.getTrip(tripId)));
+        }
+        return of([]);
+      })
+    )
+  }
+
+  isCodeApplied(id: string) {
+    return this.http.get<IUser>(`${baseUrl}/users/${id}`).pipe(
+      catchError(error => this.handleError(error)),
+      map((user: IUser) => user.isCodeApplied || false)
+    )
+  }
+
+  getUnpaidTripsByUserId(id: string) {
+    return this.http.get<IUser>(`${baseUrl}/users/${id}`).pipe(
+      catchError(error => this.handleError(error)),
+      switchMap((user: IUser) => {
+        if(user.tripsIds?.length) {
+          return forkJoin(user.tripsIds.map(tripId => this.getTrip(tripId))).pipe(
+            map((trips: ITrip[]) => trips.filter(trip => !trip.isPaid))
+          );
+        }
+        return of([]);
+      })
+    )
+  }
+
+  getPaidTripsByUserId(id: string) {
+    return this.http.get<IUser>(`${baseUrl}/users/${id}`).pipe(
+      catchError(error => this.handleError(error)),
+      switchMap((user: IUser) => {
+        if(user.tripsIds?.length) {
+          return forkJoin(user.tripsIds.map(tripId => this.getTrip(tripId))).pipe(
+            map((trips: ITrip[]) => trips.filter(trip => trip.isPaid))
+          );
         }
         return of([]);
       })
@@ -107,8 +155,8 @@ export class CartApiService {
   }
 
   applyPromoCode(id: string, factor = 0.95): Observable<ITrip[]> {
-    return this.http.patch<ICart>(`${baseUrl}/carts/${id}`, { isCodeApplied: true }).pipe(
-      switchMap(() => this.getTripsByCartId(id)),
+    return this.http.patch<IUser>(`${baseUrl}/users/${id}`, { isCodeApplied: true }).pipe(
+      switchMap(() => this.getUnpaidTripsByUserId(id)),
       catchError(error => this.handleError(error)),
       tap((trips: ITrip[]) => {
         trips.forEach((trip: ITrip) => {
@@ -117,7 +165,7 @@ export class CartApiService {
           }
         });
       }),
-      switchMap(() => this.getTripsByCartId(id)),
+      switchMap(() => this.getUnpaidTripsByUserId(id)),
     );
   }
 
