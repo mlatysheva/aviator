@@ -32,41 +32,73 @@
             </mat-card-content>
         </mat-card>
 
-        <mat-card class="card" *ngIf="trip.roundTrip">
-            <div class="card-header">
-                <div class="card-header-details">
-                    <h3 class="title">{{trip.returnFlightNo}}</h3>
-                    <p class="city-title">{{trip.destinationCity}} - {{trip.originCity}}</p>
+        <div class="card">
+            <mat-card *ngIf="trip.roundTrip">
+                <div class="card-header">
+                    <div class="card-header-details">
+                        <h3 class="title">{{trip.returnFlightNo}}</h3>
+                        <p class="city-title">{{trip.destinationCity}} - {{trip.originCity}}</p>
+                    </div>
+                    <div class="card-header-details">
+                        <small class="date">{{trip.returnDepartureDate | date:'fullDate'}}</small>
+                        <small>{{trip.returnDepartureTime}} - {{trip.returnArrivalTime | date:'h:mm a'}}</small>
+                    </div>
                 </div>
-                <div class="card-header-details">
-                    <small class="date">{{trip.returnDepartureDate | date:'fullDate'}}</small>
-                    <small>{{trip.returnDepartureTime}} - {{trip.returnArrivalTime | date:'h:mm a'}}</small>
-                </div>
-            </div>
+                <mat-card-content>
+                    <div class="card-content">
+                        <div *ngFor="let passenger of trip.passengers">
+                            <p>{{passenger.firstName + ' ' + passenger.lastName | uppercase}}</p>
+                            <div class="passenger-details">
+                                <p>1 checked bag (total 23 kg) included</p>
+                                <p>1 cabin bag + 1 personal item (max. 8 kg) included</p>
+                                <p *ngIf="!passenger.ageCategory.infant">Seat {{passenger.seatNo}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+    
+            <mat-card>
+                <mat-card-content>
+                    <div *ngFor="let passenger of trip.numberOfPassengers">
+                        <p><b>{{passenger.quantity}} x {{passenger.ageCategory | titlecase}} Fare</b></p>
+                        <div class="fare-and-taxes-table">
+                            <div class="titles-column">
+                                <p>Fare</p>
+                                <p>Tax & Service Charge</p>
+                            </div>
+                            <div class="prices-column">
+                                <p>{{passenger.fare}}</p>
+                                <p>{{passenger.tax}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <p><b>Total: </b></p>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </div>
+
+    <!-- <div class="passengers-fares-and-taxes">
+        <mat-card class="fares-and-taxes-card">
             <mat-card-content>
-                <div class="card-content">
-                    <div *ngFor="let passenger of trip.passengers">
-                        <p>{{passenger.firstName + ' ' + passenger.lastName | uppercase}}</p>
-                        <div class="passenger-details">
-                            <p>1 checked bag (total 23 kg) included</p>
-                            <p>1 cabin bag + 1 personal item (max. 8 kg) included</p>
-                            <p *ngIf="!passenger.ageCategory.infant">Seat {{passenger.seatNo}}</p>
+                <div *ngFor="let passenger of trip.numberOfPassengers">
+                    <p><b>{{passenger.quantity}} x {{passenger.ageCategory | titlecase}} Fare</b></p>
+                    <div class="fare-and-taxes-table">
+                        <div class="titles-column">
+                            <p>Fare</p>
+                            <p>Tax & Service Charge</p>
+                        </div>
+                        <div class="prices-column">
+                            <p>{{passenger.fare}}</p>
+                            <p>{{passenger.tax}}</p>
                         </div>
                     </div>
                 </div>
+                <p><b>Total: </b></p>
             </mat-card-content>
         </mat-card>
-    </div>
-
-    <mat-card>
-        <mat-card-content>
-            <div *ngFor="let passenger of trip.numberOfPassengers">
-                <p>{{passenger.quantity}} x {{passenger.ageCategory | titlecase}} Fare</p>
-                <p>Fare {{passenger.fare}}</p>
-                <p>Tax & Service Charge {{passenger.tax}}</p>
-            </div>
-        </mat-card-content>
-    </mat-card>
+    </div> -->
 
     <div class="width-container stepper-btns">
         <button mat-button color="primary" (click)="onBackClick()">Back</button>
