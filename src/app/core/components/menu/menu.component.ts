@@ -9,11 +9,13 @@ import {
   CURRENCY,
   DATE_FORMAT,
   USER_EMAIL,
+  USER_ID,
   USER_NAME,
 } from '../../../constants/localStorage';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { AviaService } from 'src/app/avia/services/avia.service';
 import { CartApiService } from '../../../cart/services/cart-api.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-menu',
@@ -21,8 +23,8 @@ import { CartApiService } from '../../../cart/services/cart-api.service';
   styleUrls: ['./menu.component.scss'],
 })
 export class MenuComponent implements OnInit, OnDestroy {
-  public isVisible = false;
   public userName = localStorage.getItem(USER_NAME) || '';
+  userId = localStorage.getItem(USER_ID) || '';
   isAuth = false;
   cartCount: number | undefined;
 
@@ -38,7 +40,8 @@ export class MenuComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private aviaService: AviaService,
     private store: Store,
-    private cartApiService: CartApiService,
+    private cartService: CartApiService,
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -52,7 +55,7 @@ export class MenuComponent implements OnInit, OnDestroy {
       }
     );
 
-    this.cartSubscription = this.cartApiService.cartCount$.subscribe(
+    this.cartSubscription = this.cartService.cartCount$.subscribe(
       (cartCount) => (this.cartCount = cartCount)
     );
 
@@ -73,6 +76,10 @@ export class MenuComponent implements OnInit, OnDestroy {
 
   onLogout() {
     this.authService.onLogout();
+  }
+
+  toUserAccount() {
+    this.router.navigate(['account']);
   }
 
   ngOnDestroy() {

@@ -13,7 +13,8 @@ export class SumPriceService {
 
   sumpPricesAdult(
     flight: IFlight,
-    passengers: IAgeTypeQuantity[]
+    passengers: IAgeTypeQuantity[],
+    index: number
   ): {
     adultPrice: number;
     childPrice: number;
@@ -21,9 +22,9 @@ export class SumPriceService {
     sumPrice: number;
     totalTax?: number;
   } {
-    const pricesAdult = flight.pricesAdult[0];
-    const pricesChild = flight.pricesChild[0];
-    const pricesInfant = flight.pricesInfant[0];
+    const pricesAdult = flight.pricesAdult[index];
+    const pricesChild = flight.pricesChild[index];
+    const pricesInfant = flight.pricesInfant[index];
     const passengersFaresAndTaxesArray = this.getPassengersWithPrices(
       flight,
       passengers,

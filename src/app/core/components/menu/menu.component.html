@@ -16,18 +16,40 @@
   </a>
 
   <div class="user-section" *ngIf="isAuth">
-    <button       
-      mat-mini-fab 
+    <button 
+      color="#11397e"
+      class="logout-icon" 
+      mat-icon-button 
+      [matMenuTriggerFor]="menu" 
+      aria-label="My Account"
+    >
+      <mat-icon >cabinet</mat-icon>
+      <div class="small-font">{{ userName }}</div> 
+    </button>
+  </div>
+
+  <mat-menu #menu="matMenu">
+    <button 
+      mat-menu-item
+      (click)="toUserAccount()"
+      color="#11397e"
+      class="logout-icon"
+    >
+      <mat-icon>shopping_basket</mat-icon>
+      <span>My orders</span>
+    </button>
+    <button 
+      mat-menu-item
       color="#11397e"
       class="logout-icon" 
       (click)="onLogout()"
     >
-      <mat-icon color="white" fontIcon="logout"></mat-icon>       
+      <mat-icon>logout</mat-icon>
+      <span>Log out</span>
     </button>
-    <div>{{ userName }}</div> 
-  </div>
+  </mat-menu>
 
   <div class="shop" routerLink="cart">
-    <div class="cart-count">{{ cartCount }}</div>
+    <div class="cart-count" *ngIf="cartCount !== 0">{{ this.cartService.cartCount$ | async }}</div>
   </div>
 </div>

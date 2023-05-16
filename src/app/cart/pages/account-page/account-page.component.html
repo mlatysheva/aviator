@@ -1,0 +1,18 @@
+<div class="cart-page width-container main-content">
+  <h1 class="title">My orders</h1>
+  <ag-grid-angular
+    class="ag-theme-alpine"
+    style="max-width: 1100px; height: 250px;"
+    [rowData]="trips$ | async"
+    [columnDefs]="colDefs"
+    [defaultColDef]="defaultColDef"
+    [rowSelection]="'multiple'"
+    (gridReady)="onGridReady($event)"
+    (onClick)="onSelectionChanged($event)"
+    editType="fullRow"
+    overlayNoRowsTemplate="You have no trips awaiting payment"
+    [suppressClickEdit]="true"
+  ></ag-grid-angular>
+  
+</div>
+

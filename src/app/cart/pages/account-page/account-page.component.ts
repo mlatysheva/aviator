@@ -1,30 +1,26 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { ColDef, GridReadyEvent, ValueGetterParams } from 'ag-grid-community';
-import { AppState } from '../../../store/state.models';
 import { HttpClient } from '@angular/common/http';
-import { CartApiService } from '../../services/cart-api.service';
-import { ITrip, IUser } from '../../../models';
-import { Observable, map } from 'rxjs';
-import { AgGridAngular } from 'ag-grid-angular';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { selectUserCurrency } from '../../../store/selectors/user.selectors';
+import { Store } from '@ngrx/store';
+import { AgGridAngular } from 'ag-grid-angular';
+import { ColDef, GridReadyEvent, ValueGetterParams } from 'ag-grid-community';
 import getSymbolFromCurrency from 'currency-symbol-map';
-import { TRIP_ID, USER_ID } from '../../../constants/localStorage';
+import { Observable, BehaviorSubject, map } from 'rxjs';
 import { PROMO_DISOUNT } from '../../../constants/appConstants';
-import { BehaviorSubject } from 'rxjs';
-import { clearSelectedTrip, setSelectedTrip } from '../../../store/actions/select.actions';
+import { USER_ID, TRIP_ID } from '../../../constants/localStorage';
+import { IUser, ITrip } from '../../../models';
+import { setSelectedTrip, clearSelectedTrip } from '../../../store/actions/select.actions';
+import { selectUserCurrency } from '../../../store/selectors/user.selectors';
+import { AppState } from '../../../store/state.models';
 import { UserService } from '../../../user/services/user.service';
-
-
+import { CartApiService } from '../../services/cart-api.service';
 
 @Component({
-  selector: 'app-cart-page',
-  templateUrl: './cart-page.component.html',
-  styleUrls: ['./cart-page.component.scss']
+  selector: 'app-account-page',
+  templateUrl: './account-page.component.html',
+  styleUrls: ['./account-page.component.scss']
 })
-
-export class CartPageComponent implements OnInit {
+export class AccountPageComponent implements OnInit {
 
   userId = localStorage.getItem(USER_ID) || '';
   user$: Observable<IUser>;
@@ -61,7 +57,6 @@ export class CartPageComponent implements OnInit {
       {
         headerName: 'No.',
         checkboxSelection: true,
-        headerCheckboxSelection: true,
         onCellClicked: this.onCellClicked.bind(this),
         width: 120,
         showDisabledCheckboxes: true,
@@ -151,15 +146,7 @@ export class CartPageComponent implements OnInit {
       this.isCodeApplied = user.isCodeApplied || false;
     });
     
-    this.trips$ = this.cartApiService.getUnpaidTripsByUserId(this.userId);
-
-    this.trips$.subscribe((trips) => {
-      this.cartApiService.cartCount$.next(trips.length);
-      this.cartCount = trips.length;
-    });
-
-    this.recalculateTotalPrice(1);
-    this.selectedRows$.next(this.agGrid.api.getSelectedNodes().length);
+    this.trips$ = this.cartApiService.getPaidTripsByUserId(this.userId);
   }
 
   onCellClicked(event: any) {
@@ -178,19 +165,9 @@ export class CartPageComponent implements OnInit {
     const eGui = document.createElement("div");
 
     eGui.innerHTML = `
-      <div class="material-icons" title="Edit" data-action="edit">edit</div>
-      <div class="material-icons" title="Delete" data-action="delete">delete</div>
+      <div class="material-icons" title="More" data-action="more">more</div>
     `;
     return eGui;
-  }
-
-  recalculateTotalPrice(factor = 1) {
-    this.totalPrice$ = this.trips$.pipe(
-      map((trips) => {
-        const price =  trips.reduce((acc, trip) => acc + trip.totalAmount, 0);
-        return Math.round(price * factor);
-      }
-      ));
   }
 
   onActionMenuClicked(params: any) {
@@ -200,66 +177,15 @@ export class CartPageComponent implements OnInit {
       const action = params.event.target.dataset.action;
       const tripId = params.node.data.id;
 
-      if (action === "edit") {
+      if (action === "more") {
         localStorage.setItem(TRIP_ID, tripId);
         const currentTrip$ = this.cartApiService.getTrip(tripId);
         currentTrip$.subscribe((currentTrip) => {
           this.store.dispatch(setSelectedTrip({ ...currentTrip }));
-          this.router.navigate(['flights']);
-        });
-      }
-
-      if (action === "delete") {
-        this.cartApiService.deleteTrip(tripId);
-        this.cartApiService.cartCount$.next(this.cartCount - 1);
-        this.recalculateTotalPrice(1);
-        this.store.dispatch(clearSelectedTrip());
-        localStorage.removeItem(TRIP_ID);
-        params.api.applyTransaction({
-          remove: [params.node.data]
+          this.router.navigate(['summary']);
         });
       }
     }
-  }
-
-  addNewTrip() {
-    this.router.navigate(['main']);
-    localStorage.removeItem(TRIP_ID);
-  }
-
-  applyPromoCode() {
-    if (this.promoCode && !this.isCodeApplied) {
-      this.recalculateTotalPrice(0.95);
-      this.isCodeApplied = true;
-      this.trips$ = this.cartApiService.applyPromoCode(this.userId, PROMO_DISOUNT);
-      alert(`Promo Code "${this.promoCode}" with a 5% discount will be applied!`);
-    } else if (this.isCodeApplied) {
-      alert('Promo Code has already been applied!');
-    } else {
-      alert('Please enter a valid promo code!');
-    }
-  }
-
-  onPayment() {
-    const selectedNodes = this.agGrid.api.getSelectedNodes();
-    if (selectedNodes.length === 0) {
-      alert('Please select a row to make a payment');
-      return;
-    }
-
-    const selectedData = selectedNodes.map(node => node.data);
-    const totalPrice = selectedData.reduce((total, data) => total + data.totalAmount, 0);
-
-    alert(`Payment of ${this.currency}${totalPrice} has been successful!`);
-    for (const data of selectedData) {
-      this.cartApiService.payTrip(data.id);
-    }
-    this.cartApiService.cartCount$.next(this.cartCount - selectedData.length);
-    this.store.dispatch(clearSelectedTrip());
-    this.agGrid.api.applyTransaction({
-      remove: selectedData
-    });
-    this.recalculateTotalPrice(1);
   }
 }
 
@@ -294,5 +220,3 @@ function passengersGetter(params: ValueGetterParams) {
   });
   return adult + ' x Adult' + (child ? '<br>' + child + ' x Child' : '') + (infant ? '<br>' + infant + ' x Infant' : '');
 }
-
-

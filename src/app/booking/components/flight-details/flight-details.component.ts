@@ -1,8 +1,8 @@
-import { Component, Input, ElementRef, OnInit } from '@angular/core';
+import { Component, Input, ElementRef, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { Subscription } from 'rxjs';
 import { DateService } from '../../services/date.service';
 import {
-  clearSelectedTrip,
   setSelectedTrip,
 } from 'src/app/store/actions/select.actions';
 import { AppState } from 'src/app/store/state.models';
@@ -14,7 +14,7 @@ import { SumPriceService } from '../../services/sum-price.service';
   templateUrl: './flight-details.component.html',
   styleUrls: ['./flight-details.component.scss'],
 })
-export class FlightDetailsComponent implements OnInit {
+export class FlightDetailsComponent implements OnInit, OnDestroy {
   @Input() isFly: string;
   @Input() from: string;
   @Input() to: string;
@@ -45,7 +45,7 @@ export class FlightDetailsComponent implements OnInit {
   @Input() endDate: string;
   @Input() departureTimeFrom: string;
   @Input() arrivingDateFrom: string;
-  @Input() numberOfPassengersWithPrices: IAgeTypeQuantity[];
+  @Input() numberOfPassengers: IAgeTypeQuantity[];
   @Input() totalAmount: number;
   @Input() totalTax: number;
   @Input() type: number;
@@ -54,19 +54,14 @@ export class FlightDetailsComponent implements OnInit {
   @Input() dateFormat: string;
   classTo = '';
   classFrom = '';
+  private subscriptions = new Subscription();
 
   constructor(
     public dateService: DateService,
     private el: ElementRef,
     private store: Store<AppState>,
-    private sumPriceService: SumPriceService
-  ) {}
-
-  ngOnInit(): void {
-    this.sumPriceService.passengersWithFareAndTax$.subscribe(
-      (passengers) => (this.numberOfPassengersWithPrices = passengers)
-    );
-  }
+    private sumPriceService: SumPriceService,
+  ) { }
 
   onEditFlight(e: Event) {
     e.preventDefault();
@@ -78,7 +73,6 @@ export class FlightDetailsComponent implements OnInit {
       button[0].classList.remove('none');
       editButton[0].classList.add('none');
       this.classTo = '';
-      // this.store.dispatch(clearSelectedTrip());
     }
     if (this.type === 2) {
       element[0].classList.remove('none');
@@ -100,7 +94,7 @@ export class FlightDetailsComponent implements OnInit {
       this.classTo = 'none';
       this.store.dispatch(
         setSelectedTrip({
-          roundTrip: true,
+          roundTrip: this.oneWay ? false : true,
           originCity: this.cityFrom,
           destinationCity: this.cityTo,
           outboundFlightNo: this.flightNumber,
@@ -114,7 +108,7 @@ export class FlightDetailsComponent implements OnInit {
           returnDepartureDate: this.endDate,
           returnDepartureTime: this.departureTimeFrom,
           returnArrivalTime: this.arrivingDateFrom ? this.arrivingDateFrom : '',
-          numberOfPassengers: this.numberOfPassengersWithPrices,
+          numberOfPassengers: this.numberOfPassengers,
           totalAmount: this.totalAmount,
           totalTax: this.totalTax,
         })
@@ -127,4 +121,15 @@ export class FlightDetailsComponent implements OnInit {
       this.classFrom = 'none';
     }
   }
+
+  ngOnInit(): void {
+    this.subscriptions.add(
+      this.sumPriceService.passengersWithFareAndTax$.subscribe(
+        (passengers) => (this.numberOfPassengers = passengers)
+      ));
+  }
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
+  }
+
 }
