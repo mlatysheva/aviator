@@ -1,10 +1,7 @@
 <div class="stepper">
-  <img src="../../../../assets/icons/step-edit.svg" alt="step1">
-  <div class="step">Flights</div>
-  <div class="divider"></div>
-  <img src="../../../../assets/icons/steps2.svg" alt="step2">
-  <div class="step">Passengers</div>
-  <div class="divider"></div>
-  <img src="../../../../assets/icons/steps3.svg" alt="step3">
-  <div class="step">Review & Payment</div>
+  <div *ngFor="let step of progressBar; let i=index" class="step">
+    <img src="{{step.imgUrl}}" alt="step1" class="step-img">
+    <div class="step">{{step.text}}</div>
+    <div *ngIf="i < progressBar.length-1" class="divider"></div>
+  </div>
 </div>

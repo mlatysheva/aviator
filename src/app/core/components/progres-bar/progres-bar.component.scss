@@ -1,7 +1,19 @@
 .stepper {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 5px;
+  color: #74767a;
+  font-size: 14px;
+}
+
+.step {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  &-img {
+    padding-right: 5px;
+  }
 }
 
 .divider {
