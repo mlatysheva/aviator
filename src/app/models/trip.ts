@@ -1,7 +1,7 @@
 import { IContacts } from './contacts';
 import { IPassenger } from './passenger';
 import { IAgeTypeQuantity } from './agetype-quantity.model';
-import { IAirport } from '../models/airport';
+
 
 export interface ITrip {
   id?: string;

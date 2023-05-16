@@ -129,6 +129,20 @@ export const tripReducer = createReducer(
     })
   ),
 
+  on(
+    SelectedActions.setSelectedTotalAmount,
+    (state, payload): TripState => ({
+      ...state,
+      ...payload,
+    })
+  ),
+  on(
+    SelectedActions.setSelectedTotalTax,
+    (state, payload): TripState => ({
+      ...state,
+      ...payload,
+    })
+  ),
 
   on(
     SelectedActions.clearSelectedTrip,

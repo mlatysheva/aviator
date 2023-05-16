@@ -89,6 +89,14 @@ export const setSelectedNumberOfPassengers = createAction(
   '[Flight Select] Set Selected Number Of Passengers',
   props<{ numberOfPassengers: IAgeTypeQuantity[] }>()
 );
+export const setSelectedTotalAmount = createAction(
+  '[Flight Select] Set Selected Total Amount',
+  props<{ totalAmount: number }>()
+);
+export const setSelectedTotalTax = createAction(
+  '[Flight Select] Set Selected Total Tax',
+  props<{ totalTax: number }>()
+);
 
 
 
