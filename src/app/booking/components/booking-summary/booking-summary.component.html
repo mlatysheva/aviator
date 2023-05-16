@@ -61,15 +61,17 @@
             <mat-card class="fares-and-taxes">
                 <mat-card-content>
                     <div *ngFor="let passenger of trip.numberOfPassengers">
-                        <p><b>{{passenger.quantity}} x {{passenger.ageCategory | titlecase}} Fare</b></p>
-                        <div class="fare-and-taxes-table">
-                            <div class="titles-column">
-                                <p>Fare</p>
-                                <p>Tax & Service Charge</p>
-                            </div>
-                            <div class="prices-column">
-                                <p>{{passenger.fare}}</p>
-                                <p>{{passenger.tax}}</p>
+                        <div *ngIf="passenger.quantity">
+                            <p><b>{{passenger.quantity}} x {{passenger.ageCategory | titlecase}} Fare</b></p>
+                            <div class="fare-and-taxes-table">
+                                <div class="titles-column">
+                                    <p>Fare</p>
+                                    <p>Tax & Service Charge</p>
+                                </div>
+                                <div class="prices-column">
+                                    <p>{{passenger.fare}}</p>
+                                    <p>{{passenger.tax}}</p>
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -125,9 +125,20 @@ option:active,
   cursor: pointer;
   padding-left: 5px;
   background-image: url("../../../../assets/icons/shopping-basket.svg");
+  background-repeat: no-repeat;
 
   &:hover {
-    background-color: rgba(116, 118, 122, 0.2);
+    background-color: rgba(116, 118, 122, 0.8);
+  }
+
+  &.shop-inverted {
+    background-image: url("../../../../assets/icons/shopping_basket_inverted.svg");
+    background-position: center;
+    color: #fff;
+
+    &:hover {
+      background-color: #fff;
+    }
   }
 }
 

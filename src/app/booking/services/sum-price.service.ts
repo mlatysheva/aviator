@@ -33,9 +33,13 @@ export class SumPriceService {
       pricesInfant
     );
     this.passengersWithFareAndTax$.next(passengersFaresAndTaxesArray);
-    const adultPassengers = passengers.filter((p) => p.ageCategory === 'adult');
-    const childPassengers = passengers.filter((p) => p.ageCategory === 'child');
-    const infantPassengers = passengers.filter(
+    const adultPassengers = passengers?.filter(
+      (p) => p.ageCategory === 'adult'
+    );
+    const childPassengers = passengers?.filter(
+      (p) => p.ageCategory === 'child'
+    );
+    const infantPassengers = passengers?.filter(
       (p) => p.ageCategory === 'infant'
     );
     const adultPrice = pricesAdult * adultPassengers[0].quantity;
@@ -88,7 +92,7 @@ export class SumPriceService {
     priceChild: number,
     priceInfant: number
   ): IAgeTypeQuantity[] {
-    passengers = passengers.map((passenger) => ({
+    passengers = passengers?.map((passenger) => ({
       ...passenger,
       ...this.getFareAndTax(
         flight,
