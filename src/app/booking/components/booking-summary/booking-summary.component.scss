@@ -27,6 +27,7 @@
 
 .card {
   width: 100%;
+  border: none;
 
   &-header {
     padding-top: 16px;
@@ -75,4 +76,18 @@
     margin: 0 5px;
     padding: 20px;
   }
+}
+
+.fares-and-taxes {
+  margin-top: 15px;
+}
+
+.fare-and-taxes-table {
+  padding-left: 16px;
+  display: flex;
+  flex-direction: row;
+}
+
+.prices-column {
+  padding-left: 105px;
 }

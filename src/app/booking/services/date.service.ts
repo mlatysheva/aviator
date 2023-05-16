@@ -7,13 +7,19 @@ import { IFlight } from 'src/app/models/flight';
   providedIn: 'root'
 })
 export class DateService {
-  addOneDay(date: string) {
+  addOneDay(date: string | undefined) {
+    if (date === undefined) {
+      return new Date().toISOString().slice(0, -1);
+    }
     const dateCopy = new Date(date);
     dateCopy.setDate(dateCopy.getDate() + 1);
     return dateCopy.toString();
   }
 
-  minusOneDay(date: string) {
+  minusOneDay(date: string | undefined) {
+    if (date === undefined) {
+      return new Date().toISOString().slice(0, -1);
+    }
     const dateCopy = new Date(date);
     dateCopy.setDate(dateCopy.getDate() - 1);
     return dateCopy.toString();
@@ -26,9 +32,12 @@ export class DateService {
   }
 
   isFlightDay(date: string, flight: IFlight) {
+    if (flight === undefined || date === undefined || flight.flightDays === undefined) {
+      return false;
+    }
     const dateCopy = new Date(date);
     const day = dateCopy.getDay();
-    if (flight !== undefined) {
+    if (flight !== undefined && flight.flightDays !== undefined && date !== undefined) {
       const index = flight.flightDays.indexOf(day);
       if (index !== -1) {
         return true;
@@ -47,23 +56,22 @@ export class DateService {
     return index;
   }
 
-  dateSlideTo(date: string) {
+  dateSlideTo(date: string | undefined) {
     const today = date;
     const tomorrow = this.addOneDay(today);
     const dayAfterTomorrow = this.addOneDay(tomorrow);
     const twoDaysAfterTomorrow = this.addOneDay(dayAfterTomorrow);
-    const yesterday = this.minusOneDay(today);
-    const dayBeforeYesterday = this.minusOneDay(yesterday);
-    const twoDaysBeforeYesterday = this.minusOneDay(dayBeforeYesterday);
-
+    const threeDaysAfterTomorrow = this.addOneDay(twoDaysAfterTomorrow);
+    const fourDaysAfterTomorrow = this.addOneDay(threeDaysAfterTomorrow);
+    const fiveDaysAfterTomorrow = this.addOneDay(fourDaysAfterTomorrow);
     const slide = [
-      twoDaysBeforeYesterday,
-      dayBeforeYesterday,
-      yesterday,
       today,
       tomorrow,
       dayAfterTomorrow,
-      twoDaysAfterTomorrow
+      twoDaysAfterTomorrow,
+      threeDaysAfterTomorrow,
+      fourDaysAfterTomorrow,
+      fiveDaysAfterTomorrow,
     ]
     slide.forEach((item) => {
       const departureDate = item;
@@ -73,19 +81,21 @@ export class DateService {
     return slide;
   }
 
-  getArrivingDate(departureDate: string, duration: number): string {
+  getArrivingDate(departureDate: string | undefined, departureTime: string, duration: number): string | undefined {
     if (departureDate === undefined) {
-      return new Date().toString();
+      return new Date().toISOString().slice(0, -1);
     } else {
       const dateCopy = new Date(departureDate);
+      const time = departureTime.split(':');
+      dateCopy.setHours(+time[0]);
+      dateCopy.setMinutes(+time[1]);
       const addMinutes = dateCopy.getTime() + duration * 60000;
       const arrivingDate = new Date(addMinutes);
-      return arrivingDate.toISOString().slice(0, -1);
+      return arrivingDate.toString();
     }
   }
   getDay(date: string) {
     const dateCopy = new Date(date);
-    console.log(dateCopy.getDay());
     return dateCopy.getDay();
   }
 
@@ -110,6 +120,5 @@ export class DateService {
     const timezone = timeOffset.getTimezone(zone);
     return timezone?.utcOffsetStr;
   }
-
 
 }

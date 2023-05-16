@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { IPassenger } from 'backend/types';
-import { IContacts, ITrip } from 'src/app/models';
-import { setPassengers } from 'src/app/store/actions/trip.actions';
-import { setTripContactDetails } from 'src/app/store/actions/trip.actions';
+import { IContacts, ITrip } from '../../models';
+import { setPassengers } from '../../store/actions/trip.actions';
+import { setTripContactDetails } from '../../store/actions/trip.actions';
 import { baseUrl } from '../../constants/apiUrls';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, catchError, Observable } from 'rxjs';

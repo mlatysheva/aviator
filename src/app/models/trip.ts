@@ -2,10 +2,13 @@ import { IContacts } from './contacts';
 import { IPassenger } from './passenger';
 import { IAgeTypeQuantity } from './agetype-quantity.model';
 
+
 export interface ITrip {
   id?: string;
   userId: string;
   roundTrip: boolean;
+  originAiroportName: string;
+  destinationAiroportName: string;
   airportsIataCodes: string[];
   originCity: string;
   destinationCity: string;

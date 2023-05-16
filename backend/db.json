@@ -188,10 +188,26 @@
       "passengers": [
         {
           "id": "",
+<<<<<<< HEAD
           "firstName": "MAr",
           "lastName": "Com",
           "birthday": "1976-12-31T23:00:00.000Z",
           "age": 46,
+=======
+          "firstName": "",
+          "lastName": "",
+          "birthday": "",
+          "age": null,
+          "ageCategory": "adult",
+          "seatNo": ""
+        },
+        {
+          "id": "",
+          "firstName": "",
+          "lastName": "",
+          "birthday": "",
+          "age": null,
+>>>>>>> develop
           "ageCategory": "adult",
           "seatNo": ""
         }
@@ -270,8 +286,7 @@
       "tripsIds": [
         "88cec744-b2a2-4b87-abaf-1c7a6ee22f11"
       ],
-      "promoCode": "May2023",
-      "isCodeApplied": false
+      "promoCode": "May2023"
     }
   ],
   "login": {},

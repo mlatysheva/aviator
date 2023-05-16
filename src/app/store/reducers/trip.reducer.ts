@@ -1,9 +1,9 @@
 import { createReducer, on } from '@ngrx/store';
-import { IContacts } from 'src/app/models/contacts';
-import { IPassenger } from 'src/app/models/passenger';
+import { IContacts } from '../../models/contacts';
+import { IPassenger } from '../../models/passenger';
 import * as TripActions from '../actions/trip.actions';
 import * as SelectedActions from '../actions/select.actions';
-import { IAgeTypeQuantity } from 'src/app/models/agetype-quantity.model';
+import { IAgeTypeQuantity } from '../../models/agetype-quantity.model';
 
 export interface TripState {
   id?: string;
@@ -16,6 +16,8 @@ export interface TripState {
   outboundDepartureDate: string;
   outboundDepartureTime: string;
   outboundArrivalTime: string;
+  originAiroportName: string;
+  destinationAiroportName: string;
   returnFlightNo?: string;
   returnDepartureDate?: string;
   returnDepartureTime?: string;
@@ -42,6 +44,8 @@ export const initialState: TripState = {
   returnDepartureDate: '',
   returnDepartureTime: '',
   returnArrivalTime: '',
+  originAiroportName: '',
+  destinationAiroportName: '',
   passengers: [],
   numberOfPassengers: [],
   totalAmount: 0,
@@ -69,6 +73,78 @@ export const tripReducer = createReducer(
     })
   ),
   on(
+    SelectedActions.setSelectedDepartureDate,
+    (state, payload): TripState => ({
+      ...state,
+      ...payload,
+    })
+  ),
+  on(
+    SelectedActions.setSelectedReturnDate,
+    (state, payload): TripState => ({
+      ...state,
+      ...payload,
+    })
+  ),
+  on(
+    SelectedActions.setSelectedOriginCity,
+    (state, payload): TripState => ({
+      ...state,
+      ...payload,
+    })
+  ),
+  on(
+    SelectedActions.setSelectedDestinationCity,
+    (state, payload): TripState => ({
+      ...state,
+      ...payload,
+    })
+  ),
+  on(
+    SelectedActions.setSelectedTripType,
+    (state, payload): TripState => ({
+      ...state,
+      ...payload,
+    })
+  ),
+  on(
+    SelectedActions.setSelectedAiroports,
+    (state, payload): TripState => ({
+      ...state,
+      ...payload,
+    })
+  ),
+  on(
+    SelectedActions.setSelectedOriginAiroportName,
+    (state, payload): TripState => ({
+      ...state,
+      ...payload,
+    })
+  ),
+  on(
+    SelectedActions.setSelectedDestinationAiroportName,
+    (state, payload): TripState => ({
+      ...state,
+      ...payload,
+    })
+  ),
+
+  on(
+    SelectedActions.setSelectedTotalAmount,
+    (state, payload): TripState => ({
+      ...state,
+      ...payload,
+    })
+  ),
+  on(
+    SelectedActions.setSelectedTotalTax,
+    (state, payload): TripState => ({
+      ...state,
+      ...payload,
+    })
+  ),
+
+  on(
     SelectedActions.clearSelectedTrip,
     (): TripState => ({
       ...initialState,
@@ -78,6 +154,8 @@ export const tripReducer = createReducer(
       returnDepartureDate: '',
       returnDepartureTime: '',
       returnArrivalTime: '',
+      originAiroportName: '',
+      destinationAiroportName: '',
     })
   ),
   on(
@@ -110,6 +188,8 @@ export const tripReducer = createReducer(
     returnDepartureDate: '',
     returnDepartureTime: '',
     returnArrivalTime: '',
+    originAiroportName: '',
+    destinationAiroportName: '',
     passengers: [],
     totalAmount: 0,
     totalTax: 0,
