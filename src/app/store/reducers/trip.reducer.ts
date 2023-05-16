@@ -27,6 +27,7 @@ export interface TripState {
   totalTax: number;
   contactDetails: IContacts;
   numberOfPassengers: IAgeTypeQuantity[];
+  isPaid?: boolean;
 }
 
 export const initialState: TripState = {
@@ -54,6 +55,7 @@ export const initialState: TripState = {
     countryCode: '+0',
     phone: '',
   },
+  isPaid: false,
 };
 
 export const tripReducer = createReducer(
@@ -172,6 +174,13 @@ export const tripReducer = createReducer(
       ...payload,
     })
   ),
+  on(
+    TripActions.setTripId, 
+    (state, payload): TripState => ({
+      ...state,
+      ...payload,
+    })
+  ),  
   on(TripActions.clearTripState, () => ({
     ...initialState,
     id: '',

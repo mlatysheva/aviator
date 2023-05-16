@@ -6,7 +6,7 @@ import { Store } from '@ngrx/store';
 import { ICart } from '../../models/cart';
 import { ITrip } from '../../models/trip';
 import { IUser } from '../../models';
-import { USER_ID } from '../../constants/localStorage';
+import { TRIP_ID, USER_ID } from '../../constants/localStorage';
 
 @Injectable({
   providedIn: 'root'
@@ -76,6 +76,18 @@ export class CartApiService {
     )
   }
 
+  getTripsIdsByUserId(id: string) {
+    return this.http.get<IUser>(`${baseUrl}/users/${id}`).pipe(
+      catchError(error => this.handleError(error)),
+      switchMap((user: IUser) => {
+        if(user.tripsIds?.length) {
+          return user.tripsIds;
+        }
+        return of([]);
+      })
+    )
+  }
+
   isCodeApplied(id: string) {
     return this.http.get<IUser>(`${baseUrl}/users/${id}`).pipe(
       catchError(error => this.handleError(error)),
@@ -136,6 +148,52 @@ export class CartApiService {
       });
     return response$;
   }
+
+  addTrip(trip: ITrip) {
+    const response$ = this.http.post<ITrip>(`${baseUrl}/trips`, trip);
+    response$
+      .pipe(
+        catchError(error => this.handleError(error))
+      )
+      .subscribe((trip: ITrip) => {
+        this.errorMessage$.next('');
+      });
+    return response$;
+  }
+
+  addTripIdToUser(userId: string, tripId: string) {
+    const user = this.http.get<IUser>(`${baseUrl}/users/${userId}`);
+    const tripsIds = user.pipe(
+      map((user: IUser) => {
+        if (user.tripsIds) {
+          return [...user.tripsIds, tripId];
+        }
+        return [tripId];
+      })
+    );
+    const response$ = tripsIds.pipe(
+      switchMap((tripsIds: string[]) => this.http.patch<IUser>(`${baseUrl}/users/${userId}`, { tripsIds })) 
+    );
+    // response$
+    //   .pipe(
+    //     catchError(error => this.handleError(error))
+    //   )
+    //   .subscribe((user: IUser) => {
+    //     this.errorMessage$.next('');
+    //   });
+    return response$;
+  }
+
+  //   const response$ = this.http.patch<IUser>(`${baseUrl}/users/${id}`, { tripsIds: [tripId] });
+  //   response$
+  //     .pipe(
+  //       catchError(error => this.handleError(error))
+  //     )
+  //     .subscribe((user: IUser) => {
+  //       this.errorMessage$.next('');
+  //     });
+  //   return response$;
+  // }
 
   deleteTrip(id: string) {
     const response$ = this.http.delete<ITrip>(`${baseUrl}/trips/${id}`);

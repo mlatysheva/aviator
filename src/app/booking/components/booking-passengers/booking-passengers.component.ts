@@ -200,6 +200,7 @@ export class BookingPassengersComponent implements OnInit {
     });
 
     const trip_id = localStorage.getItem('aviator_trip_id') as string;
+    console.log('in booking passengers trip_id is: ', trip_id);
     this.passengersService.savePassengers(this.passengers, trip_id);
     setTimeout(() => {
       this.passengersService.errorMessage$.subscribe((error) => {

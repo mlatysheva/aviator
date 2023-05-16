@@ -12,6 +12,7 @@ export interface SearchFormState {
   startDate: string;
   endDate: string;
   passengers: IAgeTypeQuantity[];
+  isPaid?: boolean;
 }
 
 export const initialState: SearchFormState = {
@@ -23,6 +24,7 @@ export const initialState: SearchFormState = {
   startDate: '',
   endDate: '',
   passengers: [],
+  isPaid: false,
 };
 
 export const searchReducer = createReducer(
