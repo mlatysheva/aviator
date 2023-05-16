@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, catchError, concatMap, forkJoin, map, mergeMap, of, switchMap, tap, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription, catchError, concatMap, forkJoin, map, mergeMap, of, switchMap, tap, throwError } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { baseUrl } from '../../constants/apiUrls';
 import { Store } from '@ngrx/store';
 import { ICart } from '../../models/cart';
 import { ITrip } from '../../models/trip';
 import { IUser } from '../../models';
+import { USER_ID } from '../../constants/localStorage';
 
 @Injectable({
   providedIn: 'root'
@@ -19,19 +20,22 @@ export class CartApiService {
   constructor(
     private http: HttpClient,
     private store: Store,
-  ) {}
-
-  getCart(id: string) {
-    const response$ = this.http.get<ICart>(`${baseUrl}/carts/${id}`);
-    response$
-      .pipe(
-        catchError(error => this.handleError(error))
-      )
-      .subscribe((cart: ICart) => {
-        this.errorMessage$.next('');
+  ) { this.getCartCount(localStorage.getItem(USER_ID) || '').subscribe(count => {
+        this.cartCount$.next(count);
       });
-    return response$;
-  }
+    }
+
+  // getCart(id: string) {
+  //   const response$ = this.http.get<ICart>(`${baseUrl}/carts/${id}`);
+  //   response$
+  //     .pipe(
+  //       catchError(error => this.handleError(error))
+  //     )
+  //     .subscribe((cart: ICart) => {
+  //       this.errorMessage$.next('');
+  //     });
+  //   return response$;
+  // }
 
   getTripsByCartId(id: string) {
     return this.http.get<ICart>(`${baseUrl}/carts/${id}`).pipe(
@@ -43,6 +47,21 @@ export class CartApiService {
         return of([]);
       })
     )
+  }
+
+  getCartCount(id: string) {
+    const unpaidTrips = this.getUnpaidTripsByUserId(id);
+    return unpaidTrips.pipe(
+      map((trips: ITrip[]) => trips.length)
+    )
+  }
+
+  setCartCount(count: number) {
+    this.cartCount$.next(count);
+  }
+
+  incrementCartCount() {
+    this.cartCount$.next(this.cartCount$.value + 1);
   }
 
   getTripsByUserId(id: string) {
@@ -92,19 +111,19 @@ export class CartApiService {
     )
   }
 
-  getUnpaidTripsByCartId(id: string) {
-    return this.http.get<ICart>(`${baseUrl}/carts/${id}`).pipe(
-      catchError(error => this.handleError(error)),
-      switchMap((cart: ICart) => {
-        if(cart.tripsIds?.length) {
-          return forkJoin(cart.tripsIds.map(tripId => this.getTrip(tripId))).pipe(
-            map((trips: ITrip[]) => trips.filter(trip => !trip.isPaid))
-          );
-        }
-        return of([]);
-      })
-    )
-  }
+  // getUnpaidTripsByCartId(id: string) {
+  //   return this.http.get<ICart>(`${baseUrl}/carts/${id}`).pipe(
+  //     catchError(error => this.handleError(error)),
+  //     switchMap((cart: ICart) => {
+  //       if(cart.tripsIds?.length) {
+  //         return forkJoin(cart.tripsIds.map(tripId => this.getTrip(tripId))).pipe(
+  //           map((trips: ITrip[]) => trips.filter(trip => !trip.isPaid))
+  //         );
+  //       }
+  //       return of([]);
+  //     })
+  //   )
+  // }
 
   getTrip(id: string) {
     const response$ = this.http.get<ITrip>(`${baseUrl}/trips/${id}`);

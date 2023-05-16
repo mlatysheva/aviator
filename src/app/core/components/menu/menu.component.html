@@ -50,6 +50,6 @@
   </mat-menu>
 
   <div class="shop" routerLink="cart">
-    <div class="cart-count" *ngIf="cartCount !== 0">{{ cartCount }}</div>
+    <div class="cart-count" *ngIf="cartCount !== 0">{{ this.cartService.cartCount$ | async }}</div>
   </div>
 </div>

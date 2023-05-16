@@ -6,13 +6,15 @@ import { baseUrl } from '../../constants/apiUrls';
 import { USER_EMAIL, USER_ID, USER_NAME } from '../../constants/localStorage';
 import { Store } from '@ngrx/store';
 import { clearUserState } from '../../store/actions/user.actions';
+import { Router } from '@angular/router';
+import { CartApiService } from '../../cart/services/cart-api.service';
 
 @Injectable({
   providedIn: 'root',
 })
 
 export class AuthService {
-  isVisible$ = new BehaviorSubject<boolean>(false);
+  // isVisible$ = new BehaviorSubject<boolean>(false);
 
   isAuth$ = new BehaviorSubject<boolean>(
     !!localStorage.getItem(USER_ID),
@@ -35,6 +37,8 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     private store: Store,
+    private router: Router,
+    private cartService: CartApiService,
   ) {}
 
   onLogin(email: string, password: string) {
@@ -57,8 +61,12 @@ export class AuthService {
           this.userId$.next(userData.id);
         }
         this.isAuth$.next(true);
-        this.isVisible$.next(false);
+        // this.isVisible$.next(false);
         this.errorMessage$.next('');
+        this.cartService.getCartCount(userData.id || '').subscribe(count => {
+          this.cartService.cartCount$.next(count);
+          console.log('in authservice count', count);
+        });
       });
     return response$;    
   }
@@ -90,6 +98,8 @@ export class AuthService {
     this.email$.next('');
     this.userId$.next('');
     this.userName$.next('');
+    this.router.navigate(['/']);
+    this.cartService.cartCount$.next(0);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

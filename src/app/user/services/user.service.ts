@@ -11,7 +11,7 @@ import { IUser } from '../../models';
 export class UserService {
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
   ) { }
 
   public getCountryCodes(): Observable<ICountryCode[]> {
@@ -28,4 +28,5 @@ export class UserService {
     const userProfileUrl = `${baseUrl}/users/${id}`;
     return this.http.get<IUser>(userProfileUrl);
   }
+
 }
