@@ -3,6 +3,7 @@ import { ICountryCode } from '../../models/countryCode';
 import { baseUrl } from '../../constants/apiUrls';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { IUser } from '../../models';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ import { Observable } from 'rxjs';
 export class UserService {
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
   ) { }
 
   public getCountryCodes(): Observable<ICountryCode[]> {
@@ -18,8 +19,14 @@ export class UserService {
     return this.http.get<ICountryCode[]>(countryCodesUrl);
   }
 
-  public onLoad(id: string): Observable<any> {
+  public onLoad(id: string): Observable<IUser> {
     const userProfileUrl = `${baseUrl}/users/${id}`;
-    return this.http.get<any>(userProfileUrl);
+    return this.http.get<IUser>(userProfileUrl);
   }
+
+  public getUserById(id: string): Observable<IUser> {
+    const userProfileUrl = `${baseUrl}/users/${id}`;
+    return this.http.get<IUser>(userProfileUrl);
+  }
+
 }

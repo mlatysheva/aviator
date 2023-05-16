@@ -17,4 +17,6 @@ export interface IUser {
   cartsIds?: string[];
   tripsIds?: string[];
   citizenship?: string;
+  promoCode?: string;
+  isCodeApplied?: boolean;
 }
