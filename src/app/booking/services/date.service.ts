@@ -61,18 +61,17 @@ export class DateService {
     const tomorrow = this.addOneDay(today);
     const dayAfterTomorrow = this.addOneDay(tomorrow);
     const twoDaysAfterTomorrow = this.addOneDay(dayAfterTomorrow);
-    const yesterday = this.minusOneDay(today);
-    const dayBeforeYesterday = this.minusOneDay(yesterday);
-    const twoDaysBeforeYesterday = this.minusOneDay(dayBeforeYesterday);
-
+    const threeDaysAfterTomorrow = this.addOneDay(twoDaysAfterTomorrow);
+    const fourDaysAfterTomorrow = this.addOneDay(threeDaysAfterTomorrow);
+    const fiveDaysAfterTomorrow = this.addOneDay(fourDaysAfterTomorrow);
     const slide = [
-      twoDaysBeforeYesterday,
-      dayBeforeYesterday,
-      yesterday,
       today,
       tomorrow,
       dayAfterTomorrow,
-      twoDaysAfterTomorrow
+      twoDaysAfterTomorrow,
+      threeDaysAfterTomorrow,
+      fourDaysAfterTomorrow,
+      fiveDaysAfterTomorrow,
     ]
     slide.forEach((item) => {
       const departureDate = item;
@@ -121,6 +120,5 @@ export class DateService {
     const timezone = timeOffset.getTimezone(zone);
     return timezone?.utcOffsetStr;
   }
-
 
 }
