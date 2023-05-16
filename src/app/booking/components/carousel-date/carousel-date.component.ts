@@ -112,7 +112,7 @@ export class CarouselDateComponent implements OnInit, OnDestroy {
           );
           this.result = result;
         }
-        if (this.result[0] !== undefined && this.result.length > 0)
+        if (this.result !== undefined && this.result.length > 0)
           this.prices = this.result[0].pricesAdult;
         this.seats = this.result[0].totalSeats;
         this.departureTime = this.result[0].departureTime;
@@ -150,7 +150,7 @@ export class CarouselDateComponent implements OnInit, OnDestroy {
           );
           this.returnDetails = result;
         }
-        if (this.returnDetails[0] !== undefined && this.returnDetails.length > 0)
+        if (this.returnDetails !== undefined && this.returnDetails.length > 0)
           this.priceFrom = this.returnDetails[0].pricesAdult[0];
         this.pricesFrom = this.returnDetails[0].pricesAdult;
         this.seatsFrom = this.returnDetails[0].totalSeats;
@@ -218,9 +218,9 @@ export class CarouselDateComponent implements OnInit, OnDestroy {
         this.slides = this.dateService.dateSlideTo(this.startDate);
         this.isCanFly = this.dateService.isCanFly(this.startDate);
         this.isFly = this.isCanFly ? 'true' : 'false';
-        this.flightNumber = this.state.trip.outboundFlightNo;
+        // this.flightNumber = this.state.trip.outboundFlightNo;
         const index = this.dateService.getIndexOfDate(this.startDate, this.flightDaysTo);
-        if (index !== undefined)
+        if (index !== undefined && this.result !== undefined && this.result.length > 0)
           this.totalTax = this.sumPriceService.sumpPricesAdult(this.result[0], this.numberOfPassengers, index).totalTax;
         this.totalAmount = this.sumPriceService.sumpPricesAdult(this.result[0], this.numberOfPassengers, index).sumPrice;
         this.store.dispatch(SelectActions.setSelectedDepartureDate({ outboundDepartureDate: this.startDate }));

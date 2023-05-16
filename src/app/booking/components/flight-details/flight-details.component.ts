@@ -68,13 +68,13 @@ export class FlightDetailsComponent implements OnInit, OnDestroy {
     const element = this.el.nativeElement.querySelectorAll('.seats');
     const button = this.el.nativeElement.querySelectorAll('.select');
     const editButton = this.el.nativeElement.querySelectorAll('.edit-btn');
-    if (this.type === 1) {
+    if (this.type === 1 && element !== undefined) {
       element[0].classList.remove('none');
       button[0].classList.remove('none');
       editButton[0].classList.add('none');
       this.classTo = '';
     }
-    if (this.type === 2) {
+    if (this.type === 2 && element !== undefined) {
       element[0].classList.remove('none');
       button[0].classList.remove('none');
       editButton[0].classList.add('none');
@@ -87,7 +87,7 @@ export class FlightDetailsComponent implements OnInit, OnDestroy {
     const element = this.el.nativeElement.querySelectorAll('.seats');
     const button = this.el.nativeElement.querySelectorAll('.select');
     const editButton = this.el.nativeElement.querySelectorAll('.edit-btn');
-    if (this.type === 1) {
+    if (this.type === 1 && element !== undefined) {
       element[0].classList.add('none');
       button[0].classList.add('none');
       editButton[0].classList.remove('none');
@@ -114,7 +114,7 @@ export class FlightDetailsComponent implements OnInit, OnDestroy {
         })
       );
     }
-    if (this.type === 2) {
+    if (this.type === 2 && element !== undefined) {
       element[0].classList.add('none');
       button[0].classList.add('none');
       editButton[0].classList.remove('none');
