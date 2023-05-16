@@ -14,7 +14,6 @@ import { CartApiService } from '../../cart/services/cart-api.service';
 })
 
 export class AuthService {
-  // isVisible$ = new BehaviorSubject<boolean>(false);
 
   isAuth$ = new BehaviorSubject<boolean>(
     !!localStorage.getItem(USER_ID),
@@ -61,11 +60,9 @@ export class AuthService {
           this.userId$.next(userData.id);
         }
         this.isAuth$.next(true);
-        // this.isVisible$.next(false);
         this.errorMessage$.next('');
         this.cartService.getCartCount(userData.id || '').subscribe(count => {
           this.cartService.cartCount$.next(count);
-          console.log('in authservice count', count);
         });
       });
     return response$;    
