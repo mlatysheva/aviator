@@ -23,6 +23,9 @@ import { UserService } from '../../../user/services/user.service';
 import { getAge } from '../../../utils/getAge';
 import { PassengersService } from '../../services/passengers.service';
 import { selectTheTrip } from '../../../store/selectors/trip.selectors';
+import { ProgressBarService } from '../../../core/services/progress-bar.service';
+import { IProgressBar } from '../../../models/progress-bar';
+import { images } from '../../../constants/progressBarImgUrls';
 
 @Component({
   selector: 'app-booking-passengers',
@@ -52,12 +55,19 @@ export class BookingPassengersComponent implements OnInit {
   public infoText =
     "Add the passenger's name as it is written on their documents (passport or ID). Do not use any accents or special characters. Do not use a nickname.";
 
+  public progressBar: IProgressBar[] = [
+    { stepNo: 1, imgUrl: images.STEP_DONE, text: 'Flights' },
+    { stepNo: 2, imgUrl: images.STEP_DONE, text: 'Passengers' },
+    { stepNo: 3, imgUrl: images.STEP_EDIT, text: 'Review & Payment' },
+  ];
+
   constructor(
     private store: Store<AppState>,
     private router: Router,
     private passengersService: PassengersService,
     private fb: FormBuilder,
-    private userService: UserService
+    private userService: UserService,
+    private progressBarService: ProgressBarService
   ) {}
 
   ngOnInit() {
@@ -210,6 +220,7 @@ export class BookingPassengersComponent implements OnInit {
   }
 
   public onNextClick() {
+    this.progressBarService.setProgressBar(this.progressBar);
     this.formSubmit('summary');
   }
 

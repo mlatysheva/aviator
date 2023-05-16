@@ -6,6 +6,16 @@
   font-size: 14px;
 }
 
+.step {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  &-img {
+    padding-right: 5px;
+  }
+}
+
 .divider {
   width: 79.9px;
   height: 1px;
