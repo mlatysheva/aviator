@@ -1,9 +1,12 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../../store/state.models';
 import { IProgressBar } from '../../../models/progress-bar';
 import { TRIP_ID } from '../../../constants/localStorage';
 import { images } from '../../../constants/progressBarImgUrls';
 import { ProgressBarService } from '../../../core/services/progress-bar.service';
+import * as SelectActions from '../../../store/actions/select.actions';
 
 @Component({
   selector: 'app-booking-page',
@@ -19,10 +22,12 @@ export class BookingPageComponent {
 
   constructor(
     private router: Router,
-    private progressBarService: ProgressBarService
-  ) {}
+    private progressBarService: ProgressBarService,
+    private store: Store<AppState>,
+  ) { }
 
   onBackClick() {
+    this.store.dispatch(SelectActions.clearSelectedTrip());
     this.router.navigate(['main']);
   }
 
