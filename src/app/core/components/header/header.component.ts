@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AviaService } from '../../../avia/services/avia.service';
 
 @Component({
@@ -6,12 +6,17 @@ import { AviaService } from '../../../avia/services/avia.service';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit, OnDestroy {
   public isSubmitted = false;
 
-  constructor(public aviaService: AviaService) {
+  constructor(public aviaService: AviaService) {}
+
+  ngOnInit() {
     this.aviaService.isSearchSubmitted$.subscribe(
       (isSubmitted) => (this.isSubmitted = isSubmitted)
     );
+  }
+  ngOnDestroy() {
+    this.aviaService.isSearchSubmitted$.unsubscribe();
   }
 }

@@ -26,7 +26,9 @@
         </mat-select>
       </mat-form-field>
       <mat-error *ngIf="departure.errors && departure.invalid && departure.touched">
-        Please enter a departure airport
+        {{ departure.hasError('airportValidator')
+        ? 'The departure airports duplicates destination. Please enter another departure airport'
+        : 'Please enter a departure airport' }}
       </mat-error>
 
       <div class="reverse-btn" (click)="changeValues()">
@@ -50,8 +52,13 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
-      <mat-error *ngIf="destination.errors && destination.invalid && destination.touched">
+      <!-- <mat-error *ngIf="destination.errors && destination.invalid && destination.touched">
         Please enter a destination airport
+      </mat-error> -->
+      <mat-error *ngIf="destination.errors && destination.invalid && destination.touched">
+        {{ destination.hasError('airportValidator')
+        ? 'The departure airports duplicates destination. Please enter another departure airport'
+        : 'Please enter a departure airport' }}
       </mat-error>
     </div>
 

@@ -1,7 +1,14 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  ValidationErrors,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
 import { IAirport } from '../../../models/airport';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 import { AviaService } from '../../services/avia.service';
 import { IAgeTypeQuantity } from '../../../models/agetype-quantity.model';
@@ -22,7 +29,7 @@ import { ProgressBarService } from '../../../core/services/progress-bar.service'
   templateUrl: './flight-search.component.html',
   styleUrls: ['./flight-search.component.scss'],
 })
-export class FlightSearchComponent implements OnInit {
+export class FlightSearchComponent implements OnInit, OnDestroy {
   @ViewChild(MatOption) matOption: MatOption;
 
   public searchForm: FormGroup;
@@ -49,6 +56,8 @@ export class FlightSearchComponent implements OnInit {
     { stepNo: 3, imgUrl: images.STEP_3, text: 'Review & Payment' },
   ];
 
+  private subscriptions = new Subscription();
+
   constructor(
     private aviaService: AviaService,
     private router: Router,
@@ -62,17 +71,38 @@ export class FlightSearchComponent implements OnInit {
   ngOnInit() {
     this.searchForm = this.fb.group({
       tripType: ['round-trip'],
-      departure: ['', [Validators.required]],
-      destination: ['', [Validators.required]],
+      departure: [
+        '',
+        [Validators.required, this.airportValidator('destination')],
+      ],
+      destination: [
+        '',
+        [Validators.required, this.airportValidator('departure')],
+      ],
       startDate: ['', [Validators.required]],
       endDate: [''],
       passengers: [this.selectedItems, Validators.required],
     });
     this.getAirportsList();
     this.state$ = this.store.select((appState) => appState);
-    this.state$.subscribe((state: AppState) => {
-      this.dateFormat = state.user.dateFormat;
-    });
+    this.subscriptions.add(
+      this.state$.subscribe((state: AppState) => {
+        this.dateFormat = state.user.dateFormat;
+      })
+    );
+  }
+
+  airportValidator(typeToCompare: string): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const value = control.value.trim() as string;
+      // if (!value) return null;
+      // else {
+      return value &&
+        value === this.searchForm.controls[typeToCompare].value.trim()
+        ? { airportValidator: true }
+        : null;
+      // }
+    };
   }
 
   get departure() {
@@ -164,5 +194,9 @@ export class FlightSearchComponent implements OnInit {
   private stopPropagationFn(event: Event) {
     event.stopPropagation();
     this.matOption._selectViaInteraction();
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 }

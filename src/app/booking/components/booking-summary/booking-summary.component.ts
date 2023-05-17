@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { map, Observable } from 'rxjs';
+import { map, Observable, Subscription } from 'rxjs';
 
 import { AppState } from '../../../store/state.models';
 import { ITrip } from '../../../models/trip';
@@ -14,7 +14,7 @@ import { ICart } from '../../../models/cart';
   templateUrl: './booking-summary.component.html',
   styleUrls: ['./booking-summary.component.scss'],
 })
-export class BookingSummaryComponent implements OnInit {
+export class BookingSummaryComponent implements OnInit, OnDestroy {
   public trip$!: Observable<ITrip>;
   public trip: ITrip;
   public trips: ITrip[];
@@ -24,6 +24,8 @@ export class BookingSummaryComponent implements OnInit {
 
   public tripIds: string[];
 
+  private subscriptions = new Subscription();
+
   constructor(
     private store: Store<AppState>,
     private router: Router,
@@ -32,7 +34,9 @@ export class BookingSummaryComponent implements OnInit {
 
   ngOnInit() {
     this.trip$ = this.store.select(selectTheTrip);
-    this.trip$.pipe(map((trip) => (this.trip = trip))).subscribe();
+    this.subscriptions.add(
+      this.trip$.pipe(map((trip) => (this.trip = trip))).subscribe()
+    );
   }
 
   public onBackClick() {
@@ -40,8 +44,12 @@ export class BookingSummaryComponent implements OnInit {
   }
 
   public onBuyClick() {
-    if (this.trips.length) {
-      this.router.navigate(['cart']);
-    }
+    // if (this.trips.length) {
+    this.router.navigate(['cart']);
+    // }
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 }

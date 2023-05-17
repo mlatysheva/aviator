@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import {
   AbstractControl,
   FormArray,
@@ -12,7 +17,7 @@ import {
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { IAgeCategory, IPassenger } from 'backend/types';
-import { map, Observable } from 'rxjs';
+import { map, Observable, Subscription } from 'rxjs';
 import { ITrip } from '../../../models/trip';
 import { IAgeTypeQuantity } from '../../../models/agetype-quantity.model';
 import { ICountryCode } from '../../../models/countryCode';
@@ -33,7 +38,7 @@ import { images } from '../../../constants/progressBarImgUrls';
   styleUrls: ['./booking-passengers.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BookingPassengersComponent implements OnInit {
+export class BookingPassengersComponent implements OnInit, OnDestroy {
   public passengersCollectionForm: FormGroup;
 
   public trip$!: Observable<ITrip | any>;
@@ -61,6 +66,8 @@ export class BookingPassengersComponent implements OnInit {
     { stepNo: 3, imgUrl: images.STEP_EDIT, text: 'Review & Payment' },
   ];
 
+  private subscriptions = new Subscription();
+
   constructor(
     private store: Store<AppState>,
     private router: Router,
@@ -76,26 +83,30 @@ export class BookingPassengersComponent implements OnInit {
     });
 
     this.trip$ = this.store.select(selectTheTrip);
-    this.trip$
-      .pipe(
-        map((trip) => {
-          trip.numberOfPassengers.forEach(
-            (person: IAgeTypeQuantity) =>
-              (this.passengersQuauntity += person.quantity)
-          );
-          this.setAgeCategories(trip.numberOfPassengers);
-        })
-      )
-      .subscribe();
+    this.subscriptions.add(
+      this.trip$
+        .pipe(
+          map((trip) => {
+            trip.numberOfPassengers.forEach(
+              (person: IAgeTypeQuantity) =>
+                (this.passengersQuauntity += person.quantity)
+            );
+            this.setAgeCategories(trip.numberOfPassengers);
+          })
+        )
+        .subscribe()
+    );
 
     this.userProfile$ = this.store.select(selectUserProfile);
-    this.userProfile$
-      .pipe(
-        map((userProfile) => {
-          this.createDetailsForm(userProfile as IUser);
-        })
-      )
-      .subscribe();
+    this.subscriptions.add(
+      this.userProfile$
+        .pipe(
+          map((userProfile) => {
+            this.createDetailsForm(userProfile as IUser);
+          })
+        )
+        .subscribe()
+    );
 
     for (let i = 0; i < this.passengersQuauntity; i++) {
       this.addPassengerForm();
@@ -202,16 +213,18 @@ export class BookingPassengersComponent implements OnInit {
     const trip_id = localStorage.getItem('aviator_trip_id') as string;
     this.passengersService.savePassengers(this.passengers, trip_id);
     setTimeout(() => {
-      this.passengersService.errorMessage$.subscribe((error) => {
-        if (error !== '') {
-          this.passengersCollectionForm.setErrors({
-            savePassengersError: true,
-          });
-        }
-        if (error === '') {
-          this.router.navigate([routeToNavigate]);
-        }
-      });
+      this.subscriptions.add(
+        this.passengersService.errorMessage$.subscribe((error) => {
+          if (error !== '') {
+            this.passengersCollectionForm.setErrors({
+              savePassengersError: true,
+            });
+          }
+          if (error === '') {
+            this.router.navigate([routeToNavigate]);
+          }
+        })
+      );
     }, 500);
   }
 
@@ -230,5 +243,9 @@ export class BookingPassengersComponent implements OnInit {
 
     const age = (today - birthday) / (1000 * 3600 * 24) / 365;
     return Math.floor(age);
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 }
