@@ -27,7 +27,6 @@ export class BookingSummaryComponent implements OnInit {
   constructor(
     private store: Store<AppState>,
     private router: Router,
-    private cartApiService: CartApiService
   ) {}
 
   ngOnInit() {

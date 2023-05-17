@@ -8,6 +8,8 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../../../store/state.models';
 import { CartApiService } from '../../../cart/services/cart-api.service';
 import { ITrip } from '../../../models';
+import { finalize, map } from 'rxjs';
+import { selectTrip } from '../../../store/selectors/trip.selectors';
 
 @Component({
   selector: 'app-booking-page',
@@ -37,21 +39,25 @@ export class BookingPageComponent {
   onNextClick() {
     this.progressBarService.setProgressBar(this.progressBar);
 
-    this.store.select(state => state.trip).subscribe(data => {
-      this.tripData = data;
-      let newTrip;
-      this.cartService.addTrip(this.tripData).subscribe(data => {
-        newTrip = data;
-        if (newTrip.id && !localStorage.getItem(TRIP_ID)) {
-          localStorage.setItem(TRIP_ID, newTrip.id);
-          const userId = localStorage.getItem(USER_ID);
-          if (userId) {
-            this.cartService.addTripIdToUser(userId, newTrip.id).subscribe(data => {
-              console.log(data);
-            });
-          }
-        }
-      });
+    const tripId = localStorage.getItem(TRIP_ID);
+    const userId = localStorage.getItem(USER_ID);
+
+    const trip$ = this.store.select(selectTrip);
+    trip$.subscribe((trip) => {
+      console.log(trip);
+      if (userId && !tripId) {
+        console.log('we are adding a new trip');
+        this.cartService.addTrip(trip).pipe(
+          map((trip) => {
+            console.log('in map trip is', trip);
+            if (trip.id){
+              console.log('we are adding the new trip to the user');
+              localStorage.setItem(TRIP_ID, trip.id);
+              this.cartService.addTripIdToUser(trip.id, userId)
+            }
+          }),
+        )
+      }
     });
     this.router.navigate(['passengers']);
   }
