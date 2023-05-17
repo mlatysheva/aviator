@@ -228,16 +228,8 @@ export class BookingPassengersComponent implements OnInit {
     this.progressBarService.setProgressBar(this.progressBar);
     this.formSubmit('summary');
 
-    // const trip$ = this.store.select(selectTrip);
-    // trip$.pipe(
-    //   map((trip: TripState) => {
-    //     console.log('in passengers', trip);
-    //     this.cartService.updateTrip(trip).subscribe();
-    //   })
-    // ).subscribe();
     const trip$ = this.store.select(selectTrip).pipe(take(1));
     trip$.subscribe((trip: TripState) => {
-      console.log('in passengers', trip);
       this.cartService.updateTrip(trip).subscribe();
     });
   }
