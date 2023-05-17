@@ -42,8 +42,8 @@ export class BookingSummaryComponent implements OnInit {
   }
 
   public onBuyClick() {
-    if (this.trips.length) {
+    // if (this.trips.length) {
       this.router.navigate(['cart']);
-    }
+    // }
   }
 }

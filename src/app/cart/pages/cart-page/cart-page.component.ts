@@ -187,6 +187,7 @@ export class CartPageComponent implements OnInit {
   recalculateTotalPrice(factor = 1) {
     this.totalPrice$ = this.trips$.pipe(
       map((trips) => {
+        console.log('in recalculate price, trips are : ', trips);
         const price =  trips.reduce((acc, trip) => acc + trip.totalAmount, 0);
         return Math.round(price * factor);
       }
@@ -210,7 +211,8 @@ export class CartPageComponent implements OnInit {
       }
 
       if (action === "delete") {
-        this.cartApiService.deleteTrip(tripId);
+        this.cartApiService.deleteTrip(tripId, this.userId);
+        this.trips$ = this.cartApiService.getUnpaidTripsByUserId(this.userId);
         this.cartApiService.cartCount$.next(this.cartCount - 1);
         this.recalculateTotalPrice(1);
         this.store.dispatch(clearSelectedTrip());

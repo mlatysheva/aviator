@@ -12,7 +12,7 @@ import {
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { IAgeCategory, IPassenger } from 'backend/types';
-import { map, Observable } from 'rxjs';
+import { map, Observable, take, tap } from 'rxjs';
 import { ITrip } from '../../../models/trip';
 import { TripState } from '../../../store/reducers/trip.reducer';
 import { IAgeTypeQuantity } from '../../../models/agetype-quantity.model';
@@ -27,6 +27,9 @@ import { selectTrip } from '../../../store/selectors/trip.selectors';
 import { ProgressBarService } from '../../../core/services/progress-bar.service';
 import { IProgressBar } from '../../../models/progress-bar';
 import { images } from '../../../constants/progressBarImgUrls';
+import { TRIP_ID, USER_ID } from '../../../constants/localStorage';
+import { setTripId, setUserId } from '../../../store/actions/trip.actions';
+import { CartApiService } from '../../../cart/services/cart-api.service';
 
 @Component({
   selector: 'app-booking-passengers',
@@ -68,7 +71,8 @@ export class BookingPassengersComponent implements OnInit {
     private passengersService: PassengersService,
     private fb: FormBuilder,
     private userService: UserService,
-    private progressBarService: ProgressBarService
+    private progressBarService: ProgressBarService,
+    private cartService: CartApiService,
   ) {}
 
   ngOnInit() {
@@ -200,8 +204,7 @@ export class BookingPassengersComponent implements OnInit {
       phone: this.detailsForm.controls['phone'].value,
     });
 
-    const trip_id = localStorage.getItem('aviator_trip_id') as string;
-    console.log('in booking passengers trip_id is: ', trip_id);
+    const trip_id = localStorage.getItem(TRIP_ID) as string;
     this.passengersService.savePassengers(this.passengers, trip_id);
     setTimeout(() => {
       this.passengersService.errorMessage$.subscribe((error) => {
@@ -224,6 +227,19 @@ export class BookingPassengersComponent implements OnInit {
   public onNextClick() {
     this.progressBarService.setProgressBar(this.progressBar);
     this.formSubmit('summary');
+
+    // const trip$ = this.store.select(selectTrip);
+    // trip$.pipe(
+    //   map((trip: TripState) => {
+    //     console.log('in passengers', trip);
+    //     this.cartService.updateTrip(trip).subscribe();
+    //   })
+    // ).subscribe();
+    const trip$ = this.store.select(selectTrip).pipe(take(1));
+    trip$.subscribe((trip: TripState) => {
+      console.log('in passengers', trip);
+      this.cartService.updateTrip(trip).subscribe();
+    });
   }
 
   private calculateAge(date: string): number {

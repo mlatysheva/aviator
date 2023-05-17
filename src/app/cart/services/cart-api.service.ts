@@ -26,18 +26,6 @@ export class CartApiService {
       });
     }
 
-  // getCart(id: string) {
-  //   const response$ = this.http.get<ICart>(`${baseUrl}/carts/${id}`);
-  //   response$
-  //     .pipe(
-  //       catchError(error => this.handleError(error))
-  //     )
-  //     .subscribe((cart: ICart) => {
-  //       this.errorMessage$.next('');
-  //     });
-  //   return response$;
-  // }
-
   getTripsByCartId(id: string) {
     return this.http.get<ICart>(`${baseUrl}/carts/${id}`).pipe(
       catchError(error => this.handleError(error)),
@@ -124,20 +112,6 @@ export class CartApiService {
     )
   }
 
-  // getUnpaidTripsByCartId(id: string) {
-  //   return this.http.get<ICart>(`${baseUrl}/carts/${id}`).pipe(
-  //     catchError(error => this.handleError(error)),
-  //     switchMap((cart: ICart) => {
-  //       if(cart.tripsIds?.length) {
-  //         return forkJoin(cart.tripsIds.map(tripId => this.getTrip(tripId))).pipe(
-  //           map((trips: ITrip[]) => trips.filter(trip => !trip.isPaid))
-  //         );
-  //       }
-  //       return of([]);
-  //     })
-  //   )
-  // }
-
   getTrip(id: string) {
     const response$ = this.http.get<ITrip>(`${baseUrl}/trips/${id}`);
     response$
@@ -162,6 +136,18 @@ export class CartApiService {
     return response$;
   }
 
+  updateTrip(trip: TripState) {
+    const response$ = this.http.patch<ITrip>(`${baseUrl}/trips/${trip.id}`, trip);
+    response$
+      .pipe(
+        catchError(error => this.handleError(error))
+      )
+      .subscribe((trip: ITrip) => {
+        this.errorMessage$.next('');
+      });
+    return response$;
+  }
+
   addTripIdToUser(userId: string, tripId: string) {
     const user = this.http.get<IUser>(`${baseUrl}/users/${userId}`);
     const tripsIds = user.pipe(
@@ -175,28 +161,28 @@ export class CartApiService {
     const response$ = tripsIds.pipe(
       switchMap((tripsIds: string[]) => this.http.patch<IUser>(`${baseUrl}/users/${userId}`, { tripsIds })) 
     );
-    // response$
-    //   .pipe(
-    //     catchError(error => this.handleError(error))
-    //   )
-    //   .subscribe((user: IUser) => {
-    //     this.errorMessage$.next('');
-    //   });
     return response$;
   }
 
-  //   const response$ = this.http.patch<IUser>(`${baseUrl}/users/${id}`, { tripsIds: [tripId] });
-  //   response$
-  //     .pipe(
-  //       catchError(error => this.handleError(error))
-  //     )
-  //     .subscribe((user: IUser) => {
-  //       this.errorMessage$.next('');
-  //     });
-  //   return response$;
-  // }
+  removeTripIdFromUser(userId: string, tripId: string) {
+    const user = this.http.get<IUser>(`${baseUrl}/users/${userId}`);
+    const tripsIds = user.pipe(
+      map((user: IUser) => {
+        if (user.tripsIds) {
+          return user.tripsIds.filter(id => id !== tripId);
+        }
+        return [];
+      })
+    );
+    const response$ = tripsIds.pipe(
+      switchMap((tripsIds: string[]) => this.http.patch<IUser>(`${baseUrl}/users/${userId}`, { tripsIds })) 
+    );
+    return response$;
+  }
 
-  deleteTrip(id: string) {
+  deleteTrip(id: string, userId: string) {
+    this.removeTripIdFromUser(userId, id);
+
     const response$ = this.http.delete<ITrip>(`${baseUrl}/trips/${id}`);
     response$
       .pipe(
@@ -207,6 +193,35 @@ export class CartApiService {
       });
     return response$;
   }
+
+  removeTripIdFromUser3(userId: string, tripId: string) {
+  return this.http.get<IUser>(`${baseUrl}/users/${userId}`).pipe(
+    map((user: IUser) => {
+      if (user.tripsIds) {
+        console.log('user.tripsIds', user.tripsIds);
+        return user.tripsIds.filter(id => id !== tripId);
+      }
+      return [];
+    }),
+    switchMap((tripsIds: string[]) => 
+      this.http.patch<IUser>(`${baseUrl}/users/${userId}`, { tripsIds })
+    )
+  );
+}
+
+deleteTrip3(id: string, userId: string) {
+  return this.removeTripIdFromUser3(userId, id).pipe(
+    switchMap(() => this.http.delete<ITrip>(`${baseUrl}/trips/${id}`)),
+    catchError(error => {
+      this.handleError(error);
+      return of(null); // Return an empty observable in case of error
+    }),
+    tap(() => {
+      console.log('Trip deleted');
+      this.errorMessage$.next('');
+    })
+  );
+}
 
   updateTripPrice(id: string, totalAmount: number) {
     const response$ = this.http.patch<ITrip>(`${baseUrl}/trips/${id}`, { totalAmount });

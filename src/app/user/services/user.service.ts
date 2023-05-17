@@ -28,5 +28,4 @@ export class UserService {
     const userProfileUrl = `${baseUrl}/users/${id}`;
     return this.http.get<IUser>(userProfileUrl);
   }
-
 }

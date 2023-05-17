@@ -120,8 +120,7 @@
       },
       "id": "99dd43d9-1262-47f6-86ce-63541e43e824",
       "tripsIds": [
-        "f66bcac7-d7b3-4ce3-9db0-8cc5cd1d03ad",
-        "e13e9f14-380b-417a-83d9-e55d84da2bb9"
+        "deee40c5-f2dc-49e6-9ad2-cdbb73b411ed"
       ]
     }
   ],
@@ -269,159 +268,7 @@
       "isPaid": false
     },
     {
-      "id": "5e945ec1-c2c7-4853-b923-ffa582658a2e",
-      "userId": "99dd43d9-1262-47f6-86ce-63541e43e824",
-      "roundTrip": true,
-      "airportsIataCodes": [
-        " ZRH",
-        " MAD "
-      ],
-      "originCity": "Zurich",
-      "destinationCity": "Madrid",
-      "outboundFlightNo": "FR-182",
-      "outboundDepartureDate": "2023-05-23T22:00:00.000Z",
-      "outboundDepartureTime": "",
-      "outboundArrivalTime": "",
-      "returnFlightNo": "FR-181",
-      "returnDepartureDate": "2023-05-29T22:00:00.000Z",
-      "returnDepartureTime": "",
-      "returnArrivalTime": "",
-      "originAiroportName": "Zurich Zurich",
-      "destinationAiroportName": "Barajas Madrid",
-      "passengers": [],
-      "numberOfPassengers": [
-        {
-          "ageCategory": "adult",
-          "quantity": 1,
-          "fare": 0,
-          "tax": 0
-        },
-        {
-          "ageCategory": "child",
-          "quantity": 0,
-          "fare": 0,
-          "tax": 0
-        },
-        {
-          "ageCategory": "infant",
-          "quantity": 0,
-          "fare": 0,
-          "tax": 0
-        }
-      ],
-      "totalAmount": {
-        "adultPrice": 0,
-        "childPrice": 0,
-        "infantPrice": 0,
-        "sumPrice": 0,
-        "totalTax": 0
-      },
-      "totalTax": {
-        "adultPrice": 0,
-        "childPrice": 0,
-        "infantPrice": 0,
-        "sumPrice": 0,
-        "totalTax": 0
-      },
-      "totalAmountFrom": {
-        "adultPrice": 0,
-        "childPrice": 0,
-        "infantPrice": 0,
-        "sumPrice": 0,
-        "totalTax": 0
-      },
-      "totalTaxFrom": {
-        "adultPrice": 0,
-        "childPrice": 0,
-        "infantPrice": 0,
-        "sumPrice": 0,
-        "totalTax": 0
-      },
-      "contactDetails": {
-        "countryCode": "+0",
-        "phone": ""
-      },
-      "isPaid": false,
-      "type": "[Select Flights] Set Trip Id"
-    },
-    {
-      "id": "f66bcac7-d7b3-4ce3-9db0-8cc5cd1d03ad",
-      "userId": "99dd43d9-1262-47f6-86ce-63541e43e824",
-      "roundTrip": true,
-      "airportsIataCodes": [
-        " ZRH",
-        " MAD "
-      ],
-      "originCity": "Zurich",
-      "destinationCity": "Madrid",
-      "outboundFlightNo": "FR-182",
-      "outboundDepartureDate": "2023-05-23T22:00:00.000Z",
-      "outboundDepartureTime": "",
-      "outboundArrivalTime": "",
-      "returnFlightNo": "FR-181",
-      "returnDepartureDate": "2023-05-29T22:00:00.000Z",
-      "returnDepartureTime": "",
-      "returnArrivalTime": "",
-      "originAiroportName": "Zurich Zurich",
-      "destinationAiroportName": "Barajas Madrid",
-      "passengers": [],
-      "numberOfPassengers": [
-        {
-          "ageCategory": "adult",
-          "quantity": 1,
-          "fare": 0,
-          "tax": 0
-        },
-        {
-          "ageCategory": "child",
-          "quantity": 0,
-          "fare": 0,
-          "tax": 0
-        },
-        {
-          "ageCategory": "infant",
-          "quantity": 0,
-          "fare": 0,
-          "tax": 0
-        }
-      ],
-      "totalAmount": {
-        "adultPrice": 0,
-        "childPrice": 0,
-        "infantPrice": 0,
-        "sumPrice": 0,
-        "totalTax": 0
-      },
-      "totalTax": {
-        "adultPrice": 0,
-        "childPrice": 0,
-        "infantPrice": 0,
-        "sumPrice": 0,
-        "totalTax": 0
-      },
-      "totalAmountFrom": {
-        "adultPrice": 0,
-        "childPrice": 0,
-        "infantPrice": 0,
-        "sumPrice": 0,
-        "totalTax": 0
-      },
-      "totalTaxFrom": {
-        "adultPrice": 0,
-        "childPrice": 0,
-        "infantPrice": 0,
-        "sumPrice": 0,
-        "totalTax": 0
-      },
-      "contactDetails": {
-        "countryCode": "+0",
-        "phone": ""
-      },
-      "isPaid": false,
-      "type": "[Select Flights] Set Trip Id"
-    },
-    {
-      "id": "3fb8e7b5-80de-4fba-9394-285d247d338b",
+      "id": "1c86be1d-2af9-4d90-b8d6-a839ab09ff33",
       "userId": "99dd43d9-1262-47f6-86ce-63541e43e824",
       "roundTrip": true,
       "airportsIataCodes": [
@@ -435,7 +282,7 @@
       "outboundDepartureTime": "",
       "outboundArrivalTime": "",
       "returnFlightNo": "FR-474",
-      "returnDepartureDate": "2023-05-28T22:00:00.000Z",
+      "returnDepartureDate": "2023-05-29T22:00:00.000Z",
       "returnDepartureTime": "",
       "returnArrivalTime": "",
       "originAiroportName": "Heathrow London",
@@ -497,25 +344,25 @@
       "type": "[Flight Select] Set Selected Return Flight No"
     },
     {
-      "id": "e13e9f14-380b-417a-83d9-e55d84da2bb9",
+      "id": "e1240e61-b75e-4e79-8225-18779687a87f",
       "userId": "99dd43d9-1262-47f6-86ce-63541e43e824",
       "roundTrip": true,
       "airportsIataCodes": [
         " LHR",
-        " JFK "
+        " CDG "
       ],
       "originCity": "London",
-      "destinationCity": "New York",
-      "outboundFlightNo": "FR-473",
+      "destinationCity": "Paris",
+      "outboundFlightNo": "FR-924",
       "outboundDepartureDate": "2023-05-23T22:00:00.000Z",
       "outboundDepartureTime": "",
       "outboundArrivalTime": "",
-      "returnFlightNo": "FR-474",
-      "returnDepartureDate": "2023-05-28T22:00:00.000Z",
+      "returnFlightNo": "FR-925",
+      "returnDepartureDate": "2023-05-29T22:00:00.000Z",
       "returnDepartureTime": "",
       "returnArrivalTime": "",
       "originAiroportName": "Heathrow London",
-      "destinationAiroportName": "John F Kennedy Intl New York",
+      "destinationAiroportName": "Charles De Gaulle Paris",
       "passengers": [],
       "numberOfPassengers": [
         {
