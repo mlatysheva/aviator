@@ -5,7 +5,7 @@ import { AppState } from '../../../store/state.models';
 import { HttpClient } from '@angular/common/http';
 import { CartApiService } from '../../services/cart-api.service';
 import { ITrip, IUser } from '../../../models';
-import { Observable, map } from 'rxjs';
+import { Observable, map, switchMap, tap } from 'rxjs';
 import { AgGridAngular } from 'ag-grid-angular';
 import { Router } from '@angular/router';
 import { selectUserCurrency } from '../../../store/selectors/user.selectors';
@@ -53,7 +53,6 @@ export class CartPageComponent implements OnInit {
   constructor(
     private router: Router,
     private store: Store<AppState>,
-    private http: HttpClient,
     private cartApiService: CartApiService,
     private userService: UserService,
   ) {
@@ -187,7 +186,6 @@ export class CartPageComponent implements OnInit {
   recalculateTotalPrice(factor = 1) {
     this.totalPrice$ = this.trips$.pipe(
       map((trips) => {
-        console.log('in recalculate price, trips are : ', trips);
         const price =  trips.reduce((acc, trip) => acc + trip.totalAmount, 0);
         return Math.round(price * factor);
       }
@@ -211,15 +209,14 @@ export class CartPageComponent implements OnInit {
       }
 
       if (action === "delete") {
-        this.cartApiService.deleteTrip(tripId, this.userId);
-        this.trips$ = this.cartApiService.getUnpaidTripsByUserId(this.userId);
-        this.cartApiService.cartCount$.next(this.cartCount - 1);
-        this.recalculateTotalPrice(1);
-        this.store.dispatch(clearSelectedTrip());
-        localStorage.removeItem(TRIP_ID);
-        params.api.applyTransaction({
-          remove: [params.node.data]
-        });
+        this.cartApiService.deleteTrip(tripId, this.userId).pipe(
+          switchMap(() => this.cartApiService.getUnpaidTripsByUserId(this.userId)),
+          tap(() => this.cartApiService.cartCount$.next(this.cartCount - 1)),
+          tap(() => this.recalculateTotalPrice(1)),
+          tap(() => this.store.dispatch(clearSelectedTrip())),
+          tap(() => localStorage.removeItem(TRIP_ID)),
+          tap(() => params.api.applyTransaction({ remove: [params.node.data] }))
+        ).subscribe();
       }
     }
   }

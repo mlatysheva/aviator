@@ -119,9 +119,8 @@
         "phone": "0123456789"
       },
       "id": "99dd43d9-1262-47f6-86ce-63541e43e824",
-      "tripsIds": [
-        "deee40c5-f2dc-49e6-9ad2-cdbb73b411ed"
-      ]
+      "tripsIds": [],
+      "isCodeApplied": true
     }
   ],
   "passengers": [
@@ -345,6 +344,82 @@
     },
     {
       "id": "e1240e61-b75e-4e79-8225-18779687a87f",
+      "userId": "99dd43d9-1262-47f6-86ce-63541e43e824",
+      "roundTrip": true,
+      "airportsIataCodes": [
+        " LHR",
+        " CDG "
+      ],
+      "originCity": "London",
+      "destinationCity": "Paris",
+      "outboundFlightNo": "FR-924",
+      "outboundDepartureDate": "2023-05-23T22:00:00.000Z",
+      "outboundDepartureTime": "",
+      "outboundArrivalTime": "",
+      "returnFlightNo": "FR-925",
+      "returnDepartureDate": "2023-05-29T22:00:00.000Z",
+      "returnDepartureTime": "",
+      "returnArrivalTime": "",
+      "originAiroportName": "Heathrow London",
+      "destinationAiroportName": "Charles De Gaulle Paris",
+      "passengers": [],
+      "numberOfPassengers": [
+        {
+          "ageCategory": "adult",
+          "quantity": 1,
+          "fare": 0,
+          "tax": 0
+        },
+        {
+          "ageCategory": "child",
+          "quantity": 0,
+          "fare": 0,
+          "tax": 0
+        },
+        {
+          "ageCategory": "infant",
+          "quantity": 0,
+          "fare": 0,
+          "tax": 0
+        }
+      ],
+      "totalAmount": {
+        "adultPrice": 0,
+        "childPrice": 0,
+        "infantPrice": 0,
+        "sumPrice": 0,
+        "totalTax": 0
+      },
+      "totalTax": {
+        "adultPrice": 0,
+        "childPrice": 0,
+        "infantPrice": 0,
+        "sumPrice": 0,
+        "totalTax": 0
+      },
+      "totalAmountFrom": {
+        "adultPrice": 0,
+        "childPrice": 0,
+        "infantPrice": 0,
+        "sumPrice": 0,
+        "totalTax": 0
+      },
+      "totalTaxFrom": {
+        "adultPrice": 0,
+        "childPrice": 0,
+        "infantPrice": 0,
+        "sumPrice": 0,
+        "totalTax": 0
+      },
+      "contactDetails": {
+        "countryCode": "+0",
+        "phone": ""
+      },
+      "isPaid": false,
+      "type": "[Flight Select] Set Selected Return Flight No"
+    },
+    {
+      "id": "b8b61fc2-b0a4-4d92-992a-9e0b2ded6df6",
       "userId": "99dd43d9-1262-47f6-86ce-63541e43e824",
       "roundTrip": true,
       "airportsIataCodes": [

@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, Subscription, catchError, concatMap, forkJoin, map, mergeMap, of, switchMap, tap, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, concatMap, forkJoin, map, mergeMap, of, switchMap, tap, throwError } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { baseUrl } from '../../constants/apiUrls';
 import { Store } from '@ngrx/store';
 import { ICart } from '../../models/cart';
 import { ITrip } from '../../models/trip';
 import { IUser } from '../../models';
-import { TRIP_ID, USER_ID } from '../../constants/localStorage';
+import { USER_ID } from '../../constants/localStorage';
 import { TripState } from '../../store/reducers/trip.reducer';
 
 @Injectable({
@@ -20,7 +20,6 @@ export class CartApiService {
 
   constructor(
     private http: HttpClient,
-    private store: Store,
   ) { this.getCartCount(localStorage.getItem(USER_ID) || '').subscribe(count => {
         this.cartCount$.next(count);
       });
@@ -165,63 +164,33 @@ export class CartApiService {
   }
 
   removeTripIdFromUser(userId: string, tripId: string) {
-    const user = this.http.get<IUser>(`${baseUrl}/users/${userId}`);
-    const tripsIds = user.pipe(
+    return this.http.get<IUser>(`${baseUrl}/users/${userId}`).pipe(
       map((user: IUser) => {
         if (user.tripsIds) {
+          console.log('user.tripsIds', user.tripsIds);
           return user.tripsIds.filter(id => id !== tripId);
         }
         return [];
-      })
+      }),
+      switchMap((tripsIds: string[]) => 
+        this.http.patch<IUser>(`${baseUrl}/users/${userId}`, { tripsIds })
+      )
     );
-    const response$ = tripsIds.pipe(
-      switchMap((tripsIds: string[]) => this.http.patch<IUser>(`${baseUrl}/users/${userId}`, { tripsIds })) 
-    );
-    return response$;
   }
 
   deleteTrip(id: string, userId: string) {
-    this.removeTripIdFromUser(userId, id);
-
-    const response$ = this.http.delete<ITrip>(`${baseUrl}/trips/${id}`);
-    response$
-      .pipe(
-        catchError(error => this.handleError(error))
-      )
-      .subscribe((trip: ITrip) => {
+    return this.removeTripIdFromUser(userId, id).pipe(
+      switchMap(() => this.http.delete<ITrip>(`${baseUrl}/trips/${id}`)),
+      catchError(error => {
+        this.handleError(error);
+        return of(null); 
+      }),
+      tap(() => {
+        console.log('Trip deleted');
         this.errorMessage$.next('');
-      });
-    return response$;
+      })
+    );
   }
-
-  removeTripIdFromUser3(userId: string, tripId: string) {
-  return this.http.get<IUser>(`${baseUrl}/users/${userId}`).pipe(
-    map((user: IUser) => {
-      if (user.tripsIds) {
-        console.log('user.tripsIds', user.tripsIds);
-        return user.tripsIds.filter(id => id !== tripId);
-      }
-      return [];
-    }),
-    switchMap((tripsIds: string[]) => 
-      this.http.patch<IUser>(`${baseUrl}/users/${userId}`, { tripsIds })
-    )
-  );
-}
-
-deleteTrip3(id: string, userId: string) {
-  return this.removeTripIdFromUser3(userId, id).pipe(
-    switchMap(() => this.http.delete<ITrip>(`${baseUrl}/trips/${id}`)),
-    catchError(error => {
-      this.handleError(error);
-      return of(null); // Return an empty observable in case of error
-    }),
-    tap(() => {
-      console.log('Trip deleted');
-      this.errorMessage$.next('');
-    })
-  );
-}
 
   updateTripPrice(id: string, totalAmount: number) {
     const response$ = this.http.patch<ITrip>(`${baseUrl}/trips/${id}`, { totalAmount });
