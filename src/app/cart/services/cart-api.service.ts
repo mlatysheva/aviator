@@ -7,6 +7,7 @@ import { ICart } from '../../models/cart';
 import { ITrip } from '../../models/trip';
 import { IUser } from '../../models';
 import { TRIP_ID, USER_ID } from '../../constants/localStorage';
+import { TripState } from '../../store/reducers/trip.reducer';
 
 @Injectable({
   providedIn: 'root'
@@ -149,7 +150,7 @@ export class CartApiService {
     return response$;
   }
 
-  addTrip(trip: ITrip) {
+  addTrip(trip: TripState) {
     const response$ = this.http.post<ITrip>(`${baseUrl}/trips`, trip);
     response$
       .pipe(

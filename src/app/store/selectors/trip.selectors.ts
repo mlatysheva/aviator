@@ -11,4 +11,4 @@ export const selectAllPassengers = createSelector(
   (passengers: IPassenger[]) => passengers
 );
 
-export const selectTheTrip = createSelector(selectTrip, (trip: ITrip) => trip);
+//xport const selectTheTrip = createSelector(selectTrip, (trip: ITrip) => trip);

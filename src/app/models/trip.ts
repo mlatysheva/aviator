@@ -24,6 +24,8 @@ export interface ITrip {
   numberOfPassengers: IAgeTypeQuantity[];
   totalAmount: number;
   totalTax: number;
+  totalAmountFrom?: number;
+  totalTaxFrom?: number;
   contactDetails: IContacts;
   isPaid?: boolean;
 }

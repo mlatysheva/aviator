@@ -19,8 +19,7 @@ export const setSelectedTrip = createAction(
     returnDepartureTime?: string;
     returnArrivalTime?: string;
     numberOfPassengers: IAgeTypeQuantity[];
-    totalAmount: number;
-    totalTax: number;
+
   }>()
 );
 
@@ -73,6 +72,7 @@ export const setSelectedOutboundFlightNo = createAction(
   '[Flight Select] Set Selected Outbound Flight No',
   props<{ outboundFlightNo: string }>()
 );
+
 export const setSelectedReturnDepartureTime = createAction(
   '[Flight Select] Set Selected Return Departure Time',
   props<{ returnDepartureTime: string }>()
@@ -91,11 +91,19 @@ export const setSelectedNumberOfPassengers = createAction(
 );
 export const setSelectedTotalAmount = createAction(
   '[Flight Select] Set Selected Total Amount',
-  props<{ totalAmount: number }>()
+  props<{ totalAmount: { adultPrice: number; childPrice: number; infantPrice: number; sumPrice: number; totalTax?: number | undefined; } }>()
 );
 export const setSelectedTotalTax = createAction(
   '[Flight Select] Set Selected Total Tax',
-  props<{ totalTax: number }>()
+  props<{ totalTax: { adultPrice: number; childPrice: number; infantPrice: number; sumPrice: number; totalTax?: number | undefined; } }>()
+);
+export const setSelectedTotalAmountFrom = createAction(
+  '[Flight Select] Set Selected Total Amount From',
+  props<{ totalAmountFrom: { adultPrice: number; childPrice: number; infantPrice: number; sumPrice: number; totalTax?: number | undefined; } }>()
+);
+export const setSelectedTotalTaxFrom = createAction(
+  '[Flight Select] Set Selected Total Tax From',
+  props<{ totalTaxFrom: { adultPrice: number; childPrice: number; infantPrice: number; sumPrice: number; totalTax?: number | undefined; } }>()
 );
 
 

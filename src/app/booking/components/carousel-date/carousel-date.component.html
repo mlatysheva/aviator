@@ -1,5 +1,5 @@
 <div class="wrapper">
-  <div class="one-way">
+  <div class="one-way" *ngIf="result !== undefined">
     <div class="flight-info one-way">
       <img src="../../../../assets/icons/plane-to.svg" alt="plane">
       <p>{{from}} to {{to}}</p>
@@ -14,10 +14,11 @@
         <div class="is-fly" *ngIf="(dateService.isCanFly(slide))">
           <img src="../../../../assets/icons/do-not-fly.svg" alt="no-fly">
         </div>
-        <div class="price" *ngIf="!dateService.isCanFly(slide)">
-          <h5 *ngIf="(dateService.isFlightDay(slide, result[0]))"><span>{{currency}}
+        <div class="price" *ngIf="!dateService.isCanFly(slide) ">
+          <h5 *ngIf="(result!== undefined && dateService.isFlightDay(slide, result[0]))"><span>{{currency}}
             </span>{{prices[(dateService.getIndexOfDate(slide, flightDaysTo))] }}</h5>
-          <h6 *ngIf="(!dateService.isFlightDay(slide, result[0]))" class="no-fly">No flights today</h6>
+          <h6 *ngIf="(result!== undefined && !dateService.isFlightDay(slide, result[0]))" class="no-fly">No flights
+            today</h6>
         </div>
         <div div class="carousel-caption"></div>
       </slide>
@@ -28,11 +29,10 @@
       [currency]="currency" [hours]="hours" [minutes]="minutes"
       [price]="prices[(dateService.getIndexOfDate(startDate, flightDaysTo))]" [onClick]="onClick" [cityFrom]="cityFrom"
       [cityTo]="cityTo" [flightDaysTo]="flightDaysTo" [codFrom]="codFrom" [codTo]="codTo" [dateFormat]="dateFormat"
-      [isTo]="true" [numberOfPassengers]="numberOfPassengers"
-      [totalAmount]="(sumPriceService.sumpPricesAdult(result[0], numberOfPassengers, (dateService.getIndexOfDate(startDate, flightDaysTo))).sumPrice)"
-      [totalTax]="(sumPriceService.sumpPricesAdult(result[0], numberOfPassengers, (dateService.getIndexOfDate(startDate, flightDaysTo))).totalTax)"></app-flight-details>
+      [isTo]="true" [numberOfPassengers]="numberOfPassengers" [totalAmount]="totalAmount"
+      [totalTax]="totalTax"></app-flight-details>
   </div>
-  <div class="two-way" *ngIf="!isOneWay">
+  <div class="two-way" *ngIf="!isOneWay && returnDetails !== undefined">
     <div class="flight-info two-way">
       <img src="../../../../assets/icons/plane-from.svg" alt="plane">
       <p>{{to}} to {{from}}</p>
@@ -47,10 +47,11 @@
         <div class="is-fly" *ngIf="(dateService.isCanFly(slide))">
           <img src="../../../../assets/icons/do-not-fly.svg" alt="no-fly">
         </div>
-        <div class="price" *ngIf="!dateService.isCanFly(slide)">
-          <h5 *ngIf="(dateService.isFlightDay(slide, returnDetails[0]))"><span>{{currency}}
+        <div class="price" *ngIf="!dateService.isCanFly(slide) && returnDetails!== undefined">
+          <h5 *ngIf="(returnDetails!== undefined &&dateService.isFlightDay(slide, returnDetails[0]))"><span>{{currency}}
             </span>{{pricesFrom[(dateService.getIndexOfDate(slide, flightDaysFrom))] }}</h5>
-          <h6 *ngIf="(!dateService.isFlightDay(slide, returnDetails[0]))" class="no-fly">No flights today</h6>
+          <h6 *ngIf="(returnDetails!== undefined && !dateService.isFlightDay(slide, returnDetails[0]))" class="no-fly">
+            No flights today</h6>
         </div>
         <div div class="carousel-caption"></div>
 
@@ -66,3 +67,7 @@
       [totalTax]="totalTaxFrom"></app-flight-details>
   </div>
 </div>
+
+<!-- (sumPriceService.sumpPricesAdult(result[0], numberOfPassengers, (dateService.getIndexOfDate(startDate, flightDaysTo))).sumPrice)
+  (sumPriceService.sumpPricesAdult(result[0], numberOfPassengers, (dateService.getIndexOfDate(startDate, flightDaysTo))).totalTax)
+ -->

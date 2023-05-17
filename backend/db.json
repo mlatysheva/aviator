@@ -45,7 +45,10 @@
         "phone": "0123456789"
       },
       "id": "0f04c977-c041-4fa4-9354-9c7d7cce9c0e",
-      "tripsIds": [],
+      "tripsIds": [
+        "010252d9-a720-49d8-a0f0-79cb45e30adf",
+        "2194f75f-4821-4fd7-9a94-0a949f508868"
+      ],
       "promoCode": "Star Wars",
       "isCodeApplied": true
     },
@@ -163,92 +166,159 @@
         "countryCode": "7",
         "phone": "123456789"
       },
-      "isPaid": true
-    },
-    {
-      "id": "88cec744-b2a2-4b87-abaf-1c7a6ee22f11",
-      "userId": "c5d0b76f-985f-485b-91cb-c1085fe1f75d",
-      "roundTrip": false,
-      "airportsIataCodes": [
-        "LHR",
-        "CDG"
-      ],
-      "originCity": "London",
-      "destinationCity": "Paris",
-      "outboundFlightNo": "FR-924",
-      "outboundDepartureDate": "08/05/2023",
-      "outboundDepartureTime": "11:25",
-      "outboundArrivalTime": "13:20",
-      "returnFlightNo": "FR-925",
-      "returnDepartureDate": "08/18/2023",
-      "returnDepartureTime": "18:35",
-      "returnArrivalTime": "20:45",
-      "passengers": [
-        {
-          "id": "",
-          "firstName": "Mar",
-          "lastName": "Com",
-          "birthday": "1976-12-31T23:00:00.000Z",
-          "age": 46,
-          "ageCategory": "adult",
-          "seatNo": ""
-        }
-      ],
-      "totalAmount": 1250,
-      "totalTax": 202.5,
-      "contactDetails": {
-        "email": "admin@admin.com",
-        "countryCode": "7",
-        "phone": "123456789"
-      },
       "isPaid": false
     },
     {
-      "id": "77cec714-b2a2-4b87-abaf-1c7a6ee28f10",
+      "id": "56356351-aa4f-49f0-9fa8-ac87d599d4a1",
       "userId": "0f04c977-c041-4fa4-9354-9c7d7cce9c0e",
-      "roundTrip": false,
+      "roundTrip": true,
       "airportsIataCodes": [
-        "LHR",
-        "CDG"
+        " PMI",
+        " MSQ "
       ],
-      "originCity": "London",
-      "destinationCity": "Paris",
-      "outboundFlightNo": "FR-924",
-      "outboundDepartureDate": "08/05/2023",
-      "outboundDepartureTime": "11:25",
-      "outboundArrivalTime": "13:20",
-      "returnFlightNo": "FR-925",
-      "returnDepartureDate": "08/18/2023",
-      "returnDepartureTime": "18:35",
-      "returnArrivalTime": "20:45",
-      "passengers": [
+      "originCity": "Palma de Mallorca",
+      "destinationCity": "Minsk 2",
+      "outboundFlightNo": "FR-75",
+      "outboundDepartureDate": "2023-05-22T22:00:00.000Z",
+      "outboundDepartureTime": "",
+      "outboundArrivalTime": "",
+      "returnFlightNo": "FR-76",
+      "returnDepartureDate": "2023-05-28T22:00:00.000Z",
+      "returnDepartureTime": "",
+      "returnArrivalTime": "",
+      "originAiroportName": "Son Sant Joan Palma de Mallorca",
+      "destinationAiroportName": "Minsk 2 Minsk 2",
+      "passengers": [],
+      "numberOfPassengers": [
         {
-          "firstName": "Chewbacca",
-          "lastName": "Chewbacca",
-          "birthday": "01/11/2001",
-          "ageCategory": "adult"
+          "ageCategory": "adult",
+          "quantity": 1,
+          "fare": 0,
+          "tax": 0
         },
         {
-          "firstName": "Obi-Wan",
-          "lastName": "Kenobi",
-          "birthday": "01/11/2001",
-          "ageCategory": "adult"
+          "ageCategory": "child",
+          "quantity": 0,
+          "fare": 0,
+          "tax": 0
         },
         {
-          "firstName": "Leia",
-          "lastName": "Organa",
-          "birthday": "01/11/2001",
-          "ageCategory": "child"
+          "ageCategory": "infant",
+          "quantity": 0,
+          "fare": 0,
+          "tax": 0
         }
       ],
-      "totalAmount": 448,
-      "totalTax": 202.5,
-      "contactDetails": {
-        "email": "darth@vader.com",
-        "countryCode": "7",
-        "phone": "123456789"
+      "totalAmount": {
+        "adultPrice": 0,
+        "childPrice": 0,
+        "infantPrice": 0,
+        "sumPrice": 0,
+        "totalTax": 0
       },
-      "isPaid": false
+      "totalTax": {
+        "adultPrice": 0,
+        "childPrice": 0,
+        "infantPrice": 0,
+        "sumPrice": 0,
+        "totalTax": 0
+      },
+      "totalAmountFrom": {
+        "adultPrice": 0,
+        "childPrice": 0,
+        "infantPrice": 0,
+        "sumPrice": 0,
+        "totalTax": 0
+      },
+      "totalTaxFrom": {
+        "adultPrice": 0,
+        "childPrice": 0,
+        "infantPrice": 0,
+        "sumPrice": 0,
+        "totalTax": 0
+      },
+      "contactDetails": {
+        "countryCode": "+0",
+        "phone": ""
+      },
+      "isPaid": false,
+      "type": "[Flight Select] Set Selected Return Flight No"
+    },
+    {
+      "id": "2194f75f-4821-4fd7-9a94-0a949f508868",
+      "userId": "0f04c977-c041-4fa4-9354-9c7d7cce9c0e",
+      "roundTrip": true,
+      "airportsIataCodes": [
+        " PMI",
+        " MSQ "
+      ],
+      "originCity": "Palma de Mallorca",
+      "destinationCity": "Minsk 2",
+      "outboundFlightNo": "FR-75",
+      "outboundDepartureDate": "2023-05-22T22:00:00.000Z",
+      "outboundDepartureTime": "",
+      "outboundArrivalTime": "",
+      "returnFlightNo": "FR-76",
+      "returnDepartureDate": "2023-05-28T22:00:00.000Z",
+      "returnDepartureTime": "",
+      "returnArrivalTime": "",
+      "originAiroportName": "Son Sant Joan Palma de Mallorca",
+      "destinationAiroportName": "Minsk 2 Minsk 2",
+      "passengers": [],
+      "numberOfPassengers": [
+        {
+          "ageCategory": "adult",
+          "quantity": 1,
+          "fare": 0,
+          "tax": 0
+        },
+        {
+          "ageCategory": "child",
+          "quantity": 0,
+          "fare": 0,
+          "tax": 0
+        },
+        {
+          "ageCategory": "infant",
+          "quantity": 0,
+          "fare": 0,
+          "tax": 0
+        }
+      ],
+      "totalAmount": {
+        "adultPrice": 0,
+        "childPrice": 0,
+        "infantPrice": 0,
+        "sumPrice": 0,
+        "totalTax": 0
+      },
+      "totalTax": {
+        "adultPrice": 0,
+        "childPrice": 0,
+        "infantPrice": 0,
+        "sumPrice": 0,
+        "totalTax": 0
+      },
+      "totalAmountFrom": {
+        "adultPrice": 0,
+        "childPrice": 0,
+        "infantPrice": 0,
+        "sumPrice": 0,
+        "totalTax": 0
+      },
+      "totalTaxFrom": {
+        "adultPrice": 0,
+        "childPrice": 0,
+        "infantPrice": 0,
+        "sumPrice": 0,
+        "totalTax": 0
+      },
+      "contactDetails": {
+        "countryCode": "+0",
+        "phone": ""
+      },
+      "isPaid": false,
+      "type": "[Flight Select] Set Selected Return Flight No"
     }
   ],
   "carts": [
