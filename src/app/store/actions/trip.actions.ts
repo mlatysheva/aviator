@@ -24,6 +24,11 @@ export const setTripId = createAction(
   props<{ id: string }>()
 );
 
+export const setUserId = createAction(
+  '[Select Flights] Set User Id',
+  props<{ userId: string }>()
+);
+
 export const setPassengers = createAction(
   '[Booking Passengers] Set Trip Passengers',
   props<{ passengers: IPassenger[] }>()

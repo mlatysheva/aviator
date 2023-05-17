@@ -218,7 +218,14 @@ export const tripReducer = createReducer(
       ...state,
       ...payload,
     })
-  ),  
+  ),
+  on(
+    TripActions.setUserId,
+    (state, payload): TripState => ({
+      ...state,
+      ...payload,
+    })
+  ),
   on(TripActions.clearTripState, () => ({
     ...initialState,
     id: '',
