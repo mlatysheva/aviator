@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { ICountryCode } from '../../../models/countryCode';
 import { UserService } from '../../../user/services/user.service';
 import { Router } from '@angular/router';
+import { PROMOCODES } from '../../../constants/promoCodes';
 
 @Component({
   selector: 'app-signup',
@@ -122,7 +123,9 @@ export class SignupComponent implements OnInit {
       contactDetails: {
         countryCode,
         phone,
-      }
+      },
+      promoCode: PROMOCODES[Math.random()*PROMOCODES.length] || PROMOCODES[0],
+      isCodeApplied: false,
     }
     this.authService.onSignup(user);
     setTimeout(() => {
