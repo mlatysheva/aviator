@@ -11,7 +11,7 @@ export class SumPriceService {
     []
   );
 
-  sumpPricesAdult(
+  sumpPrices(
     flight: IFlight,
     passengers: IAgeTypeQuantity[],
     index: number

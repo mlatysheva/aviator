@@ -1,11 +1,6 @@
 import { Component, Input, ElementRef, OnInit, OnDestroy } from '@angular/core';
-import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { DateService } from '../../services/date.service';
-import {
-  setSelectedTrip,
-} from 'src/app/store/actions/select.actions';
-import { AppState } from 'src/app/store/state.models';
 import { IAgeTypeQuantity } from '../../../models/agetype-quantity.model';
 import { SumPriceService } from '../../services/sum-price.service';
 
@@ -48,6 +43,8 @@ export class FlightDetailsComponent implements OnInit, OnDestroy {
   @Input() numberOfPassengers: IAgeTypeQuantity[];
   @Input() totalAmount: number;
   @Input() totalTax: number;
+  @Input() totalAmountFrom: number;
+  @Input() totalTaxFrom: number;
   @Input() type: number;
   @Input() flightDaysTo: number[];
   @Input() flightDaysFrom: number[];
@@ -59,7 +56,6 @@ export class FlightDetailsComponent implements OnInit, OnDestroy {
   constructor(
     public dateService: DateService,
     private el: ElementRef,
-    private store: Store<AppState>,
     private sumPriceService: SumPriceService,
   ) { }
 
@@ -92,27 +88,6 @@ export class FlightDetailsComponent implements OnInit, OnDestroy {
       button[0].classList.add('none');
       editButton[0].classList.remove('none');
       this.classTo = 'none';
-      this.store.dispatch(
-        setSelectedTrip({
-          roundTrip: this.oneWay ? false : true,
-          originCity: this.cityFrom,
-          destinationCity: this.cityTo,
-          outboundFlightNo: this.flightNumber,
-          airportsIataCodes: [this.codFrom, this.codTo],
-          originAiroportName: this.from,
-          destinationAiroportName: this.to,
-          outboundDepartureDate: this.startDate,
-          outboundDepartureTime: this.departureTime,
-          outboundArrivalTime: this.arrivingDateTo ? this.arrivingDateTo : '',
-          returnFlightNo: this.flightNumberFrom,
-          returnDepartureDate: this.endDate,
-          returnDepartureTime: this.departureTimeFrom,
-          returnArrivalTime: this.arrivingDateFrom ? this.arrivingDateFrom : '',
-          numberOfPassengers: this.numberOfPassengers,
-          totalAmount: this.totalAmount,
-          totalTax: this.totalTax,
-        })
-      );
     }
     if (this.type === 2 && element !== undefined) {
       element[0].classList.add('none');

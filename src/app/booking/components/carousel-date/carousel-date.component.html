@@ -29,9 +29,8 @@
       [currency]="currency" [hours]="hours" [minutes]="minutes"
       [price]="prices[(dateService.getIndexOfDate(startDate, flightDaysTo))]" [onClick]="onClick" [cityFrom]="cityFrom"
       [cityTo]="cityTo" [flightDaysTo]="flightDaysTo" [codFrom]="codFrom" [codTo]="codTo" [dateFormat]="dateFormat"
-      [isTo]="true" [numberOfPassengers]="numberOfPassengers"
-      [totalAmount]="(sumPriceService.sumpPricesAdult(result[0], numberOfPassengers, (dateService.getIndexOfDate(startDate, flightDaysTo))).sumPrice)"
-      [totalTax]="(sumPriceService.sumpPricesAdult(result[0], numberOfPassengers, (dateService.getIndexOfDate(startDate, flightDaysTo))).totalTax)"></app-flight-details>
+      [isTo]="true" [numberOfPassengers]="numberOfPassengers" [totalAmount]="totalAmount"
+      [totalTax]="totalTax"></app-flight-details>
   </div>
   <div class="two-way" *ngIf="!isOneWay && returnDetails !== undefined">
     <div class="flight-info two-way">
@@ -68,3 +67,7 @@
       [totalTax]="totalTaxFrom"></app-flight-details>
   </div>
 </div>
+
+<!-- (sumPriceService.sumpPricesAdult(result[0], numberOfPassengers, (dateService.getIndexOfDate(startDate, flightDaysTo))).sumPrice)
+  (sumPriceService.sumpPricesAdult(result[0], numberOfPassengers, (dateService.getIndexOfDate(startDate, flightDaysTo))).totalTax)
+ -->

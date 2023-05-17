@@ -74,10 +74,10 @@ export class CarouselDateComponent implements OnInit, OnDestroy {
   numberOfPassengers: IAgeTypeQuantity[];
   numberOfPassengersFrom: IAgeTypeQuantity[];
   passengersFrom: IAgeTypeQuantity[];
-  totalAmount: number;
-  totalAmountFrom: number;
-  totalTax: number | undefined;
-  totalTaxFrom: number | undefined;
+  totalAmount: { adultPrice: number; childPrice: number; infantPrice: number; sumPrice: number; totalTax?: number | undefined; };
+  totalAmountFrom: { adultPrice: number; childPrice: number; infantPrice: number; sumPrice: number; totalTax?: number | undefined; };
+  totalTax: { adultPrice: number; childPrice: number; infantPrice: number; sumPrice: number; totalTax?: number | undefined; };
+  totalTaxFrom: { adultPrice: number; childPrice: number; infantPrice: number; sumPrice: number; totalTax?: number | undefined; };
   numberOfPassengersWithPrices: IAgeTypeQuantity[];
 
   //time
@@ -129,11 +129,17 @@ export class CarouselDateComponent implements OnInit, OnDestroy {
         this.returnFlightId = this.result[0].returnFlightId;
         this.getReturnDetailsList(this.returnFlightId);
         this.flightDaysTo = this.result[0].flightDays;
-
         this.index = this.dateService.getIndexOfDate(this.startDate, this.flightDaysTo);
         if (this.index !== undefined)
-          this.totalTax = this.sumPriceService.sumpPricesAdult(this.result[0], this.numberOfPassengers, this.index).totalTax;
-        this.totalAmount = this.sumPriceService.sumpPricesAdult(this.result[0], this.numberOfPassengers, this.index).sumPrice;
+          this.totalTax = this.sumPriceService.sumpPrices(
+            this.result[0],
+            this.numberOfPassengers,
+            this.index);
+        this.totalAmount = this.sumPriceService.sumpPrices(
+          this.result[0],
+          this.numberOfPassengers,
+          this.index);
+        this.store.dispatch(SelectActions.setSelectedOutboundFlightNo({ outboundFlightNo: this.flightNumber }));
 
       }));
     return this.details$;
@@ -165,9 +171,15 @@ export class CarouselDateComponent implements OnInit, OnDestroy {
         if (this.endDate !== undefined) {
           const index = this.dateService.getIndexOfDate(this.endDate, this.flightDaysFrom);
           if (index !== undefined)
-            //   this.priceFrom = this.pricesFrom[index];
-            this.totalAmountFrom = this.sumPriceService.sumpPricesAdult(this.returnDetails[0], this.numberOfPassengersFrom, index).sumPrice;
-          this.totalTaxFrom = this.sumPriceService.sumpPricesAdult(this.returnDetails[0], this.numberOfPassengersFrom, index).totalTax;
+            this.totalAmountFrom = this.sumPriceService.sumpPrices(
+              this.returnDetails[0],
+              this.numberOfPassengersFrom,
+              index);
+          this.totalTaxFrom = this.sumPriceService.sumpPrices(
+            this.returnDetails[0],
+            this.numberOfPassengersFrom,
+            index);
+          this.store.dispatch(SelectActions.setSelectedReturnFlightNo({ returnFlightNo: this.flightNumberFrom }));
         }
       }
       ));
@@ -186,7 +198,6 @@ export class CarouselDateComponent implements OnInit, OnDestroy {
         this.to = state.trip.destinationAiroportName;
         this.startDate = state.trip.outboundDepartureDate;
         this.endDate = state.trip.returnDepartureDate;
-        this.flightNumber = state.trip.outboundFlightNo;
         this.numberOfPassengers = state.trip.numberOfPassengers;
         this.currency = getSymbolFromCurrency(state.user.currency);
         this.isOneWay = state.trip.roundTrip === true ? false : true;
@@ -218,13 +229,11 @@ export class CarouselDateComponent implements OnInit, OnDestroy {
         this.slides = this.dateService.dateSlideTo(this.startDate);
         this.isCanFly = this.dateService.isCanFly(this.startDate);
         this.isFly = this.isCanFly ? 'true' : 'false';
-        // this.flightNumber = this.state.trip.outboundFlightNo;
         const index = this.dateService.getIndexOfDate(this.startDate, this.flightDaysTo);
         if (index !== undefined && this.result !== undefined && this.result.length > 0)
-          this.totalTax = this.sumPriceService.sumpPricesAdult(this.result[0], this.numberOfPassengers, index).totalTax;
-        this.totalAmount = this.sumPriceService.sumpPricesAdult(this.result[0], this.numberOfPassengers, index).sumPrice;
+          this.totalTax = this.sumPriceService.sumpPrices(this.result[0], this.numberOfPassengers, index);
+        this.totalAmount = this.sumPriceService.sumpPrices(this.result[0], this.numberOfPassengers, index);
         this.store.dispatch(SelectActions.setSelectedDepartureDate({ outboundDepartureDate: this.startDate }));
-        this.store.dispatch(SelectActions.setSelectedOutboundFlightNo({ outboundFlightNo: this.flightNumber }));
         this.store.dispatch(SelectActions.setSelectedTotalAmount({ totalAmount: this.totalAmount }));
         if (this.totalTax !== undefined)
           this.store.dispatch(SelectActions.setSelectedTotalTax({ totalTax: this.totalTax }));
@@ -235,7 +244,16 @@ export class CarouselDateComponent implements OnInit, OnDestroy {
         this.slidesFrom = this.dateService.dateSlideTo(this.endDate);
         this.isCanFly = this.dateService.isCanFly(this.endDate);
         this.isFly = this.isCanFly ? 'true' : 'false';
+        const index = this.dateService.getIndexOfDate(this.endDate, this.flightDaysTo);
+        if (index !== undefined && this.returnDetails !== undefined && this.returnDetails.length > 0)
+          this.totalTaxFrom = this.sumPriceService.sumpPrices(this.returnDetails[0], this.numberOfPassengers, index);
+        this.totalAmountFrom = this.sumPriceService.sumpPrices(this.returnDetails[0], this.numberOfPassengers, index);
+        console.log(this.endDate, index, this.totalAmountFrom, this.totalTaxFrom);
+        this.store.dispatch(SelectActions.setSelectedTotalAmountFrom({ totalAmountFrom: this.totalAmountFrom }));
+        if (this.totalTax !== undefined)
+          this.store.dispatch(SelectActions.setSelectedTotalTaxFrom({ totalTaxFrom: this.totalTaxFrom }));
         this.store.dispatch(SelectActions.setSelectedReturnDate({ returnDepartureDate: this.endDate }));
+
       }
       for (let i = 0; i < children.length; i++) {
         if (children[i].classList.contains('slide-date')) {

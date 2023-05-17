@@ -14,6 +14,7 @@ import { Store } from '@ngrx/store';
 import { IAgeCategory, IPassenger } from 'backend/types';
 import { map, Observable } from 'rxjs';
 import { ITrip } from '../../../models/trip';
+import { TripState } from '../../../store/reducers/trip.reducer';
 import { IAgeTypeQuantity } from '../../../models/agetype-quantity.model';
 import { ICountryCode } from '../../../models/countryCode';
 import { IUser } from '../../../models/user';
@@ -22,7 +23,7 @@ import { AppState } from '../../../store/state.models';
 import { UserService } from '../../../user/services/user.service';
 import { getAge } from '../../../utils/getAge';
 import { PassengersService } from '../../services/passengers.service';
-import { selectTheTrip } from '../../../store/selectors/trip.selectors';
+import { selectTrip } from '../../../store/selectors/trip.selectors';
 import { ProgressBarService } from '../../../core/services/progress-bar.service';
 import { IProgressBar } from '../../../models/progress-bar';
 import { images } from '../../../constants/progressBarImgUrls';
@@ -36,7 +37,7 @@ import { images } from '../../../constants/progressBarImgUrls';
 export class BookingPassengersComponent implements OnInit {
   public passengersCollectionForm: FormGroup;
 
-  public trip$!: Observable<ITrip | any>;
+  public trip$!: Observable<TripState | any>;
   public userProfile$!: Observable<IUser>;
 
   public passengersQuauntity = 0;
@@ -75,7 +76,7 @@ export class BookingPassengersComponent implements OnInit {
       passengers: this.fb.array([]),
     });
 
-    this.trip$ = this.store.select(selectTheTrip);
+    this.trip$ = this.store.select(selectTrip);
     this.trip$
       .pipe(
         map((trip) => {
