@@ -17,8 +17,7 @@ import {
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { IAgeCategory, IPassenger } from 'backend/types';
-import { map, Observable, Subscription } from 'rxjs';
-import { ITrip } from '../../../models/trip';
+import { map, Observable, take, Subscription } from 'rxjs';
 import { TripState } from '../../../store/reducers/trip.reducer';
 import { IAgeTypeQuantity } from '../../../models/agetype-quantity.model';
 import { ICountryCode } from '../../../models/countryCode';
@@ -32,6 +31,8 @@ import { selectTrip } from '../../../store/selectors/trip.selectors';
 import { ProgressBarService } from '../../../core/services/progress-bar.service';
 import { IProgressBar } from '../../../models/progress-bar';
 import { images } from '../../../constants/progressBarImgUrls';
+import { TRIP_ID } from '../../../constants/localStorage';
+import { CartApiService } from '../../../cart/services/cart-api.service';
 
 @Component({
   selector: 'app-booking-passengers',
@@ -75,7 +76,8 @@ export class BookingPassengersComponent implements OnInit, OnDestroy {
     private passengersService: PassengersService,
     private fb: FormBuilder,
     private userService: UserService,
-    private progressBarService: ProgressBarService
+    private progressBarService: ProgressBarService,
+    private cartService: CartApiService
   ) {}
 
   ngOnInit() {
@@ -209,7 +211,7 @@ export class BookingPassengersComponent implements OnInit, OnDestroy {
       phone: this.detailsForm.controls['phone'].value,
     });
 
-    const trip_id = localStorage.getItem('aviator_trip_id') as string;
+    const trip_id = localStorage.getItem(TRIP_ID) as string;
     this.passengersService.savePassengers(this.passengers, trip_id);
     setTimeout(() => {
       this.subscriptions.add(
@@ -234,6 +236,11 @@ export class BookingPassengersComponent implements OnInit, OnDestroy {
   public onNextClick() {
     this.progressBarService.setProgressBar(this.progressBar);
     this.formSubmit('summary');
+
+    const trip$ = this.store.select(selectTrip).pipe(take(1));
+    trip$.subscribe((trip: TripState) => {
+      this.cartService.updateTrip(trip).subscribe();
+    });
   }
 
   private calculateAge(date: string): number {

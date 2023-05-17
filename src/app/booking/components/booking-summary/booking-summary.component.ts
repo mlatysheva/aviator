@@ -42,9 +42,7 @@ export class BookingSummaryComponent implements OnInit, OnDestroy {
   }
 
   public onBuyClick() {
-    // if (this.trips.length) {
     this.router.navigate(['cart']);
-    // }
   }
 
   ngOnDestroy(): void {
