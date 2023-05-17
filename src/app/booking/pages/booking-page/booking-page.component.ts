@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../../store/state.models';
 import { IProgressBar } from '../../../models/progress-bar';
 import { TRIP_ID, USER_ID } from '../../../constants/localStorage';
 import { images } from '../../../constants/progressBarImgUrls';
@@ -10,6 +12,8 @@ import { CartApiService } from '../../../cart/services/cart-api.service';
 import { ITrip } from '../../../models';
 import { finalize, map } from 'rxjs';
 import { selectTrip } from '../../../store/selectors/trip.selectors';
+import * as SelectActions from '../../../store/actions/select.actions';
+
 
 @Component({
   selector: 'app-booking-page',
@@ -33,6 +37,7 @@ export class BookingPageComponent {
   ) {}
 
   onBackClick() {
+    this.store.dispatch(SelectActions.clearSelectedTrip());
     this.router.navigate(['main']);
   }
 

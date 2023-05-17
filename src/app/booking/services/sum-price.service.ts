@@ -11,7 +11,7 @@ export class SumPriceService {
     []
   );
 
-  sumpPricesAdult(
+  sumpPrices(
     flight: IFlight,
     passengers: IAgeTypeQuantity[],
     index: number
@@ -22,6 +22,7 @@ export class SumPriceService {
     sumPrice: number;
     totalTax?: number;
   } {
+    if (flight === undefined || passengers === undefined || index === undefined) return { adultPrice: 0, childPrice: 0, infantPrice: 0, sumPrice: 0, totalTax: 0 };
     const pricesAdult = flight.pricesAdult[index];
     const pricesChild = flight.pricesChild[index];
     const pricesInfant = flight.pricesInfant[index];
@@ -52,6 +53,7 @@ export class SumPriceService {
 
     const totalTax = Number((sumPrice * flight.taxRate).toFixed(2));
     return { adultPrice, childPrice, infantPrice, sumPrice, totalTax };
+
   }
 
   getFareAndTax(
@@ -61,26 +63,28 @@ export class SumPriceService {
     priceChild: number,
     priceInfant: number
   ): any {
+    if (flight === undefined ||
+      passenger === undefined ||
+      priceAdult === undefined ||
+      priceChild === undefined ||
+      priceInfant === undefined ||
+      flight.taxRate === undefined) return { fare: 0, tax: 0 };
     if (passenger.ageCategory === 'adult') {
       return {
         fare: priceAdult,
-        tax: flight.taxRate
-          ? Number((priceAdult * flight.taxRate).toFixed(2))
-          : undefined,
+        tax: Number((priceAdult * flight.taxRate).toFixed(2))
+
       };
     } else if (passenger.ageCategory === 'child') {
       return {
         fare: priceChild,
-        tax: flight.taxRate
-          ? Number((priceChild * flight.taxRate).toFixed(2))
-          : undefined,
+        tax: Number((priceChild * flight.taxRate).toFixed(2)),
+
       };
     } else if (passenger.ageCategory === 'infant') {
       return {
         fare: priceInfant,
-        tax: flight.taxRate
-          ? Number((priceInfant * flight.taxRate).toFixed(2))
-          : undefined,
+        tax: Number((priceInfant * flight.taxRate).toFixed(2)),
       };
     }
   }
