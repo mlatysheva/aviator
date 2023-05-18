@@ -11,6 +11,7 @@ import { TripState } from 'src/app/store/reducers/trip.reducer';
 import { AviaService } from 'src/app/avia/services/avia.service';
 import { ProgressBarService } from 'src/app/core/services/progress-bar.service';
 import { progressBar } from '../../../constants/progressBar';
+import { TRIP_ID } from '../../../constants/localStorage';
 
 @Component({
   selector: 'app-booking-summary',
@@ -52,6 +53,7 @@ export class BookingSummaryComponent implements OnInit, OnDestroy {
 
   public onBuyClick() {
     this.aviaService.changeHeaderStyle$.next(false);
+    localStorage.removeItem(TRIP_ID);
     this.router.navigate(['cart']);
   }
 

@@ -170,7 +170,11 @@ export class CartPageComponent implements OnInit {
   }
 
   priceRenderer(params: ValueGetterParams) {
-    return `${this.currency} ${params.data.totalAmount}`;
+    return `${this.currency} ${Math.round(params.data.totalAmount.sumPrice 
+      + params.data.totalAmount.totalTax
+      + (params.data.totalAmountFrom?.sumPrice || 0)
+      + (params.data.totalAmountFrom?.totalTax || 0))
+    }`;
   }
 
   actionCellRenderer(params: any) {
@@ -186,10 +190,14 @@ export class CartPageComponent implements OnInit {
   recalculateTotalPrice(factor = 1) {
     this.totalPrice$ = this.trips$.pipe(
       map((trips) => {
-        const price =  trips.reduce((acc, trip) => acc + trip.totalAmount, 0);
+        const price =  trips.reduce((acc, trip) => 
+          acc + trip.totalAmount.sumPrice 
+          + trip.totalAmount.totalTax
+          + (trip.totalAmountFrom?.sumPrice || 0)
+          + (trip.totalAmountFrom?.totalTax || 0), 0);
         return Math.round(price * factor);
       }
-      ));
+    ));
   }
 
   onActionMenuClicked(params: any) {
@@ -247,11 +255,19 @@ export class CartPageComponent implements OnInit {
     }
 
     const selectedData = selectedNodes.map(node => node.data);
-    const totalPrice = selectedData.reduce((total, data) => total + data.totalAmount, 0);
+    const totalPrice = selectedData.reduce((total, data) => 
+      total 
+      + data.totalAmount.sumPrice 
+      + data.totalAmount.totalTax 
+      + data.totalAmountFrom?.sumPrice || 0
+      + data.totalAmountFrom?.totalTax || 0,
+    0);
 
     alert(`Payment of ${this.currency}${totalPrice} has been successful!`);
     for (const data of selectedData) {
       this.cartApiService.payTrip(data.id);
+      // TODO: figure out what's wrong with the price
+      // this.cartApiService.updateTripPrice(data.id, totalPrice);
     }
     this.cartApiService.cartCount$.next(this.cartCount - selectedData.length);
     this.store.dispatch(clearSelectedTrip());

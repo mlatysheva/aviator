@@ -234,6 +234,7 @@ export class BookingPassengersComponent implements OnInit, OnDestroy {
 
     const trip$ = this.store.select(selectTrip).pipe(take(1));
     trip$.subscribe((trip: TripState) => {
+      console.log('in booking passengers trip is:', trip);
       this.cartService.updateTrip(trip).subscribe();
     });
   }

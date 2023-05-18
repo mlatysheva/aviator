@@ -13,7 +13,9 @@
         "phone": "0123456789"
       },
       "id": "0f04c977-c041-4fa4-9354-9c7d7cce9c0e",
-      "tripsIds": [],
+      "tripsIds": [
+        "3ebddb4e-e523-4cd9-9bd3-1744e6fbfdea"
+      ],
       "promoCode": "Star Wars",
       "isCodeApplied": true
     },
@@ -46,7 +48,186 @@
       "id": "c5d0b76f-985f-485b-91cb-c1085fe1f75d"
     }
   ],
-  "trips": [],
+  "trips": [
+    {
+      "id": "0067dd06-4fd5-4c62-aa05-629e376e2b04",
+      "userId": "0f04c977-c041-4fa4-9354-9c7d7cce9c0e",
+      "roundTrip": true,
+      "airportsIataCodes": [
+        " PEK",
+        " CDG "
+      ],
+      "originCity": "Beijing",
+      "destinationCity": "Paris",
+      "outboundFlightNo": "FR-193",
+      "outboundDepartureDate": "2023-05-24T22:00:00.000Z",
+      "outboundDepartureTime": "",
+      "outboundArrivalTime": "",
+      "returnFlightNo": "FR-194",
+      "returnDepartureDate": "2023-05-30T22:00:00.000Z",
+      "returnDepartureTime": "",
+      "returnArrivalTime": "",
+      "originAiroportName": "Capital Intl Beijing",
+      "destinationAiroportName": "Charles De Gaulle Paris",
+      "passengers": [],
+      "numberOfPassengers": [
+        {
+          "ageCategory": "adult",
+          "quantity": 1
+        },
+        {
+          "ageCategory": "child",
+          "quantity": 1
+        },
+        {
+          "ageCategory": "infant",
+          "quantity": 0
+        }
+      ],
+      "totalAmount": {
+        "adultPrice": null,
+        "childPrice": null,
+        "infantPrice": null,
+        "sumPrice": null,
+        "totalTax": null
+      },
+      "totalAmountFrom": {
+        "adultPrice": 297,
+        "childPrice": 236,
+        "infantPrice": 0,
+        "sumPrice": 533,
+        "totalTax": 79.95
+      },
+      "contactDetails": {
+        "countryCode": "+0",
+        "phone": ""
+      },
+      "isPaid": false,
+      "type": "[Flight Select] Set Selected Return Flight No"
+    },
+    {
+      "id": "3ebddb4e-e523-4cd9-9bd3-1744e6fbfdea",
+      "userId": "0f04c977-c041-4fa4-9354-9c7d7cce9c0e",
+      "roundTrip": true,
+      "airportsIataCodes": [
+        " PEK",
+        " CDG "
+      ],
+      "originCity": "Beijing",
+      "destinationCity": "Paris",
+      "outboundFlightNo": "FR-193",
+      "outboundDepartureDate": "2023-05-24T22:00:00.000Z",
+      "outboundDepartureTime": "",
+      "outboundArrivalTime": "",
+      "returnFlightNo": "FR-194",
+      "returnDepartureDate": "2023-05-30T22:00:00.000Z",
+      "returnDepartureTime": "",
+      "returnArrivalTime": "",
+      "originAiroportName": "Capital Intl Beijing",
+      "destinationAiroportName": "Charles De Gaulle Paris",
+      "passengers": [
+        {
+          "id": "",
+          "firstName": "Mar",
+          "lastName": "Com",
+          "birthday": "1976-12-31T23:00:00.000Z",
+          "age": 46,
+          "ageCategory": "adult",
+          "seatNo": ""
+        }
+      ],
+      "numberOfPassengers": [
+        {
+          "ageCategory": "adult",
+          "quantity": 1
+        },
+        {
+          "ageCategory": "child",
+          "quantity": 1
+        },
+        {
+          "ageCategory": "infant",
+          "quantity": 0
+        }
+      ],
+      "totalAmount": {
+        "adultPrice": null,
+        "childPrice": null,
+        "infantPrice": null,
+        "sumPrice": null,
+        "totalTax": null
+      },
+      "totalAmountFrom": {
+        "adultPrice": 297,
+        "childPrice": 236,
+        "infantPrice": 0,
+        "sumPrice": 533,
+        "totalTax": 79.95
+      },
+      "contactDetails": {
+        "countryCode": "+7",
+        "phone": "0123456789"
+      },
+      "isPaid": true,
+      "type": "[Booking Passengers] Set Trip Contact Details"
+    },
+    {
+      "id": "ac9c7274-0e82-4cc2-bd4d-2d43307a8be3",
+      "userId": "0f04c977-c041-4fa4-9354-9c7d7cce9c0e",
+      "roundTrip": true,
+      "airportsIataCodes": [
+        " JFK",
+        " BCN "
+      ],
+      "originCity": "New York",
+      "destinationCity": "Barcelona",
+      "outboundFlightNo": "FR-823",
+      "outboundDepartureDate": "2023-05-29T22:00:00.000Z",
+      "outboundDepartureTime": "",
+      "outboundArrivalTime": "",
+      "returnFlightNo": "FR-824",
+      "returnDepartureDate": "2023-05-30T22:00:00.000Z",
+      "returnDepartureTime": "",
+      "returnArrivalTime": "",
+      "originAiroportName": "John F Kennedy Intl New York",
+      "destinationAiroportName": "Barcelona Barcelona",
+      "passengers": [],
+      "numberOfPassengers": [
+        {
+          "ageCategory": "adult",
+          "quantity": 1
+        },
+        {
+          "ageCategory": "child",
+          "quantity": 0
+        },
+        {
+          "ageCategory": "infant",
+          "quantity": 0
+        }
+      ],
+      "totalAmount": {
+        "adultPrice": null,
+        "childPrice": null,
+        "infantPrice": null,
+        "sumPrice": null,
+        "totalTax": null
+      },
+      "totalAmountFrom": {
+        "adultPrice": 84,
+        "childPrice": 0,
+        "infantPrice": 0,
+        "sumPrice": 84,
+        "totalTax": 12.6
+      },
+      "contactDetails": {
+        "countryCode": "+0",
+        "phone": ""
+      },
+      "isPaid": false,
+      "type": "[Flight Select] Set Selected Return Flight No"
+    }
+  ],
   "carts": [],
   "login": {},
   "flightspair": [],

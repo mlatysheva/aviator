@@ -192,8 +192,8 @@ export class CartApiService {
     );
   }
 
-  updateTripPrice(id: string, totalAmount: number) {
-    const response$ = this.http.patch<ITrip>(`${baseUrl}/trips/${id}`, { totalAmount });
+  updateTripPrice(id: string, totalCalculatedAmount: number) {
+    const response$ = this.http.patch<ITrip>(`${baseUrl}/trips/${id}`, { totalCalculatedAmount });
     response$
       .pipe(
         catchError(error => this.handleError(error))
@@ -223,7 +223,10 @@ export class CartApiService {
       tap((trips: ITrip[]) => {
         trips.forEach((trip: ITrip) => {
           if (trip.id) {
-            this.updateTripPrice(trip.id, Math.round(trip.totalAmount * factor));
+            this.updateTripPrice(trip.id, Math.round((trip.totalAmount.sumPrice 
+              + trip.totalAmount.totalTax
+              + (trip.totalAmountFrom?.sumPrice || 0)
+              + (trip.totalAmountFrom?.totalTax || 0)) * factor));
           }
         });
       }),
