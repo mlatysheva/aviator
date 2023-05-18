@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChildren, QueryList, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, ViewChildren, QueryList, OnDestroy, ElementRef, } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { Subscription } from 'rxjs';
@@ -76,9 +76,7 @@ export class CarouselDateComponent implements OnInit, OnDestroy {
   passengersFrom: IAgeTypeQuantity[];
   totalAmount: { adultPrice: number; childPrice: number; infantPrice: number; sumPrice: number; totalTax?: number | undefined; };
   totalAmountFrom: { adultPrice: number; childPrice: number; infantPrice: number; sumPrice: number; totalTax?: number | undefined; };
-  totalTax: { adultPrice: number; childPrice: number; infantPrice: number; sumPrice: number; totalTax?: number | undefined; };
-  totalTaxFrom: { adultPrice: number; childPrice: number; infantPrice: number; sumPrice: number; totalTax?: number | undefined; };
-  numberOfPassengersWithPrices: IAgeTypeQuantity[];
+
 
   //time
   hours: number;
@@ -98,6 +96,7 @@ export class CarouselDateComponent implements OnInit, OnDestroy {
     private aviaService: AviaService,
     public dateService: DateService,
     public sumPriceService: SumPriceService,
+    private elRef: ElementRef
   ) { }
 
   public getDetailsList(from: string, to: string): Observable<IFlight[]> {
@@ -130,17 +129,12 @@ export class CarouselDateComponent implements OnInit, OnDestroy {
         this.getReturnDetailsList(this.returnFlightId);
         this.flightDaysTo = this.result[0].flightDays;
         this.index = this.dateService.getIndexOfDate(this.startDate, this.flightDaysTo);
-        if (this.index !== undefined)
-          this.totalTax = this.sumPriceService.sumpPrices(
-            this.result[0],
-            this.numberOfPassengers,
-            this.index);
         this.totalAmount = this.sumPriceService.sumpPrices(
           this.result[0],
           this.numberOfPassengers,
           this.index);
         this.store.dispatch(SelectActions.setSelectedOutboundFlightNo({ outboundFlightNo: this.flightNumber }));
-
+        this.store.dispatch(SelectActions.setSelectedTotalAmount({ totalAmount: this.totalAmount }));
       }));
     return this.details$;
   }
@@ -170,17 +164,15 @@ export class CarouselDateComponent implements OnInit, OnDestroy {
         this.flightDaysFrom = this.returnDetails[0].flightDays;
         if (this.endDate !== undefined) {
           const index = this.dateService.getIndexOfDate(this.endDate, this.flightDaysFrom);
-          if (index !== undefined)
-            this.totalAmountFrom = this.sumPriceService.sumpPrices(
-              this.returnDetails[0],
-              this.numberOfPassengersFrom,
-              index);
-          this.totalTaxFrom = this.sumPriceService.sumpPrices(
+
+          this.totalAmountFrom = this.sumPriceService.sumpPrices(
             this.returnDetails[0],
-            this.numberOfPassengersFrom,
+            this.numberOfPassengers,
             index);
-          this.store.dispatch(SelectActions.setSelectedReturnFlightNo({ returnFlightNo: this.flightNumberFrom }));
+
+          this.store.dispatch(SelectActions.setSelectedTotalAmountFrom({ totalAmountFrom: this.totalAmountFrom }));
         }
+        this.store.dispatch(SelectActions.setSelectedReturnFlightNo({ returnFlightNo: this.flightNumberFrom }));
       }
       ));
     return this.returnDetails$;
@@ -213,6 +205,7 @@ export class CarouselDateComponent implements OnInit, OnDestroy {
     this.getTripState();
     this.getDetailsList(this.codFrom, this.codTo);
     this.isCanFly = this.dateService.isCanFly(this.startDate);
+    this.addStyleToChoosenDate(this.startDate);
     this.isFly = this.isCanFly ? 'true' : 'false';
     this.timeZoneFrom = this.dateService.findOffset(this.cityFrom);
     this.timeZoneTo = this.dateService.findOffset(this.cityTo);
@@ -220,57 +213,78 @@ export class CarouselDateComponent implements OnInit, OnDestroy {
 
   onClick(e: Event) {
     const element = e.target as HTMLElement;
-    if (element.classList.contains('slide')) {
-      element.classList.toggle('large');
-      const children = element.children;
-      if (element.dataset['index'] === '1') {
-        this.startDate = element.id;
-        this.arrivingDateTo = this.dateService.getArrivingDate(this.startDate, this.departureTime, this.duration);
-        this.slides = this.dateService.dateSlideTo(this.startDate);
-        this.isCanFly = this.dateService.isCanFly(this.startDate);
-        this.isFly = this.isCanFly ? 'true' : 'false';
-        const index = this.dateService.getIndexOfDate(this.startDate, this.flightDaysTo);
-        if (index !== undefined && this.result !== undefined && this.result.length > 0)
-          this.totalTax = this.sumPriceService.sumpPrices(this.result[0], this.numberOfPassengers, index);
+    const children = element.children;
+    const slides = this.elRef.nativeElement.querySelectorAll('.slide');
+    const slidesFrom = this.elRef.nativeElement.querySelectorAll('.slide-from');
+    if (element.dataset['index'] === '1' && element.classList.contains('slide')) {
+      element.classList.add('large');
+      for (let i = 0; i < slides.length; i++) {
+        if (slides[i].classList.contains('large') &&
+          slides[i] !== element &&
+          slides[i].dataset['index'] === '1')
+          slides[i].classList.remove('large');
+        slides[i].children[0].children[0].classList.remove('big-date');
+        slides[i].children[0].children[1].classList.remove('big-weekday');
+        slides[i].children[0].children[2].classList.remove('big-price');
+      }
+      children[0].children[0].classList.add('big-date');
+      children[0].children[1].classList.add('big-weekday');
+      children[0].children[2].classList.add('big-price');
+      this.startDate = element.id;
+      this.arrivingDateTo = this.dateService.getArrivingDate(this.startDate, this.departureTime, this.duration);
+      this.slides = this.dateService.dateSlideTo(this.startDate);
+      this.isCanFly = this.dateService.isCanFly(this.startDate);
+      this.isFly = this.isCanFly ? 'true' : 'false';
+      const index = this.dateService.getIndexOfDate(this.startDate, this.flightDaysTo);
+      if (index !== undefined && this.result !== undefined && this.result.length > 0)
         this.totalAmount = this.sumPriceService.sumpPrices(this.result[0], this.numberOfPassengers, index);
-        this.store.dispatch(SelectActions.setSelectedDepartureDate({ outboundDepartureDate: this.startDate }));
-        this.store.dispatch(SelectActions.setSelectedTotalAmount({ totalAmount: this.totalAmount }));
-        if (this.totalTax !== undefined)
-          this.store.dispatch(SelectActions.setSelectedTotalTax({ totalTax: this.totalTax }));
+      this.store.dispatch(SelectActions.setSelectedDepartureDate({ outboundDepartureDate: this.startDate }));
+      this.store.dispatch(SelectActions.setSelectedTotalAmount({ totalAmount: this.totalAmount }));
+    }
+    if (element.dataset['index'] === '2' && element.classList.contains('slide')) {
+      element.classList.add('large');
+      for (let i = 0; i < slidesFrom.length; i++) {
+        if (
+          slidesFrom[i].classList.contains('large') &&
+          slidesFrom[i] !== element &&
+          slidesFrom[i].dataset['index'] === '2')
+          slidesFrom[i].classList.remove('large');
+        slidesFrom[i].children[0].children[0].classList.remove('big-date');
+        slidesFrom[i].children[0].children[1].classList.remove('big-weekday');
+        slidesFrom[i].children[0].children[2].classList.remove('big-price');
       }
-      if (element.dataset['index'] === '2') {
-        this.endDate = element.id;
-        this.arrivingDateFrom = this.dateService.getArrivingDate(this.endDate, this.departureTimeFrom, this.duration);
-        this.slidesFrom = this.dateService.dateSlideTo(this.endDate);
-        this.isCanFly = this.dateService.isCanFly(this.endDate);
-        this.isFly = this.isCanFly ? 'true' : 'false';
-        const index = this.dateService.getIndexOfDate(this.endDate, this.flightDaysTo);
-        if (index !== undefined && this.returnDetails !== undefined && this.returnDetails.length > 0)
-          this.totalTaxFrom = this.sumPriceService.sumpPrices(this.returnDetails[0], this.numberOfPassengers, index);
+      children[0].children[0].classList.add('big-date');
+      children[0].children[1].classList.add('big-weekday');
+      children[0].children[2].classList.add('big-price');
+      this.endDate = element.id;
+      this.arrivingDateFrom = this.dateService.getArrivingDate(this.endDate, this.departureTimeFrom, this.duration);
+      this.slidesFrom = this.dateService.dateSlideTo(this.endDate);
+      this.isCanFly = this.dateService.isCanFly(this.endDate);
+      this.isFly = this.isCanFly ? 'true' : 'false';
+      const index = this.dateService.getIndexOfDate(this.endDate, this.flightDaysTo);
+      if (index !== undefined && this.returnDetails !== undefined && this.returnDetails.length > 0)
         this.totalAmountFrom = this.sumPriceService.sumpPrices(this.returnDetails[0], this.numberOfPassengers, index);
-        console.log(this.endDate, index, this.totalAmountFrom, this.totalTaxFrom);
-        this.store.dispatch(SelectActions.setSelectedTotalAmountFrom({ totalAmountFrom: this.totalAmountFrom }));
-        if (this.totalTax !== undefined)
-          this.store.dispatch(SelectActions.setSelectedTotalTaxFrom({ totalTaxFrom: this.totalTaxFrom }));
-        this.store.dispatch(SelectActions.setSelectedReturnDate({ returnDepartureDate: this.endDate }));
+      this.store.dispatch(SelectActions.setSelectedReturnDate({ returnDepartureDate: this.endDate }));
+      this.store.dispatch(SelectActions.setSelectedTotalAmountFrom({ totalAmountFrom: this.totalAmountFrom }));
 
-      }
-      for (let i = 0; i < children.length; i++) {
-        if (children[i].classList.contains('slide-date')) {
-          children[i].classList.toggle('big-date');
+    }
+  }
 
-        }
-        if (children[i].classList.contains('slide-weekday')) {
-          children[i].classList.toggle('big-weekday');
-        }
-        if (children[i].classList.contains('slide-price')) {
-          children[i].classList.toggle('big-price');
-        }
+  addStyleToChoosenDate(date: string) {
+    const choosenSlide = this.elRef.nativeElement.querySelectorAll('.slide');
+    console.log(date, choosenSlide);
+    for (let i = 0; i < choosenSlide.length; i++) {
+      if (choosenSlide[i].id === date) {
+
+        choosenSlide[i].classList.add('large');
+        choosenSlide[i].children[0].children[0].classList.add('big-date');
+        choosenSlide[i].children[0].children[1].classList.add('big-weekday');
+        choosenSlide[i].children[0].children[2].classList.add('big-price');
       }
     }
   }
+
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
   }
-
 }

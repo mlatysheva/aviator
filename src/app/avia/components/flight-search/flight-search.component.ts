@@ -1,7 +1,7 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IAirport } from '../../../models/airport';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 import { AviaService } from '../../services/avia.service';
 import { IAgeTypeQuantity } from '../../../models/agetype-quantity.model';
@@ -13,8 +13,7 @@ import { AppState } from '../../../store/state.models';
 import { setSearchForm } from '../../../store/actions/search.actions';
 import { IAgeCategory } from '../../../models/passenger';
 import { setSearchParameters } from '../../../store/actions/trip.actions';
-import { IProgressBar } from '../../../models/progress-bar';
-import { images } from '../../../constants/progressBarImgUrls';
+import { progressBar } from '../../../constants/progressBar';
 import { ProgressBarService } from '../../../core/services/progress-bar.service';
 
 @Component({
@@ -22,7 +21,7 @@ import { ProgressBarService } from '../../../core/services/progress-bar.service'
   templateUrl: './flight-search.component.html',
   styleUrls: ['./flight-search.component.scss'],
 })
-export class FlightSearchComponent implements OnInit {
+export class FlightSearchComponent implements OnInit, OnDestroy {
   @ViewChild(MatOption) matOption: MatOption;
 
   public searchForm: FormGroup;
@@ -30,9 +29,9 @@ export class FlightSearchComponent implements OnInit {
   public airports$: Observable<IAirport[]>;
 
   public passengersList: IAgeTypeQuantity[] = [
-    { ageCategory: IAgeCategory.adult, quantity: 1, fare: 0, tax: 0 },
-    { ageCategory: IAgeCategory.child, quantity: 0, fare: 0, tax: 0 },
-    { ageCategory: IAgeCategory.infant, quantity: 0, fare: 0, tax: 0 },
+    { ageCategory: IAgeCategory.adult, quantity: 1 },
+    { ageCategory: IAgeCategory.child, quantity: 0 },
+    { ageCategory: IAgeCategory.infant, quantity: 0 },
   ];
 
   tripType = localStorage.getItem(TRIP_TYPE) || 'round-trip';
@@ -43,11 +42,7 @@ export class FlightSearchComponent implements OnInit {
 
   public selectedItems: IAgeTypeQuantity[] = [];
 
-  public progressBar: IProgressBar[] = [
-    { stepNo: 1, imgUrl: images.STEP_EDIT, text: 'Flights' },
-    { stepNo: 2, imgUrl: images.STEP_2, text: 'Passengers' },
-    { stepNo: 3, imgUrl: images.STEP_3, text: 'Review & Payment' },
-  ];
+  private subscriptions = new Subscription();
 
   constructor(
     private aviaService: AviaService,
@@ -70,9 +65,22 @@ export class FlightSearchComponent implements OnInit {
     });
     this.getAirportsList();
     this.state$ = this.store.select((appState) => appState);
-    this.state$.subscribe((state: AppState) => {
-      this.dateFormat = state.user.dateFormat;
-    });
+    this.subscriptions.add(
+      this.state$.subscribe((state: AppState) => {
+        this.dateFormat = state.user.dateFormat;
+      })
+    );
+
+    this.subscriptions.add(
+      this.searchForm.controls['departure'].valueChanges.subscribe(() => {
+        this.updateFieldsEqualityValidation();
+      })
+    );
+    this.subscriptions.add(
+      this.searchForm.controls['destination'].valueChanges.subscribe(() => {
+        this.updateFieldsEqualityValidation();
+      })
+    );
   }
 
   get departure() {
@@ -112,7 +120,7 @@ export class FlightSearchComponent implements OnInit {
   }
 
   public onSearch() {
-    this.aviaService.isSearchSubmitted$.next(true);
+    this.aviaService.changeHeaderStyle$.next(true);
 
     this.store.dispatch(
       setSearchParameters({
@@ -147,7 +155,7 @@ export class FlightSearchComponent implements OnInit {
       })
     );
 
-    this.progressBarService.setProgressBar(this.progressBar);
+    this.progressBarService.progressBar$.next(progressBar.FLIGHTS);
 
     // TODO: get rid of search in store because all the data is currently stored in trip structure
     this.store.dispatch(setSearchForm(this.searchForm.value));
@@ -161,8 +169,30 @@ export class FlightSearchComponent implements OnInit {
     return resultString.trim();
   }
 
+  private updateFieldsEqualityValidation() {
+    const departure = this.searchForm.controls['departure'].value;
+    const destination = this.searchForm.controls['destination'].value;
+
+    if (departure.trim() === destination.trim()) {
+      this.searchForm.controls['departure'].setErrors({ equalityError: true });
+      this.searchForm.controls['destination'].setErrors({
+        equalityError: true,
+      });
+    } else {
+      this.searchForm.controls['departure'].setErrors(null);
+      this.searchForm.controls['destination'].setErrors(null);
+    }
+
+    this.searchForm.controls['departure'].markAsTouched();
+    this.searchForm.controls['destination'].markAsTouched();
+  }
+
   private stopPropagationFn(event: Event) {
     event.stopPropagation();
     this.matOption._selectViaInteraction();
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 }

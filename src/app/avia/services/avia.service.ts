@@ -11,7 +11,7 @@ import { baseUrl } from '../../constants/apiUrls';
 export class AviaService {
   constructor(private http: HttpClient) {}
 
-  public isSearchSubmitted$ = new BehaviorSubject<boolean>(false);
+  public changeHeaderStyle$ = new BehaviorSubject<boolean>(false);
 
   public getAirports(): Observable<IAirport[]> {
     const airportsRequestUrl = 'http://localhost:3000/airports';

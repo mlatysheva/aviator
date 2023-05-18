@@ -93,17 +93,9 @@ export const setSelectedTotalAmount = createAction(
   '[Flight Select] Set Selected Total Amount',
   props<{ totalAmount: { adultPrice: number; childPrice: number; infantPrice: number; sumPrice: number; totalTax?: number | undefined; } }>()
 );
-export const setSelectedTotalTax = createAction(
-  '[Flight Select] Set Selected Total Tax',
-  props<{ totalTax: { adultPrice: number; childPrice: number; infantPrice: number; sumPrice: number; totalTax?: number | undefined; } }>()
-);
 export const setSelectedTotalAmountFrom = createAction(
   '[Flight Select] Set Selected Total Amount From',
   props<{ totalAmountFrom: { adultPrice: number; childPrice: number; infantPrice: number; sumPrice: number; totalTax?: number | undefined; } }>()
-);
-export const setSelectedTotalTaxFrom = createAction(
-  '[Flight Select] Set Selected Total Tax From',
-  props<{ totalTaxFrom: { adultPrice: number; childPrice: number; infantPrice: number; sumPrice: number; totalTax?: number | undefined; } }>()
 );
 
 export const setSelectedTripId = createAction(

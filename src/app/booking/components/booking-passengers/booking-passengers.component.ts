@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import {
   AbstractControl,
   FormArray,
@@ -12,8 +17,7 @@ import {
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { IAgeCategory, IPassenger } from 'backend/types';
-import { map, Observable, take, tap } from 'rxjs';
-import { ITrip } from '../../../models/trip';
+import { map, Observable, take, Subscription } from 'rxjs';
 import { TripState } from '../../../store/reducers/trip.reducer';
 import { IAgeTypeQuantity } from '../../../models/agetype-quantity.model';
 import { ICountryCode } from '../../../models/countryCode';
@@ -25,10 +29,8 @@ import { getAge } from '../../../utils/getAge';
 import { PassengersService } from '../../services/passengers.service';
 import { selectTrip } from '../../../store/selectors/trip.selectors';
 import { ProgressBarService } from '../../../core/services/progress-bar.service';
-import { IProgressBar } from '../../../models/progress-bar';
-import { images } from '../../../constants/progressBarImgUrls';
-import { TRIP_ID, USER_ID } from '../../../constants/localStorage';
-import { setTripId, setUserId } from '../../../store/actions/trip.actions';
+import { progressBar } from '../../../constants/progressBar';
+import { TRIP_ID } from '../../../constants/localStorage';
 import { CartApiService } from '../../../cart/services/cart-api.service';
 
 @Component({
@@ -37,7 +39,7 @@ import { CartApiService } from '../../../cart/services/cart-api.service';
   styleUrls: ['./booking-passengers.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BookingPassengersComponent implements OnInit {
+export class BookingPassengersComponent implements OnInit, OnDestroy {
   public passengersCollectionForm: FormGroup;
 
   public trip$!: Observable<TripState | any>;
@@ -59,11 +61,7 @@ export class BookingPassengersComponent implements OnInit {
   public infoText =
     "Add the passenger's name as it is written on their documents (passport or ID). Do not use any accents or special characters. Do not use a nickname.";
 
-  public progressBar: IProgressBar[] = [
-    { stepNo: 1, imgUrl: images.STEP_DONE, text: 'Flights' },
-    { stepNo: 2, imgUrl: images.STEP_DONE, text: 'Passengers' },
-    { stepNo: 3, imgUrl: images.STEP_EDIT, text: 'Review & Payment' },
-  ];
+  private subscriptions = new Subscription();
 
   constructor(
     private store: Store<AppState>,
@@ -72,7 +70,7 @@ export class BookingPassengersComponent implements OnInit {
     private fb: FormBuilder,
     private userService: UserService,
     private progressBarService: ProgressBarService,
-    private cartService: CartApiService,
+    private cartService: CartApiService
   ) {}
 
   ngOnInit() {
@@ -94,13 +92,15 @@ export class BookingPassengersComponent implements OnInit {
       .subscribe();
 
     this.userProfile$ = this.store.select(selectUserProfile);
-    this.userProfile$
-      .pipe(
-        map((userProfile) => {
-          this.createDetailsForm(userProfile as IUser);
-        })
-      )
-      .subscribe();
+    this.subscriptions.add(
+      this.userProfile$
+        .pipe(
+          map((userProfile) => {
+            this.createDetailsForm(userProfile as IUser);
+          })
+        )
+        .subscribe()
+    );
 
     for (let i = 0; i < this.passengersQuauntity; i++) {
       this.addPassengerForm();
@@ -207,25 +207,29 @@ export class BookingPassengersComponent implements OnInit {
     const trip_id = localStorage.getItem(TRIP_ID) as string;
     this.passengersService.savePassengers(this.passengers, trip_id);
     setTimeout(() => {
-      this.passengersService.errorMessage$.subscribe((error) => {
-        if (error !== '') {
-          this.passengersCollectionForm.setErrors({
-            savePassengersError: true,
-          });
-        }
-        if (error === '') {
-          this.router.navigate([routeToNavigate]);
-        }
-      });
+      this.subscriptions.add(
+        this.passengersService.errorMessage$.subscribe((error) => {
+          if (error !== '') {
+            this.passengersCollectionForm.setErrors({
+              savePassengersError: true,
+            });
+          }
+          if (error === '') {
+            this.router.navigate([routeToNavigate]);
+          }
+        })
+      );
     }, 500);
   }
 
   public onBackClick() {
+    this.progressBarService.progressBar$.next(progressBar.FLIGHTS);
     this.formSubmit('flights');
   }
 
   public onNextClick() {
-    this.progressBarService.setProgressBar(this.progressBar);
+    this.progressBarService.progressBar$.next(progressBar.SUMMARY);
+
     this.formSubmit('summary');
 
     const trip$ = this.store.select(selectTrip).pipe(take(1));
@@ -240,5 +244,9 @@ export class BookingPassengersComponent implements OnInit {
 
     const age = (today - birthday) / (1000 * 3600 * 24) / 365;
     return Math.floor(age);
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 }

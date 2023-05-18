@@ -58,20 +58,22 @@ export class DateService {
 
   dateSlideTo(date: string | undefined) {
     const today = date;
+    const yesterday = this.minusOneDay(today);
+    const dayBeforeYesterday = this.minusOneDay(yesterday);
+    const twoDaysBeforeYesterday = this.minusOneDay(dayBeforeYesterday);
     const tomorrow = this.addOneDay(today);
     const dayAfterTomorrow = this.addOneDay(tomorrow);
     const twoDaysAfterTomorrow = this.addOneDay(dayAfterTomorrow);
     const threeDaysAfterTomorrow = this.addOneDay(twoDaysAfterTomorrow);
-    const fourDaysAfterTomorrow = this.addOneDay(threeDaysAfterTomorrow);
-    const fiveDaysAfterTomorrow = this.addOneDay(fourDaysAfterTomorrow);
+
     const slide = [
+      twoDaysBeforeYesterday,
+      yesterday,
       today,
       tomorrow,
       dayAfterTomorrow,
       twoDaysAfterTomorrow,
       threeDaysAfterTomorrow,
-      fourDaysAfterTomorrow,
-      fiveDaysAfterTomorrow,
     ]
     slide.forEach((item) => {
       const departureDate = item;
