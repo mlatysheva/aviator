@@ -1,12 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import {
-  AbstractControl,
-  FormBuilder,
-  FormGroup,
-  ValidationErrors,
-  ValidatorFn,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IAirport } from '../../../models/airport';
 import { Observable, Subscription } from 'rxjs';
 
@@ -71,14 +64,8 @@ export class FlightSearchComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.searchForm = this.fb.group({
       tripType: ['round-trip'],
-      departure: [
-        '',
-        [Validators.required, this.airportValidator('destination')],
-      ],
-      destination: [
-        '',
-        [Validators.required, this.airportValidator('departure')],
-      ],
+      departure: ['', [Validators.required]],
+      destination: ['', [Validators.required]],
       startDate: ['', [Validators.required]],
       endDate: [''],
       passengers: [this.selectedItems, Validators.required],
@@ -90,19 +77,17 @@ export class FlightSearchComponent implements OnInit, OnDestroy {
         this.dateFormat = state.user.dateFormat;
       })
     );
-  }
 
-  airportValidator(typeToCompare: string): ValidatorFn {
-    return (control: AbstractControl): ValidationErrors | null => {
-      const value = control.value.trim() as string;
-      // if (!value) return null;
-      // else {
-      return value &&
-        value === this.searchForm.controls[typeToCompare].value.trim()
-        ? { airportValidator: true }
-        : null;
-      // }
-    };
+    this.subscriptions.add(
+      this.searchForm.controls['departure'].valueChanges.subscribe(() => {
+        this.updateFieldsEqualityValidation();
+      })
+    );
+    this.subscriptions.add(
+      this.searchForm.controls['destination'].valueChanges.subscribe(() => {
+        this.updateFieldsEqualityValidation();
+      })
+    );
   }
 
   get departure() {
@@ -189,6 +174,24 @@ export class FlightSearchComponent implements OnInit, OnDestroy {
     const airportArray = controlValue.split(',');
     resultString = airportArray[1];
     return resultString.trim();
+  }
+
+  private updateFieldsEqualityValidation() {
+    const departure = this.searchForm.controls['departure'].value;
+    const destination = this.searchForm.controls['destination'].value;
+
+    if (departure.trim() === destination.trim()) {
+      this.searchForm.controls['departure'].setErrors({ equalityError: true });
+      this.searchForm.controls['destination'].setErrors({
+        equalityError: true,
+      });
+    } else {
+      this.searchForm.controls['departure'].setErrors(null);
+      this.searchForm.controls['destination'].setErrors(null);
+    }
+
+    this.searchForm.controls['departure'].markAsTouched();
+    this.searchForm.controls['destination'].markAsTouched();
   }
 
   private stopPropagationFn(event: Event) {

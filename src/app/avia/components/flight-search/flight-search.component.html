@@ -26,8 +26,8 @@
         </mat-select>
       </mat-form-field>
       <mat-error *ngIf="departure.errors && departure.invalid && departure.touched">
-        {{ departure.hasError('airportValidator')
-        ? 'The departure airports duplicates destination. Please enter another departure airport'
+        {{ departure.hasError('equalityError')
+        ? 'The fields should not be equal. Please enter another departure airport'
         : 'Please enter a departure airport' }}
       </mat-error>
 
@@ -52,12 +52,9 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
-      <!-- <mat-error *ngIf="destination.errors && destination.invalid && destination.touched">
-        Please enter a destination airport
-      </mat-error> -->
       <mat-error *ngIf="destination.errors && destination.invalid && destination.touched">
-        {{ destination.hasError('airportValidator')
-        ? 'The departure airports duplicates destination. Please enter another departure airport'
+        {{ destination.hasError('equalityError')
+        ? 'The fields should not be equal. Please enter another destination airport'
         : 'Please enter a departure airport' }}
       </mat-error>
     </div>
