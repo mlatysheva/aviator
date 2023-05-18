@@ -82,8 +82,8 @@
               </div>
             </div>
           </div>
-          <p>Total tax: {{trip.totalTax.totalTax}}</p>
-          <p><b>Total: {{(trip.totalAmount.sumPrice + trip.totalTax?.totalTax)}}</b></p>
+          <p>Total tax: {{trip.totalAmount.totalTax}}</p>
+          <p><b>Total: {{(trip.totalAmount.sumPrice + trip.totalAmount?.totalTax)}}</b></p>
         </mat-card-content>
       </mat-card>
     </div>

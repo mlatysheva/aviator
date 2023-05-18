@@ -24,9 +24,7 @@ export interface TripState {
   returnArrivalTime?: string;
   passengers: IPassenger[];
   totalAmount: { adultPrice: number; childPrice: number; infantPrice: number; sumPrice: number; totalTax?: number | undefined; }
-  totalTax: { adultPrice: number; childPrice: number; infantPrice: number; sumPrice: number; totalTax?: number | undefined; }
   totalAmountFrom?: { adultPrice: number; childPrice: number; infantPrice: number; sumPrice: number; totalTax?: number | undefined; }
-  totalTaxFrom?: { adultPrice: number; childPrice: number; infantPrice: number; sumPrice: number; totalTax?: number | undefined; }
   contactDetails: IContacts;
   numberOfPassengers: IAgeTypeQuantity[];
   isPaid?: boolean;
@@ -52,9 +50,7 @@ export const initialState: TripState = {
   passengers: [],
   numberOfPassengers: [],
   totalAmount: { adultPrice: 0, childPrice: 0, infantPrice: 0, sumPrice: 0, totalTax: 0 },
-  totalTax: { adultPrice: 0, childPrice: 0, infantPrice: 0, sumPrice: 0, totalTax: 0 },
   totalAmountFrom: { adultPrice: 0, childPrice: 0, infantPrice: 0, sumPrice: 0, totalTax: 0 },
-  totalTaxFrom: { adultPrice: 0, childPrice: 0, infantPrice: 0, sumPrice: 0, totalTax: 0 },
   contactDetails: {
     countryCode: '+0',
     phone: '',
@@ -156,13 +152,7 @@ export const tripReducer = createReducer(
       ...payload,
     })
   ),
-  on(
-    SelectedActions.setSelectedTotalTax,
-    (state, payload): TripState => ({
-      ...state,
-      ...payload,
-    })
-  ),
+
   on(
     SelectedActions.setSelectedTotalAmountFrom,
     (state, payload): TripState => ({
@@ -170,14 +160,6 @@ export const tripReducer = createReducer(
       ...payload,
     })
   ),
-  on(
-    SelectedActions.setSelectedTotalTaxFrom,
-    (state, payload): TripState => ({
-      ...state,
-      ...payload,
-    })
-  ),
-
   on(
     SelectedActions.clearSelectedTrip,
     (): TripState => ({
@@ -193,9 +175,8 @@ export const tripReducer = createReducer(
       outboundFlightNo: '',
       passengers: [],
       totalAmount: { adultPrice: 0, childPrice: 0, infantPrice: 0, sumPrice: 0, totalTax: 0 },
-      totalTax: { adultPrice: 0, childPrice: 0, infantPrice: 0, sumPrice: 0, totalTax: 0 },
       totalAmountFrom: { adultPrice: 0, childPrice: 0, infantPrice: 0, sumPrice: 0, totalTax: 0 },
-      totalTaxFrom: { adultPrice: 0, childPrice: 0, infantPrice: 0, sumPrice: 0, totalTax: 0 },
+
     })
   ),
   on(
@@ -246,9 +227,7 @@ export const tripReducer = createReducer(
     destinationAiroportName: '',
     passengers: [],
     totalAmount: { adultPrice: 0, childPrice: 0, infantPrice: 0, sumPrice: 0, totalTax: 0 },
-    totalTax: { adultPrice: 0, childPrice: 0, infantPrice: 0, sumPrice: 0, totalTax: 0 },
     totalAmountFrom: { adultPrice: 0, childPrice: 0, infantPrice: 0, sumPrice: 0, totalTax: 0 },
-    totalTaxFrom: { adultPrice: 0, childPrice: 0, infantPrice: 0, sumPrice: 0, totalTax: 0 },
     contactDetails: {
       countryCode: '+0',
       phone: '',
