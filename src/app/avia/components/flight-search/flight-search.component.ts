@@ -13,8 +13,7 @@ import { AppState } from '../../../store/state.models';
 import { setSearchForm } from '../../../store/actions/search.actions';
 import { IAgeCategory } from '../../../models/passenger';
 import { setSearchParameters } from '../../../store/actions/trip.actions';
-import { IProgressBar } from '../../../models/progress-bar';
-import { images } from '../../../constants/progressBarImgUrls';
+import { progressBar } from '../../../constants/progressBar';
 import { ProgressBarService } from '../../../core/services/progress-bar.service';
 
 @Component({
@@ -42,12 +41,6 @@ export class FlightSearchComponent implements OnInit, OnDestroy {
   state$: Observable<AppState>;
 
   public selectedItems: IAgeTypeQuantity[] = [];
-
-  public progressBar: IProgressBar[] = [
-    { stepNo: 1, imgUrl: images.STEP_EDIT, text: 'Flights' },
-    { stepNo: 2, imgUrl: images.STEP_2, text: 'Passengers' },
-    { stepNo: 3, imgUrl: images.STEP_3, text: 'Review & Payment' },
-  ];
 
   private subscriptions = new Subscription();
 
@@ -162,7 +155,7 @@ export class FlightSearchComponent implements OnInit, OnDestroy {
       })
     );
 
-    this.progressBarService.setProgressBar(this.progressBar);
+    this.progressBarService.progressBar$.next(progressBar.FLIGHTS);
 
     // TODO: get rid of search in store because all the data is currently stored in trip structure
     this.store.dispatch(setSearchForm(this.searchForm.value));

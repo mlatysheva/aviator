@@ -1,9 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
-import { selectCurrentProgressBar } from 'src/app/store/selectors/progress-bar.selectors';
-import { AppState } from 'src/app/store/state.models';
+import { Subscription } from 'rxjs';
 import { IProgressBar } from '../../../models/progress-bar';
+import { ProgressBarService } from '../../services/progress-bar.service';
 
 @Component({
   selector: 'app-progres-bar',
@@ -11,17 +9,15 @@ import { IProgressBar } from '../../../models/progress-bar';
   styleUrls: ['./progres-bar.component.scss'],
 })
 export class ProgresBarComponent implements OnInit, OnDestroy {
-  public progressBar$!: Observable<IProgressBar[]>;
   public progressBar: IProgressBar[];
 
   private subscriptions = new Subscription();
 
-  constructor(private store: Store<AppState>) {}
+  constructor(private progressBarService: ProgressBarService) {}
 
   ngOnInit(): void {
-    this.progressBar$ = this.store.select(selectCurrentProgressBar);
     this.subscriptions.add(
-      this.progressBar$.subscribe(
+      this.progressBarService.progressBar$.subscribe(
         (progressBar) => (this.progressBar = progressBar)
       )
     );

@@ -9,6 +9,8 @@ import { Router } from '@angular/router';
 import { ICart } from '../../../models/cart';
 import { TripState } from 'src/app/store/reducers/trip.reducer';
 import { AviaService } from 'src/app/avia/services/avia.service';
+import { ProgressBarService } from 'src/app/core/services/progress-bar.service';
+import { progressBar } from '../../../constants/progressBar';
 
 @Component({
   selector: 'app-booking-summary',
@@ -31,7 +33,8 @@ export class BookingSummaryComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store<AppState>,
     private router: Router,
-    private aviaService: AviaService
+    private aviaService: AviaService,
+    private progressBarService: ProgressBarService
   ) {}
 
   ngOnInit() {
@@ -43,6 +46,7 @@ export class BookingSummaryComponent implements OnInit, OnDestroy {
   }
 
   public onBackClick() {
+    this.progressBarService.progressBar$.next(progressBar.PASSENGERS);
     this.router.navigate(['passengers']);
   }
 
