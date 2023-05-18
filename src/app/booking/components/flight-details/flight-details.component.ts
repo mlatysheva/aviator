@@ -42,9 +42,7 @@ export class FlightDetailsComponent implements OnInit, OnDestroy {
   @Input() arrivingDateFrom: string;
   @Input() numberOfPassengers: IAgeTypeQuantity[];
   @Input() totalAmount: number;
-  @Input() totalTax: number;
   @Input() totalAmountFrom: number;
-  @Input() totalTaxFrom: number;
   @Input() type: number;
   @Input() flightDaysTo: number[];
   @Input() flightDaysFrom: number[];
