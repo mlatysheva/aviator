@@ -38,19 +38,23 @@ export class AuthService {
     private store: Store,
     private router: Router,
     private cartService: CartApiService,
-  ) {}
+  ) { }
 
   onLogin(email: string, password: string) {
     const response$ = this.http.post<IUser>(`${baseUrl}/login`, { email, password });
     response$
       .pipe(
-        catchError(error => this.handleError(error))
+        catchError(async (error) => this.handleError(error))
       )
-      .subscribe((userData: IUser) => {
+      .subscribe((userData: IUser | Error) => {
+        if (userData instanceof Error) {
+          this.errorMessage$.next(userData.message);
+          return;
+        }
         if (userData.firstName) {
           localStorage.setItem(USER_NAME, userData.firstName);
           this.userName$.next(userData.firstName);
-        } 
+        }
         if (userData.email) {
           localStorage.setItem(USER_EMAIL, userData.email);
           this.email$.next(userData.email);
@@ -65,20 +69,24 @@ export class AuthService {
           this.cartService.cartCount$.next(count);
         });
       });
-    return response$;    
+    return response$;
   }
 
   onSignup(user: IUser) {
     const response$ = this.http.post<IUser>(`${baseUrl}/users`, user);
     response$
       .pipe(
-        catchError(error => this.handleError(error))
+        catchError(async (error) => this.handleError(error))
       )
-      .subscribe((userData: IUser) => {
+      .subscribe((userData: IUser | Error) => {
+        if (userData instanceof Error) {
+          this.errorMessage$.next(userData.message);
+          return;
+        }
         if (userData.firstName) {
           localStorage.setItem(USER_NAME, userData.firstName);
           this.userName$.next(userData.firstName);
-        } 
+        }
         if (userData.email) {
           localStorage.setItem(USER_EMAIL, userData.email);
           this.email$.next(userData.email);
@@ -99,16 +107,17 @@ export class AuthService {
     this.cartService.cartCount$.next(0);
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  handleError(error: any) {
+
+  handleError(error: ErrorEvent) {
     let errorMessage = '';
     if (error.error instanceof ErrorEvent) {
       errorMessage = error.error.message;
       this.errorMessage$.next(errorMessage);
     } else {
-      errorMessage = `${error.error.message}; error code: ${error.status}`;
+      errorMessage = `${error.error.message}; error code: ${error}`;
       this.errorMessage$.next(errorMessage);
     }
-    return throwError(errorMessage);
+    const err = new Error('test'); throwError(() => err);
+    return err;
   }
 }
