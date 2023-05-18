@@ -124,7 +124,7 @@ export class SignupComponent implements OnInit {
         countryCode,
         phone,
       },
-      promoCode: PROMOCODES[Math.random()*PROMOCODES.length] || PROMOCODES[0],
+      promoCode: PROMOCODES[Math.round(Math.random()*PROMOCODES.length)] || PROMOCODES[0],
       isCodeApplied: false,
     }
     this.authService.onSignup(user);
