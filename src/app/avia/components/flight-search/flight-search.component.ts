@@ -127,7 +127,7 @@ export class FlightSearchComponent implements OnInit, OnDestroy {
   }
 
   public onSearch() {
-    this.aviaService.isSearchSubmitted$.next(true);
+    this.aviaService.changeHeaderStyle$.next(true);
 
     this.store.dispatch(
       setSearchParameters({

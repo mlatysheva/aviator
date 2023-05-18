@@ -14,6 +14,6 @@ export class MainPageComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.aviaService.isSearchSubmitted$.next(false);
+    this.aviaService.changeHeaderStyle$.next(false);
   }
 }

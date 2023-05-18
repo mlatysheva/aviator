@@ -8,6 +8,7 @@ import { selectTrip } from '../../../store/selectors/trip.selectors';
 import { Router } from '@angular/router';
 import { ICart } from '../../../models/cart';
 import { TripState } from 'src/app/store/reducers/trip.reducer';
+import { AviaService } from 'src/app/avia/services/avia.service';
 
 @Component({
   selector: 'app-booking-summary',
@@ -27,7 +28,11 @@ export class BookingSummaryComponent implements OnInit, OnDestroy {
 
   private subscriptions = new Subscription();
 
-  constructor(private store: Store<AppState>, private router: Router) {}
+  constructor(
+    private store: Store<AppState>,
+    private router: Router,
+    private aviaService: AviaService
+  ) {}
 
   ngOnInit() {
     this.trip$ = this.store.select(selectTrip);
@@ -42,6 +47,7 @@ export class BookingSummaryComponent implements OnInit, OnDestroy {
   }
 
   public onBuyClick() {
+    this.aviaService.changeHeaderStyle$.next(false);
     this.router.navigate(['cart']);
   }
 

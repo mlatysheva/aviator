@@ -7,16 +7,16 @@ import { AviaService } from '../../../avia/services/avia.service';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit, OnDestroy {
-  public isSubmitted = false;
+  public changeStyle = false;
 
   constructor(public aviaService: AviaService) {}
 
   ngOnInit() {
-    this.aviaService.isSearchSubmitted$.subscribe(
-      (isSubmitted) => (this.isSubmitted = isSubmitted)
+    this.aviaService.changeHeaderStyle$.subscribe(
+      (changeStyle) => (this.changeStyle = changeStyle)
     );
   }
   ngOnDestroy() {
-    this.aviaService.isSearchSubmitted$.unsubscribe();
+    this.aviaService.changeHeaderStyle$.unsubscribe();
   }
 }
