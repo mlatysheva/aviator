@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, Subscription, catchError, concatMap, forkJoin, map, mergeMap, of, switchMap, tap, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, concatMap, forkJoin, map, mergeMap, of, switchMap, tap, throwError } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { baseUrl } from '../../constants/apiUrls';
 import { Store } from '@ngrx/store';
@@ -7,6 +7,7 @@ import { ICart } from '../../models/cart';
 import { ITrip } from '../../models/trip';
 import { IUser } from '../../models';
 import { USER_ID } from '../../constants/localStorage';
+import { TripState } from '../../store/reducers/trip.reducer';
 
 @Injectable({
   providedIn: 'root'
@@ -19,23 +20,10 @@ export class CartApiService {
 
   constructor(
     private http: HttpClient,
-    private store: Store,
   ) { this.getCartCount(localStorage.getItem(USER_ID) || '').subscribe(count => {
         this.cartCount$.next(count);
       });
     }
-
-  // getCart(id: string) {
-  //   const response$ = this.http.get<ICart>(`${baseUrl}/carts/${id}`);
-  //   response$
-  //     .pipe(
-  //       catchError(error => this.handleError(error))
-  //     )
-  //     .subscribe((cart: ICart) => {
-  //       this.errorMessage$.next('');
-  //     });
-  //   return response$;
-  // }
 
   getTripsByCartId(id: string) {
     return this.http.get<ICart>(`${baseUrl}/carts/${id}`).pipe(
@@ -70,6 +58,18 @@ export class CartApiService {
       switchMap((user: IUser) => {
         if(user.tripsIds?.length) {
           return forkJoin(user.tripsIds.map(tripId => this.getTrip(tripId)));
+        }
+        return of([]);
+      })
+    )
+  }
+
+  getTripsIdsByUserId(id: string) {
+    return this.http.get<IUser>(`${baseUrl}/users/${id}`).pipe(
+      catchError(error => this.handleError(error)),
+      switchMap((user: IUser) => {
+        if(user.tripsIds?.length) {
+          return user.tripsIds;
         }
         return of([]);
       })
@@ -111,20 +111,6 @@ export class CartApiService {
     )
   }
 
-  // getUnpaidTripsByCartId(id: string) {
-  //   return this.http.get<ICart>(`${baseUrl}/carts/${id}`).pipe(
-  //     catchError(error => this.handleError(error)),
-  //     switchMap((cart: ICart) => {
-  //       if(cart.tripsIds?.length) {
-  //         return forkJoin(cart.tripsIds.map(tripId => this.getTrip(tripId))).pipe(
-  //           map((trips: ITrip[]) => trips.filter(trip => !trip.isPaid))
-  //         );
-  //       }
-  //       return of([]);
-  //     })
-  //   )
-  // }
-
   getTrip(id: string) {
     const response$ = this.http.get<ITrip>(`${baseUrl}/trips/${id}`);
     response$
@@ -137,8 +123,8 @@ export class CartApiService {
     return response$;
   }
 
-  deleteTrip(id: string) {
-    const response$ = this.http.delete<ITrip>(`${baseUrl}/trips/${id}`);
+  addTrip(trip: TripState) {
+    const response$ = this.http.post<ITrip>(`${baseUrl}/trips`, trip);
     response$
       .pipe(
         catchError(error => this.handleError(error))
@@ -147,6 +133,63 @@ export class CartApiService {
         this.errorMessage$.next('');
       });
     return response$;
+  }
+
+  updateTrip(trip: TripState) {
+    const response$ = this.http.patch<ITrip>(`${baseUrl}/trips/${trip.id}`, trip);
+    response$
+      .pipe(
+        catchError(error => this.handleError(error))
+      )
+      .subscribe((trip: ITrip) => {
+        this.errorMessage$.next('');
+      });
+    return response$;
+  }
+
+  addTripIdToUser(userId: string, tripId: string) {
+    const user = this.http.get<IUser>(`${baseUrl}/users/${userId}`);
+    const tripsIds = user.pipe(
+      map((user: IUser) => {
+        if (user.tripsIds) {
+          return [...user.tripsIds, tripId];
+        }
+        return [tripId];
+      })
+    );
+    const response$ = tripsIds.pipe(
+      switchMap((tripsIds: string[]) => this.http.patch<IUser>(`${baseUrl}/users/${userId}`, { tripsIds })) 
+    );
+    return response$;
+  }
+
+  removeTripIdFromUser(userId: string, tripId: string) {
+    return this.http.get<IUser>(`${baseUrl}/users/${userId}`).pipe(
+      map((user: IUser) => {
+        if (user.tripsIds) {
+          console.log('user.tripsIds', user.tripsIds);
+          return user.tripsIds.filter(id => id !== tripId);
+        }
+        return [];
+      }),
+      switchMap((tripsIds: string[]) => 
+        this.http.patch<IUser>(`${baseUrl}/users/${userId}`, { tripsIds })
+      )
+    );
+  }
+
+  deleteTrip(id: string, userId: string) {
+    return this.removeTripIdFromUser(userId, id).pipe(
+      switchMap(() => this.http.delete<ITrip>(`${baseUrl}/trips/${id}`)),
+      catchError(error => {
+        this.handleError(error);
+        return of(null); 
+      }),
+      tap(() => {
+        console.log('Trip deleted');
+        this.errorMessage$.next('');
+      })
+    );
   }
 
   updateTripPrice(id: string, totalAmount: number) {

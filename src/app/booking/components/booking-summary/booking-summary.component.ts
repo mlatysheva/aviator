@@ -29,8 +29,7 @@ export class BookingSummaryComponent implements OnInit {
   constructor(
     private store: Store<AppState>,
     private router: Router,
-    private cartApiService: CartApiService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.trip$ = this.store.select(selectTrip);
@@ -43,8 +42,8 @@ export class BookingSummaryComponent implements OnInit {
   }
 
   public onBuyClick() {
-    if (this.trips.length) {
+    // if (this.trips.length) {
       this.router.navigate(['cart']);
-    }
+    // }
   }
 }

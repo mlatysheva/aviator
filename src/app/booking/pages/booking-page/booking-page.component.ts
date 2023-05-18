@@ -3,10 +3,15 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../store/state.models';
 import { IProgressBar } from '../../../models/progress-bar';
-import { TRIP_ID } from '../../../constants/localStorage';
+import { TRIP_ID, USER_ID } from '../../../constants/localStorage';
 import { images } from '../../../constants/progressBarImgUrls';
 import { ProgressBarService } from '../../../core/services/progress-bar.service';
+import { CartApiService } from '../../../cart/services/cart-api.service';
+import { ITrip } from '../../../models';
+import { take, tap } from 'rxjs';
+import { selectTrip } from '../../../store/selectors/trip.selectors';
 import * as SelectActions from '../../../store/actions/select.actions';
+import { setUserId, setTripId } from '../../../store/actions/trip.actions';
 
 @Component({
   selector: 'app-booking-page',
@@ -20,11 +25,14 @@ export class BookingPageComponent {
     { stepNo: 3, imgUrl: images.STEP_3, text: 'Review & Payment' },
   ];
 
+  tripData: ITrip;
+
   constructor(
     private router: Router,
-    private progressBarService: ProgressBarService,
+    private progressBarService: ProgressBarService, 
     private store: Store<AppState>,
-  ) { }
+    private cartService: CartApiService,
+  ) {}
 
   onBackClick() {
     this.store.dispatch(SelectActions.clearSelectedTrip());
@@ -33,8 +41,33 @@ export class BookingPageComponent {
 
   onNextClick() {
     this.progressBarService.setProgressBar(this.progressBar);
-    //TODO: create a separate method in a service, add a real id to the newly created trip and put in a LS
-    localStorage.setItem(TRIP_ID, '88cec744-b2a2-4b87-abaf-1c7a6ee22f11');
+
+    const tripId = localStorage.getItem(TRIP_ID);
+    const userId = localStorage.getItem(USER_ID);
+
+    const trip$ = this.store.select(selectTrip);
+    trip$.pipe(
+      take(1),
+      tap((trip) => {
+        if (userId && !tripId) {
+          const updatedTrip = {
+            ...trip,
+            userId: JSON.parse(JSON.stringify(userId)),
+          };
+          this.cartService.addTrip(updatedTrip).pipe(
+            tap((newTrip) => {
+              if (newTrip.id) {
+                localStorage.setItem(TRIP_ID, newTrip.id);
+                this.cartService.addTripIdToUser(userId, newTrip.id).subscribe();
+                this.store.dispatch(setTripId({ id: localStorage.getItem(TRIP_ID) || '' }));
+                this.store.dispatch(setUserId({ userId: localStorage.getItem(USER_ID) || '' }));
+              }
+            })
+          ).subscribe();
+        }
+      })
+    ).subscribe();
+
     this.router.navigate(['passengers']);
   }
 }

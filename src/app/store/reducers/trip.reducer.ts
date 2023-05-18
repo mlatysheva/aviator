@@ -27,6 +27,7 @@ export interface TripState {
   totalAmountFrom?: { adultPrice: number; childPrice: number; infantPrice: number; sumPrice: number; totalTax?: number | undefined; }
   contactDetails: IContacts;
   numberOfPassengers: IAgeTypeQuantity[];
+  isPaid?: boolean;
 }
 
 export const initialState: TripState = {
@@ -54,6 +55,7 @@ export const initialState: TripState = {
     countryCode: '+0',
     phone: '',
   },
+  isPaid: false,
 };
 
 export const tripReducer = createReducer(
@@ -186,6 +188,20 @@ export const tripReducer = createReducer(
   ),
   on(
     TripActions.setTripContactDetails,
+    (state, payload): TripState => ({
+      ...state,
+      ...payload,
+    })
+  ),
+  on(
+    TripActions.setTripId, 
+    (state, payload): TripState => ({
+      ...state,
+      ...payload,
+    })
+  ),
+  on(
+    TripActions.setUserId,
     (state, payload): TripState => ({
       ...state,
       ...payload,

@@ -139,13 +139,7 @@ export class AccountPageComponent implements OnInit {
     });
   }
 
-  onGridReady(params: GridReadyEvent) {
-    this.user$ = this.userService.getUserById(this.userId);
-    this.user$.subscribe((user) => {
-      this.promoCode = user.promoCode;
-      this.isCodeApplied = user.isCodeApplied || false;
-    });
-    
+  onGridReady(params: GridReadyEvent) {    
     this.trips$ = this.cartApiService.getPaidTripsByUserId(this.userId);
   }
 

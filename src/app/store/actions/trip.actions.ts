@@ -15,7 +15,18 @@ export const setSearchParameters = createAction(
     destinationAiroportName: string;
     returnDepartureDate: string;
     numberOfPassengers: IAgeTypeQuantity[];
+    isPaid?: boolean;
   }>()
+); 
+
+export const setTripId = createAction(
+  '[Select Flights] Set Trip Id',
+  props<{ id: string }>()
+);
+
+export const setUserId = createAction(
+  '[Select Flights] Set User Id',
+  props<{ userId: string }>()
 );
 
 export const setPassengers = createAction(
