@@ -36,7 +36,8 @@
             "scripts": [],
             "allowedCommonJsDependencies": [
               "city-timezones",
-              "countries-and-timezones"
+              "countries-and-timezones",
+              "currency-symbol-map"
            ]
           },
           "configurations": {
@@ -124,9 +125,11 @@
       "@angular-eslint/schematics",
       "@ngrx/schematics",
       "@ngrx/schematics",
-      "@ngrx/schematics"
+      "@ngrx/schematics",
+      "@angular/material",
+      "@schematics/angular"
     ],
-    "defaultCollection": "@ngrx/schematics",
+
     "analytics": false
   }
 }
