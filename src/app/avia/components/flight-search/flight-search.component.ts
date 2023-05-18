@@ -30,9 +30,9 @@ export class FlightSearchComponent implements OnInit, OnDestroy {
   public airports$: Observable<IAirport[]>;
 
   public passengersList: IAgeTypeQuantity[] = [
-    { ageCategory: IAgeCategory.adult, quantity: 1, fare: 0, tax: 0 },
-    { ageCategory: IAgeCategory.child, quantity: 0, fare: 0, tax: 0 },
-    { ageCategory: IAgeCategory.infant, quantity: 0, fare: 0, tax: 0 },
+    { ageCategory: IAgeCategory.adult, quantity: 1 },
+    { ageCategory: IAgeCategory.child, quantity: 0 },
+    { ageCategory: IAgeCategory.infant, quantity: 0 },
   ];
 
   tripType = localStorage.getItem(TRIP_TYPE) || 'round-trip';

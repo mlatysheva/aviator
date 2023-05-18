@@ -1,5 +1,4 @@
-import { Component, Input, ElementRef, OnInit, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Component, Input, ElementRef } from '@angular/core';
 import { DateService } from '../../services/date.service';
 import { IAgeTypeQuantity } from '../../../models/agetype-quantity.model';
 import { SumPriceService } from '../../services/sum-price.service';
@@ -9,7 +8,7 @@ import { SumPriceService } from '../../services/sum-price.service';
   templateUrl: './flight-details.component.html',
   styleUrls: ['./flight-details.component.scss'],
 })
-export class FlightDetailsComponent implements OnInit, OnDestroy {
+export class FlightDetailsComponent {
   @Input() isFly: string;
   @Input() from: string;
   @Input() to: string;
@@ -49,13 +48,8 @@ export class FlightDetailsComponent implements OnInit, OnDestroy {
   @Input() dateFormat: string;
   classTo = '';
   classFrom = '';
-  private subscriptions = new Subscription();
 
-  constructor(
-    public dateService: DateService,
-    private el: ElementRef,
-    private sumPriceService: SumPriceService,
-  ) { }
+  constructor(public dateService: DateService, private el: ElementRef) {}
 
   onEditFlight(e: Event) {
     e.preventDefault();
@@ -94,15 +88,4 @@ export class FlightDetailsComponent implements OnInit, OnDestroy {
       this.classFrom = 'none';
     }
   }
-
-  ngOnInit(): void {
-    this.subscriptions.add(
-      this.sumPriceService.passengersWithFareAndTax$.subscribe(
-        (passengers) => (this.numberOfPassengers = passengers)
-      ));
-  }
-  ngOnDestroy(): void {
-    this.subscriptions.unsubscribe();
-  }
-
 }
