@@ -34,33 +34,30 @@ export class MenuComponent implements OnInit, OnDestroy {
   selectedCurrency = localStorage.getItem(CURRENCY) || 'EUR';
   selectedDateFormat = localStorage.getItem(DATE_FORMAT) || 'DD/MM/YYYY';
 
-  public isSubmitted = false;
+  public changeStyle = false;
 
   constructor(
     private authService: AuthService,
     private aviaService: AviaService,
     private store: Store,
     private cartService: CartApiService,
-    private router: Router,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
-    this.authSubscription = this.authService.isAuth$.subscribe(
-      (isAuth) => {
-        this.isAuth = isAuth;
-        if (isAuth) {
-          this.userName =
-            localStorage.getItem(USER_NAME) || '';
-        }
+    this.authSubscription = this.authService.isAuth$.subscribe((isAuth) => {
+      this.isAuth = isAuth;
+      if (isAuth) {
+        this.userName = localStorage.getItem(USER_NAME) || '';
       }
-    );
+    });
 
     this.cartSubscription = this.cartService.cartCount$.subscribe(
       (cartCount) => (this.cartCount = cartCount)
     );
 
-    this.aviaService.isSearchSubmitted$.subscribe(
-      (isSubmitted) => (this.isSubmitted = isSubmitted)
+    this.aviaService.changeHeaderStyle$.subscribe(
+      (changeStyle) => (this.changeStyle = changeStyle)
     );
   }
 
@@ -83,7 +80,7 @@ export class MenuComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.aviaService.isSearchSubmitted$.unsubscribe();
+    this.aviaService.changeHeaderStyle$.unsubscribe();
     this.authService.isAuth$.unsubscribe();
   }
 }

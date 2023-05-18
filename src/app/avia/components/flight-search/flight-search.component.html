@@ -26,7 +26,9 @@
         </mat-select>
       </mat-form-field>
       <mat-error *ngIf="departure.errors && departure.invalid && departure.touched">
-        Please enter a departure airport
+        {{ departure.hasError('equalityError')
+        ? 'The fields should not be equal. Please enter another departure airport'
+        : 'Please enter a departure airport' }}
       </mat-error>
 
       <div class="reverse-btn" (click)="changeValues()">
@@ -51,7 +53,9 @@
         </mat-select>
       </mat-form-field>
       <mat-error *ngIf="destination.errors && destination.invalid && destination.touched">
-        Please enter a destination airport
+        {{ destination.hasError('equalityError')
+        ? 'The fields should not be equal. Please enter another destination airport'
+        : 'Please enter a departure airport' }}
       </mat-error>
     </div>
 

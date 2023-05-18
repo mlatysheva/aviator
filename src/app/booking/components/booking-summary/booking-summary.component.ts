@@ -1,21 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { map, Observable } from 'rxjs';
+import { map, Observable, Subscription } from 'rxjs';
 
 import { AppState } from '../../../store/state.models';
 import { ITrip } from '../../../models/trip';
 import { selectTrip } from '../../../store/selectors/trip.selectors';
 import { Router } from '@angular/router';
-import { CartApiService } from '../../../cart/services/cart-api.service';
 import { ICart } from '../../../models/cart';
 import { TripState } from 'src/app/store/reducers/trip.reducer';
+import { AviaService } from 'src/app/avia/services/avia.service';
+import { ProgressBarService } from 'src/app/core/services/progress-bar.service';
+import { progressBar } from '../../../constants/progressBar';
 
 @Component({
   selector: 'app-booking-summary',
   templateUrl: './booking-summary.component.html',
   styleUrls: ['./booking-summary.component.scss'],
 })
-export class BookingSummaryComponent implements OnInit {
+export class BookingSummaryComponent implements OnInit, OnDestroy {
   public trip$!: Observable<TripState>;
   public trip: TripState;
   public trips: ITrip[];
@@ -26,24 +28,34 @@ export class BookingSummaryComponent implements OnInit {
   public tripIds: string[];
   public taxRate: number;
 
+  private subscriptions = new Subscription();
+
   constructor(
     private store: Store<AppState>,
     private router: Router,
+    private aviaService: AviaService,
+    private progressBarService: ProgressBarService
   ) {}
 
   ngOnInit() {
     this.trip$ = this.store.select(selectTrip);
-    this.trip$.pipe(map((trip) => (this.trip = trip))).subscribe();
+    this.subscriptions.add(
+      this.trip$.pipe(map((trip) => (this.trip = trip))).subscribe()
+    );
     this.taxRate = 0.15;
   }
 
   public onBackClick() {
+    this.progressBarService.progressBar$.next(progressBar.PASSENGERS);
     this.router.navigate(['passengers']);
   }
 
   public onBuyClick() {
-    // if (this.trips.length) {
-      this.router.navigate(['cart']);
-    // }
+    this.aviaService.changeHeaderStyle$.next(false);
+    this.router.navigate(['cart']);
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 }
