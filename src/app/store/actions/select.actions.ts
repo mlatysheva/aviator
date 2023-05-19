@@ -97,7 +97,10 @@ export const setSelectedTotalAmountFrom = createAction(
   '[Flight Select] Set Selected Total Amount From',
   props<{ totalAmountFrom: { adultPrice: number; childPrice: number; infantPrice: number; sumPrice: number; totalTax?: number | undefined; } }>()
 );
-
+export const setTotalCalculatedAmount = createAction(
+  '[Flight Select] Set Total Calculated Amount',
+  props<{ totalCalculatedAmount: number }>()
+);
 export const setSelectedTripId = createAction(
   '[Flight Select] Set Selected Trip id',
   props<{ id: string }>()

@@ -22,10 +22,19 @@ export interface ITrip {
   returnArrivalTime?: string;
   passengers: IPassenger[];
   numberOfPassengers: IAgeTypeQuantity[];
-  totalAmount: number;
+  totalAmount: ITotalAmount;
   totalTax: number;
-  totalAmountFrom?: number;
+  totalAmountFrom?: ITotalAmount;
   totalTaxFrom?: number;
+  totalCalculatedAmount?: number;
   contactDetails: IContacts;
   isPaid?: boolean;
+}
+
+export interface ITotalAmount {
+  adultPrice: number;
+  childPrice: number;
+  infantPrice: number;
+  sumPrice: number;
+  totalTax: number;
 }

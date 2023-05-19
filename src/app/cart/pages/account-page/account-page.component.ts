@@ -152,7 +152,11 @@ export class AccountPageComponent implements OnInit {
   }
 
   priceRenderer(params: ValueGetterParams) {
-    return `${this.currency} ${params.data.totalAmount}`;
+    return `${this.currency} ${Math.round(params.data.totalAmount.sumPrice 
+      + params.data.totalAmount.totalTax
+      + (params.data.totalAmountFrom?.sumPrice || 0)
+      + (params.data.totalAmountFrom?.totalTax || 0))
+    }`;
   }
 
   actionCellRenderer(params: any) {
