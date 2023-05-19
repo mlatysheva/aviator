@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { ColDef, GridReadyEvent, ValueGetterParams } from 'ag-grid-community';
 import { AppState } from '../../../store/state.models';
-import { HttpClient } from '@angular/common/http';
 import { CartApiService } from '../../services/cart-api.service';
 import { ITrip, IUser } from '../../../models';
 import { Observable, map, switchMap, tap } from 'rxjs';
@@ -157,7 +156,7 @@ export class CartPageComponent implements OnInit {
       this.cartCount = trips.length;
     });
 
-    this.recalculateTotalPrice(1);
+    this.calculateTotalPrice(1);
     this.selectedRows$.next(this.agGrid.api.getSelectedNodes().length);
   }
 
@@ -187,14 +186,11 @@ export class CartPageComponent implements OnInit {
     return eGui;
   }
 
-  recalculateTotalPrice(factor = 1) {
+  calculateTotalPrice(factor = 1) {
     this.totalPrice$ = this.trips$.pipe(
       map((trips) => {
-        const price =  trips.reduce((acc, trip) => 
-          acc + trip.totalAmount.sumPrice 
-          + trip.totalAmount.totalTax
-          + (trip.totalAmountFrom?.sumPrice || 0)
-          + (trip.totalAmountFrom?.totalTax || 0), 0);
+        const price = trips.reduce((acc, trip) =>
+          acc + (trip.totalCalculatedAmount || 0), 0);
         return Math.round(price * factor);
       }
     ));
@@ -220,7 +216,7 @@ export class CartPageComponent implements OnInit {
         this.cartApiService.deleteTrip(tripId, this.userId).pipe(
           switchMap(() => this.cartApiService.getUnpaidTripsByUserId(this.userId)),
           tap(() => this.cartApiService.cartCount$.next(this.cartCount - 1)),
-          tap(() => this.recalculateTotalPrice(1)),
+          tap(() => this.calculateTotalPrice(1)),
           tap(() => this.store.dispatch(clearSelectedTrip())),
           tap(() => localStorage.removeItem(TRIP_ID)),
           tap(() => params.api.applyTransaction({ remove: [params.node.data] }))
@@ -236,7 +232,7 @@ export class CartPageComponent implements OnInit {
 
   applyPromoCode() {
     if (this.promoCode && !this.isCodeApplied) {
-      this.recalculateTotalPrice(0.95);
+      this.calculateTotalPrice(0.95);
       this.isCodeApplied = true;
       this.trips$ = this.cartApiService.applyPromoCode(this.userId, PROMO_DISOUNT);
       alert(`Promo Code "${this.promoCode}" with a 5% discount will be applied!`);
@@ -255,26 +251,18 @@ export class CartPageComponent implements OnInit {
     }
 
     const selectedData = selectedNodes.map(node => node.data);
-    const totalPrice = selectedData.reduce((total, data) => 
-      total 
-      + data.totalAmount.sumPrice 
-      + data.totalAmount.totalTax 
-      + data.totalAmountFrom?.sumPrice || 0
-      + data.totalAmountFrom?.totalTax || 0,
-    0);
+    const totalPrice = selectedData[0].totalCalculatedAmount;
 
-    alert(`Payment of ${this.currency}${totalPrice} has been successful!`);
+    alert(`Payment of ${this.currency} ${Math.round(totalPrice)} has been successful!`);
     for (const data of selectedData) {
       this.cartApiService.payTrip(data.id);
-      // TODO: figure out what's wrong with the price
-      // this.cartApiService.updateTripPrice(data.id, totalPrice);
     }
     this.cartApiService.cartCount$.next(this.cartCount - selectedData.length);
     this.store.dispatch(clearSelectedTrip());
     this.agGrid.api.applyTransaction({
       remove: selectedData
     });
-    this.recalculateTotalPrice(1);
+    this.calculateTotalPrice(1);
   }
 }
 

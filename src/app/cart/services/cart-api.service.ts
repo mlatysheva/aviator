@@ -167,7 +167,6 @@ export class CartApiService {
     return this.http.get<IUser>(`${baseUrl}/users/${userId}`).pipe(
       map((user: IUser) => {
         if (user.tripsIds) {
-          console.log('user.tripsIds', user.tripsIds);
           return user.tripsIds.filter(id => id !== tripId);
         }
         return [];
@@ -186,7 +185,6 @@ export class CartApiService {
         return of(null); 
       }),
       tap(() => {
-        console.log('Trip deleted');
         this.errorMessage$.next('');
       })
     );

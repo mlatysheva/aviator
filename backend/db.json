@@ -14,7 +14,9 @@
       },
       "id": "0f04c977-c041-4fa4-9354-9c7d7cce9c0e",
       "tripsIds": [
-        "3ebddb4e-e523-4cd9-9bd3-1744e6fbfdea"
+        "90a793cd-15c5-4a36-993d-5dbedbfd9a1c",
+        "69041b08-c63b-4260-b73f-14c8494ba5cf",
+        "d07ce108-ed00-463a-a873-77eb30003a75"
       ],
       "promoCode": "Star Wars",
       "isCodeApplied": true
@@ -50,7 +52,7 @@
   ],
   "trips": [
     {
-      "id": "0067dd06-4fd5-4c62-aa05-629e376e2b04",
+      "id": "446a791c-dffd-4348-9b17-e9d02b171cf2",
       "userId": "0f04c977-c041-4fa4-9354-9c7d7cce9c0e",
       "roundTrip": true,
       "airportsIataCodes": [
@@ -60,7 +62,7 @@
       "originCity": "Beijing",
       "destinationCity": "Paris",
       "outboundFlightNo": "FR-193",
-      "outboundDepartureDate": "2023-05-24T22:00:00.000Z",
+      "outboundDepartureDate": "2023-05-27T22:00:00.000Z",
       "outboundDepartureTime": "",
       "outboundArrivalTime": "",
       "returnFlightNo": "FR-194",
@@ -77,11 +79,11 @@
         },
         {
           "ageCategory": "child",
-          "quantity": 1
+          "quantity": 0
         },
         {
           "ageCategory": "infant",
-          "quantity": 0
+          "quantity": 1
         }
       ],
       "totalAmount": {
@@ -93,38 +95,172 @@
       },
       "totalAmountFrom": {
         "adultPrice": 297,
-        "childPrice": 236,
-        "infantPrice": 0,
-        "sumPrice": 533,
-        "totalTax": 79.95
+        "childPrice": 0,
+        "infantPrice": 60,
+        "sumPrice": 357,
+        "totalTax": 53.55
       },
+      "totalCalculatedAmount": null,
       "contactDetails": {
         "countryCode": "+0",
         "phone": ""
       },
       "isPaid": false,
-      "type": "[Flight Select] Set Selected Return Flight No"
+      "type": "[Flight Select] Set Total Calculated Amount"
     },
     {
-      "id": "3ebddb4e-e523-4cd9-9bd3-1744e6fbfdea",
+      "id": "90a793cd-15c5-4a36-993d-5dbedbfd9a1c",
       "userId": "0f04c977-c041-4fa4-9354-9c7d7cce9c0e",
       "roundTrip": true,
       "airportsIataCodes": [
         " PEK",
-        " CDG "
+        " LIS "
       ],
       "originCity": "Beijing",
-      "destinationCity": "Paris",
-      "outboundFlightNo": "FR-193",
-      "outboundDepartureDate": "2023-05-24T22:00:00.000Z",
+      "destinationCity": "Lisbon",
+      "outboundFlightNo": "FR-138",
+      "outboundDepartureDate": "Sun May 28 2023 00:00:00 GMT+0200 (Central European Summer Time)",
       "outboundDepartureTime": "",
       "outboundArrivalTime": "",
-      "returnFlightNo": "FR-194",
-      "returnDepartureDate": "2023-05-30T22:00:00.000Z",
+      "returnFlightNo": "FR-139",
+      "returnDepartureDate": "Wed May 31 2023 00:00:00 GMT+0200 (Central European Summer Time)",
       "returnDepartureTime": "",
       "returnArrivalTime": "",
       "originAiroportName": "Capital Intl Beijing",
-      "destinationAiroportName": "Charles De Gaulle Paris",
+      "destinationAiroportName": "Lisboa Lisbon",
+      "passengers": [
+        {
+          "id": "",
+          "firstName": "Mar",
+          "lastName": "Com",
+          "birthday": "1976-12-31T23:00:00.000Z",
+          "age": 46,
+          "ageCategory": "adult",
+          "seatNo": ""
+        },
+        {
+          "id": "",
+          "firstName": "Yur",
+          "lastName": "Com",
+          "birthday": "1976-12-31T23:00:00.000Z",
+          "age": 46,
+          "ageCategory": "adult",
+          "seatNo": ""
+        }
+      ],
+      "numberOfPassengers": [
+        {
+          "ageCategory": "adult",
+          "quantity": 2
+        },
+        {
+          "ageCategory": "child",
+          "quantity": 0
+        },
+        {
+          "ageCategory": "infant",
+          "quantity": 0
+        }
+      ],
+      "totalAmount": {
+        "adultPrice": 960,
+        "childPrice": 0,
+        "infantPrice": 0,
+        "sumPrice": 960,
+        "totalTax": 144
+      },
+      "totalAmountFrom": {
+        "adultPrice": 1088,
+        "childPrice": 0,
+        "infantPrice": 0,
+        "sumPrice": 1088,
+        "totalTax": 163.2
+      },
+      "totalCalculatedAmount": 2355.2,
+      "contactDetails": {
+        "countryCode": "+7",
+        "phone": "0123456789"
+      },
+      "isPaid": true,
+      "type": "[Booking Passengers] Set Trip Contact Details"
+    },
+    {
+      "id": "5a0e7b9f-d5e7-4e30-be40-cc9c994ceae7",
+      "userId": "0f04c977-c041-4fa4-9354-9c7d7cce9c0e",
+      "roundTrip": true,
+      "airportsIataCodes": [
+        " JFK",
+        " MUC "
+      ],
+      "originCity": "New York",
+      "destinationCity": "Munich",
+      "outboundFlightNo": "FR-298",
+      "outboundDepartureDate": "Sat May 27 2023 00:00:00 GMT+0200 (Central European Summer Time)",
+      "outboundDepartureTime": "",
+      "outboundArrivalTime": "",
+      "returnFlightNo": "FR-299",
+      "returnDepartureDate": "Sat Jun 03 2023 00:00:00 GMT+0200 (Central European Summer Time)",
+      "returnDepartureTime": "",
+      "returnArrivalTime": "",
+      "originAiroportName": "John F Kennedy Intl New York",
+      "destinationAiroportName": "Franz Josef Strauss Munich",
+      "passengers": [],
+      "numberOfPassengers": [
+        {
+          "ageCategory": "adult",
+          "quantity": 1
+        },
+        {
+          "ageCategory": "child",
+          "quantity": 0
+        },
+        {
+          "ageCategory": "infant",
+          "quantity": 0
+        }
+      ],
+      "totalAmount": {
+        "adultPrice": 441,
+        "childPrice": 0,
+        "infantPrice": 0,
+        "sumPrice": 441,
+        "totalTax": 66.15
+      },
+      "totalAmountFrom": {
+        "adultPrice": 485,
+        "childPrice": 0,
+        "infantPrice": 0,
+        "sumPrice": 485,
+        "totalTax": 72.75
+      },
+      "totalCalculatedAmount": 1064.9,
+      "contactDetails": {
+        "countryCode": "+0",
+        "phone": ""
+      },
+      "isPaid": false,
+      "type": "[Flight Select] Set Total Calculated Amount"
+    },
+    {
+      "id": "69041b08-c63b-4260-b73f-14c8494ba5cf",
+      "userId": "0f04c977-c041-4fa4-9354-9c7d7cce9c0e",
+      "roundTrip": true,
+      "airportsIataCodes": [
+        " JFK",
+        " MUC "
+      ],
+      "originCity": "New York",
+      "destinationCity": "Munich",
+      "outboundFlightNo": "FR-298",
+      "outboundDepartureDate": "Sat May 27 2023 00:00:00 GMT+0200 (Central European Summer Time)",
+      "outboundDepartureTime": "",
+      "outboundArrivalTime": "",
+      "returnFlightNo": "FR-299",
+      "returnDepartureDate": "Sat Jun 03 2023 00:00:00 GMT+0200 (Central European Summer Time)",
+      "returnDepartureTime": "",
+      "returnArrivalTime": "",
+      "originAiroportName": "John F Kennedy Intl New York",
+      "destinationAiroportName": "Franz Josef Strauss Munich",
       "passengers": [
         {
           "id": "",
@@ -143,7 +279,7 @@
         },
         {
           "ageCategory": "child",
-          "quantity": 1
+          "quantity": 0
         },
         {
           "ageCategory": "infant",
@@ -151,19 +287,20 @@
         }
       ],
       "totalAmount": {
-        "adultPrice": null,
-        "childPrice": null,
-        "infantPrice": null,
-        "sumPrice": null,
-        "totalTax": null
+        "adultPrice": 441,
+        "childPrice": 0,
+        "infantPrice": 0,
+        "sumPrice": 441,
+        "totalTax": 66.15
       },
       "totalAmountFrom": {
-        "adultPrice": 297,
-        "childPrice": 236,
+        "adultPrice": 485,
+        "childPrice": 0,
         "infantPrice": 0,
-        "sumPrice": 533,
-        "totalTax": 79.95
+        "sumPrice": 485,
+        "totalTax": 72.75
       },
+      "totalCalculatedAmount": 1064.9,
       "contactDetails": {
         "countryCode": "+7",
         "phone": "0123456789"
@@ -172,25 +309,25 @@
       "type": "[Booking Passengers] Set Trip Contact Details"
     },
     {
-      "id": "ac9c7274-0e82-4cc2-bd4d-2d43307a8be3",
+      "id": "c26b018a-22b6-4095-9aee-b5a0640d6fb0",
       "userId": "0f04c977-c041-4fa4-9354-9c7d7cce9c0e",
       "roundTrip": true,
       "airportsIataCodes": [
-        " JFK",
-        " BCN "
+        " LED",
+        " GVA "
       ],
-      "originCity": "New York",
-      "destinationCity": "Barcelona",
-      "outboundFlightNo": "FR-823",
-      "outboundDepartureDate": "2023-05-29T22:00:00.000Z",
+      "originCity": "St. Petersburg",
+      "destinationCity": "Geneva",
+      "outboundFlightNo": "FR-725",
+      "outboundDepartureDate": "Mon May 29 2023 00:00:00 GMT+0200 (Central European Summer Time)",
       "outboundDepartureTime": "",
       "outboundArrivalTime": "",
-      "returnFlightNo": "FR-824",
-      "returnDepartureDate": "2023-05-30T22:00:00.000Z",
+      "returnFlightNo": "FR-726",
+      "returnDepartureDate": "Fri Jun 02 2023 00:00:00 GMT+0200 (Central European Summer Time)",
       "returnDepartureTime": "",
       "returnArrivalTime": "",
-      "originAiroportName": "John F Kennedy Intl New York",
-      "destinationAiroportName": "Barcelona Barcelona",
+      "originAiroportName": "Pulkovo St. Petersburg",
+      "destinationAiroportName": "Geneve Cointrin Geneva",
       "passengers": [],
       "numberOfPassengers": [
         {
@@ -207,25 +344,93 @@
         }
       ],
       "totalAmount": {
-        "adultPrice": null,
-        "childPrice": null,
-        "infantPrice": null,
-        "sumPrice": null,
-        "totalTax": null
-      },
-      "totalAmountFrom": {
-        "adultPrice": 84,
+        "adultPrice": 360,
         "childPrice": 0,
         "infantPrice": 0,
-        "sumPrice": 84,
-        "totalTax": 12.6
+        "sumPrice": 360,
+        "totalTax": 54
       },
+      "totalAmountFrom": {
+        "adultPrice": 407,
+        "childPrice": 0,
+        "infantPrice": 0,
+        "sumPrice": 407,
+        "totalTax": 61.05
+      },
+      "totalCalculatedAmount": 882.05,
       "contactDetails": {
         "countryCode": "+0",
         "phone": ""
       },
       "isPaid": false,
-      "type": "[Flight Select] Set Selected Return Flight No"
+      "type": "[Flight Select] Set Total Calculated Amount"
+    },
+    {
+      "id": "d07ce108-ed00-463a-a873-77eb30003a75",
+      "userId": "0f04c977-c041-4fa4-9354-9c7d7cce9c0e",
+      "roundTrip": true,
+      "airportsIataCodes": [
+        " LED",
+        " GVA "
+      ],
+      "originCity": "St. Petersburg",
+      "destinationCity": "Geneva",
+      "outboundFlightNo": "FR-725",
+      "outboundDepartureDate": "Mon May 29 2023 00:00:00 GMT+0200 (Central European Summer Time)",
+      "outboundDepartureTime": "",
+      "outboundArrivalTime": "",
+      "returnFlightNo": "FR-726",
+      "returnDepartureDate": "Fri Jun 02 2023 00:00:00 GMT+0200 (Central European Summer Time)",
+      "returnDepartureTime": "",
+      "returnArrivalTime": "",
+      "originAiroportName": "Pulkovo St. Petersburg",
+      "destinationAiroportName": "Geneve Cointrin Geneva",
+      "passengers": [
+        {
+          "id": "",
+          "firstName": "MAr",
+          "lastName": "com",
+          "birthday": "1976-12-31T23:00:00.000Z",
+          "age": 46,
+          "ageCategory": "adult",
+          "seatNo": ""
+        }
+      ],
+      "numberOfPassengers": [
+        {
+          "ageCategory": "adult",
+          "quantity": 1
+        },
+        {
+          "ageCategory": "child",
+          "quantity": 0
+        },
+        {
+          "ageCategory": "infant",
+          "quantity": 0
+        }
+      ],
+      "totalAmount": {
+        "adultPrice": 360,
+        "childPrice": 0,
+        "infantPrice": 0,
+        "sumPrice": 360,
+        "totalTax": 54
+      },
+      "totalAmountFrom": {
+        "adultPrice": 407,
+        "childPrice": 0,
+        "infantPrice": 0,
+        "sumPrice": 407,
+        "totalTax": 61.05
+      },
+      "totalCalculatedAmount": 882.05,
+      "contactDetails": {
+        "countryCode": "+7",
+        "phone": "0123456789"
+      },
+      "isPaid": true,
+      "type": "[Booking Passengers] Set Trip Contact Details"
     }
   ],
   "carts": [],

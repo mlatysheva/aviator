@@ -25,6 +25,7 @@ export interface TripState {
   passengers: IPassenger[];
   totalAmount: { adultPrice: number; childPrice: number; infantPrice: number; sumPrice: number; totalTax?: number | undefined; }
   totalAmountFrom?: { adultPrice: number; childPrice: number; infantPrice: number; sumPrice: number; totalTax?: number | undefined; }
+  totalCalculatedAmount: number;
   contactDetails: IContacts;
   numberOfPassengers: IAgeTypeQuantity[];
   isPaid?: boolean;
@@ -51,6 +52,7 @@ export const initialState: TripState = {
   numberOfPassengers: [],
   totalAmount: { adultPrice: 0, childPrice: 0, infantPrice: 0, sumPrice: 0, totalTax: 0 },
   totalAmountFrom: { adultPrice: 0, childPrice: 0, infantPrice: 0, sumPrice: 0, totalTax: 0 },
+  totalCalculatedAmount: 0,
   contactDetails: {
     countryCode: '+0',
     phone: '',
@@ -160,6 +162,10 @@ export const tripReducer = createReducer(
       ...payload,
     })
   ),
+  on(SelectedActions.setTotalCalculatedAmount, (state, payload): TripState => ({
+    ...state,
+    ...payload,
+  })),
   on(
     SelectedActions.clearSelectedTrip,
     (): TripState => ({
@@ -176,7 +182,7 @@ export const tripReducer = createReducer(
       passengers: [],
       totalAmount: { adultPrice: 0, childPrice: 0, infantPrice: 0, sumPrice: 0, totalTax: 0 },
       totalAmountFrom: { adultPrice: 0, childPrice: 0, infantPrice: 0, sumPrice: 0, totalTax: 0 },
-
+      totalCalculatedAmount: 0,
     })
   ),
   on(
@@ -228,6 +234,7 @@ export const tripReducer = createReducer(
     passengers: [],
     totalAmount: { adultPrice: 0, childPrice: 0, infantPrice: 0, sumPrice: 0, totalTax: 0 },
     totalAmountFrom: { adultPrice: 0, childPrice: 0, infantPrice: 0, sumPrice: 0, totalTax: 0 },
+    totalCalculatedAmount: 0,
     contactDetails: {
       countryCode: '+0',
       phone: '',
