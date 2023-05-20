@@ -182,8 +182,8 @@ export class CarouselDateComponent implements OnInit, OnDestroy {
     this.state$ = this.store.select((appState) => appState);
     this.subscriptions.add(
       this.state$.subscribe((state: AppState) => {
-        this.codFrom = state.trip.airportsIataCodes[0];
-        this.codTo = state.trip.airportsIataCodes[1];
+        this.codFrom = state.trip.airportsIataCodeOrigin;
+        this.codTo = state.trip.airportsIataCodeDestination;
         this.cityFrom = state.trip.originCity;
         this.cityTo = state.trip.destinationCity;
         this.from = state.trip.originAiroportName;

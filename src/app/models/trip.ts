@@ -9,7 +9,8 @@ export interface ITrip {
   roundTrip: boolean;
   originAiroportName: string;
   destinationAiroportName: string;
-  airportsIataCodes: string[];
+  airportsIataCodeOrigin: string;
+  airportsIataCodeDestination: string;
   originCity: string;
   destinationCity: string;
   outboundFlightNo: string;

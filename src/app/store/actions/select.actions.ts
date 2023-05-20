@@ -9,7 +9,8 @@ export const setSelectedTrip = createAction(
     destinationCity: string;
     originAiroportName: string;
     destinationAiroportName?: string;
-    airportsIataCodes: string[];
+    airportsIataCodeOrigin: string;
+    airportsIataCodeDestination: string;
     outboundDepartureDate: string;
     outboundDepartureTime: string;
     outboundArrivalTime: string;
@@ -51,6 +52,23 @@ export const setSelectedTripType = createAction(
 export const setSelectedAiroports = createAction(
   '[Flight Select] Set Selected Airoports',
   props<{ airportsIataCodes: string[] }>()
+);
+export const setSelectedAiroportCodeOrigin = createAction(
+  '[Flight Select] Set Selected Airoports',
+  props<{ airportsIataCodeOrigin: string }>()
+);
+export const setSelectedAiroportCodeDestination = createAction(
+  '[Flight Select] Set Selected Airoports',
+  props<{ airportsIataCodeDestination: string }>()
+);
+
+export const setSelectedOriginAiroport = createAction(
+  '[Flight Select] Set Selected Airoports',
+  props<{ airportsIataCodeOrigin: string }>()
+);
+export const setSelectedDestinationAiroport = createAction(
+  '[Flight Select] Set Selected Airoports',
+  props<{ airportsIataCodeDestination: string }>()
 );
 export const setSelectedOriginAiroportName = createAction(
   '[Flight Select] Set Selected Origin Airoport Name',

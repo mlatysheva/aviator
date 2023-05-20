@@ -9,7 +9,8 @@ export const setSearchParameters = createAction(
     roundTrip: boolean;
     originCity: string;
     destinationCity: string;
-    airportsIataCodes: string[];
+    airportsIataCodeOrigin: string;
+    airportsIataCodeDestination: string;
     outboundDepartureDate: string;
     originAiroportName: string;
     destinationAiroportName: string;
@@ -17,7 +18,7 @@ export const setSearchParameters = createAction(
     numberOfPassengers: IAgeTypeQuantity[];
     isPaid?: boolean;
   }>()
-); 
+);
 
 export const setTripId = createAction(
   '[Select Flights] Set Trip Id',

@@ -9,7 +9,8 @@ export interface TripState {
   id?: string;
   userId: string;
   roundTrip: boolean;
-  airportsIataCodes: string[];
+  airportsIataCodeOrigin: string;
+  airportsIataCodeDestination: string;
   originCity: string;
   destinationCity: string;
   outboundFlightNo: string;
@@ -34,7 +35,8 @@ export const initialState: TripState = {
   id: '',
   userId: '',
   roundTrip: true,
-  airportsIataCodes: [],
+  airportsIataCodeOrigin: '',
+  airportsIataCodeDestination: '',
   originCity: '',
   destinationCity: '',
   outboundFlightNo: '',
@@ -130,6 +132,21 @@ export const tripReducer = createReducer(
       ...payload,
     })
   ),
+
+  on(
+    SelectedActions.setSelectedAiroportCodeOrigin,
+    (state, payload): TripState => ({
+      ...state,
+      ...payload,
+    })
+  ),
+  on(
+    SelectedActions.setSelectedAiroportCodeDestination,
+    (state, payload): TripState => ({
+      ...state,
+      ...payload,
+    })
+  ),
   on(
     SelectedActions.setSelectedOutboundFlightNo,
     (state, payload): TripState => ({
@@ -194,7 +211,7 @@ export const tripReducer = createReducer(
     })
   ),
   on(
-    TripActions.setTripId, 
+    TripActions.setTripId,
     (state, payload): TripState => ({
       ...state,
       ...payload,
@@ -213,6 +230,8 @@ export const tripReducer = createReducer(
     userId: '',
     roundTrip: true,
     flightsIds: [],
+    airportsIataCodeOrigin: '',
+    airportsIataCodeDestination: '',
     originAirportName: '',
     destinationAirportName: '',
     outboundFlightNo: '',
