@@ -2,7 +2,7 @@
   <div class="one-way" *ngIf="result !== undefined">
     <div class="flight-info one-way">
       <img src="../../../../assets/icons/plane-to.svg" alt="plane">
-      <p>{{from}} to {{to}}</p>
+      <p>{{from}}{{cityFrom}} to {{to}}{{cityTo}}</p>
     </div>
     <carousel class="carousel {{flightTo.classTo}}" [itemsPerSlide]="itemsPerSlide"
       [singleSlideOffset]="singleSlideOffset" [startFromIndex]="0" [interval]="0" (click)="onClick($event)">
@@ -27,8 +27,8 @@
     </carousel>
     <app-flight-details #flightTo [type]="1" class="flight-details-to" [from]="from" [to]="to" [startDate]="startDate"
       [endDate]="endDate" [departureTime]="departureTime" [arrivingDateTo]="arrivingDateTo"
-      [timeZoneFrom]="timeZoneFrom" [timeZoneTo]="timeZoneTo" [flightNumber]="flightNumber" [seats]="seats"
-      [currency]="currency" [hours]="hours" [minutes]="minutes"
+      [arrivingTimeTo]="arrivingTimeTo" [timeZoneFrom]="timeZoneFrom" [timeZoneTo]="timeZoneTo"
+      [flightNumber]="flightNumber" [seats]="seats" [currency]="currency" [hours]="hours" [minutes]="minutes"
       [price]="prices[(dateService.getIndexOfDate(startDate, flightDaysTo))]" [onClick]="onClick" [cityFrom]="cityFrom"
       [cityTo]="cityTo" [flightDaysTo]="flightDaysTo" [codFrom]="codFrom" [codTo]="codTo" [dateFormat]="dateFormat"
       [isTo]="true" [numberOfPassengers]="numberOfPassengers" [totalAmount]="totalAmount"></app-flight-details>
@@ -36,7 +36,7 @@
   <div class="two-way" *ngIf="!isOneWay && returnDetails !== undefined">
     <div class="flight-info two-way">
       <img src="../../../../assets/icons/plane-from.svg" alt="plane">
-      <p>{{to}} to {{from}}</p>
+      <p>{{to}}{{cityTo}} to {{from}}{{cityFrom}}</p>
     </div>
     <carousel class="carousel {{flightFrom.classFrom}}" [itemsPerSlide]="itemsPerSlide"
       [singleSlideOffset]="singleSlideOffset" [startFromIndex]="0" [interval]="0">
@@ -62,11 +62,11 @@
     </carousel>
     <app-flight-details #flightFrom [type]="2" class="flight-details-from" [from]="to" [to]="from" [startDate]="endDate"
       [endDate]="startDate" [departureTime]="departureTimeFrom" [timeZoneFrom]="timeZoneTo"
-      [arrivingDateTo]="arrivingDateFrom" [timeZoneTo]="timeZoneFrom" [flightNumber]="flightNumberFrom"
-      [seats]="seatsFrom" [currency]="currency" [hours]="hoursFrom" [minutes]="minutesFrom"
-      [price]="pricesFrom[(dateService.getIndexOfDate(endDate, flightDaysFrom))]" [onClick]="onClick"
-      [cityFrom]="cityTo" [cityTo]="cityFrom" [flightDaysTo]="flightDaysFrom" [codFrom]="codTo" [codTo]="codFrom"
-      [dateFormat]="dateFormat" [isTo]="false" [numberOfPassengers]="numberOfPassengers"
+      [arrivingTimeTo]="arrivingTimeFrom" [arrivingDateTo]="arrivingDateFrom" [timeZoneTo]="timeZoneFrom"
+      [flightNumber]="flightNumberFrom" [seats]="seatsFrom" [currency]="currency" [hours]="hoursFrom"
+      [minutes]="minutesFrom" [price]="pricesFrom[(dateService.getIndexOfDate(endDate, flightDaysFrom))]"
+      [onClick]="onClick" [cityFrom]="cityTo" [cityTo]="cityFrom" [flightDaysTo]="flightDaysFrom" [codFrom]="codTo"
+      [codTo]="codFrom" [dateFormat]="dateFormat" [isTo]="false" [numberOfPassengers]="numberOfPassengers"
       [totalAmount]="totalAmountFrom"></app-flight-details>
   </div>
 </div>

@@ -24,6 +24,8 @@ export class FlightDetailsComponent {
   @Input() timeZoneTo: string | undefined;
   @Input() departureTime: string;
   @Input() arrivingDateTo: string | undefined;
+  @Input() arrivingTimeTo: string;
+  @Input() arrivingTimeFrom: string;
   @Input() flightNumber: string;
   @Input() isCanFly: boolean;
   @Input() isFlightDay: boolean;
@@ -49,7 +51,7 @@ export class FlightDetailsComponent {
   classTo = '';
   classFrom = '';
 
-  constructor(public dateService: DateService, private el: ElementRef) {}
+  constructor(public dateService: DateService, private el: ElementRef) { }
 
   onEditFlight(e: Event) {
     e.preventDefault();

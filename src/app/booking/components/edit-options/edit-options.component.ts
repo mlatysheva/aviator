@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import {
-  Validators, FormBuilder, FormControl, FormGroup,
+  FormBuilder, FormControl, FormGroup,
 } from '@angular/forms';
 import { MatOption } from '@angular/material/core';
 import { Store } from '@ngrx/store';
@@ -13,6 +13,9 @@ import { IAirport } from '../../../models/airport';
 import { TRIP_TYPE } from '../../../constants/localStorage';
 import { IAgeCategory } from '../../../models/passenger';
 import * as SelectActions from '../../../store/actions/select.actions';
+import { DateService } from '../../services/date.service';
+import { SumPriceService } from '../../services/sum-price.service';
+import { IFlight } from 'src/app/models/flight';
 
 
 @Component({
@@ -36,6 +39,7 @@ export class EditOptionsComponent implements OnInit, OnDestroy {
 
   codFrom: string;
   codTo: string;
+  start: string;
   state$: Observable<AppState>;
   state: AppState;
 
@@ -50,8 +54,12 @@ export class EditOptionsComponent implements OnInit, OnDestroy {
   startDate = new FormControl('');
   endDate = new FormControl('');
   passengers = new FormControl(this.selectedItems);
+  totalAmount: { adultPrice: number; childPrice: number; infantPrice: number; sumPrice: number; totalTax?: number | undefined; };
+  index: number;
+  changedFlight: IFlight[];
 
   public editForm: FormGroup;
+  flightDaysTo: number[];
 
 
   constructor(
@@ -59,9 +67,12 @@ export class EditOptionsComponent implements OnInit, OnDestroy {
     private builder: FormBuilder,
     private aviaService: AviaService,
     private store: Store<AppState>,
+    private dateService: DateService,
+    private sumPriceService: SumPriceService
   ) {
     this.isEdit = this.editService.isEdit$.value;
     this.passengersList.map((option) => this.selectedItems.push(option));
+    this.state$ = this.store.select((appState) => appState);
   }
   ngOnInit() {
     this.subscriptions.add(
@@ -96,6 +107,7 @@ export class EditOptionsComponent implements OnInit, OnDestroy {
     this.codFrom = (this.departureName?.value.split(',')
       .slice(2, 3)
       .join(''));
+    console.log(this.codFrom);
     this.store.dispatch(SelectActions.setSelectedOriginCity({
       originCity: this.departureName?.value
         .split(',')
@@ -111,7 +123,12 @@ export class EditOptionsComponent implements OnInit, OnDestroy {
     this.store.dispatch(SelectActions.setSelectedAiroportCodeOrigin({
       airportsIataCodeOrigin: this.codFrom
     }));
-    //this.getTripState();
+
+    this.subscriptions.add(
+      this.state$.subscribe((state: AppState) => {
+        this.codTo = state.trip.airportsIataCodeDestination;
+      }
+      ));
     this.changeFlight(this.codFrom, this.codTo);
   }
 
@@ -119,6 +136,7 @@ export class EditOptionsComponent implements OnInit, OnDestroy {
     this.codTo = (this.destinationName?.value.split(',')
       .slice(2, 3)
       .join(''));
+    console.log(this.codTo);
     this.store.dispatch(SelectActions.setSelectedDestinationCity({
       destinationCity: this.destinationName?.value
         .split(',')
@@ -134,34 +152,46 @@ export class EditOptionsComponent implements OnInit, OnDestroy {
     this.store.dispatch(SelectActions.setSelectedAiroportCodeDestination({
       airportsIataCodeDestination: this.codTo
     }));
-    //this.getTripState();
+
+    this.subscriptions.add(
+      this.state$.subscribe((state: AppState) => {
+        this.codFrom = state.trip.airportsIataCodeOrigin;
+      }
+      ));
+
     this.changeFlight(this.codFrom, this.codTo);
   }
 
   changeFlight(from: string, to: string) {
     this.aviaService.getAllFlights().subscribe((flights) => {
-      const filteredFlights = flights.filter((flight) => {
+      this.changedFlight = flights.filter((flight) => {
         return flight.originAirportIataCode === from.toString().trim() &&
           flight.destinationAirportIataCode === to.toString().trim();
       });
-      if (filteredFlights.length > 0) {
+      if (this.changedFlight !== undefined && this.changedFlight.length > 0) {
+        console.log(this.changedFlight);
+        this.store.dispatch(SelectActions.setSelectedOutboundDepartureTime({
+          outboundDepartureTime: this.changedFlight[0].departureTime,
+        }));
+        this.store.dispatch(SelectActions.setSelectedOutboundFlightNo({
+          outboundFlightNo: this.changedFlight[0].flightNumber,
+        }));
+        const duration = this.changedFlight[0].duration;
+        this.flightDaysTo = this.changedFlight[0].flightDays;
+        if (this.flightDaysTo !== undefined) {
+          this.subscriptions.add(
+            this.state$.subscribe((state: AppState) => {
+              this.start = state.trip.outboundDepartureDate;
+              this.index = this.flightDaysTo.indexOf(this.dateService.getIndexOfDate(this.start, this.flightDaysTo));
+              this.totalAmount = this.sumPriceService.sumpPrices(this.changedFlight[0], state.trip.numberOfPassengers, this.index);
+              this.store.dispatch(SelectActions.setSelectedTotalAmount({ totalAmount: this.totalAmount }));
 
-        console.log(filteredFlights);
+            }));
+        }
+
       }
-    }
-    );
+    });
   }
-
-  // public getTripState() {
-  //   this.state$ = this.store.select((appState) => appState);
-  //   this.subscriptions.add(
-  //     this.state$.subscribe((state: AppState) => {
-  //       this.codFrom = state.trip.airportsIataCodeOrigin;
-  //       this.codTo = state.trip.airportsIataCodeDestination;
-
-  //     }
-  //     ));
-  // }
 
   public increase(event: Event, specificAgeType: IAgeTypeQuantity) {
     specificAgeType.quantity++;
