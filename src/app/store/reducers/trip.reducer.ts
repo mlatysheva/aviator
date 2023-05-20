@@ -239,5 +239,6 @@ export const tripReducer = createReducer(
       countryCode: '+0',
       phone: '',
     },
+    isPaid: false,
   }))
 );

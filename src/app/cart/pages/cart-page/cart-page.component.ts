@@ -45,6 +45,8 @@ export class CartPageComponent implements OnInit {
   selectedRows$ = new BehaviorSubject<number>(0);
   selectedRows: number | undefined;
 
+  isPaymentDisabled$ = new BehaviorSubject<boolean>(true);
+
   @ViewChild(AgGridAngular) agGrid!: AgGridAngular;
   colDefs: ColDef[];
   defaultColDef: ColDef;
@@ -154,6 +156,7 @@ export class CartPageComponent implements OnInit {
     this.trips$.subscribe((trips) => {
       this.cartApiService.cartCount$.next(trips.length);
       this.cartCount = trips.length;
+      this.isPaymentDisabled$.next(trips.length === 0);
     });
 
     this.calculateTotalPrice(1);
@@ -259,6 +262,7 @@ export class CartPageComponent implements OnInit {
     }
     this.cartApiService.cartCount$.next(this.cartCount - selectedData.length);
     this.store.dispatch(clearSelectedTrip());
+    localStorage.removeItem(TRIP_ID);
     this.agGrid.api.applyTransaction({
       remove: selectedData
     });
