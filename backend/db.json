@@ -47,7 +47,6 @@
     }
   ],
   "trips": [],
-  "carts": [],
   "login": {},
   "flightspair": [],
   "airports": [
@@ -213,13 +212,6 @@
       "id": "2397"
     },
     {
-      "name": "Pulkovo",
-      "city": "St. Petersburg",
-      "country": "Russia",
-      "iata_code": "LED",
-      "id": "2948"
-    },
-    {
       "name": "Geneve Cointrin",
       "city": "Geneva",
       "country": "Switzerland",
@@ -260,12 +252,6 @@
       "country": "Belarus",
       "iata_code": "MSQ",
       "id": "2954"
-    },
-    {
-      "name": "Emelyanovo",
-      "city": "Krasnoyarsk",
-      "country": "Russia",
-      "id": "4374"
     },
     {
       "name": "Sochi",

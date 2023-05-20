@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store/state.models';
 import { Observable } from 'rxjs';
 import { EditService } from '../../services/edit.service';
+import { EditModeService } from '../../../shared/services/edit-mode.service';
 
 @Component({
   selector: 'app-second-menu',
@@ -19,15 +20,19 @@ export class SecondMenuComponent implements OnInit {
   state: AppState;
   isEdit: boolean;
 
+  editMode: boolean;
+
   onClick() {
     this.from === this.from ? (this.from = this.to) : this.from;
     this.to === this.to ? (this.to = this.from) : this.to;
   }
 
-  constructor(private store: Store<AppState>,
-    public editService: EditService) {
 
-  }
+  constructor(
+    private store: Store<AppState>,
+    private editModeService: EditModeService,
+    private editService: EditService
+  ) { }
 
   ngOnInit() {
     this.state$ = this.store.select((appState) => appState);
@@ -41,6 +46,9 @@ export class SecondMenuComponent implements OnInit {
         state.trip.numberOfPassengers[2]?.quantity;
     });
     this.isEdit = false;
+    this.editModeService.editMode$.subscribe((editMode: boolean) => {
+      this.editMode = editMode;
+    });
   }
   onEdit() {
     if (this.isEdit === false) {

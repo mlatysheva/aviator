@@ -14,34 +14,34 @@ export class AviaService {
   public changeHeaderStyle$ = new BehaviorSubject<boolean>(false);
 
   public getAirports(): Observable<IAirport[]> {
-    const airportsRequestUrl = 'http://localhost:3000/airports';
+    const airportsRequestUrl = `${baseUrl}/airports`;
     return this.http.get<IAirport[]>(airportsRequestUrl);
   }
 
   public getAllFlights(): Observable<IFlight[]> {
-    const flightsRequestUrl = 'http://localhost:3000/flights';
+    const flightsRequestUrl = `${baseUrl}/flights`;
     return this.http.get<IFlight[]>(flightsRequestUrl);
   }
   public getAllFlightsByDate(date: string): Observable<IFlight[]> {
-    const flightsRequestUrl = `http://localhost:3000/flights?date=${date}`;
+    const flightsRequestUrl = `${baseUrl}flights?date=${date}`;
     return this.http.get<IFlight[]>(flightsRequestUrl);
   }
   public getAllFlightsByDateAndFrom(
     date: string,
     from: string
   ): Observable<IFlight[]> {
-    const flightsRequestUrl = `http://localhost:3000/flights?date=${date}&from=${from}`;
+    const flightsRequestUrl = `${baseUrl}/flights?date=${date}&from=${from}`;
     return this.http.get<IFlight[]>(flightsRequestUrl);
   }
   public getAllFlightsByDateAndTo(
     date: string,
     to: string
   ): Observable<IFlight[]> {
-    const flightsRequestUrl = `http://localhost:3000/flights?date=${date}&to=${to}`;
+    const flightsRequestUrl = `${baseUrl}/flights?date=${date}&to=${to}`;
     return this.http.get<IFlight[]>(flightsRequestUrl);
   }
   public getFlightById(id: string): Observable<IFlight[]> {
-    const flightsRequestUrl = `http://localhost:3000/flights/${id}`;
+    const flightsRequestUrl = `${baseUrl}/flights/${id}`;
     return this.http.get<IFlight[]>(flightsRequestUrl);
   }
 

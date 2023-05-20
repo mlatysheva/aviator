@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AgGridAngular } from 'ag-grid-angular';
@@ -14,6 +14,7 @@ import { selectUserCurrency } from '../../../store/selectors/user.selectors';
 import { AppState } from '../../../store/state.models';
 import { UserService } from '../../../user/services/user.service';
 import { CartApiService } from '../../services/cart-api.service';
+import { EditModeService } from '../../../shared/services/edit-mode.service';
 
 @Component({
   selector: 'app-account-page',
@@ -49,9 +50,8 @@ export class AccountPageComponent implements OnInit {
   constructor(
     private router: Router,
     private store: Store<AppState>,
-    private http: HttpClient,
     private cartApiService: CartApiService,
-    private userService: UserService,
+    private editModeService: EditModeService,
   ) {
     this.colDefs = [
       {
@@ -152,7 +152,11 @@ export class AccountPageComponent implements OnInit {
   }
 
   priceRenderer(params: ValueGetterParams) {
-    return `${this.currency} ${params.data.totalAmount}`;
+    return `${this.currency} ${Math.round(params.data.totalAmount.sumPrice 
+      + params.data.totalAmount.totalTax
+      + (params.data.totalAmountFrom?.sumPrice || 0)
+      + (params.data.totalAmountFrom?.totalTax || 0))
+    }`;
   }
 
   actionCellRenderer(params: any) {
@@ -172,6 +176,7 @@ export class AccountPageComponent implements OnInit {
       const tripId = params.node.data.id;
 
       if (action === "more") {
+        this.editModeService.setEditMode(false);
         localStorage.setItem(TRIP_ID, tripId);
         const currentTrip$ = this.cartApiService.getTrip(tripId);
         currentTrip$.subscribe((currentTrip) => {

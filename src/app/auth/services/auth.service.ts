@@ -8,6 +8,8 @@ import { Store } from '@ngrx/store';
 import { clearUserState } from '../../store/actions/user.actions';
 import { Router } from '@angular/router';
 import { CartApiService } from '../../cart/services/cart-api.service';
+import { clearTripState } from '../../store/actions/trip.actions';
+import { clearSelectedTrip } from '../../store/actions/select.actions';
 
 @Injectable({
   providedIn: 'root',
@@ -99,6 +101,8 @@ export class AuthService {
   onLogout() {
     localStorage.clear();
     this.store.dispatch(clearUserState());
+    this.store.dispatch(clearTripState());
+    this.store.dispatch(clearSelectedTrip());
     this.isAuth$.next(false);
     this.email$.next('');
     this.userId$.next('');

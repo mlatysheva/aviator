@@ -8,11 +8,10 @@ import {
 import {
   CURRENCY,
   DATE_FORMAT,
-  USER_EMAIL,
   USER_ID,
   USER_NAME,
 } from '../../../constants/localStorage';
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { AviaService } from 'src/app/avia/services/avia.service';
 import { CartApiService } from '../../../cart/services/cart-api.service';
 import { Router } from '@angular/router';
@@ -30,6 +29,7 @@ export class MenuComponent implements OnInit, OnDestroy {
 
   authSubscription: Subscription = new Subscription();
   cartSubscription: Subscription = new Subscription();
+  editModeSubscription: Subscription = new Subscription();
 
   selectedCurrency = localStorage.getItem(CURRENCY) || 'EUR';
   selectedDateFormat = localStorage.getItem(DATE_FORMAT) || 'DD/MM/YYYY';
@@ -41,7 +41,7 @@ export class MenuComponent implements OnInit, OnDestroy {
     private aviaService: AviaService,
     private store: Store,
     private cartService: CartApiService,
-    private router: Router
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
