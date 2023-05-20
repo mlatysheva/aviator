@@ -15,7 +15,6 @@ import { Subscription } from 'rxjs';
 import { AviaService } from 'src/app/avia/services/avia.service';
 import { CartApiService } from '../../../cart/services/cart-api.service';
 import { Router } from '@angular/router';
-import { EditModeService } from '../../../shared/services/edit-mode.service';
 
 @Component({
   selector: 'app-menu',
@@ -77,7 +76,6 @@ export class MenuComponent implements OnInit, OnDestroy {
   }
 
   toUserAccount() {
-    // this.editModeService.setEditMode(false);
     this.router.navigate(['account']);
   }
 
