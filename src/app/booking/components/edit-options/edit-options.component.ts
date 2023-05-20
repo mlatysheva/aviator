@@ -14,6 +14,7 @@ import { TRIP_TYPE } from '../../../constants/localStorage';
 import { IAgeCategory } from '../../../models/passenger';
 import * as SelectActions from '../../../store/actions/select.actions';
 
+
 @Component({
   selector: 'app-edit-options',
   templateUrl: './edit-options.component.html',
@@ -32,6 +33,11 @@ export class EditOptionsComponent implements OnInit, OnDestroy {
   public airports$: Observable<IAirport[]>;
 
   tripType = localStorage.getItem(TRIP_TYPE) || 'round-trip';
+
+  codFrom: string;
+  codTo: string;
+  state$: Observable<AppState>;
+  state: AppState;
 
   public passengersList: IAgeTypeQuantity[] = [
     { ageCategory: IAgeCategory.adult, quantity: 1 },
@@ -87,8 +93,9 @@ export class EditOptionsComponent implements OnInit, OnDestroy {
   }
 
   onDepartureChange(event: any): void {
-    console.log('departure changed...');
-    console.log(this.departureName?.value);
+    this.codFrom = (this.departureName?.value.split(',')
+      .slice(2, 3)
+      .join(''));
     this.store.dispatch(SelectActions.setSelectedOriginCity({
       originCity: this.departureName?.value
         .split(',')
@@ -101,11 +108,17 @@ export class EditOptionsComponent implements OnInit, OnDestroy {
         .slice(0, 1)
         .join('')
     }));
+    this.store.dispatch(SelectActions.setSelectedAiroportCodeOrigin({
+      airportsIataCodeOrigin: this.codFrom
+    }));
+    //this.getTripState();
+    this.changeFlight(this.codFrom, this.codTo);
   }
 
   onDestinationChange(event: any): void {
-    console.log('destination changed...');
-    console.log(this.destinationName?.value);
+    this.codTo = (this.destinationName?.value.split(',')
+      .slice(2, 3)
+      .join(''));
     this.store.dispatch(SelectActions.setSelectedDestinationCity({
       destinationCity: this.destinationName?.value
         .split(',')
@@ -118,7 +131,37 @@ export class EditOptionsComponent implements OnInit, OnDestroy {
         .slice(0, 1)
         .join('')
     }));
+    this.store.dispatch(SelectActions.setSelectedAiroportCodeDestination({
+      airportsIataCodeDestination: this.codTo
+    }));
+    //this.getTripState();
+    this.changeFlight(this.codFrom, this.codTo);
   }
+
+  changeFlight(from: string, to: string) {
+    this.aviaService.getAllFlights().subscribe((flights) => {
+      const filteredFlights = flights.filter((flight) => {
+        return flight.originAirportIataCode === from.toString().trim() &&
+          flight.destinationAirportIataCode === to.toString().trim();
+      });
+      if (filteredFlights.length > 0) {
+
+        console.log(filteredFlights);
+      }
+    }
+    );
+  }
+
+  // public getTripState() {
+  //   this.state$ = this.store.select((appState) => appState);
+  //   this.subscriptions.add(
+  //     this.state$.subscribe((state: AppState) => {
+  //       this.codFrom = state.trip.airportsIataCodeOrigin;
+  //       this.codTo = state.trip.airportsIataCodeDestination;
+
+  //     }
+  //     ));
+  // }
 
   public increase(event: Event, specificAgeType: IAgeTypeQuantity) {
     specificAgeType.quantity++;

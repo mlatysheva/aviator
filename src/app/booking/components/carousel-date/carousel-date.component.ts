@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChildren, QueryList, OnDestroy, ElementRef, } from '@angular/core';
+import { Component, OnInit, Input, ViewChildren, QueryList, OnDestroy, ElementRef, ViewChild, } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { Subscription } from 'rxjs';
@@ -11,6 +11,7 @@ import { FlightDetailsComponent } from '../flight-details/flight-details.compone
 import { SumPriceService } from '../../services/sum-price.service';
 import { IAgeTypeQuantity } from '../../../models/agetype-quantity.model';
 import * as SelectActions from '../../../store/actions/select.actions';
+import { EditOptionsComponent } from '../edit-options/edit-options.component';
 
 @Component({
   selector: 'app-carousel-date',
@@ -19,7 +20,11 @@ import * as SelectActions from '../../../store/actions/select.actions';
 })
 export class CarouselDateComponent implements OnInit, OnDestroy {
   @Input() isFly: string;
+
   @ViewChildren(FlightDetailsComponent) el: QueryList<FlightDetailsComponent>;
+
+  @ViewChild(EditOptionsComponent) edit: EditOptionsComponent;
+
   event: Event;
   $event: MouseEvent;
   oneWay: number;
