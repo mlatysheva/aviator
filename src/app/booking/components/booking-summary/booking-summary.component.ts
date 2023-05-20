@@ -11,7 +11,7 @@ import { TripState } from 'src/app/store/reducers/trip.reducer';
 import { AviaService } from 'src/app/avia/services/avia.service';
 import { ProgressBarService } from 'src/app/core/services/progress-bar.service';
 import { progressBar } from '../../../constants/progressBar';
-import { TRIP_ID } from '../../../constants/localStorage';
+import { EditModeService } from '../../../shared/services/edit-mode.service';
 
 @Component({
   selector: 'app-booking-summary',
@@ -31,11 +31,14 @@ export class BookingSummaryComponent implements OnInit, OnDestroy {
 
   private subscriptions = new Subscription();
 
+  editMode: boolean;
+
   constructor(
     private store: Store<AppState>,
     private router: Router,
     private aviaService: AviaService,
-    private progressBarService: ProgressBarService
+    private progressBarService: ProgressBarService,
+    private editModeService: EditModeService,
   ) {}
 
   ngOnInit() {
@@ -44,6 +47,9 @@ export class BookingSummaryComponent implements OnInit, OnDestroy {
       this.trip$.pipe(map((trip) => (this.trip = trip))).subscribe()
     );
     this.taxRate = 0.15;
+    this.editModeService.editMode$.subscribe((editMode: boolean) => {
+      this.editMode = editMode;
+    });
   }
 
   public onBackClick() {
@@ -51,13 +57,17 @@ export class BookingSummaryComponent implements OnInit, OnDestroy {
     this.router.navigate(['passengers']);
   }
 
+  public onBackClickToMyOrders() {
+    this.router.navigate(['account']);
+  }
+
   public onBuyClick() {
     this.aviaService.changeHeaderStyle$.next(false);
-    localStorage.removeItem(TRIP_ID);
     this.router.navigate(['cart']);
   }
 
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
+    this.editModeService.setEditMode(true);
   }
 }
