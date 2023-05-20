@@ -34,7 +34,7 @@
         {{ selectedRows$ | async }} selected
       </div>
 
-      <button mat-raised-button (click)="onPayment()" color="primary">Payment</button>
+      <button mat-raised-button (click)="onPayment()" color="primary" [disabled]="isPaymentDisabled$ | async">Payment</button>
     </div>
   </div>
   

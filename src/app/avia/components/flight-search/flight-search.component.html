@@ -1,7 +1,7 @@
 <div class="width-container flight-search-container">
   <form class="search-form" [formGroup]="searchForm" (submit)="onSearch()">
     <div class="radio-btns">
-      <mat-radio-group formControlName="tripType" [(ngModel)]="tripType">
+      <mat-radio-group formControlName="tripType">
         <mat-radio-button value="round-trip">Round Trip</mat-radio-button>
         <mat-radio-button value="one-way">One Way</mat-radio-button>
       </mat-radio-group>
@@ -80,7 +80,7 @@
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select [formControl]="passengers" multiple [(ngModel)]="selectedItems">
+        <mat-select [formControl]="passengers" multiple>
           <mat-select-trigger>
             {{ passengersList | stringifyPassengers | titlecase }}
           </mat-select-trigger>
