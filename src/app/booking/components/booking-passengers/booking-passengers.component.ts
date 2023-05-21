@@ -60,6 +60,7 @@ export class BookingPassengersComponent implements OnInit, OnDestroy {
   public ageCategoryCollection: string[] = [];
 
   public passengers: IPassenger[] = [];
+  public passengersFromStore: IPassenger[] = [];
 
   public infoText =
     "Add the passenger's name as it is written on their documents (passport or ID). Do not use any accents or special characters. Do not use a nickname.";
@@ -89,6 +90,7 @@ export class BookingPassengersComponent implements OnInit, OnDestroy {
             (person: IAgeTypeQuantity) =>
               (this.passengersQuauntity += person.quantity)
           );
+          this.passengersFromStore = trip.passengers;
           this.setAgeCategories(trip.numberOfPassengers);
         })
       )
@@ -107,15 +109,24 @@ export class BookingPassengersComponent implements OnInit, OnDestroy {
     );
 
     for (let i = 0; i < this.passengersQuauntity; i++) {
-      if (i === 0) {
+      if (this.passengersFromStore.length) {
         this.addPassengerForm(
-          this.userProfile.firstName,
-          this.userProfile.lastName,
-          this.userProfile.gender,
-          this.userProfile.birthday
+          this.passengersFromStore[i].firstName,
+          this.passengersFromStore[i].lastName,
+          this.passengersFromStore[i].gender,
+          this.passengersFromStore[i].birthday
         );
-      } else if (i > 0) {
-        this.addPassengerForm();
+      } else {
+        if (i === 0) {
+          this.addPassengerForm(
+            this.userProfile.firstName,
+            this.userProfile.lastName,
+            this.userProfile.gender,
+            this.userProfile.birthday
+          );
+        } else if (i > 0) {
+          this.addPassengerForm();
+        }
       }
     }
 
@@ -156,6 +167,7 @@ export class BookingPassengersComponent implements OnInit, OnDestroy {
       age: 0,
       ageCategory: IAgeCategory.infant,
       seatNo: '',
+      gender: IGender.male,
     };
   }
 
