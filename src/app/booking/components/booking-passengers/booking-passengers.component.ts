@@ -51,7 +51,6 @@ export class BookingPassengersComponent implements OnInit, OnDestroy {
   public passengersQuauntity = 0;
 
   public checked = false;
-  public disabled = false;
 
   public countryCodes$: Observable<ICountryCode[]>;
 

@@ -13,7 +13,6 @@ import { BookingPassengersComponent } from './components/booking-passengers/book
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { StoreModule } from '@ngrx/store';
-import { searchReducer } from '../store/reducers/search.reducer';
 import { PassengersPageComponent } from './pages/passengers-page/passengers-page.component';
 import { SummaryPageComponent } from './pages/summary-page/summary-page.component';
 import { BookingSummaryComponent } from './components/booking-summary/booking-summary.component';
@@ -43,7 +42,6 @@ import { tripReducer } from '../store/reducers/trip.reducer';
     BookingRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    StoreModule.forFeature('search', searchReducer),
     StoreModule.forFeature('trip', tripReducer),
   ],
 })
