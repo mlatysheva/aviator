@@ -3,11 +3,6 @@ import { CommonModule } from '@angular/common';
 import { LoginComponent } from './components/login/login.component';
 import { SignupComponent } from './components/signup/signup.component';
 import { ModalComponent } from './components/modal/modal.component';
-// import {
-//   FacebookLoginProvider,
-//   SocialLoginModule,
-//   SocialAuthServiceConfig,
-// } from 'angularx-social-login';
 import { SharedModule } from '../shared/shared.module';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -31,20 +26,7 @@ import { AuthRoutingModule } from './auth-routing.module';
     MatIconModule,
     MatSlideToggleModule,
   ],
-    providers: [
-      // {
-      //   provide: 'SocialAuthServiceConfig',
-      //   useValue: {
-      //     autoLogin: false,
-      //     providers: [
-      //       {
-      //         id: FacebookLoginProvider.PROVIDER_ID,
-      //         provider: new FacebookLoginProvider('Facebook-App-ID-Goes-Here'),
-      //       },
-      //     ],
-      //   } as SocialAuthServiceConfig,
-      // },
-    ],
+    providers: [ ],
   exports: [ModalComponent],
 })
 export class AuthModule {}

@@ -13,7 +13,10 @@
         "phone": "0123456789"
       },
       "id": "0f04c977-c041-4fa4-9354-9c7d7cce9c0e",
-      "tripsIds": [],
+      "tripsIds": [
+        "e5a7d70c-a3cb-4305-9cde-4c787273fd41",
+        "e1cdd197-d364-4b5d-b0c6-f1c43343826e"
+      ],
       "promoCode": "Star Wars",
       "isCodeApplied": true
     },
@@ -46,7 +49,258 @@
       "id": "c5d0b76f-985f-485b-91cb-c1085fe1f75d"
     }
   ],
-  "trips": [],
+  "trips": [
+    {
+      "id": "0a5f992f-33a1-4baf-a0a5-dfdd391576c4",
+      "userId": "0f04c977-c041-4fa4-9354-9c7d7cce9c0e",
+      "roundTrip": true,
+      "airportsIataCodes": [
+        " JFK",
+        " IST "
+      ],
+      "originCity": "New York",
+      "destinationCity": "Istanbul",
+      "outboundFlightNo": "FR-604",
+      "outboundDepartureDate": "2023-05-23T22:00:00.000Z",
+      "outboundDepartureTime": "",
+      "outboundArrivalTime": "",
+      "returnFlightNo": "FR-605",
+      "returnDepartureDate": "Fri Jun 02 2023 00:00:00 GMT+0200 (Central European Summer Time)",
+      "returnDepartureTime": "",
+      "returnArrivalTime": "",
+      "originAiroportName": "John F Kennedy Intl New York",
+      "destinationAiroportName": "Ataturk Istanbul",
+      "passengers": [],
+      "numberOfPassengers": [
+        {
+          "ageCategory": "adult",
+          "quantity": 1
+        },
+        {
+          "ageCategory": "child",
+          "quantity": 0
+        },
+        {
+          "ageCategory": "infant",
+          "quantity": 0
+        }
+      ],
+      "totalAmount": {
+        "adultPrice": 370,
+        "childPrice": 0,
+        "infantPrice": 0,
+        "sumPrice": 370,
+        "totalTax": 55.5
+      },
+      "totalAmountFrom": {
+        "adultPrice": 412,
+        "childPrice": 0,
+        "infantPrice": 0,
+        "sumPrice": 412,
+        "totalTax": 61.8
+      },
+      "totalCalculatedAmount": 899.3,
+      "contactDetails": {
+        "countryCode": "+0",
+        "phone": ""
+      },
+      "isPaid": false,
+      "type": "[Flight Select] Set Total Calculated Amount"
+    },
+    {
+      "id": "e5a7d70c-a3cb-4305-9cde-4c787273fd41",
+      "userId": "0f04c977-c041-4fa4-9354-9c7d7cce9c0e",
+      "roundTrip": true,
+      "airportsIataCodes": [
+        " JFK",
+        " IST "
+      ],
+      "originCity": "New York",
+      "destinationCity": "Istanbul",
+      "outboundFlightNo": "FR-604",
+      "outboundDepartureDate": "2023-05-23T22:00:00.000Z",
+      "outboundDepartureTime": "",
+      "outboundArrivalTime": "",
+      "returnFlightNo": "FR-605",
+      "returnDepartureDate": "Fri Jun 02 2023 00:00:00 GMT+0200 (Central European Summer Time)",
+      "returnDepartureTime": "",
+      "returnArrivalTime": "",
+      "originAiroportName": "John F Kennedy Intl New York",
+      "destinationAiroportName": "Ataturk Istanbul",
+      "passengers": [
+        {
+          "id": "",
+          "firstName": "Mar",
+          "lastName": "Com",
+          "birthday": "1998-12-31T23:00:00.000Z",
+          "age": 24,
+          "ageCategory": "adult",
+          "seatNo": "",
+          "gender": 0
+        }
+      ],
+      "numberOfPassengers": [
+        {
+          "ageCategory": "adult",
+          "quantity": 1
+        },
+        {
+          "ageCategory": "child",
+          "quantity": 0
+        },
+        {
+          "ageCategory": "infant",
+          "quantity": 0
+        }
+      ],
+      "totalAmount": {
+        "adultPrice": 370,
+        "childPrice": 0,
+        "infantPrice": 0,
+        "sumPrice": 370,
+        "totalTax": 55.5
+      },
+      "totalAmountFrom": {
+        "adultPrice": 412,
+        "childPrice": 0,
+        "infantPrice": 0,
+        "sumPrice": 412,
+        "totalTax": 61.8
+      },
+      "totalCalculatedAmount": 899.3,
+      "contactDetails": {
+        "countryCode": "+7",
+        "phone": "0123456789"
+      },
+      "isPaid": true,
+      "type": "[Booking Passengers] Set Trip Contact Details"
+    },
+    {
+      "id": "62f18f6d-45f9-4583-85a4-b32109f713f3",
+      "userId": "0f04c977-c041-4fa4-9354-9c7d7cce9c0e",
+      "roundTrip": true,
+      "airportsIataCodes": [
+        " LHR",
+        " AMS "
+      ],
+      "originCity": "London",
+      "destinationCity": "Amsterdam",
+      "outboundFlightNo": "FR-700",
+      "outboundDepartureDate": "2023-05-23T22:00:00.000Z",
+      "outboundDepartureTime": "",
+      "outboundArrivalTime": "",
+      "returnFlightNo": "FR-701",
+      "returnDepartureDate": "2023-05-29T22:00:00.000Z",
+      "returnDepartureTime": "",
+      "returnArrivalTime": "",
+      "originAiroportName": "Heathrow London",
+      "destinationAiroportName": "Schiphol Amsterdam",
+      "passengers": [],
+      "numberOfPassengers": [
+        {
+          "ageCategory": "adult",
+          "quantity": 1
+        },
+        {
+          "ageCategory": "child",
+          "quantity": 0
+        },
+        {
+          "ageCategory": "infant",
+          "quantity": 0
+        }
+      ],
+      "totalAmount": {
+        "adultPrice": 73,
+        "childPrice": 0,
+        "infantPrice": 0,
+        "sumPrice": 73,
+        "totalTax": 10.95
+      },
+      "totalAmountFrom": {
+        "adultPrice": 74,
+        "childPrice": 0,
+        "infantPrice": 0,
+        "sumPrice": 74,
+        "totalTax": 11.1
+      },
+      "totalCalculatedAmount": 169.04999999999998,
+      "contactDetails": {
+        "countryCode": "+0",
+        "phone": ""
+      },
+      "isPaid": false,
+      "type": "[Flight Select] Set Total Calculated Amount"
+    },
+    {
+      "id": "e1cdd197-d364-4b5d-b0c6-f1c43343826e",
+      "userId": "0f04c977-c041-4fa4-9354-9c7d7cce9c0e",
+      "roundTrip": true,
+      "airportsIataCodes": [
+        " LHR",
+        " AMS "
+      ],
+      "originCity": "London",
+      "destinationCity": "Amsterdam",
+      "outboundFlightNo": "FR-700",
+      "outboundDepartureDate": "2023-05-23T22:00:00.000Z",
+      "outboundDepartureTime": "",
+      "outboundArrivalTime": "",
+      "returnFlightNo": "FR-701",
+      "returnDepartureDate": "2023-05-29T22:00:00.000Z",
+      "returnDepartureTime": "",
+      "returnArrivalTime": "",
+      "originAiroportName": "Heathrow London",
+      "destinationAiroportName": "Schiphol Amsterdam",
+      "passengers": [
+        {
+          "id": "",
+          "firstName": "Mar",
+          "lastName": "Com",
+          "birthday": "1998-12-31T23:00:00.000Z",
+          "age": 24,
+          "ageCategory": "adult",
+          "seatNo": "",
+          "gender": 0
+        }
+      ],
+      "numberOfPassengers": [
+        {
+          "ageCategory": "adult",
+          "quantity": 1
+        },
+        {
+          "ageCategory": "child",
+          "quantity": 0
+        },
+        {
+          "ageCategory": "infant",
+          "quantity": 0
+        }
+      ],
+      "totalAmount": {
+        "adultPrice": 73,
+        "childPrice": 0,
+        "infantPrice": 0,
+        "sumPrice": 73,
+        "totalTax": 10.95
+      },
+      "totalAmountFrom": {
+        "adultPrice": 74,
+        "childPrice": 0,
+        "infantPrice": 0,
+        "sumPrice": 74,
+        "totalTax": 11.1
+      },
+      "totalCalculatedAmount": 169.04999999999998,
+      "contactDetails": {
+        "countryCode": "+7",
+        "phone": "0123456789"
+      },
+      "isPaid": false,
+      "type": "[Booking Passengers] Set Trip Contact Details"
+    }
+  ],
   "login": {},
   "flightspair": [],
   "airports": [

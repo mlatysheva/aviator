@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { IPassenger } from 'backend/types';
-import { IContacts, ITrip } from '../../models';
+import { IContacts, IPassenger, ITrip } from '../../models';
 import { setPassengers } from '../../store/actions/trip.actions';
 import { setTripContactDetails } from '../../store/actions/trip.actions';
 import { baseUrl } from '../../constants/apiUrls';

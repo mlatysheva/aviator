@@ -16,7 +16,6 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { IAgeCategory, IPassenger } from 'backend/types';
 import { map, Observable, take, Subscription } from 'rxjs';
 import { TripState } from '../../../store/reducers/trip.reducer';
 import { IAgeTypeQuantity } from '../../../models/agetype-quantity.model';
@@ -32,7 +31,7 @@ import { ProgressBarService } from '../../../core/services/progress-bar.service'
 import { progressBar } from '../../../constants/progressBar';
 import { TRIP_ID } from '../../../constants/localStorage';
 import { CartApiService } from '../../../cart/services/cart-api.service';
-import { IGender } from 'src/app/models';
+import { IAgeCategory, IGender, IPassenger } from '../../../models';
 
 @Component({
   selector: 'app-booking-passengers',
