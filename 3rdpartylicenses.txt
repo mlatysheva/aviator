@@ -210,9 +210,6 @@ licenses; we recommend you read them, as their terms may differ from the
 terms above.
 
 
-mockapi
-ISC
-
 ngx-bootstrap/carousel
 MIT
 
