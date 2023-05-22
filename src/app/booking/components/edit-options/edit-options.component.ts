@@ -56,7 +56,8 @@ export class EditOptionsComponent implements OnInit, OnDestroy {
   passengers = new FormControl(this.selectedItems);
   totalAmount: { adultPrice: number; childPrice: number; infantPrice: number; sumPrice: number; totalTax?: number | undefined; };
   index: number;
-  changedFlight: IFlight[];
+  changedFlight: IFlight[] = [];
+  duration: number;
 
   public editForm: FormGroup;
   flightDaysTo: number[];
@@ -164,11 +165,12 @@ export class EditOptionsComponent implements OnInit, OnDestroy {
 
   changeFlight(from: string, to: string) {
     this.aviaService.getAllFlights().subscribe((flights) => {
-      this.changedFlight = flights.filter((flight) => {
+      const result = flights.filter((flight) => {
         return flight.originAirportIataCode === from.toString().trim() &&
           flight.destinationAirportIataCode === to.toString().trim();
       });
-      if (this.changedFlight !== undefined && this.changedFlight.length > 0) {
+      if (result !== undefined && result.length > 0) {
+        this.changedFlight.push(result[0]);
         console.log(this.changedFlight);
         this.store.dispatch(SelectActions.setSelectedOutboundDepartureTime({
           outboundDepartureTime: this.changedFlight[0].departureTime,
@@ -176,21 +178,37 @@ export class EditOptionsComponent implements OnInit, OnDestroy {
         this.store.dispatch(SelectActions.setSelectedOutboundFlightNo({
           outboundFlightNo: this.changedFlight[0].flightNumber,
         }));
-        const duration = this.changedFlight[0].duration;
-        this.flightDaysTo = this.changedFlight[0].flightDays;
-        if (this.flightDaysTo !== undefined) {
-          this.subscriptions.add(
-            this.state$.subscribe((state: AppState) => {
-              this.start = state.trip.outboundDepartureDate;
-              this.index = this.flightDaysTo.indexOf(this.dateService.getIndexOfDate(this.start, this.flightDaysTo));
-              this.totalAmount = this.sumPriceService.sumpPrices(this.changedFlight[0], state.trip.numberOfPassengers, this.index);
-              this.store.dispatch(SelectActions.setSelectedTotalAmount({ totalAmount: this.totalAmount }));
-
-            }));
-        }
 
       }
     });
+    if (this.changedFlight !== undefined && this.changedFlight.length > 0) {
+      this.duration = this.changedFlight[0].duration;
+      this.flightDaysTo = this.changedFlight[0].flightDays;
+      console.log(this.flightDaysTo, this.changedFlight[0], this.duration);
+      this.getTripState();
+      //if (this.flightDaysTo !== undefined) {
+      //   this.subscriptions.add(
+      //     this.state$.subscribe((state: AppState) => {
+      //       this.start = state.trip.outboundDepartureDate;
+      //       this.index = this.flightDaysTo.indexOf(this.dateService.getIndexOfDate(this.start, this.flightDaysTo));
+      //       this.totalAmount = this.sumPriceService.sumpPrices(this.changedFlight[0], state.trip.numberOfPassengers, this.index);
+      //       this.store.dispatch(SelectActions.setSelectedTotalAmount({ totalAmount: this.totalAmount }));
+
+      //     }));
+      // }
+    }
+
+  }
+  getTripState() {
+    this.subscriptions.add(
+      this.state$.subscribe((state: AppState) => {
+        this.start = state.trip.outboundDepartureDate;
+        // if (this.flightDaysTo !== undefined) {
+        //   this.index = this.flightDaysTo.indexOf(this.dateService.getIndexOfDate(this.start, this.flightDaysTo));
+        //   this.totalAmount = this.sumPriceService.sumpPrices(this.changedFlight[0], state.trip.numberOfPassengers, this.index);
+        //   this.store.dispatch(SelectActions.setSelectedTotalAmount({ totalAmount: this.totalAmount }));
+        // }
+      }));
   }
 
   public increase(event: Event, specificAgeType: IAgeTypeQuantity) {

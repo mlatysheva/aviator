@@ -29,7 +29,10 @@
         "countryCode": "+380",
         "phone": "0958187111"
       },
-      "id": "f855e72e-ae21-4a01-8f8e-7491d422664b"
+      "id": "f855e72e-ae21-4a01-8f8e-7491d422664b",
+      "tripsIds": [
+        "cf8eb3c1-379a-4133-85ed-b09bfa205663"
+      ]
     },
     {
       "email": "admin@admin.pl",
@@ -46,7 +49,128 @@
       "id": "c5d0b76f-985f-485b-91cb-c1085fe1f75d"
     }
   ],
-  "trips": [],
+  "trips": [
+    {
+      "id": "80b89cef-bede-4011-8f5b-4a9a7fc84a5b",
+      "userId": "f855e72e-ae21-4a01-8f8e-7491d422664b",
+      "roundTrip": false,
+      "airportsIataCodeOrigin": "LHR",
+      "airportsIataCodeDestination": " CDG ",
+      "originCity": "London",
+      "destinationCity": "Paris",
+      "outboundFlightNo": "FR-924",
+      "outboundDepartureDate": "2023-05-24T07:00:00.000Z",
+      "outboundDepartureTime": "",
+      "outboundArrivalTime": "",
+      "returnFlightNo": "FR-925",
+      "returnDepartureDate": "",
+      "returnDepartureTime": "",
+      "returnArrivalTime": "",
+      "originAiroportName": "Heathrow London",
+      "destinationAiroportName": "Charles De Gaulle Paris",
+      "passengers": [],
+      "numberOfPassengers": [
+        {
+          "ageCategory": "adult",
+          "quantity": 1
+        },
+        {
+          "ageCategory": "child",
+          "quantity": 0
+        },
+        {
+          "ageCategory": "infant",
+          "quantity": 0
+        }
+      ],
+      "totalAmount": {
+        "adultPrice": 0,
+        "childPrice": 0,
+        "infantPrice": 0,
+        "sumPrice": 0,
+        "totalTax": 0
+      },
+      "totalAmountFrom": {
+        "adultPrice": null,
+        "childPrice": null,
+        "infantPrice": null,
+        "sumPrice": null,
+        "totalTax": null
+      },
+      "totalCalculatedAmount": 0,
+      "contactDetails": {
+        "countryCode": "+0",
+        "phone": ""
+      },
+      "isPaid": false,
+      "type": "[Flight Select] Set Total Calculated Amount"
+    },
+    {
+      "id": "cf8eb3c1-379a-4133-85ed-b09bfa205663",
+      "userId": "f855e72e-ae21-4a01-8f8e-7491d422664b",
+      "roundTrip": false,
+      "airportsIataCodeOrigin": "LHR",
+      "airportsIataCodeDestination": " CDG ",
+      "originCity": "London",
+      "destinationCity": "Paris",
+      "outboundFlightNo": "FR-924",
+      "outboundDepartureDate": "2023-05-24T07:00:00.000Z",
+      "outboundDepartureTime": "",
+      "outboundArrivalTime": "",
+      "returnFlightNo": "FR-925",
+      "returnDepartureDate": "",
+      "returnDepartureTime": "",
+      "returnArrivalTime": "",
+      "originAiroportName": "Heathrow London",
+      "destinationAiroportName": "Charles De Gaulle Paris",
+      "passengers": [
+        {
+          "id": "",
+          "firstName": "Olena ",
+          "lastName": "Honcharuk",
+          "birthday": "1992-05-04T07:00:00.000Z",
+          "age": 31,
+          "ageCategory": "adult",
+          "seatNo": ""
+        }
+      ],
+      "numberOfPassengers": [
+        {
+          "ageCategory": "adult",
+          "quantity": 1
+        },
+        {
+          "ageCategory": "child",
+          "quantity": 0
+        },
+        {
+          "ageCategory": "infant",
+          "quantity": 0
+        }
+      ],
+      "totalAmount": {
+        "adultPrice": 0,
+        "childPrice": 0,
+        "infantPrice": 0,
+        "sumPrice": 0,
+        "totalTax": 0
+      },
+      "totalAmountFrom": {
+        "adultPrice": null,
+        "childPrice": null,
+        "infantPrice": null,
+        "sumPrice": null,
+        "totalTax": null
+      },
+      "totalCalculatedAmount": 0,
+      "contactDetails": {
+        "countryCode": "+380",
+        "phone": "0958187111"
+      },
+      "isPaid": true,
+      "type": "[Booking Passengers] Set Trip Contact Details"
+    }
+  ],
   "login": {},
   "flightspair": [],
   "airports": [

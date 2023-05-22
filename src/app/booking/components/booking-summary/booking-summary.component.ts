@@ -31,7 +31,7 @@ export class BookingSummaryComponent implements OnInit, OnDestroy {
 
   private subscriptions = new Subscription();
 
-  editMode: boolean;
+  summaryEditMode: boolean;
 
   constructor(
     private store: Store<AppState>,
@@ -39,7 +39,7 @@ export class BookingSummaryComponent implements OnInit, OnDestroy {
     private aviaService: AviaService,
     private progressBarService: ProgressBarService,
     private editModeService: EditModeService,
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.trip$ = this.store.select(selectTrip);
@@ -47,8 +47,8 @@ export class BookingSummaryComponent implements OnInit, OnDestroy {
       this.trip$.pipe(map((trip) => (this.trip = trip))).subscribe()
     );
     this.taxRate = 0.15;
-    this.editModeService.editMode$.subscribe((editMode: boolean) => {
-      this.editMode = editMode;
+    this.editModeService.summaryEditMode$.subscribe((summaryEditMode: boolean) => {
+      this.summaryEditMode = summaryEditMode;
     });
   }
 
@@ -68,6 +68,6 @@ export class BookingSummaryComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
-    this.editModeService.setEditMode(true);
+    this.editModeService.setSummaryEditMode(true);
   }
 }

@@ -147,7 +147,7 @@ export class CarouselDateComponent implements OnInit, OnDestroy {
           this.index);
         this.store.dispatch(SelectActions.setSelectedOutboundFlightNo({ outboundFlightNo: this.flightNumber }));
         this.store.dispatch(SelectActions.setSelectedTotalAmount({ totalAmount: this.totalAmount }));
-        this.store.dispatch(SelectActions.setTotalCalculatedAmount({ totalCalculatedAmount: this.totalAmount.sumPrice + (this.totalAmount.totalTax || 0)}));
+        this.store.dispatch(SelectActions.setTotalCalculatedAmount({ totalCalculatedAmount: this.totalAmount.sumPrice + (this.totalAmount.totalTax || 0) }));
       }));
     return this.details$;
   }
@@ -216,13 +216,12 @@ export class CarouselDateComponent implements OnInit, OnDestroy {
         this.dateFormat = state.user.dateFormat;
         this.flightNumber = state.trip.outboundFlightNo;
         //this.flightNumberFrom = state.trip.returnFlightNo;
-        this.totalAmount = state.trip.totalAmount;
+        // if (state.trip.totalAmount !== undefined &&
+        //   state.trip.totalAmount.adultPrice !== 0 &&
+        //   state.trip.totalAmount.totalTax !== 0) { this.totalAmount = state.trip.totalAmount; }
         //this.totalAmountFrom = state.trip.totalAmountFrom;
         this.isCanFly = this.dateService.isCanFly(this.startDate);
         this.isFly = this.isCanFly ? 'true' : 'false';
-        //this.timeZoneFrom = this.dateService.findOffset(this.cityFrom);
-        //this.timeZoneTo = this.dateService.findOffset(this.cityTo);
-
       }
       ));
   }

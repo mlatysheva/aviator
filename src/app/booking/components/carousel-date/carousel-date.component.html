@@ -2,7 +2,7 @@
   <div class="one-way" *ngIf="result !== undefined">
     <div class="flight-info one-way">
       <img src="../../../../assets/icons/plane-to.svg" alt="plane">
-      <p>{{from}}{{cityFrom}} to {{to}}{{cityTo}}</p>
+      <p>{{from}}, {{cityFrom}} to {{to}}, {{cityTo}}</p>
     </div>
     <carousel class="carousel {{flightTo.classTo}}" [itemsPerSlide]="itemsPerSlide"
       [singleSlideOffset]="singleSlideOffset" [startFromIndex]="0" [interval]="0" (click)="onClick($event)">

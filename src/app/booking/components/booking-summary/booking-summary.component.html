@@ -1,11 +1,11 @@
 <div class="container">
   <div class="title-section">
     <div class="title">
-      <img src="../../../../assets/icons/summary.svg" alt="passengers">
+      <img src="assets/icons/summary.svg" alt="passengers">
       <p class="title-heading">Summary</p>
     </div>
   </div>
- 
+
   <div class="passengers-info">
     <mat-card class="card">
       <div class="card-header">
@@ -89,13 +89,13 @@
     </div>
   </div>
 
-  <div class="width-container stepper-btns" *ngIf="editMode">
+  <div class="width-container stepper-btns" *ngIf="summaryEditMode">
     <button mat-button color="primary" (click)="onBackClick()">Back</button>
     <button mat-stroked-button (click)="onBuyClick()">Add to order cart</button>
     <button mat-raised-button color="primary" (click)="onBuyClick()">Buy now</button>
   </div>
 
-  <div class="width-container stepper-btns" *ngIf="!editMode">
+  <div class="width-container stepper-btns" *ngIf="!summaryEditMode">
     <button mat-raised-button color="primary" (click)="onBackClickToMyOrders()">Back</button>
   </div>
 

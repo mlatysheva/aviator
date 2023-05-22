@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
+//import { MatFormFieldModule } from '@angular/material/form-field';
 import { StoreModule } from '@ngrx/store';
 
 import { MainPageComponent } from './pages/main-page/main-page.component';
@@ -30,7 +30,7 @@ import { tripReducer } from '../store/reducers/trip.reducer';
     ReactiveFormsModule,
     AuthModule,
     HttpClientModule,
-    MatFormFieldModule,
+    //MatFormFieldModule,
     StoreModule.forFeature('search', searchReducer),
     StoreModule.forFeature('trip', tripReducer),
   ],

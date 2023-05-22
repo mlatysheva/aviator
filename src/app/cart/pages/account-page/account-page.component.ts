@@ -1,18 +1,15 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AgGridAngular } from 'ag-grid-angular';
 import { ColDef, GridReadyEvent, ValueGetterParams } from 'ag-grid-community';
 import getSymbolFromCurrency from 'currency-symbol-map';
-import { Observable, BehaviorSubject, map } from 'rxjs';
-import { PROMO_DISOUNT } from '../../../constants/appConstants';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { USER_ID, TRIP_ID } from '../../../constants/localStorage';
 import { IUser, ITrip } from '../../../models';
-import { setSelectedTrip, clearSelectedTrip } from '../../../store/actions/select.actions';
+import { setSelectedTrip } from '../../../store/actions/select.actions';
 import { selectUserCurrency } from '../../../store/selectors/user.selectors';
 import { AppState } from '../../../store/state.models';
-import { UserService } from '../../../user/services/user.service';
 import { CartApiService } from '../../services/cart-api.service';
 import { EditModeService } from '../../../shared/services/edit-mode.service';
 
@@ -139,7 +136,7 @@ export class AccountPageComponent implements OnInit {
     });
   }
 
-  onGridReady(params: GridReadyEvent) {    
+  onGridReady(params: GridReadyEvent) {
     this.trips$ = this.cartApiService.getPaidTripsByUserId(this.userId);
   }
 
@@ -152,11 +149,11 @@ export class AccountPageComponent implements OnInit {
   }
 
   priceRenderer(params: ValueGetterParams) {
-    return `${this.currency} ${Math.round(params.data.totalAmount.sumPrice 
+    return `${this.currency} ${Math.round(params.data.totalAmount.sumPrice
       + params.data.totalAmount.totalTax
       + (params.data.totalAmountFrom?.sumPrice || 0)
       + (params.data.totalAmountFrom?.totalTax || 0))
-    }`;
+      }`;
   }
 
   actionCellRenderer(params: any) {
@@ -176,7 +173,7 @@ export class AccountPageComponent implements OnInit {
       const tripId = params.node.data.id;
 
       if (action === "more") {
-        this.editModeService.setEditMode(false);
+        this.editModeService.setSummaryEditMode(false);
         localStorage.setItem(TRIP_ID, tripId);
         const currentTrip$ = this.cartApiService.getTrip(tripId);
         currentTrip$.subscribe((currentTrip) => {
@@ -201,7 +198,20 @@ function tripTypeGetter(params: ValueGetterParams) {
 }
 
 function dateTimeGetter(params: ValueGetterParams) {
-  return params.data.outboundDepartureDate + ', ' + params.data.outboundDepartureTime + ' - ' + params.data.outboundArrivalTime + (params.data.roundTrip ? '<br>' + params.data.returnDepartureDate + ', ' + params.data.returnDepartureTime + ' - ' + params.data.returnArrivalTime : '');
+  const options = {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  } as const;
+  console.log(typeof params.data.outboundDepartureDate);
+  console.log(params.data.outboundDepartureDate);
+  return (new Date(params.data.outboundDepartureDate).toLocaleString('en-GB', options))
+    // + ', ' + params.data.outboundDepartureTime
+    // + ' - ' + params.data.outboundArrivalTime
+    + (params.data.roundTrip ? '<br>' + (new Date(params.data.returnDepartureDate).toLocaleString('en-GB', options))
+      // + ', ' + params.data.returnDepartureTime + ' - ' + params.data.returnArrivalTime
+      : '');
 }
 
 function passengersGetter(params: ValueGetterParams) {

@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
+//import { MatFormFieldModule } from '@angular/material/form-field';
 import { StoreModule } from '@ngrx/store';
 
 import { BookingRoutingModule } from './booking-routing.module';
@@ -45,13 +45,13 @@ import { AviaModule } from '../avia/avia.module';
     BookingRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    MatFormFieldModule,
+    //MatFormFieldModule,
     AviaModule,
     StoreModule.forFeature('search', searchReducer),
     StoreModule.forFeature('trip', tripReducer),
   ],
-  exports: [
-    MatFormFieldModule
-  ]
+  // exports: [
+  //   MatFormFieldModule
+  // ]
 })
 export class BookingModule { }

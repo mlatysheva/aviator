@@ -46,13 +46,9 @@ export class AuthService {
     const response$ = this.http.post<IUser>(`${baseUrl}/login`, { email, password });
     response$
       .pipe(
-        catchError(async (error) => this.handleError(error))
+        catchError(error => this.handleError(error))
       )
-      .subscribe((userData: IUser | Error) => {
-        if (userData instanceof Error) {
-          this.errorMessage$.next(userData.message);
-          return;
-        }
+      .subscribe((userData: IUser) => {
         if (userData.firstName) {
           localStorage.setItem(USER_NAME, userData.firstName);
           this.userName$.next(userData.firstName);
@@ -78,13 +74,9 @@ export class AuthService {
     const response$ = this.http.post<IUser>(`${baseUrl}/users`, user);
     response$
       .pipe(
-        catchError(async (error) => this.handleError(error))
+        catchError(error => this.handleError(error))
       )
-      .subscribe((userData: IUser | Error) => {
-        if (userData instanceof Error) {
-          this.errorMessage$.next(userData.message);
-          return;
-        }
+      .subscribe((userData: IUser) => {
         if (userData.firstName) {
           localStorage.setItem(USER_NAME, userData.firstName);
           this.userName$.next(userData.firstName);
@@ -111,17 +103,20 @@ export class AuthService {
     this.cartService.cartCount$.next(0);
   }
 
+  setErrorMessage(message: string) {
+    this.errorMessage$.next(message);
+  }
 
-  handleError(error: ErrorEvent) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  handleError(error: any) {
     let errorMessage = '';
     if (error.error instanceof ErrorEvent) {
       errorMessage = error.error.message;
       this.errorMessage$.next(errorMessage);
     } else {
-      errorMessage = `${error.error.message}; error code: ${error}`;
+      errorMessage = `${error.error.message}; error code: ${error.status}`;
       this.errorMessage$.next(errorMessage);
     }
-    const err = new Error('test'); throwError(() => err);
-    return err;
+    return throwError(errorMessage);
   }
 }
