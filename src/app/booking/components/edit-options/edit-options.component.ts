@@ -185,7 +185,7 @@ export class EditOptionsComponent implements OnInit, OnDestroy {
       this.duration = this.changedFlight[0].duration;
       this.flightDaysTo = this.changedFlight[0].flightDays;
       console.log(this.flightDaysTo, this.changedFlight[0], this.duration);
-      this.getTripState();
+      //this.getTripState();
       //if (this.flightDaysTo !== undefined) {
       //   this.subscriptions.add(
       //     this.state$.subscribe((state: AppState) => {
@@ -213,14 +213,14 @@ export class EditOptionsComponent implements OnInit, OnDestroy {
 
   public increase(event: Event, specificAgeType: IAgeTypeQuantity) {
     specificAgeType.quantity++;
-    this.stopPropagationFn(event);
+    // this.stopPropagationFn(event);
   }
 
   public decrease(event: Event, specificAgeType: IAgeTypeQuantity) {
     if (specificAgeType.quantity > 0) {
       specificAgeType.quantity--;
     }
-    this.stopPropagationFn(event);
+    //this.stopPropagationFn(event);
   }
 
   private stopPropagationFn(event: Event) {
