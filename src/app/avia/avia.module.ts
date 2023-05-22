@@ -30,5 +30,9 @@ import { tripReducer } from '../store/reducers/trip.reducer';
     HttpClientModule,
     StoreModule.forFeature('trip', tripReducer),
   ],
+  exports: [
+    AirportValuePipe,
+    StringifyPassengersPipe,
+  ]
 })
-export class AviaModule {}
+export class AviaModule { }

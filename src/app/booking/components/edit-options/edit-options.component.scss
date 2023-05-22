@@ -1,0 +1,68 @@
+.edit-container {
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  top: 4rem;
+  left: 0;
+  width: 100%;
+}
+
+.edit-form {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 0;
+  width: 100%;
+}
+
+.countries-picker {
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  gap: 2rem;
+
+  &-option {
+    padding: 7px 10px;
+  }
+
+  &-text {
+    margin: 0;
+  }
+
+  &-text-gray {
+    font-size: 14px;
+    color: #74767a;
+  }
+}
+
+::ng-deep .mdc-list-item__primary-text {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  .option-details {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+.date-picker {
+  display: flex;
+  justify-content: space-between;
+
+  &-date {
+    margin-right: 10px;
+  }
+
+  &-persons {
+    margin-left: 10px;
+  }
+}
+
+.age-type-option-text {
+  padding: 0 10px;
+}
