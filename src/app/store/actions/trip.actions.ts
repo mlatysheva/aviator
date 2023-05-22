@@ -1,7 +1,7 @@
 import { createAction, props } from '@ngrx/store';
-import { IContacts } from 'backend/types';
 import { IAgeTypeQuantity } from 'src/app/models/agetype-quantity.model';
 import { IPassenger } from '../../models/passenger';
+import { IContacts } from '../../models';
 
 export const setSearchParameters = createAction(
   '[Main Page - Search] Set Search Parameters',

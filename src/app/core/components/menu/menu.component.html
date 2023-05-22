@@ -12,7 +12,7 @@
     <option [selected]="selectedCurrency==='PLN'" class="currency" value="PLN">PLN</option>
   </select>
   <a *ngIf="!isAuth" [routerLink]="[ { outlets: { modal: 'auth' }}]" class="sign" >
-    <img src="../../../../assets/icons/signin.svg" alt="sign">Sign in
+    <img src="assets/icons/signin.svg" alt="sign">Sign in
   </a>
 
   <div class="user-section" *ngIf="isAuth">

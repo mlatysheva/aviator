@@ -37,7 +37,6 @@ import { tripReducer } from '../store/reducers/trip.reducer';
   imports: [
     CommonModule,
     SharedModule,
-    // RouterModule,
     CarouselModule.forRoot(),
     BookingRoutingModule,
     FormsModule,

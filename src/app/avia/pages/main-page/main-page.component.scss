@@ -1,5 +1,6 @@
 .container {
   position: relative;
+  height: 690px;
 }
 
 .image-bg {
@@ -11,4 +12,10 @@
   background-image: url(../../../../assets/images/background.svg);
   background-repeat: no-repeat;
   background-size: cover;
+}
+
+@media screen and (max-width: 768px) {
+  .container {
+    height: 690px;
+  }
 }
