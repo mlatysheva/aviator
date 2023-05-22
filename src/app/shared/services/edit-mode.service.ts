@@ -11,6 +11,7 @@ export class EditModeService {
 
   isEdit$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
+
   setSummaryEditMode(summaryEditMode: boolean): void {
     this.summaryEditMode$.next(summaryEditMode);
   }

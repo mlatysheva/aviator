@@ -3,16 +3,13 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-//import { MatFormFieldModule } from '@angular/material/form-field';
 import { StoreModule } from '@ngrx/store';
-
 import { BookingRoutingModule } from './booking-routing.module';
 import { BookingComponent } from './booking.component';
 import { BookingPageComponent } from './pages/booking-page/booking-page.component';
 import { SecondMenuComponent } from './components/second-menu/second-menu.component';
 import { CarouselDateComponent } from './components/carousel-date/carousel-date.component';
 import { BookingPassengersComponent } from './components/booking-passengers/booking-passengers.component';
-import { searchReducer } from '../store/reducers/search.reducer';
 import { PassengersPageComponent } from './pages/passengers-page/passengers-page.component';
 import { SummaryPageComponent } from './pages/summary-page/summary-page.component';
 import { BookingSummaryComponent } from './components/booking-summary/booking-summary.component';
@@ -47,11 +44,8 @@ import { AviaModule } from '../avia/avia.module';
     ReactiveFormsModule,
     //MatFormFieldModule,
     AviaModule,
-    StoreModule.forFeature('search', searchReducer),
     StoreModule.forFeature('trip', tripReducer),
   ],
-  // exports: [
-  //   MatFormFieldModule
-  // ]
+
 })
 export class BookingModule { }

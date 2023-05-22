@@ -51,9 +51,7 @@ export class SecondMenuComponent implements OnInit {
         state.trip.numberOfPassengers[2]?.quantity;
     });
     this.isEdit = false;
-    // this.editModeService.editMode$.subscribe((editMode: boolean) => {
-    //   this.editMode = editMode;
-    // });
+
     this.editModeService.isEditButtonVisible$.subscribe((isEditButtonVisible: boolean) => {
       this.isEditButtonVisible = isEditButtonVisible;
     });

@@ -12,7 +12,7 @@
         </div>
         <div data-index="1" class="slide-weekday">{{slide | date :'cccc'}}</div>
         <div class="is-fly" *ngIf="(dateService.isCanFly(slide))">
-          <img src="../../../../assets/icons/do-not-fly.svg" alt="no-fly">
+          <img src="assets/icons/do-not-fly.svg" alt="no-fly">
         </div>
         <div data-index="1" class="price" *ngIf="!dateService.isCanFly(slide) ">
           <h5 *ngIf="(result!== undefined && dateService.isFlightDay(slide, result[0]))" data-index="1">
@@ -36,7 +36,7 @@
   <div class="two-way" *ngIf="!isOneWay && returnDetails !== undefined">
     <div class="flight-info two-way">
       <img src="../../../../assets/icons/plane-from.svg" alt="plane">
-      <p>{{to}}{{cityTo}} to {{from}}{{cityFrom}}</p>
+      <p>{{to}}, {{cityTo}} to {{from}}, {{cityFrom}}</p>
     </div>
     <carousel class="carousel {{flightFrom.classFrom}}" [itemsPerSlide]="itemsPerSlide"
       [singleSlideOffset]="singleSlideOffset" [startFromIndex]="0" [interval]="0">
@@ -46,7 +46,7 @@
         </div>
         <div data-index="2" class="slide-weekday">{{slide | date :'cccc'}} </div>
         <div data-index="2" class="is-fly" *ngIf="(dateService.isCanFly(slide))">
-          <img src="../../../../assets/icons/do-not-fly.svg" alt="no-fly">
+          <img src="assets/icons/do-not-fly.svg" alt="no-fly">
         </div>
         <div data-index="2" class="price" *ngIf="!dateService.isCanFly(slide) && returnDetails!== undefined">
           <h5 *ngIf="(returnDetails!== undefined &&dateService.isFlightDay(slide, returnDetails[0]))">

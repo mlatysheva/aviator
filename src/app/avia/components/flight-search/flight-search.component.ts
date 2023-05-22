@@ -10,11 +10,11 @@ import { Router } from '@angular/router';
 import { TRIP_TYPE } from '../../../constants/localStorage';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../store/state.models';
-import { setSearchForm } from '../../../store/actions/search.actions';
 import { IAgeCategory } from '../../../models/passenger';
 import { setSearchParameters } from '../../../store/actions/trip.actions';
 import { progressBar } from '../../../constants/progressBar';
 import { ProgressBarService } from '../../../core/services/progress-bar.service';
+import { EditModeService } from '../../../shared/services/edit-mode.service';
 
 @Component({
   selector: 'app-flight-search',
@@ -49,7 +49,8 @@ export class FlightSearchComponent implements OnInit, OnDestroy {
     private router: Router,
     private store: Store<AppState>,
     private fb: FormBuilder,
-    private progressBarService: ProgressBarService
+    private progressBarService: ProgressBarService,
+    private editModeService: EditModeService,
   ) {
     this.passengersList.map((option) => this.selectedItems.push(option));
   }
@@ -71,16 +72,16 @@ export class FlightSearchComponent implements OnInit, OnDestroy {
       })
     );
 
-    this.subscriptions.add(
-      this.searchForm.controls['departure'].valueChanges.subscribe(() => {
-        this.updateFieldsEqualityValidation();
-      })
-    );
-    this.subscriptions.add(
-      this.searchForm.controls['destination'].valueChanges.subscribe(() => {
-        this.updateFieldsEqualityValidation();
-      })
-    );
+    // this.subscriptions.add(
+    //   this.searchForm.controls['departure'].valueChanges.subscribe(() => {
+    //     this.updateFieldsEqualityValidation();
+    //   })
+    // );
+    // this.subscriptions.add(
+    //   this.searchForm.controls['destination'].valueChanges.subscribe(() => {
+    //     this.updateFieldsEqualityValidation();
+    //   })
+    // );
   }
 
   get departure() {
@@ -155,13 +156,14 @@ export class FlightSearchComponent implements OnInit, OnDestroy {
           .join(''),
         returnDepartureDate: this.searchForm.controls['endDate'].value,
         numberOfPassengers: this.searchForm.controls['passengers'].value,
+        isPaid: false,
       })
     );
 
     this.progressBarService.progressBar$.next(progressBar.FLIGHTS);
 
-    // TODO: get rid of search in store because all the data is currently stored in trip structure
-    this.store.dispatch(setSearchForm(this.searchForm.value));
+    this.editModeService.isEditButtonVisible$.next(true);
+
     this.router.navigate(['flights']);
   }
 

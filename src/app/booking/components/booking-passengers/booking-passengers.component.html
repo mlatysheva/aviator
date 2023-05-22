@@ -1,7 +1,7 @@
 <div class="width-container booking-passengers-container">
     <div class="title-section">
         <div class="title">
-            <img src="../../../../assets/icons/passengers.svg" alt="passengers">
+            <img src="assets/icons/passengers.svg" alt="passengers">
             <p class="title-heading">Passengers</p>
         </div>
         <p class="title-text">Enter the passenger's names as they appear on document (passport or ID). </p>
@@ -27,8 +27,8 @@
                                     >
                                         <img src="{{passengerForm.get('firstName')?.errors &&
                                             passengerForm.get('firstName')?.touched ?
-                                            '../../../../assets/icons/info-error.svg' :
-                                            '../../../../assets/icons/info.svg'}}">
+                                            'assets/icons/info-error.svg' :
+                                            'assets/icons/info.svg'}}">
                                     </mat-icon>
                                 </mat-form-field>
                                 <mat-error
@@ -51,8 +51,8 @@
                                     >
                                         <img src="{{passengerForm.get('lastName')?.errors &&
                                             passengerForm.get('lastName')?.touched ?
-                                            '../../../../assets/icons/info-error.svg' :
-                                            '../../../../assets/icons/info.svg'}}">
+                                            'assets/icons/info-error.svg' :
+                                            'assets/icons/info.svg'}}">
                                     </mat-icon>
                                 </mat-form-field>
                                 <mat-error
@@ -87,9 +87,8 @@
                         <mat-slide-toggle
                             class="assistance-toggle"
                             formControlName="assistance"
-                            [checked]="checked"
-                            [disabled]="disabled">
-                            <img class="assistance-icon" src="../../../../assets/icons/assistance.svg" alt="assistance">
+                            [checked]="checked">
+                            <img class="assistance-icon" src="assets/icons/assistance.svg" alt="assistance">
                             Need special assistance?
                         </mat-slide-toggle>
                     </mat-card-content>
@@ -101,7 +100,7 @@
 
     <div class="title-section">
         <div class="title">
-            <img src="../../../../assets/icons/contact-details.svg" alt="passengers">
+            <img src="assets/icons/contact-details.svg" alt="passengers">
             <p class="title-heading">Contact details</p>
         </div>
         <p class="title-text">We need contact details to be able to deliver the latest information regarding your flight. </p>
