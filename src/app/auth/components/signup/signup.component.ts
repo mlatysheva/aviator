@@ -85,6 +85,7 @@ export class SignupComponent implements OnInit {
       agreementCheck: [false, [Validators.required]],
     });
     this.countryCodes$ = this.userService.getCountryCodes();
+    this.authService.errorMessage$.next('');
   }
 
   passwordValidator(): ValidatorFn {

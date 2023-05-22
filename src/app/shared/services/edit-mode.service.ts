@@ -5,9 +5,15 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class EditModeService {
-  editMode$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
+  summaryEditMode$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
+
+  isEditButtonVisible$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   
-  setEditMode(editMode: boolean): void {
-    this.editMode$.next(editMode);
+  setSummaryEditMode(summaryEditMode: boolean): void {
+    this.summaryEditMode$.next(summaryEditMode);
+  }
+
+  setEditButtonVisibility(isVisible: boolean): void {
+    this.isEditButtonVisible$.next(isVisible);
   }
 }

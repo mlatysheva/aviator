@@ -36,8 +36,9 @@
             "scripts": [],
             "allowedCommonJsDependencies": [
               "city-timezones",
-              "countries-and-timezones"
-           ]
+              "countries-and-timezones",
+              "currency-symbol-map"
+            ]
           },
           "configurations": {
             "production": {

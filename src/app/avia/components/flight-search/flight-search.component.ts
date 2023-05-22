@@ -15,6 +15,7 @@ import { IAgeCategory } from '../../../models/passenger';
 import { setSearchParameters } from '../../../store/actions/trip.actions';
 import { progressBar } from '../../../constants/progressBar';
 import { ProgressBarService } from '../../../core/services/progress-bar.service';
+import { EditModeService } from '../../../shared/services/edit-mode.service';
 
 @Component({
   selector: 'app-flight-search',
@@ -49,7 +50,8 @@ export class FlightSearchComponent implements OnInit, OnDestroy {
     private router: Router,
     private store: Store<AppState>,
     private fb: FormBuilder,
-    private progressBarService: ProgressBarService
+    private progressBarService: ProgressBarService,
+    private editModeService: EditModeService,
   ) {
     this.passengersList.map((option) => this.selectedItems.push(option));
   }
@@ -62,7 +64,7 @@ export class FlightSearchComponent implements OnInit, OnDestroy {
       startDate: ['', [Validators.required]],
       endDate: [''],
       passengers: [this.selectedItems, Validators.required],
-    });
+    }, { updateOn: 'change' });
     this.getAirportsList();
     this.state$ = this.store.select((appState) => appState);
     this.subscriptions.add(
@@ -152,10 +154,13 @@ export class FlightSearchComponent implements OnInit, OnDestroy {
           .join(''),
         returnDepartureDate: this.searchForm.controls['endDate'].value,
         numberOfPassengers: this.searchForm.controls['passengers'].value,
+        isPaid: false,
       })
     );
 
     this.progressBarService.progressBar$.next(progressBar.FLIGHTS);
+
+    this.editModeService.isEditButtonVisible$.next(true);
 
     // TODO: get rid of search in store because all the data is currently stored in trip structure
     this.store.dispatch(setSearchForm(this.searchForm.value));

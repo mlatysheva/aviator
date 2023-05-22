@@ -11,6 +11,7 @@ import { EMPTY, switchMap, take, tap } from 'rxjs';
 import { selectTrip } from '../../../store/selectors/trip.selectors';
 import * as SelectActions from '../../../store/actions/select.actions';
 import { setUserId, setTripId } from '../../../store/actions/trip.actions';
+import { EditModeService } from '../../../shared/services/edit-mode.service';
 
 @Component({
   selector: 'app-booking-page',
@@ -24,7 +25,8 @@ export class BookingPageComponent {
     private router: Router,
     private progressBarService: ProgressBarService,
     private store: Store<AppState>,
-    private cartService: CartApiService
+    private cartService: CartApiService,
+    private editModeService: EditModeService,
   ) {}
 
   onBackClick() {
@@ -34,6 +36,8 @@ export class BookingPageComponent {
 
   onNextClick() {
     this.progressBarService.progressBar$.next(progressBar.PASSENGERS);
+
+    this.editModeService.isEditButtonVisible$.next(false);
 
     const tripId = localStorage.getItem(TRIP_ID);
     const userId = localStorage.getItem(USER_ID);
@@ -71,45 +75,6 @@ export class BookingPageComponent {
         })
       )
       .subscribe();
-
-      // TODO: figure out why two post requests are being made
-
-    // trip$
-    // .pipe(
-    //   take(1),
-    //   switchMap((trip) => {
-    //     if (userId && !tripId) {
-    //       const updatedTrip = {
-    //         ...trip,
-    //         userId: JSON.parse(JSON.stringify(userId)),
-    //       };
-    //       return this.cartService.addTrip(updatedTrip).pipe(
-    //         switchMap((newTrip) => {
-    //           if (newTrip.id) {
-    //             localStorage.setItem(TRIP_ID, newTrip.id);
-    //             return this.cartService
-    //               .addTripIdToUser(userId, newTrip.id)
-    //               .pipe(
-    //                 tap(() => {
-    //                   this.store.dispatch(
-    //                     setTripId({ id: localStorage.getItem(TRIP_ID) || '' })
-    //                   );
-    //                   this.store.dispatch(
-    //                     setUserId({ userId: localStorage.getItem(USER_ID) || '' })
-    //                   );
-    //                 })
-    //               );
-    //           } else {
-    //             return EMPTY; // No need to perform any further actions
-    //           }
-    //         })
-    //       );
-    //     } else {
-    //       return EMPTY; // No need to perform any further actions
-    //     }
-    //   })
-    // )
-    // .subscribe();
 
     this.router.navigate(['passengers']);
   }

@@ -13,7 +13,10 @@
         "phone": "0123456789"
       },
       "id": "0f04c977-c041-4fa4-9354-9c7d7cce9c0e",
-      "tripsIds": [],
+      "tripsIds": [
+        "9f5db22e-7e3b-4e24-b15c-b3a098bda376",
+        "f5d22266-739c-460f-9a33-a94dd428eade"
+      ],
       "promoCode": "Star Wars",
       "isCodeApplied": true
     },
@@ -46,7 +49,266 @@
       "id": "c5d0b76f-985f-485b-91cb-c1085fe1f75d"
     }
   ],
-  "trips": [],
+  "trips": [
+    {
+      "id": "00655a1b-8774-473e-a7c5-dcca6c3de34b",
+      "userId": "0f04c977-c041-4fa4-9354-9c7d7cce9c0e",
+      "roundTrip": true,
+      "airportsIataCodes": [
+        " TXL",
+        " ATH "
+      ],
+      "originCity": "Berlin",
+      "destinationCity": "Athens",
+      "outboundFlightNo": "FR-203",
+      "outboundDepartureDate": "2023-05-23T22:00:00.000Z",
+      "outboundDepartureTime": "",
+      "outboundArrivalTime": "",
+      "returnFlightNo": "FR-204",
+      "returnDepartureDate": "2023-05-30T22:00:00.000Z",
+      "returnDepartureTime": "",
+      "returnArrivalTime": "",
+      "originAiroportName": "Tegel Berlin",
+      "destinationAiroportName": "Eleftherios Venizelos Intl Athens",
+      "passengers": [],
+      "numberOfPassengers": [
+        {
+          "ageCategory": "adult",
+          "quantity": 1
+        },
+        {
+          "ageCategory": "child",
+          "quantity": 0
+        },
+        {
+          "ageCategory": "infant",
+          "quantity": 0
+        }
+      ],
+      "totalAmount": {
+        "adultPrice": 423,
+        "childPrice": 0,
+        "infantPrice": 0,
+        "sumPrice": 423,
+        "totalTax": 63.45
+      },
+      "totalAmountFrom": {
+        "adultPrice": 465,
+        "childPrice": 0,
+        "infantPrice": 0,
+        "sumPrice": 465,
+        "totalTax": 69.75
+      },
+      "totalCalculatedAmount": 1021.2,
+      "contactDetails": {
+        "countryCode": "+0",
+        "phone": ""
+      },
+      "isPaid": false,
+      "type": "[Flight Select] Set Total Calculated Amount"
+    },
+    {
+      "id": "9f5db22e-7e3b-4e24-b15c-b3a098bda376",
+      "userId": "0f04c977-c041-4fa4-9354-9c7d7cce9c0e",
+      "roundTrip": true,
+      "airportsIataCodes": [
+        " TXL",
+        " ATH "
+      ],
+      "originCity": "Berlin",
+      "destinationCity": "Athens",
+      "outboundFlightNo": "FR-203",
+      "outboundDepartureDate": "2023-05-23T22:00:00.000Z",
+      "outboundDepartureTime": "",
+      "outboundArrivalTime": "",
+      "returnFlightNo": "FR-204",
+      "returnDepartureDate": "2023-05-30T22:00:00.000Z",
+      "returnDepartureTime": "",
+      "returnArrivalTime": "",
+      "originAiroportName": "Tegel Berlin",
+      "destinationAiroportName": "Eleftherios Venizelos Intl Athens",
+      "passengers": [
+        {
+          "id": "",
+          "firstName": "Mar",
+          "lastName": "Com",
+          "birthday": "1998-12-31T23:00:00.000Z",
+          "age": 24,
+          "ageCategory": "adult",
+          "seatNo": ""
+        }
+      ],
+      "numberOfPassengers": [
+        {
+          "ageCategory": "adult",
+          "quantity": 1
+        },
+        {
+          "ageCategory": "child",
+          "quantity": 0
+        },
+        {
+          "ageCategory": "infant",
+          "quantity": 0
+        }
+      ],
+      "totalAmount": {
+        "adultPrice": 423,
+        "childPrice": 0,
+        "infantPrice": 0,
+        "sumPrice": 423,
+        "totalTax": 63.45
+      },
+      "totalAmountFrom": {
+        "adultPrice": 465,
+        "childPrice": 0,
+        "infantPrice": 0,
+        "sumPrice": 465,
+        "totalTax": 69.75
+      },
+      "totalCalculatedAmount": 1021.2,
+      "contactDetails": {
+        "countryCode": "+7",
+        "phone": "0123456789"
+      },
+      "isPaid": true,
+      "type": "[Booking Passengers] Set Trip Contact Details"
+    },
+    {
+      "id": "41e3c0da-b228-42d5-8192-fd35ec4d1312",
+      "userId": "0f04c977-c041-4fa4-9354-9c7d7cce9c0e",
+      "roundTrip": true,
+      "airportsIataCodes": [
+        " LHR",
+        " JFK "
+      ],
+      "originCity": "London",
+      "destinationCity": "New York",
+      "outboundFlightNo": "FR-473",
+      "outboundDepartureDate": "2023-05-23T22:00:00.000Z",
+      "outboundDepartureTime": "",
+      "outboundArrivalTime": "",
+      "returnFlightNo": "FR-474",
+      "returnDepartureDate": "Fri Jun 02 2023 00:00:00 GMT+0200 (Central European Summer Time)",
+      "returnDepartureTime": "",
+      "returnArrivalTime": "",
+      "originAiroportName": "Heathrow London",
+      "destinationAiroportName": "John F Kennedy Intl New York",
+      "passengers": [
+        {
+          "id": "",
+          "firstName": "Mar",
+          "lastName": "Com",
+          "birthday": "1998-12-31T23:00:00.000Z",
+          "age": 24,
+          "ageCategory": "adult",
+          "seatNo": ""
+        }
+      ],
+      "numberOfPassengers": [
+        {
+          "ageCategory": "adult",
+          "quantity": 1
+        },
+        {
+          "ageCategory": "child",
+          "quantity": 0
+        },
+        {
+          "ageCategory": "infant",
+          "quantity": 0
+        }
+      ],
+      "totalAmount": {
+        "adultPrice": 624,
+        "childPrice": 0,
+        "infantPrice": 0,
+        "sumPrice": 624,
+        "totalTax": 93.6
+      },
+      "totalAmountFrom": {
+        "adultPrice": 691,
+        "childPrice": 0,
+        "infantPrice": 0,
+        "sumPrice": 691,
+        "totalTax": 103.65
+      },
+      "totalCalculatedAmount": 1512.25,
+      "contactDetails": {
+        "countryCode": "+7",
+        "phone": "0123456789"
+      },
+      "isPaid": false,
+      "type": "[Flight Select] Set Total Calculated Amount"
+    },
+    {
+      "id": "f5d22266-739c-460f-9a33-a94dd428eade",
+      "userId": "0f04c977-c041-4fa4-9354-9c7d7cce9c0e",
+      "roundTrip": true,
+      "airportsIataCodes": [
+        " LHR",
+        " JFK "
+      ],
+      "originCity": "London",
+      "destinationCity": "New York",
+      "outboundFlightNo": "FR-473",
+      "outboundDepartureDate": "2023-05-23T22:00:00.000Z",
+      "outboundDepartureTime": "",
+      "outboundArrivalTime": "",
+      "returnFlightNo": "FR-474",
+      "returnDepartureDate": "Fri Jun 02 2023 00:00:00 GMT+0200 (Central European Summer Time)",
+      "returnDepartureTime": "",
+      "returnArrivalTime": "",
+      "originAiroportName": "Heathrow London",
+      "destinationAiroportName": "John F Kennedy Intl New York",
+      "passengers": [
+        {
+          "id": "",
+          "firstName": "Mar",
+          "lastName": "Com",
+          "birthday": "1998-12-31T23:00:00.000Z",
+          "age": 24,
+          "ageCategory": "adult",
+          "seatNo": ""
+        }
+      ],
+      "numberOfPassengers": [
+        {
+          "ageCategory": "adult",
+          "quantity": 1
+        },
+        {
+          "ageCategory": "child",
+          "quantity": 0
+        },
+        {
+          "ageCategory": "infant",
+          "quantity": 0
+        }
+      ],
+      "totalAmount": {
+        "adultPrice": 624,
+        "childPrice": 0,
+        "infantPrice": 0,
+        "sumPrice": 624,
+        "totalTax": 93.6
+      },
+      "totalAmountFrom": {
+        "adultPrice": 691,
+        "childPrice": 0,
+        "infantPrice": 0,
+        "sumPrice": 691,
+        "totalTax": 103.65
+      },
+      "totalCalculatedAmount": 1512.25,
+      "contactDetails": {
+        "countryCode": "+7",
+        "phone": "0123456789"
+      },
+      "isPaid": true,
+      "type": "[Booking Passengers] Set Trip Contact Details"
+    }
+  ],
   "login": {},
   "flightspair": [],
   "airports": [
