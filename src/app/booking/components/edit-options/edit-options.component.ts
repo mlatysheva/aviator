@@ -6,7 +6,7 @@ import {
 import { MatOption } from '@angular/material/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../store/state.models';
-import { EditService } from '../../services/edit.service';
+import { EditModeService } from '../../../shared/services/edit-mode.service';
 import { IAgeTypeQuantity } from '../../../models/agetype-quantity.model';
 import { AviaService } from '../../../avia/services/avia.service';
 import { IAirport } from '../../../models/airport';
@@ -64,7 +64,7 @@ export class EditOptionsComponent implements OnInit, OnDestroy {
 
 
   constructor(
-    public editService: EditService,
+    public editService: EditModeService,
     private builder: FormBuilder,
     private aviaService: AviaService,
     private store: Store<AppState>,
