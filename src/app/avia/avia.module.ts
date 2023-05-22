@@ -8,7 +8,6 @@ import { MainPageComponent } from './pages/main-page/main-page.component';
 import { AviaRoutingModule } from './avia-routing.module';
 import { FlightSearchComponent } from './components/flight-search/flight-search.component';
 import { AuthModule } from '../auth/auth.module';
-import { searchReducer } from '../store/reducers/search.reducer';
 import { SharedModule } from '../shared/shared.module';
 import { StringifyPassengersPipe } from '../avia/pipes/stringify-passengers.pipe';
 import { AirportValuePipe } from './pipes/airport-name.pipe';
@@ -29,7 +28,6 @@ import { tripReducer } from '../store/reducers/trip.reducer';
     ReactiveFormsModule,
     AuthModule,
     HttpClientModule,
-    StoreModule.forFeature('search', searchReducer),
     StoreModule.forFeature('trip', tripReducer),
   ],
 })

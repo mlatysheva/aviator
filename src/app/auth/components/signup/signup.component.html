@@ -69,12 +69,12 @@
       <input 
         matInput 
         [matDatepicker]="picker1" 
-        formControlName="birthDate"
+        formControlName="birthday"
         required
       >
       <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
       <mat-datepicker #picker1></mat-datepicker>
-      <mat-error class="error" *ngIf="birthDate.invalid && birthDate.touched">
+      <mat-error class="error" *ngIf="birthday.invalid && birthday.touched">
         {{getBirthdateErrorMessage()}}
       </mat-error>
     </mat-form-field>

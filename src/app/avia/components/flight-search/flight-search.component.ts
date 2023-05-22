@@ -10,7 +10,6 @@ import { Router } from '@angular/router';
 import { TRIP_TYPE } from '../../../constants/localStorage';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../store/state.models';
-import { setSearchForm } from '../../../store/actions/search.actions';
 import { IAgeCategory } from '../../../models/passenger';
 import { setSearchParameters } from '../../../store/actions/trip.actions';
 import { progressBar } from '../../../constants/progressBar';
@@ -73,16 +72,16 @@ export class FlightSearchComponent implements OnInit, OnDestroy {
       })
     );
 
-    this.subscriptions.add(
-      this.searchForm.controls['departure'].valueChanges.subscribe(() => {
-        this.updateFieldsEqualityValidation();
-      })
-    );
-    this.subscriptions.add(
-      this.searchForm.controls['destination'].valueChanges.subscribe(() => {
-        this.updateFieldsEqualityValidation();
-      })
-    );
+    // this.subscriptions.add(
+    //   this.searchForm.controls['departure'].valueChanges.subscribe(() => {
+    //     this.updateFieldsEqualityValidation();
+    //   })
+    // );
+    // this.subscriptions.add(
+    //   this.searchForm.controls['destination'].valueChanges.subscribe(() => {
+    //     this.updateFieldsEqualityValidation();
+    //   })
+    // );
   }
 
   get departure() {
@@ -162,8 +161,6 @@ export class FlightSearchComponent implements OnInit, OnDestroy {
 
     this.editModeService.isEditButtonVisible$.next(true);
 
-    // TODO: get rid of search in store because all the data is currently stored in trip structure
-    this.store.dispatch(setSearchForm(this.searchForm.value));
     this.router.navigate(['flights']);
   }
 

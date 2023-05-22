@@ -1,5 +1,12 @@
-import { Component,  OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, ValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import {
+  FormGroup,
+  FormBuilder,
+  Validators,
+  ValidatorFn,
+  AbstractControl,
+  ValidationErrors,
+} from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { getAge } from '../../../utils/getAge';
 import { Observable } from 'rxjs';
@@ -11,10 +18,9 @@ import { PROMOCODES } from '../../../constants/promoCodes';
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
-  styleUrls: ['./signup.component.scss']
+  styleUrls: ['./signup.component.scss'],
 })
 export class SignupComponent implements OnInit {
-
   signupForm!: FormGroup;
 
   public countryCodes$: Observable<ICountryCode[]>;
@@ -27,7 +33,7 @@ export class SignupComponent implements OnInit {
 
   get password() {
     return this.signupForm.controls['password'];
-  }  
+  }
 
   get firstName() {
     return this.signupForm.controls['firstName'];
@@ -37,8 +43,8 @@ export class SignupComponent implements OnInit {
     return this.signupForm.controls['lastName'];
   }
 
-  get birthDate() {
-    return this.signupForm.controls['birthDate'];
+  get birthday() {
+    return this.signupForm.controls['birthday'];
   }
 
   get gender() {
@@ -65,22 +71,48 @@ export class SignupComponent implements OnInit {
     public authService: AuthService,
     private fb: FormBuilder,
     public userService: UserService,
-    private router: Router,
+    private router: Router
   ) {}
 
   ngOnInit() {
     this.signupForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(8), this.passwordValidator()]],
-      firstName: ['', [Validators.required, Validators.pattern('[A-Za-z]*'), Validators.minLength(3)]],
-      lastName: ['', [Validators.required, Validators.pattern('[A-Za-z]*'), Validators.minLength(3)]],
-      birthDate: [null, [Validators.required, this.birthdateValidator()]],
+      password: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(8),
+          this.passwordValidator(),
+        ],
+      ],
+      firstName: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern('[A-Za-z]*'),
+          Validators.minLength(3),
+        ],
+      ],
+      lastName: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern('[A-Za-z]*'),
+          Validators.minLength(3),
+        ],
+      ],
+      birthday: [null, [Validators.required, this.birthdateValidator()]],
       gender: ['', [Validators.required]],
       countryCode: ['+0', [Validators.required]],
-      phone: ['', [Validators.required, 
-        Validators.pattern('[0-9]*'), 
-        Validators.minLength(10), 
-        Validators.maxLength(11)]],
+      phone: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern('[0-9]*'),
+          Validators.minLength(10),
+          Validators.maxLength(11),
+        ],
+      ],
       citizenship: [''],
       agreementCheck: [false, [Validators.required]],
     });
@@ -94,7 +126,8 @@ export class SignupComponent implements OnInit {
       if (!value) return null;
       else {
         // const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d){8,20}$/;
-        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#$@!%&*])[A-Za-z\d#$@!%&*]{8,20}$/;
+        const passwordRegex =
+          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#$@!%&*])[A-Za-z\d#$@!%&*]{8,20}$/;
         return passwordRegex.test(value) ? null : { passwordValidator: true };
       }
     };
@@ -112,34 +145,44 @@ export class SignupComponent implements OnInit {
   }
 
   onSignup() {
-    const { email, password, firstName, lastName, birthDate, gender, countryCode, phone, citizenship } = this.signupForm.value;
+    const {
+      email,
+      password,
+      firstName,
+      lastName,
+      birthday,
+      gender,
+      countryCode,
+      phone,
+      citizenship,
+    } = this.signupForm.value;
     const user = {
       email,
       password,
       firstName,
       lastName,
-      birthDate,
+      birthday,
       gender,
       citizenship,
       contactDetails: {
         countryCode,
         phone,
       },
-      promoCode: PROMOCODES[Math.round(Math.random()*PROMOCODES.length)] || PROMOCODES[0],
+      promoCode:
+        PROMOCODES[Math.round(Math.random() * PROMOCODES.length)] ||
+        PROMOCODES[0],
       isCodeApplied: false,
-    }
+    };
     this.authService.onSignup(user);
     setTimeout(() => {
-      this.authService.errorMessage$.subscribe(
-        (error) => {
-          if (error !== '') {
-            this.signupForm.setErrors({ signupError: true });
-          }
-          if (error == '') {
-            this.router.navigate([{ outlets: { modal: 'auth' } }]);
-          }
+      this.authService.errorMessage$.subscribe((error) => {
+        if (error !== '') {
+          this.signupForm.setErrors({ signupError: true });
         }
-      );
+        if (error == '') {
+          this.router.navigate([{ outlets: { modal: 'auth' } }]);
+        }
+      });
     }, 500);
   }
 
@@ -148,38 +191,44 @@ export class SignupComponent implements OnInit {
   }
 
   getPasswordErrorMessage() {
-    return this.password.hasError('passwordValidator') ? 'Min 8 characters, an uppercase letter, a number and one of [#$@!%&*]' : '';
+    return this.password.hasError('passwordValidator')
+      ? 'Min 8 characters, an uppercase letter, a number and one of [#$@!%&*]'
+      : '';
   }
 
   getFirstNameErrorMessage() {
     if (this.firstName.hasError('pattern')) {
       return 'Only letters are accepted';
-    } 
+    }
     return this.firstName.hasError('minLength') ? 'Minimum 3 letters' : '';
   }
 
   getLastNameErrorMessage() {
     if (this.lastName.hasError('pattern')) {
       return 'Only letters are accepted';
-    } 
+    }
     return this.lastName.hasError('minLength') ? 'Minimum 3 letters' : '';
   }
 
   getBirthdateErrorMessage() {
-    return this.birthDate.hasError('birthdateValidator') ? 'You should be over 18 y.o. to register' : '';
+    return this.birthday.hasError('birthdateValidator')
+      ? 'You should be over 18 y.o. to register'
+      : '';
   }
 
   getPhoneErrorMessage() {
     if (this.phone.hasError('pattern')) {
       return 'Only numbers are accepted';
-    } 
+    }
     if (this.phone.hasError('minLength')) {
       return 'Minimum 10 digits';
-    } 
+    }
     return this.phone.hasError('maxLength') ? 'Maximum 11 digits' : '';
   }
 
   getAgreementCheckErrorMessage() {
-    return this.agreementCheck.hasError('required') ? 'You must agree to the terms and conditions' : '';
+    return this.agreementCheck.hasError('required')
+      ? 'You must agree to the terms and conditions'
+      : '';
   }
 }
