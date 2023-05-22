@@ -10,7 +10,7 @@
           "style": "scss"
         }
       },
-      "root": "aviator",
+      "root": "",
       "sourceRoot": "src",
       "prefix": "app",
       "architect": {
