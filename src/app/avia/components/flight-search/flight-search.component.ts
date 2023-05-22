@@ -63,7 +63,7 @@ export class FlightSearchComponent implements OnInit, OnDestroy {
       startDate: ['', [Validators.required]],
       endDate: [''],
       passengers: [this.selectedItems, Validators.required],
-    }, { updateOn: 'change' });
+    });
     this.getAirportsList();
     this.state$ = this.store.select((appState) => appState);
     this.subscriptions.add(
