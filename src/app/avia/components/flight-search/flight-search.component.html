@@ -45,6 +45,7 @@
           <mat-option *ngFor="let airport of airports$ | async "
             value="{{airport.name}}, {{airport.city}}, {{airport.iata_code}} " class="countries-picker-option">
             <div>
+              <p class="countries-picker-text">{{airport.city}} ({{airport.iata_code}})</p>
               <small class="countries-picker-text-gray">{{airport.name}}, {{airport.country}}</small>
             </div>
           </mat-option>
@@ -56,10 +57,6 @@
         : 'Please enter a departure airport' }}
       </mat-error>
     </div>
-
-    <p class="fake">
-      {{ destination.value | airportValue }}
-    </p>
 
     <div class="picker">
       <mat-form-field *ngIf="tripType === 'round-trip'" appearance="fill" class="picker-date">
