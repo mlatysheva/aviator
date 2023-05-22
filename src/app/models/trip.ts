@@ -28,7 +28,7 @@ export interface ITrip {
   totalTaxFrom?: number;
   totalCalculatedAmount?: number;
   contactDetails: IContacts;
-  isPaid?: boolean;
+  isPaid: boolean;
 }
 
 export interface ITotalAmount {

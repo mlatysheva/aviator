@@ -103,6 +103,10 @@ export class AuthService {
     this.cartService.cartCount$.next(0);
   }
 
+  setErrorMessage(message: string) {
+    this.errorMessage$.next(message);
+  }
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   handleError(error: any) {
     let errorMessage = '';

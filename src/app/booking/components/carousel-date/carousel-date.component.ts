@@ -76,6 +76,7 @@ export class CarouselDateComponent implements OnInit, OnDestroy {
   passengersFrom: IAgeTypeQuantity[];
   totalAmount: { adultPrice: number; childPrice: number; infantPrice: number; sumPrice: number; totalTax?: number | undefined; };
   totalAmountFrom: { adultPrice: number; childPrice: number; infantPrice: number; sumPrice: number; totalTax?: number | undefined; };
+  isPaid = false;
 
 
   //time

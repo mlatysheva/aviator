@@ -283,7 +283,19 @@ function tripTypeGetter(params: ValueGetterParams) {
 }
 
 function dateTimeGetter(params: ValueGetterParams) {
-  return params.data.outboundDepartureDate + ', ' + params.data.outboundDepartureTime + ' - ' + params.data.outboundArrivalTime + (params.data.roundTrip ? '<br>' + params.data.returnDepartureDate + ', ' + params.data.returnDepartureTime + ' - ' + params.data.returnArrivalTime : '');
+  // return params.data.outboundDepartureDate + ', ' + params.data.outboundDepartureTime + ' - ' + params.data.outboundArrivalTime + (params.data.roundTrip ? '<br>' + params.data.returnDepartureDate + ', ' + params.data.returnDepartureTime + ' - ' + params.data.returnArrivalTime : '');
+  const options = {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  } as const;
+  return (new Date(params.data.outboundDepartureDate).toLocaleString('en-GB', options)) 
+  // + ', ' + params.data.outboundDepartureTime 
+  // + ' - ' + params.data.outboundArrivalTime 
+  + (params.data.roundTrip ? '<br>' + (new Date(params.data.returnDepartureDate).toLocaleString('en-GB', options)) 
+  // + ', ' + params.data.returnDepartureTime + ' - ' + params.data.returnArrivalTime
+  : '');
 }
 
 function passengersGetter(params: ValueGetterParams) {

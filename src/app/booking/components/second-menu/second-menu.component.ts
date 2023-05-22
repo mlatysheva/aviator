@@ -18,7 +18,7 @@ export class SecondMenuComponent implements OnInit {
   state$: Observable<AppState>;
   state: AppState;
 
-  editMode: boolean;
+  isEditButtonVisible: boolean;
 
   onClick() {
     this.from === this.from ? (this.from = this.to) : this.from;
@@ -41,8 +41,8 @@ export class SecondMenuComponent implements OnInit {
         state.trip.numberOfPassengers[1]?.quantity +
         state.trip.numberOfPassengers[2]?.quantity;
     });
-    this.editModeService.editMode$.subscribe((editMode: boolean) => {
-      this.editMode = editMode;
+    this.editModeService.isEditButtonVisible$.subscribe((isEditButtonVisible: boolean) => {
+      this.isEditButtonVisible = isEditButtonVisible;
     });
   }
 }

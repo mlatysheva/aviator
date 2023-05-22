@@ -42,6 +42,7 @@ export class LoginComponent implements OnInit {
       email: [this.emailFromLS || '', [Validators.required, Validators.email]],
       password: ['', [Validators.required, this.passwordValidator()]],
     });
+    this.authService.setErrorMessage('');
   }
 
   passwordValidator(): ValidatorFn {
@@ -71,7 +72,7 @@ export class LoginComponent implements OnInit {
         }
       );
     }, 500);
-}
+  }
 
   getEmailErrorMessage() {
     if (this.email.hasError('required')) {

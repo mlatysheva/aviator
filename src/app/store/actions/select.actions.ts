@@ -19,7 +19,7 @@ export const setSelectedTrip = createAction(
     returnDepartureTime?: string;
     returnArrivalTime?: string;
     numberOfPassengers: IAgeTypeQuantity[];
-
+    isPaid: boolean;
   }>()
 );
 
