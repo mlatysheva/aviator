@@ -32,6 +32,7 @@ import { ProgressBarService } from '../../../core/services/progress-bar.service'
 import { progressBar } from '../../../constants/progressBar';
 import { TRIP_ID } from '../../../constants/localStorage';
 import { CartApiService } from '../../../cart/services/cart-api.service';
+import { IGender } from 'src/app/models';
 
 @Component({
   selector: 'app-booking-passengers',
@@ -43,12 +44,13 @@ export class BookingPassengersComponent implements OnInit, OnDestroy {
   public passengersCollectionForm: FormGroup;
 
   public trip$!: Observable<TripState | any>;
+
   public userProfile$!: Observable<IUser>;
+  public userProfile: IUser;
 
   public passengersQuauntity = 0;
 
   public checked = false;
-  public disabled = false;
 
   public countryCodes$: Observable<ICountryCode[]>;
 
@@ -57,6 +59,7 @@ export class BookingPassengersComponent implements OnInit, OnDestroy {
   public ageCategoryCollection: string[] = [];
 
   public passengers: IPassenger[] = [];
+  public passengersFromStore: IPassenger[] = [];
 
   public infoText =
     "Add the passenger's name as it is written on their documents (passport or ID). Do not use any accents or special characters. Do not use a nickname.";
@@ -86,6 +89,7 @@ export class BookingPassengersComponent implements OnInit, OnDestroy {
             (person: IAgeTypeQuantity) =>
               (this.passengersQuauntity += person.quantity)
           );
+          this.passengersFromStore = trip.passengers;
           this.setAgeCategories(trip.numberOfPassengers);
         })
       )
@@ -96,6 +100,7 @@ export class BookingPassengersComponent implements OnInit, OnDestroy {
       this.userProfile$
         .pipe(
           map((userProfile) => {
+            this.userProfile = userProfile;
             this.createDetailsForm(userProfile as IUser);
           })
         )
@@ -103,7 +108,25 @@ export class BookingPassengersComponent implements OnInit, OnDestroy {
     );
 
     for (let i = 0; i < this.passengersQuauntity; i++) {
-      this.addPassengerForm();
+      if (this.passengersFromStore.length) {
+        this.addPassengerForm(
+          this.passengersFromStore[i].firstName,
+          this.passengersFromStore[i].lastName,
+          this.passengersFromStore[i].gender,
+          this.passengersFromStore[i].birthday
+        );
+      } else {
+        if (i === 0) {
+          this.addPassengerForm(
+            this.userProfile.firstName,
+            this.userProfile.lastName,
+            this.userProfile.gender,
+            this.userProfile.birthday
+          );
+        } else if (i > 0) {
+          this.addPassengerForm();
+        }
+      }
     }
 
     this.getCountryCodes();
@@ -117,12 +140,17 @@ export class BookingPassengersComponent implements OnInit, OnDestroy {
     return this.detailsForm.controls['phone'];
   }
 
-  public addPassengerForm() {
+  public addPassengerForm(
+    firstName?: string,
+    lastName?: string,
+    genger?: IGender,
+    birthday?: string
+  ) {
     const passenger = this.fb.group({
-      firstName: ['', Validators.required],
-      lastName: ['', [Validators.required]],
-      gender: ['male'],
-      birthday: ['', [Validators.required]],
+      firstName: [firstName ? firstName : '', Validators.required],
+      lastName: [lastName ? lastName : '', [Validators.required]],
+      gender: [genger ? genger : 'male'],
+      birthday: [birthday ? birthday : '', [Validators.required]],
       assistance: [false],
     });
 
@@ -138,6 +166,7 @@ export class BookingPassengersComponent implements OnInit, OnDestroy {
       age: 0,
       ageCategory: IAgeCategory.infant,
       seatNo: '',
+      gender: IGender.male,
     };
   }
 

@@ -1,3 +1,5 @@
+import { IGender } from './gender';
+
 export interface IPassenger {
   id?: string;
   firstName: string;
@@ -6,6 +8,7 @@ export interface IPassenger {
   age?: number;
   ageCategory: IAgeCategory;
   seatNo?: string;
+  gender?: IGender;
 }
 
 export enum IAgeCategory {
@@ -13,4 +16,3 @@ export enum IAgeCategory {
   child = 'child',
   infant = 'infant',
 }
-  
