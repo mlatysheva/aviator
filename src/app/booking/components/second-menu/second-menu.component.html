@@ -17,7 +17,7 @@
     <span>{{people}}</span>
     <img src="assets/icons/person.svg" alt="person">
   </div>
-  <button mat-raised-button *ngIf="!isEditButtonVisible" class="edit-btn" color="primary"
+  <button mat-raised-button *ngIf="isEditButtonVisible" class="edit-btn" color="primary"
     (click)="onEdit()">Edit</button>
 
   <app-edit-options *ngIf="isEdit">
