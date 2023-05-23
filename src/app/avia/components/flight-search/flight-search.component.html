@@ -78,22 +78,7 @@
         <mat-datepicker #picker1></mat-datepicker>
       </mat-form-field>
 
-      <div class="dropdown" [formControl]="passengers">
-        <button class="dropdown-toggle" (click)="toggleDropdown()">
-          {{ passengersList | stringifyPassengers | titlecase }}
-        </button>
-        <ul class="dropdown-menu" *ngIf="isDropdownOpen">
-          <li *ngFor="let passenger of optpassengersListions" (click)="selectOption(option)">
-            <div class="age-type-option-text">{{ passenger.ageCategory | titlecase}}</div>
-            <div class="option-details">
-              <button mat-button (click)="decrease($event, passenger)">-</button>
-              <span>{{ passenger.quantity }}</span>
-              <button mat-button (click)="increase($event, passenger)">+</button>
-            </div>
-          </li>
-        </ul>
-      </div>
-      <!-- <mat-form-field>
+      <mat-form-field>
         <mat-select [formControl]="passengers" multiple>
           <mat-select-trigger>
             {{ passengersList | stringifyPassengers | titlecase }}
@@ -108,7 +93,7 @@
             </div>
           </mat-option>
         </mat-select>
-      </mat-form-field> -->
+      </mat-form-field>
     </div>
 
     <div class="search-btn-container">

@@ -117,14 +117,14 @@ export class FlightSearchComponent implements OnInit, OnDestroy {
 
   public increase(event: Event, specificAgeType: IAgeTypeQuantity) {
     specificAgeType.quantity++;
-    // this.stopPropagationFn(event);
+    this.stopPropagationFn(event);
   }
 
   public decrease(event: Event, specificAgeType: IAgeTypeQuantity) {
     if (specificAgeType.quantity > 0) {
       specificAgeType.quantity--;
     }
-    // this.stopPropagationFn(event);
+    this.stopPropagationFn(event);
   }
 
   public onSearch() {
@@ -175,10 +175,12 @@ export class FlightSearchComponent implements OnInit, OnDestroy {
   }
 
   private getCityName(controlValue: string): string {
-    let resultString = '';
-    const airportArray = controlValue.split(',');
-    resultString = airportArray[1];
-    return resultString.trim();
+    if (controlValue) {
+      let resultString = '';
+      const airportArray = controlValue.split(',');
+      resultString = airportArray[1];
+      return resultString.trim();
+    } else return '';
   }
 
   private updateFieldsEqualityValidation() {
@@ -199,15 +201,10 @@ export class FlightSearchComponent implements OnInit, OnDestroy {
     this.searchForm.controls['destination'].markAsTouched();
   }
 
-  public toggleDropdown() {
-    debugger;
-    this.isDropdownOpen = !this.isDropdownOpen;
+  private stopPropagationFn(event: Event) {
+    event.stopPropagation();
+    this.matOption._selectViaInteraction();
   }
-
-  // private stopPropagationFn(event: Event) {
-  //   event.stopPropagation();
-  //   this.matOption._selectViaInteraction();
-  // }
 
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
