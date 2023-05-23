@@ -39,7 +39,7 @@ export class BookingSummaryComponent implements OnInit, OnDestroy {
     private aviaService: AviaService,
     private progressBarService: ProgressBarService,
     private editModeService: EditModeService,
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.trip$ = this.store.select(selectTrip);

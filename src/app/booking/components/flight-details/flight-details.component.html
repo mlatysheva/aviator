@@ -5,7 +5,7 @@
       <div class="time">{{departureTime }}</div>
       <div class="timeZone">UTC {{timeZoneFrom}}</div>
     </div>
-    <div class="city">{{from}}</div>
+    <div class="city"> {{cityFrom}}, {{from}}</div>
   </div>
   <div class="duration">
     <div class="duration-time"> {{hours}} h {{minutes}} m</div>
@@ -20,10 +20,10 @@
   <div class="details-arriving">
     <div class="date">{{arrivingDateTo | date: 'fullDate'}}</div>
     <div class="time-wrapper">
-      <div class="time">{{arrivingDateTo | date: 'hh:mm'}}</div>
+      <div class="time">{{arrivingTimeTo }}</div>
       <div class="timeZone">UTC {{timeZoneTo}}</div>
     </div>
-    <div class="city">{{to}}</div>
+    <div class="city">{{cityTo}},{{to}}</div>
   </div>
   <div class="flight-number">Flight no.{{flightNumber}}</div>
   <div class="price-warning">

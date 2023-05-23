@@ -125,9 +125,11 @@
       "@angular-eslint/schematics",
       "@ngrx/schematics",
       "@ngrx/schematics",
-      "@ngrx/schematics"
+      "@ngrx/schematics",
+      "@angular/material",
+      "@schematics/angular"
     ],
-    "defaultCollection": "@ngrx/schematics",
+
     "analytics": false
   }
 }

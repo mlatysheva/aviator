@@ -83,9 +83,10 @@ export class DateService {
     return slide;
   }
 
-  getArrivingDate(departureDate: string | undefined, departureTime: string, duration: number): string | undefined {
+  getArrivingDate(departureDate: string | undefined, departureTime: string, duration: number): { dateToRender: string, timeToRender: string } {
     if (departureDate === undefined) {
-      return new Date().toISOString().slice(0, -1);
+      return { dateToRender: new Date().toISOString().slice(0, -1), timeToRender: '00:00' };
+
     } else {
       const dateCopy = new Date(departureDate);
       const time = departureTime.split(':');
@@ -93,7 +94,9 @@ export class DateService {
       dateCopy.setMinutes(+time[1]);
       const addMinutes = dateCopy.getTime() + duration * 60000;
       const arrivingDate = new Date(addMinutes);
-      return arrivingDate.toString();
+      const dateToRender = arrivingDate.toString();
+      const timeToRender = arrivingDate.toLocaleString('en-GB').slice(11, 17);
+      return { dateToRender, timeToRender };
     }
   }
   getDay(date: string) {

@@ -40,7 +40,7 @@ export class AuthService {
     private store: Store,
     private router: Router,
     private cartService: CartApiService,
-  ) {}
+  ) { }
 
   onLogin(email: string, password: string) {
     const response$ = this.http.post<IUser>(`${baseUrl}/login`, { email, password });
@@ -52,7 +52,7 @@ export class AuthService {
         if (userData.firstName) {
           localStorage.setItem(USER_NAME, userData.firstName);
           this.userName$.next(userData.firstName);
-        } 
+        }
         if (userData.email) {
           localStorage.setItem(USER_EMAIL, userData.email);
           this.email$.next(userData.email);
@@ -67,7 +67,7 @@ export class AuthService {
           this.cartService.cartCount$.next(count);
         });
       });
-    return response$;    
+    return response$;
   }
 
   onSignup(user: IUser) {
@@ -80,7 +80,7 @@ export class AuthService {
         if (userData.firstName) {
           localStorage.setItem(USER_NAME, userData.firstName);
           this.userName$.next(userData.firstName);
-        } 
+        }
         if (userData.email) {
           localStorage.setItem(USER_EMAIL, userData.email);
           this.email$.next(userData.email);
