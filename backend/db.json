@@ -13,7 +13,11 @@
         "phone": "0123456789"
       },
       "id": "0f04c977-c041-4fa4-9354-9c7d7cce9c0e",
-      "tripsIds": [],
+      "tripsIds": [
+        "55798010-2f18-493e-a309-b52f8f61e791",
+        "99209f3d-02a0-4d10-b5d3-b83dec91a189",
+        "2b79bd28-b90d-4463-91a6-3bf95fc5a3d4"
+      ],
       "promoCode": "Star Wars",
       "isCodeApplied": true
     },
@@ -47,7 +51,437 @@
       "id": "c5d0b76f-985f-485b-91cb-c1085fe1f75d"
     }
   ],
-  "trips": [],
+  "trips": [
+    {
+      "id": "705452f9-a952-4d26-b23a-ce92a9e023ff",
+      "userId": "0f04c977-c041-4fa4-9354-9c7d7cce9c0e",
+      "roundTrip": true,
+      "airportsIataCodeOrigin": "CDG",
+      "airportsIataCodeDestination": " LHR ",
+      "originCity": "Paris",
+      "destinationCity": "London",
+      "outboundFlightNo": "FR-925",
+      "outboundDepartureDate": "2023-05-23T22:00:00.000Z",
+      "outboundDepartureTime": "",
+      "outboundArrivalTime": "",
+      "returnFlightNo": "FR-924",
+      "returnDepartureDate": "Fri Jun 02 2023 00:00:00 GMT+0200 (Central European Summer Time)",
+      "returnDepartureTime": "",
+      "returnArrivalTime": "",
+      "originAiroportName": "Charles De Gaulle",
+      "destinationAiroportName": "Heathrow",
+      "passengers": [],
+      "numberOfPassengers": [
+        {
+          "ageCategory": "adult",
+          "quantity": 1
+        },
+        {
+          "ageCategory": "child",
+          "quantity": 0
+        },
+        {
+          "ageCategory": "infant",
+          "quantity": 0
+        }
+      ],
+      "totalAmount": {
+        "adultPrice": 685,
+        "childPrice": 0,
+        "infantPrice": 0,
+        "sumPrice": 685,
+        "totalTax": 102.75
+      },
+      "totalAmountFrom": {
+        "adultPrice": 628,
+        "childPrice": 0,
+        "infantPrice": 0,
+        "sumPrice": 628,
+        "totalTax": 94.2
+      },
+      "totalCalculatedAmount": 1509.95,
+      "contactDetails": {
+        "countryCode": "+0",
+        "phone": ""
+      },
+      "isPaid": false,
+      "type": "[Flight Select] Set Total Calculated Amount"
+    },
+    {
+      "id": "67ac590b-afb8-4a72-b9cc-689eeddf3e0b",
+      "userId": "0f04c977-c041-4fa4-9354-9c7d7cce9c0e",
+      "roundTrip": true,
+      "airportsIataCodeOrigin": "LHR",
+      "airportsIataCodeDestination": " JFK ",
+      "originCity": "London",
+      "destinationCity": "New York",
+      "outboundFlightNo": "FR-473",
+      "outboundDepartureDate": "2023-05-28T22:00:00.000Z",
+      "outboundDepartureTime": "",
+      "outboundArrivalTime": "",
+      "returnFlightNo": "FR-474",
+      "returnDepartureDate": "2023-05-30T22:00:00.000Z",
+      "returnDepartureTime": "",
+      "returnArrivalTime": "",
+      "originAiroportName": "Heathrow",
+      "destinationAiroportName": "John F Kennedy Intl",
+      "passengers": [],
+      "numberOfPassengers": [
+        {
+          "ageCategory": "adult",
+          "quantity": 1
+        },
+        {
+          "ageCategory": "child",
+          "quantity": 0
+        },
+        {
+          "ageCategory": "infant",
+          "quantity": 0
+        }
+      ],
+      "totalAmount": {
+        "adultPrice": 619,
+        "childPrice": 0,
+        "infantPrice": 0,
+        "sumPrice": 619,
+        "totalTax": 92.85
+      },
+      "totalAmountFrom": {
+        "adultPrice": 686,
+        "childPrice": 0,
+        "infantPrice": 0,
+        "sumPrice": 686,
+        "totalTax": 102.9
+      },
+      "totalCalculatedAmount": 1500.75,
+      "contactDetails": {
+        "countryCode": "+0",
+        "phone": ""
+      },
+      "isPaid": false,
+      "type": "[Flight Select] Set Total Calculated Amount"
+    },
+    {
+      "id": "55798010-2f18-493e-a309-b52f8f61e791",
+      "userId": "0f04c977-c041-4fa4-9354-9c7d7cce9c0e",
+      "roundTrip": true,
+      "airportsIataCodeOrigin": "LHR",
+      "airportsIataCodeDestination": " JFK ",
+      "originCity": "London",
+      "destinationCity": "New York",
+      "outboundFlightNo": "FR-473",
+      "outboundDepartureDate": "Wed May 31 2023 00:00:00 GMT+0200 (Central European Summer Time)",
+      "outboundDepartureTime": "",
+      "outboundArrivalTime": "",
+      "returnFlightNo": "FR-474",
+      "returnDepartureDate": "Wed May 31 2023 00:00:00 GMT+0200 (Central European Summer Time)",
+      "returnDepartureTime": "",
+      "returnArrivalTime": "",
+      "originAiroportName": "Heathrow",
+      "destinationAiroportName": "John F Kennedy Intl",
+      "passengers": [
+        {
+          "id": "",
+          "firstName": "Mar",
+          "lastName": "Com",
+          "birthday": "1998-12-31T23:00:00.000Z",
+          "age": 24,
+          "ageCategory": "adult",
+          "seatNo": "",
+          "gender": 0
+        }
+      ],
+      "numberOfPassengers": [
+        {
+          "ageCategory": "adult",
+          "quantity": 1
+        },
+        {
+          "ageCategory": "child",
+          "quantity": 0
+        },
+        {
+          "ageCategory": "infant",
+          "quantity": 0
+        }
+      ],
+      "totalAmount": {
+        "adultPrice": 624,
+        "childPrice": 0,
+        "infantPrice": 0,
+        "sumPrice": 624,
+        "totalTax": 93.6
+      },
+      "totalAmountFrom": {
+        "adultPrice": 686,
+        "childPrice": 0,
+        "infantPrice": 0,
+        "sumPrice": 686,
+        "totalTax": 102.9
+      },
+      "totalCalculatedAmount": 1506.5,
+      "contactDetails": {
+        "countryCode": "+7",
+        "phone": "0123456789"
+      },
+      "isPaid": true,
+      "type": "[Booking Passengers] Set Trip Contact Details"
+    },
+    {
+      "id": "d726e7ee-4682-4a95-8153-e05d8d49e876",
+      "userId": "0f04c977-c041-4fa4-9354-9c7d7cce9c0e",
+      "roundTrip": true,
+      "airportsIataCodeOrigin": "JFK",
+      "airportsIataCodeDestination": " IST ",
+      "originCity": "New York",
+      "destinationCity": "Istanbul",
+      "outboundFlightNo": "FR-604",
+      "outboundDepartureDate": "Wed May 31 2023 00:00:00 GMT+0200 (Central European Summer Time)",
+      "outboundDepartureTime": "",
+      "outboundArrivalTime": "",
+      "returnFlightNo": "FR-605",
+      "returnDepartureDate": "Fri Jun 02 2023 00:00:00 GMT+0200 (Central European Summer Time)",
+      "returnDepartureTime": "",
+      "returnArrivalTime": "",
+      "originAiroportName": "John F Kennedy Intl",
+      "destinationAiroportName": "Ataturk",
+      "passengers": [],
+      "numberOfPassengers": [
+        {
+          "ageCategory": "adult",
+          "quantity": 1
+        },
+        {
+          "ageCategory": "child",
+          "quantity": 0
+        },
+        {
+          "ageCategory": "infant",
+          "quantity": 0
+        }
+      ],
+      "totalAmount": {
+        "adultPrice": 370,
+        "childPrice": 0,
+        "infantPrice": 0,
+        "sumPrice": 370,
+        "totalTax": 55.5
+      },
+      "totalAmountFrom": {
+        "adultPrice": 412,
+        "childPrice": 0,
+        "infantPrice": 0,
+        "sumPrice": 412,
+        "totalTax": 61.8
+      },
+      "totalCalculatedAmount": 899.3,
+      "contactDetails": {
+        "countryCode": "+0",
+        "phone": ""
+      },
+      "isPaid": false,
+      "type": "[Flight Select] Set Total Calculated Amount"
+    },
+    {
+      "id": "99209f3d-02a0-4d10-b5d3-b83dec91a189",
+      "userId": "0f04c977-c041-4fa4-9354-9c7d7cce9c0e",
+      "roundTrip": true,
+      "airportsIataCodeOrigin": "JFK",
+      "airportsIataCodeDestination": " IST ",
+      "originCity": "New York",
+      "destinationCity": "Istanbul",
+      "outboundFlightNo": "FR-604",
+      "outboundDepartureDate": "Wed May 31 2023 00:00:00 GMT+0200 (Central European Summer Time)",
+      "outboundDepartureTime": "",
+      "outboundArrivalTime": "",
+      "returnFlightNo": "FR-605",
+      "returnDepartureDate": "Fri Jun 02 2023 00:00:00 GMT+0200 (Central European Summer Time)",
+      "returnDepartureTime": "",
+      "returnArrivalTime": "",
+      "originAiroportName": "John F Kennedy Intl",
+      "destinationAiroportName": "Ataturk",
+      "passengers": [
+        {
+          "id": "",
+          "firstName": "Mar",
+          "lastName": "Com",
+          "birthday": "1998-12-31T23:00:00.000Z",
+          "age": 24,
+          "ageCategory": "adult",
+          "seatNo": "",
+          "gender": 0
+        }
+      ],
+      "numberOfPassengers": [
+        {
+          "ageCategory": "adult",
+          "quantity": 1
+        },
+        {
+          "ageCategory": "child",
+          "quantity": 0
+        },
+        {
+          "ageCategory": "infant",
+          "quantity": 0
+        }
+      ],
+      "totalAmount": {
+        "adultPrice": 370,
+        "childPrice": 0,
+        "infantPrice": 0,
+        "sumPrice": 370,
+        "totalTax": 55.5
+      },
+      "totalAmountFrom": {
+        "adultPrice": 412,
+        "childPrice": 0,
+        "infantPrice": 0,
+        "sumPrice": 412,
+        "totalTax": 61.8
+      },
+      "totalCalculatedAmount": 899.3,
+      "contactDetails": {
+        "countryCode": "+0",
+        "phone": ""
+      },
+      "isPaid": false,
+      "type": "[Flight Select] Set Total Calculated Amount"
+    },
+    {
+      "id": "bbd44c63-5ee3-43b2-940a-05b45ba90665",
+      "userId": "0f04c977-c041-4fa4-9354-9c7d7cce9c0e",
+      "roundTrip": true,
+      "airportsIataCodeOrigin": "FCO",
+      "airportsIataCodeDestination": " MAD ",
+      "originCity": "Rome",
+      "destinationCity": "Madrid",
+      "outboundFlightNo": "FR-587",
+      "outboundDepartureDate": "Wed May 31 2023 00:00:00 GMT+0200 (Central European Summer Time)",
+      "outboundDepartureTime": "",
+      "outboundArrivalTime": "",
+      "returnFlightNo": "FR-588",
+      "returnDepartureDate": "2023-05-30T22:00:00.000Z",
+      "returnDepartureTime": "",
+      "returnArrivalTime": "",
+      "originAiroportName": "Fiumicino",
+      "destinationAiroportName": "Barajas",
+      "passengers": [
+        {
+          "id": "",
+          "firstName": "Mar",
+          "lastName": "Com",
+          "birthday": "1998-12-31T23:00:00.000Z",
+          "age": 24,
+          "ageCategory": "adult",
+          "seatNo": "",
+          "gender": 0
+        }
+      ],
+      "numberOfPassengers": [
+        {
+          "ageCategory": "adult",
+          "quantity": 1
+        },
+        {
+          "ageCategory": "child",
+          "quantity": 0
+        },
+        {
+          "ageCategory": "infant",
+          "quantity": 0
+        }
+      ],
+      "totalAmount": {
+        "adultPrice": 192,
+        "childPrice": 0,
+        "infantPrice": 0,
+        "sumPrice": 192,
+        "totalTax": 28.8
+      },
+      "totalAmountFrom": {
+        "adultPrice": 211,
+        "childPrice": 0,
+        "infantPrice": 0,
+        "sumPrice": 211,
+        "totalTax": 31.65
+      },
+      "totalCalculatedAmount": 463.45,
+      "contactDetails": {
+        "countryCode": "+7",
+        "phone": "0123456789"
+      },
+      "isPaid": false,
+      "type": "[Flight Select] Set Total Calculated Amount"
+    },
+    {
+      "id": "2b79bd28-b90d-4463-91a6-3bf95fc5a3d4",
+      "userId": "0f04c977-c041-4fa4-9354-9c7d7cce9c0e",
+      "roundTrip": true,
+      "airportsIataCodeOrigin": "BCN",
+      "airportsIataCodeDestination": " MUC ",
+      "originCity": "Barcelona",
+      "destinationCity": "Munich",
+      "outboundFlightNo": "FR-147",
+      "outboundDepartureDate": "2023-05-27T22:00:00.000Z",
+      "outboundDepartureTime": "",
+      "outboundArrivalTime": "",
+      "returnFlightNo": "FR-148",
+      "returnDepartureDate": "Sat Jun 03 2023 00:00:00 GMT+0200 (Central European Summer Time)",
+      "returnDepartureTime": "",
+      "returnArrivalTime": "",
+      "originAiroportName": "Barcelona",
+      "destinationAiroportName": "Franz Josef Strauss",
+      "passengers": [
+        {
+          "id": "",
+          "firstName": "Mar",
+          "lastName": "Com",
+          "birthday": "1998-12-31T23:00:00.000Z",
+          "age": 24,
+          "ageCategory": "adult",
+          "seatNo": "",
+          "gender": 0
+        }
+      ],
+      "numberOfPassengers": [
+        {
+          "ageCategory": "adult",
+          "quantity": 1
+        },
+        {
+          "ageCategory": "child",
+          "quantity": 0
+        },
+        {
+          "ageCategory": "infant",
+          "quantity": 0
+        }
+      ],
+      "totalAmount": {
+        "adultPrice": 348,
+        "childPrice": 0,
+        "infantPrice": 0,
+        "sumPrice": 348,
+        "totalTax": 52.2
+      },
+      "totalAmountFrom": {
+        "adultPrice": 399,
+        "childPrice": 0,
+        "infantPrice": 0,
+        "sumPrice": 399,
+        "totalTax": 59.85
+      },
+      "totalCalculatedAmount": 859.0500000000001,
+      "contactDetails": {
+        "countryCode": "+7",
+        "phone": "0123456789"
+      },
+      "isPaid": false,
+      "type": "[Booking Passengers] Set Trip Contact Details"
+    }
+  ],
   "login": {},
   "flightspair": [],
   "airports": [

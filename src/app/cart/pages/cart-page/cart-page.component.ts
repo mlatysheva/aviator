@@ -1,12 +1,12 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { ColDef, GridReadyEvent, ValueGetterParams } from 'ag-grid-community';
 import { AppState } from '../../../store/state.models';
 import { CartApiService } from '../../services/cart-api.service';
 import { ITrip, IUser } from '../../../models';
-import { Observable, map, switchMap, tap } from 'rxjs';
+import { Observable, Subscription, map, switchMap, tap } from 'rxjs';
 import { AgGridAngular } from 'ag-grid-angular';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { selectUserCurrency } from '../../../store/selectors/user.selectors';
 import getSymbolFromCurrency from 'currency-symbol-map';
 import { TRIP_ID, USER_ID } from '../../../constants/localStorage';
@@ -23,7 +23,7 @@ import { UserService } from '../../../user/services/user.service';
   styleUrls: ['./cart-page.component.scss']
 })
 
-export class CartPageComponent implements OnInit {
+export class CartPageComponent implements OnInit, OnDestroy {
 
   userId = localStorage.getItem(USER_ID) || '';
   user$: Observable<IUser>;
@@ -50,6 +50,8 @@ export class CartPageComponent implements OnInit {
   @ViewChild(AgGridAngular) agGrid!: AgGridAngular;
   colDefs: ColDef[];
   defaultColDef: ColDef;
+
+  private navigationSubscription: Subscription;
 
   constructor(
     private router: Router,
@@ -136,12 +138,24 @@ export class CartPageComponent implements OnInit {
       cellClass: 'cellCenter',
       onCellClicked: this.onSelectionChanged.bind(this),
     };
+
+    this.navigationSubscription = this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        localStorage.removeItem(TRIP_ID);
+      }
+    });
   }
 
   ngOnInit(): void {
     this.currency$.subscribe((currency) => {
       this.currency = getSymbolFromCurrency(currency);
     });
+  }
+
+  ngOnDestroy() {
+    if (this.navigationSubscription) {
+      this.navigationSubscription.unsubscribe();
+    }
   }
 
   onGridReady(params: GridReadyEvent) {
