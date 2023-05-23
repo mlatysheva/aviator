@@ -139,24 +139,27 @@ export class FlightSearchComponent implements OnInit, OnDestroy {
         destinationCity: this.getCityName(
           this.searchForm.controls['destination'].value
         ),
-        airportsIataCodes: [
+        airportsIataCodeOrigin:
           this.searchForm.controls['departure'].value
             .split(',')
             .slice(2, 3)
-            .join(''),
+            .join('')
+            .trim(),
+
+        airportsIataCodeDestination:
           this.searchForm.controls['destination'].value
             .split(',')
             .slice(2, 3)
             .join(''),
-        ],
+
         outboundDepartureDate: this.searchForm.controls['startDate'].value,
         originAiroportName: this.searchForm.controls['departure'].value
           .split(',')
-          .slice(0, 2)
+          .slice(0, 1)
           .join(''),
         destinationAiroportName: this.searchForm.controls['destination'].value
           .split(',')
-          .slice(0, 2)
+          .slice(0, 1)
           .join(''),
         returnDepartureDate: this.searchForm.controls['endDate'].value,
         numberOfPassengers: this.searchForm.controls['passengers'].value,

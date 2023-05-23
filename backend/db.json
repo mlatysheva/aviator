@@ -29,7 +29,8 @@
         "countryCode": "+380",
         "phone": "0958187111"
       },
-      "id": "f855e72e-ae21-4a01-8f8e-7491d422664b"
+      "id": "f855e72e-ae21-4a01-8f8e-7491d422664b",
+      "tripsIds": []
     },
     {
       "email": "admin@admin.pl",

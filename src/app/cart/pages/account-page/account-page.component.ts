@@ -136,7 +136,7 @@ export class AccountPageComponent implements OnInit {
     });
   }
 
-  onGridReady(params: GridReadyEvent) {    
+  onGridReady(params: GridReadyEvent) {
     this.trips$ = this.cartApiService.getPaidTripsByUserId(this.userId);
   }
 
@@ -149,11 +149,11 @@ export class AccountPageComponent implements OnInit {
   }
 
   priceRenderer(params: ValueGetterParams) {
-    return `${this.currency} ${Math.round(params.data.totalAmount.sumPrice 
+    return `${this.currency} ${Math.round(params.data.totalAmount.sumPrice
       + params.data.totalAmount.totalTax
       + (params.data.totalAmountFrom?.sumPrice || 0)
       + (params.data.totalAmountFrom?.totalTax || 0))
-    }`;
+      }`;
   }
 
   actionCellRenderer(params: any) {
@@ -206,12 +206,12 @@ function dateTimeGetter(params: ValueGetterParams) {
   } as const;
   console.log(typeof params.data.outboundDepartureDate);
   console.log(params.data.outboundDepartureDate);
-  return (new Date(params.data.outboundDepartureDate).toLocaleString('en-GB', options)) 
-  // + ', ' + params.data.outboundDepartureTime 
-  // + ' - ' + params.data.outboundArrivalTime 
-  + (params.data.roundTrip ? '<br>' + (new Date(params.data.returnDepartureDate).toLocaleString('en-GB', options)) 
-  // + ', ' + params.data.returnDepartureTime + ' - ' + params.data.returnArrivalTime
-  : '');
+  return (new Date(params.data.outboundDepartureDate).toLocaleString('en-GB', options))
+    // + ', ' + params.data.outboundDepartureTime
+    // + ' - ' + params.data.outboundArrivalTime
+    + (params.data.roundTrip ? '<br>' + (new Date(params.data.returnDepartureDate).toLocaleString('en-GB', options))
+      // + ', ' + params.data.returnDepartureTime + ' - ' + params.data.returnArrivalTime
+      : '');
 }
 
 function passengersGetter(params: ValueGetterParams) {
