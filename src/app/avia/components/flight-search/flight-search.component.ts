@@ -42,6 +42,10 @@ export class FlightSearchComponent implements OnInit, OnDestroy {
 
   public selectedItems: IAgeTypeQuantity[] = [];
 
+  public departureValue = '';
+
+  public isDropdownOpen = false;
+
   private subscriptions = new Subscription();
 
   constructor(
@@ -50,7 +54,7 @@ export class FlightSearchComponent implements OnInit, OnDestroy {
     private store: Store<AppState>,
     private fb: FormBuilder,
     private progressBarService: ProgressBarService,
-    private editModeService: EditModeService,
+    private editModeService: EditModeService
   ) {
     this.passengersList.map((option) => this.selectedItems.push(option));
   }
@@ -58,7 +62,7 @@ export class FlightSearchComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.searchForm = this.fb.group({
       tripType: ['round-trip'],
-      departure: ['', [Validators.required]],
+      departure: [this.departureValue, [Validators.required]],
       destination: ['', [Validators.required]],
       startDate: ['', [Validators.required]],
       endDate: [''],
@@ -72,16 +76,19 @@ export class FlightSearchComponent implements OnInit, OnDestroy {
       })
     );
 
-    // this.subscriptions.add(
-    //   this.searchForm.controls['departure'].valueChanges.subscribe(() => {
-    //     this.updateFieldsEqualityValidation();
-    //   })
-    // );
-    // this.subscriptions.add(
-    //   this.searchForm.controls['destination'].valueChanges.subscribe(() => {
-    //     this.updateFieldsEqualityValidation();
-    //   })
-    // );
+    this.subscriptions.add(
+      this.searchForm.controls['departure'].valueChanges.subscribe((value) => {
+        this.departureValue = value;
+        console.log(this.departureValue);
+        this.updateFieldsEqualityValidation();
+        // this.stopPropagationFn();
+      })
+    );
+    this.subscriptions.add(
+      this.searchForm.controls['destination'].valueChanges.subscribe(() => {
+        this.updateFieldsEqualityValidation();
+      })
+    );
   }
 
   get departure() {
@@ -110,14 +117,14 @@ export class FlightSearchComponent implements OnInit, OnDestroy {
 
   public increase(event: Event, specificAgeType: IAgeTypeQuantity) {
     specificAgeType.quantity++;
-    this.stopPropagationFn(event);
+    // this.stopPropagationFn(event);
   }
 
   public decrease(event: Event, specificAgeType: IAgeTypeQuantity) {
     if (specificAgeType.quantity > 0) {
       specificAgeType.quantity--;
     }
-    this.stopPropagationFn(event);
+    // this.stopPropagationFn(event);
   }
 
   public onSearch() {
@@ -189,10 +196,15 @@ export class FlightSearchComponent implements OnInit, OnDestroy {
     this.searchForm.controls['destination'].markAsTouched();
   }
 
-  private stopPropagationFn(event: Event) {
-    event.stopPropagation();
-    this.matOption._selectViaInteraction();
+  public toggleDropdown() {
+    debugger;
+    this.isDropdownOpen = !this.isDropdownOpen;
   }
+
+  // private stopPropagationFn(event: Event) {
+  //   event.stopPropagation();
+  //   this.matOption._selectViaInteraction();
+  // }
 
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
