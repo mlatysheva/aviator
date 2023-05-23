@@ -80,6 +80,15 @@
 
 .fares-and-taxes {
   margin-top: 15px;
+
+  &-th {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .price {
+    padding-left: 170px;
+  }
 }
 
 .fare-and-taxes-table {
