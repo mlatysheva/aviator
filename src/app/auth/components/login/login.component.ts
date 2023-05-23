@@ -66,7 +66,7 @@ export class LoginComponent implements OnInit {
           if (error !== '') {
             this.loginForm.setErrors({ loginError: true });
           }
-          if (error == '') {
+          if (error === '') {
             this.router.navigate([{ outlets: { modal: null } }]);
           }
         }

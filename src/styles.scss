@@ -80,6 +80,8 @@ $avia_client-theme: mat.define-light-theme((color: (primary: $avia_client-primar
   --footer-height: 92px;
   --max-content-width: 1128px;
   --container-width: 1200px;
+
+  height: 100%;
 }
 
 * {
@@ -94,9 +96,14 @@ html {
 body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
   width: 100%;
+  height: 100%;
   margin: 0;
   box-sizing: inherit;
   overflow-y: scroll;
+}
+
+document {
+  height: 100%;
 }
 
 .container {

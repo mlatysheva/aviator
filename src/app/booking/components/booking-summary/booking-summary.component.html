@@ -62,7 +62,10 @@
         <mat-card-content>
           <div *ngFor="let passenger of trip.numberOfPassengers">
             <div *ngIf="passenger.quantity">
-              <p><b>{{passenger.quantity}} x {{passenger.ageCategory | titlecase}} Fare</b></p>
+              <div class="fares-and-taxes-th">
+                <p><b>{{passenger.quantity}} x {{passenger.ageCategory | titlecase}} Fare</b></p>
+                <p class="price"><b>{{(trip.totalAmount.adultPrice + taxRate * trip.totalAmount.adultPrice).toFixed(2) }}</b></p>
+              </div>
               <div class="fare-and-taxes-table">
                 <div class="titles-column">
                   <p>Fare</p>
@@ -82,7 +85,6 @@
               </div>
             </div>
           </div>
-          <p>Total tax: {{trip.totalAmount.totalTax}}</p>
           <p><b>Total: {{(trip.totalAmount.sumPrice + trip.totalAmount?.totalTax)}}</b></p>
         </mat-card-content>
       </mat-card>
