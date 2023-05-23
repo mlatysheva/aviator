@@ -40,4 +40,9 @@ export const setTripContactDetails = createAction(
   props<{ contactDetails: IContacts }>()
 );
 
+export const setNumberOfPassengers = createAction(
+  '[Booking Passengers] Set Number Of Passengers',
+  props<{ numberOfPassengers: IAgeTypeQuantity[] }>()
+);
+
 export const clearTripState = createAction('[] Cleared Trip State');

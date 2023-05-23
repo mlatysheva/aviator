@@ -210,6 +210,13 @@ export const tripReducer = createReducer(
     })
   ),
   on(
+    TripActions.setNumberOfPassengers,
+    (state, payload): TripState => ({
+      ...state,
+      ...payload,
+    })
+  ),
+  on(
     TripActions.setTripContactDetails,
     (state, payload): TripState => ({
       ...state,
