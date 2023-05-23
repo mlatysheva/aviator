@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { IUser } from '../../../../backend/types';
+import { IUser } from '../../models';
 
 export const setCurrency = createAction(
   '[Header] Set Currency',

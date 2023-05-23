@@ -24,7 +24,7 @@ export class PassengersService {
   }
 
   public getAllTrips(): Observable<ITrip[]> {
-    const tripsRequestUrl = 'http://localhost:3000/trips';
+    const tripsRequestUrl = `${baseUrl}/trips`;
     return this.http.get<ITrip[]>(tripsRequestUrl);
   }
 

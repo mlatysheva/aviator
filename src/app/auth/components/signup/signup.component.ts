@@ -179,7 +179,7 @@ export class SignupComponent implements OnInit {
         if (error !== '') {
           this.signupForm.setErrors({ signupError: true });
         }
-        if (error == '') {
+        if (error === '') {
           this.router.navigate([{ outlets: { modal: 'auth' } }]);
         }
       });
