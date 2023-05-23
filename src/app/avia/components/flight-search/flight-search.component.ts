@@ -5,7 +5,6 @@ import { Observable, Subscription } from 'rxjs';
 
 import { AviaService } from '../../services/avia.service';
 import { IAgeTypeQuantity } from '../../../models/agetype-quantity.model';
-import { MatOption } from '@angular/material/core';
 import { Router } from '@angular/router';
 import { TRIP_TYPE } from '../../../constants/localStorage';
 import { Store } from '@ngrx/store';
@@ -22,8 +21,6 @@ import { EditModeService } from '../../../shared/services/edit-mode.service';
   styleUrls: ['./flight-search.component.scss'],
 })
 export class FlightSearchComponent implements OnInit, OnDestroy {
-  @ViewChild(MatOption) matOption: MatOption;
-
   public searchForm: FormGroup;
 
   public airports$: Observable<IAirport[]>;
@@ -42,10 +39,6 @@ export class FlightSearchComponent implements OnInit, OnDestroy {
 
   public selectedItems: IAgeTypeQuantity[] = [];
 
-  public departureValue = '';
-
-  public isDropdownOpen = false;
-
   private subscriptions = new Subscription();
 
   constructor(
@@ -62,7 +55,7 @@ export class FlightSearchComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.searchForm = this.fb.group({
       tripType: ['round-trip'],
-      departure: [this.departureValue, [Validators.required]],
+      departure: ['', [Validators.required]],
       destination: ['', [Validators.required]],
       startDate: ['', [Validators.required]],
       endDate: [''],
@@ -77,11 +70,8 @@ export class FlightSearchComponent implements OnInit, OnDestroy {
     );
 
     this.subscriptions.add(
-      this.searchForm.controls['departure'].valueChanges.subscribe((value) => {
-        this.departureValue = value;
-        console.log(this.departureValue);
+      this.searchForm.controls['departure'].valueChanges.subscribe(() => {
         this.updateFieldsEqualityValidation();
-        // this.stopPropagationFn();
       })
     );
     this.subscriptions.add(
@@ -139,18 +129,18 @@ export class FlightSearchComponent implements OnInit, OnDestroy {
         destinationCity: this.getCityName(
           this.searchForm.controls['destination'].value
         ),
-        airportsIataCodeOrigin:
-          this.searchForm.controls['departure'].value
-            .split(',')
-            .slice(2, 3)
-            .join('')
-            .trim(),
+        airportsIataCodeOrigin: this.searchForm.controls['departure'].value
+          .split(',')
+          .slice(2, 3)
+          .join('')
+          .trim(),
 
-        airportsIataCodeDestination:
-          this.searchForm.controls['destination'].value
-            .split(',')
-            .slice(2, 3)
-            .join(''),
+        airportsIataCodeDestination: this.searchForm.controls[
+          'destination'
+        ].value
+          .split(',')
+          .slice(2, 3)
+          .join(''),
 
         outboundDepartureDate: this.searchForm.controls['startDate'].value,
         originAiroportName: this.searchForm.controls['departure'].value
@@ -187,7 +177,7 @@ export class FlightSearchComponent implements OnInit, OnDestroy {
     const departure = this.searchForm.controls['departure'].value;
     const destination = this.searchForm.controls['destination'].value;
 
-    if (departure.trim() === destination.trim()) {
+    if (departure && destination && departure.trim() === destination.trim()) {
       this.searchForm.controls['departure'].setErrors({ equalityError: true });
       this.searchForm.controls['destination'].setErrors({
         equalityError: true,
@@ -203,7 +193,6 @@ export class FlightSearchComponent implements OnInit, OnDestroy {
 
   private stopPropagationFn(event: Event) {
     event.stopPropagation();
-    this.matOption._selectViaInteraction();
   }
 
   ngOnDestroy(): void {
