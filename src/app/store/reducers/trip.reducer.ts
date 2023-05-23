@@ -30,6 +30,7 @@ export interface TripState {
   contactDetails: IContacts;
   numberOfPassengers: IAgeTypeQuantity[];
   isPaid?: boolean;
+  duration?: number;
 }
 
 export const initialState: TripState = {
@@ -60,6 +61,7 @@ export const initialState: TripState = {
     phone: '',
   },
   isPaid: false,
+  duration: 0,
 };
 
 export const tripReducer = createReducer(
@@ -92,6 +94,29 @@ export const tripReducer = createReducer(
       ...payload,
     })
   ),
+  on(
+    SelectedActions.setSelectedTripDuration,
+    (state, payload): TripState => ({
+      ...state,
+      ...payload,
+    })
+  ),
+
+  on(
+    SelectedActions.setSelectedOutboundDepartureTime,
+    (state, payload): TripState => ({
+      ...state,
+      ...payload,
+    })
+  ),
+  on(
+    SelectedActions.setSelectedOutboundArrivalTime,
+    (state, payload): TripState => ({
+      ...state,
+      ...payload,
+    })
+  ),
+
   on(
     SelectedActions.setSelectedOriginCity,
     (state, payload): TripState => ({
@@ -266,5 +291,6 @@ export const tripReducer = createReducer(
       phone: '',
     },
     isPaid: false,
+    duration: 0,
   }))
 );

@@ -1,9 +1,8 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import {
   FormBuilder, FormControl, FormGroup,
 } from '@angular/forms';
-import { MatOption } from '@angular/material/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../store/state.models';
 import { EditModeService } from '../../../shared/services/edit-mode.service';
@@ -18,6 +17,7 @@ import { SumPriceService } from '../../services/sum-price.service';
 import { IFlight } from 'src/app/models/flight';
 import { MatSelectChange } from '@angular/material/select';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+import { MatOptionSelectionChange } from '@angular/material/core';
 
 
 @Component({
@@ -26,8 +26,6 @@ import { MatDatepickerInputEvent } from '@angular/material/datepicker';
   styleUrls: ['./edit-options.component.scss']
 })
 export class EditOptionsComponent implements OnInit, OnDestroy {
-
-  @ViewChild(MatOption) matOption: MatOption;
 
   isEdit: boolean;
 
@@ -39,13 +37,12 @@ export class EditOptionsComponent implements OnInit, OnDestroy {
 
   public airports$: Observable<IAirport[]>;
 
-  tripType: string;
-
   codFrom: string;
+
   codTo: string;
-  start: string;
-  end: string;
+
   state$: Observable<AppState>;
+
   state: AppState;
 
   public passengersList: IAgeTypeQuantity[] = [
@@ -56,19 +53,22 @@ export class EditOptionsComponent implements OnInit, OnDestroy {
 
   departure = new FormControl('');
   destination = new FormControl('');
-  //startDate = new FormControl('');
-  //endDate = new FormControl('');
-  editPassengers = new FormControl(this.selectedItems);
+  passengers = new FormControl(this.selectedItems);
   totalAmount: { adultPrice: number; childPrice: number; infantPrice: number; sumPrice: number; totalTax?: number | undefined; };
   index: number;
   changedFlight: IFlight[] = [];
   duration: number;
-
+  flightNumber: string;
   public editForm: FormGroup;
   flightDaysTo: number[];
   startDate: Date | null;
   endDate: Date;
-
+  originCity: string;
+  destinationCity: string;
+  originAiroportName: string;
+  destinationAiroportName: string;
+  numberOfPassengers: IAgeTypeQuantity[];
+  outboundDepartureTime: string;
 
   constructor(
     public editService: EditModeService,
@@ -99,9 +99,7 @@ export class EditOptionsComponent implements OnInit, OnDestroy {
     this.editForm = this.builder.group({
       departure: this.departure,
       destination: this.destination,
-      // startDate: this.startDate,
-      //endDate: this.endDate,
-      //passengers: this.passengers
+      passengers: this.passengers
     });
 
   }
@@ -118,10 +116,7 @@ export class EditOptionsComponent implements OnInit, OnDestroy {
   }
 
   get passengersChange() {
-    if (this.editPassengers.value === null) {
-      this.editPassengers.setValue(this.selectedItems);
-    }
-    return this.editPassengers.value;
+    return this.editForm.get('passengers');
   }
 
   onDepartureChange(event: MatSelectChange): void {
@@ -129,21 +124,20 @@ export class EditOptionsComponent implements OnInit, OnDestroy {
     this.codFrom = (event.source.value.split(',')
       .slice(2, 3)
       .join(''));
-    console.log(this.codFrom);
-    this.store.dispatch(SelectActions.setSelectedOriginCity({
-      originCity: this.departureChange?.value
-        .split(',')
-        .slice(1, 2)
-        .join('')
-    }));
-    this.store.dispatch(SelectActions.setSelectedOriginAiroportName({
-      originAiroportName: this.departureChange?.value
-        .split(',')
-        .slice(0, 1)
-        .join('')
-    }));
+    this.originCity = this.departureChange?.value.split(',')
+      .slice(1, 2)
+      .join('')
+    this.originAiroportName = this.departureChange?.value.split(',')
+      .slice(0, 1)
+      .join('')
     this.store.dispatch(SelectActions.setSelectedAiroportCodeOrigin({
       airportsIataCodeOrigin: this.codFrom
+    }));
+    this.store.dispatch(SelectActions.setSelectedOriginCity({
+      originCity: this.originCity
+    }));
+    this.store.dispatch(SelectActions.setSelectedOriginAiroportName({
+      originAiroportName: this.originAiroportName
     }));
 
     this.subscriptions.add(
@@ -159,20 +153,21 @@ export class EditOptionsComponent implements OnInit, OnDestroy {
     this.codTo = (event.source.value.split(',')
       .slice(2, 3)
       .join(''));
-    this.store.dispatch(SelectActions.setSelectedDestinationCity({
-      destinationCity: this.destinationChange?.value
-        .split(',')
-        .slice(1, 2)
-        .join('')
-    }));
-    this.store.dispatch(SelectActions.setSelectedDestinationAiroportName({
-      destinationAiroportName: this.destinationChange?.value
-        .split(',')
-        .slice(0, 1)
-        .join('')
-    }));
+    this.destinationCity = this.destinationChange?.value.split(',')
+      .slice(1, 2)
+      .join('')
+    this.destinationAiroportName = this.destinationChange?.value.split(',')
+      .slice(0, 1)
+      .join('')
+
     this.store.dispatch(SelectActions.setSelectedAiroportCodeDestination({
       airportsIataCodeDestination: this.codTo
+    }));
+    this.store.dispatch(SelectActions.setSelectedDestinationCity({
+      destinationCity: this.destinationCity
+    }));
+    this.store.dispatch(SelectActions.setSelectedDestinationAiroportName({
+      destinationAiroportName: this.destinationAiroportName
     }));
 
     this.subscriptions.add(
@@ -184,27 +179,33 @@ export class EditOptionsComponent implements OnInit, OnDestroy {
     this.changeFlight(this.codFrom, this.codTo);
   }
 
-  onPassengersChange(event: MatSelectChange): void {
-    //event.source.value = this.passengersChange?.value;
-    //this.selectedItems = this.passengersChange?.value;
-    //this.selectedItems = event.source.value;
-    if (this.passengersChange) {
-      this.passengersList = this.passengersChange;
-      this.store.dispatch(TripActions.setNumberOfPassengers({
-        numberOfPassengers: this.passengersChange
-      }));
+  onPassengersChange(event: MatOptionSelectionChange): void {
+    // event.source.value = this.passengersChange?.value;
+    // this.numberOfPassengers = event.source.value;
+    console.log(event.source.value)
+    //console.log(this.passengersChange?.value)
+    //console.log(event.source.value, event.source.selected);
+    if (event.isUserInput) {    // ignore on deselection of the previous option
+      console.log(event.source.value, event.source.selected);
     }
+
+
+    // if (this.passengersChange) {
+    //   this.passengersList = this.passengersChange;
+    //   this.store.dispatch(TripActions.setNumberOfPassengers({
+    //     numberOfPassengers: this.passengersChange
+    //   }
+    //   ));
+    // }
+    // this.selectedItems = this.passengersChange?.values;
+    // this.selectedItems = event.source.value;
+    // if (this.passengersChange) {
+    //   this.passengersList = this.passengersChange;
+    //   this.store.dispatch(TripActions.setNumberOfPassengers({
+    //     numberOfPassengers: this.passengersChange
+    //   }));
+    // }
   }
-
-  // onEndDateChange(event: any): void {
-  //   if (this.endDateChange)
-  //     this.end = this.endDateChange;
-  //   console.log(event, this.end);
-  //   this.store.dispatch(SelectActions.setSelectedReturnDate({
-  //     returnDepartureDate: this.end
-  //   }));
-
-  // }
 
   changeFlight(from: string, to: string) {
     this.aviaService.getAllFlights().subscribe((flights) => {
@@ -218,15 +219,16 @@ export class EditOptionsComponent implements OnInit, OnDestroy {
         //if (this.changedFlight !== undefined && this.changedFlight.length > 0) {
         this.duration = result[0].duration;
         this.flightDaysTo = result[0].flightDays;
-        console.log(this.flightDaysTo, result[0], this.duration);
+        this.flightNumber = result[0].flightNumber;
+        this.outboundDepartureTime = result[0].departureTime;
         // }
         this.store.dispatch(SelectActions.setSelectedOutboundDepartureTime({
-          outboundDepartureTime: result[0].departureTime,
+          outboundDepartureTime: this.outboundDepartureTime,
         }));
         this.store.dispatch(SelectActions.setSelectedOutboundFlightNo({
-          outboundFlightNo: result[0].flightNumber,
+          outboundFlightNo: this.flightNumber,
         }));
-
+        this.store.dispatch(SelectActions.setSelectedTripDuration({ duration: this.duration }));
       }
     });
     // if (this.changedFlight !== undefined && this.changedFlight.length > 0) {
@@ -247,17 +249,17 @@ export class EditOptionsComponent implements OnInit, OnDestroy {
     // }
 
   }
-  getTripState() {
-    this.subscriptions.add(
-      this.state$.subscribe((state: AppState) => {
-        this.start = state.trip.outboundDepartureDate;
-        // if (this.flightDaysTo !== undefined) {
-        //   this.index = this.flightDaysTo.indexOf(this.dateService.getIndexOfDate(this.start, this.flightDaysTo));
-        //   this.totalAmount = this.sumPriceService.sumpPrices(this.changedFlight[0], state.trip.numberOfPassengers, this.index);
-        //   this.store.dispatch(SelectActions.setSelectedTotalAmount({ totalAmount: this.totalAmount }));
-        // }
-      }));
-  }
+  // getTripState() {
+  //   this.subscriptions.add(
+  //     this.state$.subscribe((state: AppState) => {
+  //       this.start = state.trip.outboundDepartureDate;
+  //       // if (this.flightDaysTo !== undefined) {
+  //       //   this.index = this.flightDaysTo.indexOf(this.dateService.getIndexOfDate(this.start, this.flightDaysTo));
+  //       //   this.totalAmount = this.sumPriceService.sumpPrices(this.changedFlight[0], state.trip.numberOfPassengers, this.index);
+  //       //   this.store.dispatch(SelectActions.setSelectedTotalAmount({ totalAmount: this.totalAmount }));
+  //       // }
+  //     }));
+  // }
 
   public increase(event: Event, specificAgeType: IAgeTypeQuantity) {
     specificAgeType.quantity++;
@@ -273,17 +275,11 @@ export class EditOptionsComponent implements OnInit, OnDestroy {
 
   private stopPropagationFn(event: Event) {
     event.stopPropagation();
-    this.matOption._selectViaInteraction();
-  }
-
-  onSubmit() {
-    console.log(this.editForm.value.destination);
   }
 
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
   }
-
 
   dateForm = this.formBuilder.group({
     startDate: '',

@@ -37,6 +37,11 @@ export const setSelectedReturnDate = createAction(
   '[Flight Select] Set Selected Return Date',
   props<{ returnDepartureDate: string }>()
 );
+
+export const setSelectedTripDuration = createAction(
+  '[Flight Select] Set Selected Return Date',
+  props<{ duration: number }>()
+);
 export const setSelectedOriginCity = createAction(
   '[Flight Select] Set Selected Origin City',
   props<{ originCity: string }>()

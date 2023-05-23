@@ -1,5 +1,5 @@
 <div class="edit-container">
-  <form [formGroup]="editForm" class="edit-form" onSubmit="onSubmit()">
+  <form [formGroup]="editForm" class="edit-form">
     <div class="countries-picker">
       <mat-form-field appearance="fill">
         <mat-label>From</mat-label>
@@ -64,26 +64,24 @@
       </mat-form-field>
 
     </div>
-
+    <div class="passengers">
+      <mat-form-field>
+        <mat-select multiple formControlName="passengers">
+          <mat-select-trigger>
+            {{ passengersList | stringifyPassengers | titlecase }}
+          </mat-select-trigger>
+          <mat-option *ngFor="let passenger of passengersList" [value]="passenger" mat-selected
+            (selectionChange)="onPassengersChange($event)">
+            <div class="age-type-option-text">{{ passenger.ageCategory | titlecase}}</div>
+            <div class="option-details">
+              <button mat-button (click)="decrease($event, passenger)">-</button>
+              <span>{{ passenger.quantity }}</span>
+              <button mat-button (click)="increase($event, passenger)">+</button>
+            </div>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
   </form>
-  <div class="passengers">
-
-    <mat-form-field>
-      <mat-select multiple [formControl]="editPassengers" multiple>
-        <mat-select-trigger>
-          {{ passengersList | stringifyPassengers | titlecase }}
-        </mat-select-trigger>
-
-        <mat-option *ngFor="let passenger of passengersList" [value]="passenger" mat-selected>
-          <div class="age-type-option-text">{{ passenger.ageCategory | titlecase}}</div>
-          <div class="option-details">
-            <button mat-button (click)="decrease($event, passenger)">-</button>
-            <span>{{ passenger.quantity }}</span>
-            <button mat-button (click)="increase($event, passenger)">+</button>
-          </div>
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div>
 
 </div>

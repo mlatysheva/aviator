@@ -126,18 +126,6 @@ export class CarouselDateComponent implements OnInit, OnDestroy {
         this.direct = this.result[0].direct;
         this.flightNumber = this.result[0].flightNumber;
         this.duration = this.result[0].duration;
-        this.hours = this.dateService.getHours(this.duration);
-        this.minutes = this.dateService.getMinutes(this.duration);
-        this.arrivingDateTo = this.dateService.getArrivingDate(
-          this.startDate,
-          this.departureTime,
-          this.duration,
-        ).dateToRender;
-        this.arrivingTimeTo = this.dateService.getArrivingDate(
-          this.startDate,
-          this.departureTime,
-          this.duration,
-        ).timeToRender;
         this.returnFlightId = this.result[0].returnFlightId;
         this.getReturnDetailsList(this.returnFlightId);
         this.flightDaysTo = this.result[0].flightDays;
@@ -149,6 +137,9 @@ export class CarouselDateComponent implements OnInit, OnDestroy {
         this.store.dispatch(SelectActions.setSelectedOutboundFlightNo({ outboundFlightNo: this.flightNumber }));
         this.store.dispatch(SelectActions.setSelectedTotalAmount({ totalAmount: this.totalAmount }));
         this.store.dispatch(SelectActions.setTotalCalculatedAmount({ totalCalculatedAmount: this.totalAmount.sumPrice + (this.totalAmount.totalTax || 0) }));
+        this.store.dispatch(SelectActions.setSelectedTripDuration({ duration: this.duration }));
+        this.store.dispatch(SelectActions.setSelectedOutboundDepartureTime({ outboundDepartureTime: this.departureTime }));
+        console.log(this.departureTime);
       }));
     return this.details$;
   }
@@ -216,13 +207,32 @@ export class CarouselDateComponent implements OnInit, OnDestroy {
         this.slidesFrom = this.dateService.dateSlideTo(this.endDate);
         this.dateFormat = state.user.dateFormat;
         this.flightNumber = state.trip.outboundFlightNo;
-        //this.flightNumberFrom = state.trip.returnFlightNo;
-        // if (state.trip.totalAmount !== undefined &&
-        //   state.trip.totalAmount.adultPrice !== 0 &&
-        //   state.trip.totalAmount.totalTax !== 0) { this.totalAmount = state.trip.totalAmount; }
-        //this.totalAmountFrom = state.trip.totalAmountFrom;
+        if (state.trip.returnFlightNo !== undefined)
+          this.flightNumberFrom = state.trip.returnFlightNo;
+        if (state.trip.totalAmount !== undefined &&
+          state.trip.totalAmount.adultPrice !== 0 &&
+          state.trip.totalAmount.totalTax !== 0) { this.totalAmount = state.trip.totalAmount; }
+        if (state.trip.totalAmountFrom !== undefined &&
+          state.trip.totalAmountFrom.adultPrice !== 0 &&
+          state.trip.totalAmountFrom.totalTax !== 0) { this.totalAmountFrom = state.trip.totalAmountFrom; }
         this.isCanFly = this.dateService.isCanFly(this.startDate);
         this.isFly = this.isCanFly ? 'true' : 'false';
+        if (state.trip.duration !== undefined && state.trip.duration !== 0)
+          this.duration = state.trip.duration;
+        this.hours = this.dateService.getHours(this.duration);
+        this.minutes = this.dateService.getMinutes(this.duration);
+        if (state.trip.outboundDepartureTime !== undefined && state.trip.outboundDepartureTime !== '')
+          this.departureTime = state.trip.outboundDepartureTime;
+        this.arrivingDateTo = this.dateService.getArrivingDate(
+          this.startDate,
+          this.departureTime,
+          this.duration,
+        ).dateToRender;
+        this.arrivingTimeTo = this.dateService.getArrivingDate(
+          this.startDate,
+          this.departureTime,
+          this.duration,
+        ).timeToRender;
       }
       ));
   }

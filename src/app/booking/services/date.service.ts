@@ -89,7 +89,7 @@ export class DateService {
 
     } else {
       const dateCopy = new Date(departureDate);
-      const time = departureTime.split(':');
+      const time = departureTime?.split(':');
       dateCopy.setHours(+time[0]);
       dateCopy.setMinutes(+time[1]);
       const addMinutes = dateCopy.getTime() + duration * 60000;
