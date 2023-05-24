@@ -1,7 +1,8 @@
 .flight-search-container {
   display: flex;
   justify-content: flex-start;
-  margin-top: 5rem;
+  // margin-top: 5rem;
+  margin-top: var(--header-height);
   width: 100%;
 }
 
@@ -123,5 +124,11 @@
     &-persons {
       margin-left: 0px;
     }
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .flight-search-container {
+    margin-top: var(--header-height-mob);
   }
 }

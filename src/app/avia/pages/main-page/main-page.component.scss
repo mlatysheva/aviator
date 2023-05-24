@@ -1,6 +1,5 @@
 .container {
-  // position: relative;
-  height: 690px;
+  flex: 1;
 }
 
 .image-bg {
@@ -14,8 +13,8 @@
   background-size: cover;
 }
 
-@media screen and (max-width: 768px) {
-  .container {
-    height: 690px;
-  }
-}
+// @media screen and (max-width: 768px) {
+//   .container {
+//     height: 690px;
+//   }
+// }

@@ -1,8 +1,8 @@
 .cart-page {
   max-width: 1128px;
-  height: 690px;
   background-color: white;
   margin: 0 auto;
+  margin-top: 2rem;
   padding-left: 1rem;
   padding-right: 1rem;
   display: flex;
@@ -54,4 +54,15 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+}
+
+@media screen  and (max-width: 768px) {
+
+  .bottom-section {
+    flex-direction: column;
+  }
+
+  .mat-mdc-form-field {
+    width: 340px;
+  }
 }

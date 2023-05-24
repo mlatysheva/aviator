@@ -1,21 +1,46 @@
-<div class="container">
-  <div class="title-section">
-    <div class="title">
-      <img src="assets/icons/summary.svg" alt="passengers">
-      <p class="title-heading">Summary</p>
-    </div>
+<div class="title-section">
+  <div class="title">
+    <img src="assets/icons/summary.svg" alt="passengers">
+    <p class="title-heading">Summary</p>
   </div>
+</div>
 
-  <div class="passengers-info">
-    <mat-card class="card">
+<div class="passengers-info">
+  <mat-card class="card">
+    <div class="card-header">
+      <div class="card-header-details">
+        <h3 class="title">{{trip.outboundFlightNo}}</h3>
+        <p class="city-title">{{trip.originCity}} - {{trip.destinationCity}}</p>
+      </div>
+      <div class="card-header-details">
+        <small class="date">{{trip.outboundDepartureDate | date:'fullDate'}}</small>
+        <small>{{trip.outboundDepartureTime}} - {{trip.outboundArrivalTime | date:'h:mm a'}}</small>
+      </div>
+    </div>
+    <mat-card-content>
+      <div class="card-content">
+        <div *ngFor="let passenger of trip.passengers">
+          <p>{{passenger.firstName + ' ' + passenger.lastName | uppercase}}</p>
+          <div class="passenger-details">
+            <p>1 checked bag (total 23 kg) included</p>
+            <p>1 cabin bag + 1 personal item (max. 8 kg) included</p>
+            <p *ngIf="!passenger.ageCategory.infant">Seat {{passenger.seatNo}}</p>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <div class="card">
+    <mat-card *ngIf="trip.roundTrip">
       <div class="card-header">
         <div class="card-header-details">
-          <h3 class="title">{{trip.outboundFlightNo}}</h3>
-          <p class="city-title">{{trip.originCity}} - {{trip.destinationCity}}</p>
+          <h3 class="title">{{trip.returnFlightNo}}</h3>
+          <p class="city-title">{{trip.destinationCity}} - {{trip.originCity}}</p>
         </div>
         <div class="card-header-details">
-          <small class="date">{{trip.outboundDepartureDate | date:'fullDate'}}</small>
-          <small>{{trip.outboundDepartureTime}} - {{trip.outboundArrivalTime | date:'h:mm a'}}</small>
+          <small class="date">{{trip.returnDepartureDate | date:'fullDate'}}</small>
+          <small>{{trip.returnDepartureTime}} - {{trip.returnArrivalTime | date:'h:mm a'}}</small>
         </div>
       </div>
       <mat-card-content>
@@ -32,73 +57,45 @@
       </mat-card-content>
     </mat-card>
 
-    <div class="card">
-      <mat-card *ngIf="trip.roundTrip">
-        <div class="card-header">
-          <div class="card-header-details">
-            <h3 class="title">{{trip.returnFlightNo}}</h3>
-            <p class="city-title">{{trip.destinationCity}} - {{trip.originCity}}</p>
-          </div>
-          <div class="card-header-details">
-            <small class="date">{{trip.returnDepartureDate | date:'fullDate'}}</small>
-            <small>{{trip.returnDepartureTime}} - {{trip.returnArrivalTime | date:'h:mm a'}}</small>
+    <mat-card class="fares-and-taxes">
+      <mat-card-content>
+        <div *ngFor="let passenger of trip.numberOfPassengers">
+          <div *ngIf="passenger.quantity">
+            <div class="fares-and-taxes-th">
+              <p><b>{{passenger.quantity}} x {{passenger.ageCategory | titlecase}} Fare</b></p>
+              <p class="price"><b>{{(trip.totalAmount.adultPrice + taxRate * trip.totalAmount.adultPrice).toFixed(2) }}</b></p>
+            </div>
+            <div class="fare-and-taxes-table">
+              <div class="titles-column">
+                <p>Fare</p>
+                <p>Tax & Service Charge</p>
+              </div>
+              <div class="prices-column">
+                <p *ngIf="passenger.ageCategory==='adult'">{{trip.totalAmount.adultPrice}}</p>
+                <p *ngIf="passenger.ageCategory==='adult'">{{(taxRate * trip.totalAmount.adultPrice).toFixed(2) }}
+                </p>
+                <p *ngIf="passenger.ageCategory==='child'">{{trip.totalAmount.childPrice}}</p>
+                <p *ngIf="passenger.ageCategory==='child'">{{(taxRate * trip.totalAmount.childPrice).toFixed(2)}}
+                </p>
+                <p *ngIf="passenger.ageCategory==='infant'">{{trip.totalAmount.infantPrice}}</p>
+                <p *ngIf="passenger.ageCategory==='infant'">{{(taxRate * trip.totalAmount.infantPrice).toFixed(2)}}
+                </p>
+              </div>
+            </div>
           </div>
         </div>
-        <mat-card-content>
-          <div class="card-content">
-            <div *ngFor="let passenger of trip.passengers">
-              <p>{{passenger.firstName + ' ' + passenger.lastName | uppercase}}</p>
-              <div class="passenger-details">
-                <p>1 checked bag (total 23 kg) included</p>
-                <p>1 cabin bag + 1 personal item (max. 8 kg) included</p>
-                <p *ngIf="!passenger.ageCategory.infant">Seat {{passenger.seatNo}}</p>
-              </div>
-            </div>
-          </div>
-        </mat-card-content>
-      </mat-card>
-
-      <mat-card class="fares-and-taxes">
-        <mat-card-content>
-          <div *ngFor="let passenger of trip.numberOfPassengers">
-            <div *ngIf="passenger.quantity">
-              <div class="fares-and-taxes-th">
-                <p><b>{{passenger.quantity}} x {{passenger.ageCategory | titlecase}} Fare</b></p>
-                <p class="price"><b>{{(trip.totalAmount.adultPrice + taxRate * trip.totalAmount.adultPrice).toFixed(2) }}</b></p>
-              </div>
-              <div class="fare-and-taxes-table">
-                <div class="titles-column">
-                  <p>Fare</p>
-                  <p>Tax & Service Charge</p>
-                </div>
-                <div class="prices-column">
-                  <p *ngIf="passenger.ageCategory==='adult'">{{trip.totalAmount.adultPrice}}</p>
-                  <p *ngIf="passenger.ageCategory==='adult'">{{(taxRate * trip.totalAmount.adultPrice).toFixed(2) }}
-                  </p>
-                  <p *ngIf="passenger.ageCategory==='child'">{{trip.totalAmount.childPrice}}</p>
-                  <p *ngIf="passenger.ageCategory==='child'">{{(taxRate * trip.totalAmount.childPrice).toFixed(2)}}
-                  </p>
-                  <p *ngIf="passenger.ageCategory==='infant'">{{trip.totalAmount.infantPrice}}</p>
-                  <p *ngIf="passenger.ageCategory==='infant'">{{(taxRate * trip.totalAmount.infantPrice).toFixed(2)}}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <p><b>Total: {{(trip.totalAmount.sumPrice + trip.totalAmount?.totalTax)}}</b></p>
-        </mat-card-content>
-      </mat-card>
-    </div>
+        <p><b>Total: {{(trip.totalAmount.sumPrice + trip.totalAmount?.totalTax)}}</b></p>
+      </mat-card-content>
+    </mat-card>
   </div>
+</div>
 
-  <div class="width-container stepper-btns" *ngIf="summaryEditMode">
-    <button mat-button color="primary" (click)="onBackClick()">Back</button>
-    <button mat-stroked-button (click)="onBuyClick()">Add to order cart</button>
-    <button mat-raised-button color="primary" (click)="onBuyClick()">Buy now</button>
-  </div>
+<div class="width-container stepper-btns" *ngIf="summaryEditMode">
+  <button mat-button color="primary" (click)="onBackClick()">Back</button>
+  <button mat-stroked-button (click)="onBuyClick()">Add to order cart</button>
+  <button mat-raised-button color="primary" (click)="onBuyClick()">Buy now</button>
+</div>
 
-  <div class="width-container stepper-btns" *ngIf="!summaryEditMode">
-    <button mat-raised-button color="primary" (click)="onBackClickToMyOrders()">Back</button>
-  </div>
-
+<div class="width-container stepper-btns" *ngIf="!summaryEditMode">
+  <button mat-raised-button color="primary" (click)="onBackClickToMyOrders()">Back</button>
 </div>
