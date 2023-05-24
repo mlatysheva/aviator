@@ -154,3 +154,16 @@ option:active,
   color: white !important;
   font-size: 12px;
 }
+
+@media screen and (max-width: 768px) {
+  .text {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .menu {
+    flex-direction: column;
+    gap: 0;
+  }  
+}

@@ -77,7 +77,9 @@ $avia_client-theme: mat.define-light-theme((color: (primary: $avia_client-primar
   --auth-modal-width: 490px;
   --auth-modal-height: auto;
   --header-height: 88px;
+  --header-height-mob: 190px;
   --footer-height: 92px;
+  --footer-height-mob: 190px;
   --max-content-width: 1128px;
   --container-width: 1200px;
 
@@ -100,10 +102,35 @@ body {
   margin: 0;
   box-sizing: inherit;
   overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
 }
 
-document {
+app-root {
   height: 100%;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+app-header {
+  height: var(--header-height);
+}
+
+app-main-page, 
+app-booking-page, 
+app-passengers-page, 
+app-summary-page, 
+app-cart-page,
+app-account-page, 
+app-booking-passengers {
+  display: flex;
+  flex: 1;
+  margin-bottom: 6rem;
+}
+
+app-footer {
+  flex-shrink: 0;
 }
 
 .container {
@@ -117,17 +144,37 @@ document {
 }
 
 .main-content {
-  position: relative;
-  top: var(--header-height);
   margin: 0 auto;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
 }
 
 @media screen and (max-width: 768px) {
   :root {
-    --header-height: 88px;
     --footer-height: 190px;
     --max-content-width: 760px;
     --container-width: 768px;
+  }
+
+  app-main-page,
+  app-booking-page, 
+  app-passengers-page, 
+  app-summary-page, 
+  app-cart-page,
+  app-account-page, 
+  app-booking-passengers {
+    margin-bottom: 2rem;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  app-header {
+    height: var(--header-height-mob);
+  }
+  
+  app-main-page {
+    min-height: 100vh;
   }
 }
   
