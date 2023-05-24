@@ -30,7 +30,12 @@ export interface TripState {
   contactDetails: IContacts;
   numberOfPassengers: IAgeTypeQuantity[];
   isPaid?: boolean;
-  duration?: number;
+  duration: number;
+  durationFrom: number;
+  seatsFrom: number;
+  seatsTo: number;
+  flightDays: number[];
+  flightDaysFrom: number[];
 }
 
 export const initialState: TripState = {
@@ -62,6 +67,11 @@ export const initialState: TripState = {
   },
   isPaid: false,
   duration: 0,
+  durationFrom: 0,
+  seatsTo: 0,
+  seatsFrom: 0,
+  flightDays: [],
+  flightDaysFrom: [],
 };
 
 export const tripReducer = createReducer(
@@ -101,6 +111,14 @@ export const tripReducer = createReducer(
       ...payload,
     })
   ),
+  on(
+    SelectedActions.setSelectedTripDurationFrom,
+    (state, payload): TripState => ({
+      ...state,
+      ...payload,
+    })
+  ),
+
 
   on(
     SelectedActions.setSelectedOutboundDepartureTime,
@@ -191,6 +209,35 @@ export const tripReducer = createReducer(
 
   on(
     SelectedActions.setSelectedTotalAmount,
+    (state, payload): TripState => ({
+      ...state,
+      ...payload,
+    })
+  ),
+
+  on(
+    SelectedActions.setSelectedTripSeatsFrom,
+    (state, payload): TripState => ({
+      ...state,
+      ...payload,
+    })
+  ),
+  on(
+    SelectedActions.setSelectedTripSeatsTo,
+    (state, payload): TripState => ({
+      ...state,
+      ...payload,
+    })
+  ),
+  on(
+    SelectedActions.setSelectedFlightDaysTo,
+    (state, payload): TripState => ({
+      ...state,
+      ...payload,
+    })
+  ),
+  on(
+    SelectedActions.setSelectedFlightDaysFrom,
     (state, payload): TripState => ({
       ...state,
       ...payload,

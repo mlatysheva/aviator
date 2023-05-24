@@ -3,6 +3,9 @@ import { Observable, Subscription } from 'rxjs';
 import {
   FormBuilder, FormControl, FormGroup,
 } from '@angular/forms';
+import { MatSelectChange } from '@angular/material/select';
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+import { MatOptionSelectionChange } from '@angular/material/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../store/state.models';
 import { EditModeService } from '../../../shared/services/edit-mode.service';
@@ -11,14 +14,7 @@ import { AviaService } from '../../../avia/services/avia.service';
 import { IAirport } from '../../../models/airport';
 import { IAgeCategory } from '../../../models/passenger';
 import * as SelectActions from '../../../store/actions/select.actions';
-import * as TripActions from '../../../store/actions/trip.actions';
-import { DateService } from '../../services/date.service';
-import { SumPriceService } from '../../services/sum-price.service';
-import { IFlight } from 'src/app/models/flight';
-import { MatSelectChange } from '@angular/material/select';
-import { MatDatepickerInputEvent } from '@angular/material/datepicker';
-import { MatOptionSelectionChange } from '@angular/material/core';
-
+import { IFlight } from '../../../models/flight';
 
 @Component({
   selector: 'app-edit-options',
@@ -45,6 +41,9 @@ export class EditOptionsComponent implements OnInit, OnDestroy {
 
   state: AppState;
 
+  returnDetails$: Observable<IFlight[]>;
+  returnDetails: IFlight[] = [];
+
   public passengersList: IAgeTypeQuantity[] = [
     { ageCategory: IAgeCategory.adult, quantity: 1 },
     { ageCategory: IAgeCategory.child, quantity: 0 },
@@ -58,7 +57,9 @@ export class EditOptionsComponent implements OnInit, OnDestroy {
   index: number;
   changedFlight: IFlight[] = [];
   duration: number;
+  durationFrom: number;
   flightNumber: string;
+  flightNumberFrom: string;
   public editForm: FormGroup;
   flightDaysTo: number[];
   startDate: Date | null;
@@ -69,14 +70,16 @@ export class EditOptionsComponent implements OnInit, OnDestroy {
   destinationAiroportName: string;
   numberOfPassengers: IAgeTypeQuantity[];
   outboundDepartureTime: string;
+  returnDepartureDate: string;
+  seatsFrom: number;
+  seatsTo: number;
+  returnFlightId: string;
 
   constructor(
     public editService: EditModeService,
     private builder: FormBuilder,
     private aviaService: AviaService,
     private store: Store<AppState>,
-    private dateService: DateService,
-    private sumPriceService: SumPriceService,
     private formBuilder: FormBuilder
   ) {
     this.isEdit = this.editService.isEdit$.value;
@@ -92,6 +95,8 @@ export class EditOptionsComponent implements OnInit, OnDestroy {
     this.subscriptions.add(
       this.state$.subscribe((state: AppState) => {
         this.isOneWay = state.trip.roundTrip === true ? false : true;
+        this.codTo = state.trip.airportsIataCodeDestination;
+        this.codFrom = state.trip.airportsIataCodeOrigin;
       })
     );
     this.getAirportsList();
@@ -139,12 +144,6 @@ export class EditOptionsComponent implements OnInit, OnDestroy {
     this.store.dispatch(SelectActions.setSelectedOriginAiroportName({
       originAiroportName: this.originAiroportName
     }));
-
-    this.subscriptions.add(
-      this.state$.subscribe((state: AppState) => {
-        this.codTo = state.trip.airportsIataCodeDestination;
-      }
-      ));
     this.changeFlight(this.codFrom, this.codTo);
   }
 
@@ -169,12 +168,6 @@ export class EditOptionsComponent implements OnInit, OnDestroy {
     this.store.dispatch(SelectActions.setSelectedDestinationAiroportName({
       destinationAiroportName: this.destinationAiroportName
     }));
-
-    this.subscriptions.add(
-      this.state$.subscribe((state: AppState) => {
-        this.codFrom = state.trip.airportsIataCodeOrigin;
-      }
-      ));
 
     this.changeFlight(this.codFrom, this.codTo);
   }
@@ -214,14 +207,14 @@ export class EditOptionsComponent implements OnInit, OnDestroy {
           flight.destinationAirportIataCode === to.toString().trim();
       });
       if (result !== undefined && result.length > 0) {
-        //this.changedFlight = [];
-        // this.changedFlight.push(result[0]);
-        //if (this.changedFlight !== undefined && this.changedFlight.length > 0) {
         this.duration = result[0].duration;
         this.flightDaysTo = result[0].flightDays;
         this.flightNumber = result[0].flightNumber;
+        this.seatsTo = result[0].seatsTo;
+        console.log(result[0])
+        this.returnFlightId = result[0].returnFlightId;
+        this.changeReturnFlight(this.returnFlightId);
         this.outboundDepartureTime = result[0].departureTime;
-        // }
         this.store.dispatch(SelectActions.setSelectedOutboundDepartureTime({
           outboundDepartureTime: this.outboundDepartureTime,
         }));
@@ -229,37 +222,38 @@ export class EditOptionsComponent implements OnInit, OnDestroy {
           outboundFlightNo: this.flightNumber,
         }));
         this.store.dispatch(SelectActions.setSelectedTripDuration({ duration: this.duration }));
+        this.store.dispatch(SelectActions.setSelectedOutboundDepartureTime({ outboundDepartureTime: this.outboundDepartureTime }));
+        this.store.dispatch(SelectActions.setSelectedTripSeatsTo({ seatsTo: this.seatsTo }));
       }
     });
-    // if (this.changedFlight !== undefined && this.changedFlight.length > 0) {
-    //   this.duration = this.changedFlight[0].duration;
-    //   this.flightDaysTo = this.changedFlight[0].flightDays;
-    //   console.log(this.flightDaysTo, this.changedFlight[0], this.duration);
-    //this.getTripState();
-    //if (this.flightDaysTo !== undefined) {
-    //   this.subscriptions.add(
-    //     this.state$.subscribe((state: AppState) => {
-    //       this.start = state.trip.outboundDepartureDate;
-    //       this.index = this.flightDaysTo.indexOf(this.dateService.getIndexOfDate(this.start, this.flightDaysTo));
-    //       this.totalAmount = this.sumPriceService.sumpPrices(this.changedFlight[0], state.trip.numberOfPassengers, this.index);
-    //       this.store.dispatch(SelectActions.setSelectedTotalAmount({ totalAmount: this.totalAmount }));
-
-    //     }));
-    // }
-    // }
-
   }
-  // getTripState() {
-  //   this.subscriptions.add(
-  //     this.state$.subscribe((state: AppState) => {
-  //       this.start = state.trip.outboundDepartureDate;
-  //       // if (this.flightDaysTo !== undefined) {
-  //       //   this.index = this.flightDaysTo.indexOf(this.dateService.getIndexOfDate(this.start, this.flightDaysTo));
-  //       //   this.totalAmount = this.sumPriceService.sumpPrices(this.changedFlight[0], state.trip.numberOfPassengers, this.index);
-  //       //   this.store.dispatch(SelectActions.setSelectedTotalAmount({ totalAmount: this.totalAmount }));
-  //       // }
-  //     }));
-  // }
+  changeReturnFlight(id: string): Observable<IFlight[]> {
+    this.returnDetails$ = this.aviaService.getAllFlights();
+    this.subscriptions.add(
+      this.returnDetails$.subscribe((value) => {
+        for (let i = 0; i < value.length; i++) {
+          this.returnDetails.push(value[i]);
+          const result = this.returnDetails.filter(
+            (item) => item.id === id.trim()
+          );
+          this.returnDetails = result;
+        }
+        if (this.returnDetails !== undefined && this.returnDetails.length > 0)
+          //this.priceFrom = this.returnDetails[0].pricesAdult[0];
+          // this.pricesFrom = this.returnDetails[0].pricesAdult;
+          this.durationFrom = this.returnDetails[0].duration;
+        this.flightNumberFrom = this.returnDetails[0].flightNumber;
+        this.seatsFrom = this.returnDetails[0].totalSeats;
+        console.log(this.seatsFrom, this.flightNumberFrom);
+        this.store.dispatch(SelectActions.setSelectedTripSeatsFrom({ seatsFrom: this.seatsFrom }));
+        this.store.dispatch(SelectActions.setSelectedReturnFlightNo({
+          returnFlightNo: this.flightNumberFrom,
+        }));
+        this.store.dispatch(SelectActions.setSelectedTripDurationFrom({ durationFrom: this.durationFrom }));
+      }
+      ));
+    return this.returnDetails$;
+  }
 
   public increase(event: Event, specificAgeType: IAgeTypeQuantity) {
     specificAgeType.quantity++;
@@ -289,18 +283,16 @@ export class EditOptionsComponent implements OnInit, OnDestroy {
   OnStartDateChange(event: MatDatepickerInputEvent<Date>) {
     if (event.value !== undefined && event.value !== null) {
       this.startDate = event.value;
-      console.log(this.startDate.toDateString());
       this.store.dispatch(SelectActions.setSelectedDepartureDate({
-        outboundDepartureDate: this.startDate.toDateString()
+        outboundDepartureDate: this.startDate.toString()
       }));
     }
   }
   OnEndDateChange(event: MatDatepickerInputEvent<Date>) {
     if (event.value !== undefined && event.value !== null) {
       this.endDate = event.value;
-      console.log(event.value.toDateString());
       this.store.dispatch(SelectActions.setSelectedReturnDate({
-        returnDepartureDate: this.endDate.toDateString()
+        returnDepartureDate: this.endDate.toString()
       }));
 
     }

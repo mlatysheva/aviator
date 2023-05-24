@@ -17,6 +17,7 @@ export const setSearchParameters = createAction(
     returnDepartureDate: string;
     numberOfPassengers: IAgeTypeQuantity[];
     isPaid?: boolean;
+
   }>()
 );
 

@@ -83,18 +83,27 @@ export class DateService {
     return slide;
   }
 
-  getArrivingDate(departureDate: string | undefined, departureTime: string, duration: number): { dateToRender: string, timeToRender: string } {
+  getArrivingDate(departureDate: string | undefined, departureTime: string, duration: number): { dateToRender: Date, timeToRender: string } {
     if (departureDate === undefined) {
-      return { dateToRender: new Date().toISOString().slice(0, -1), timeToRender: '00:00' };
+      return { dateToRender: new Date(), timeToRender: '00:00' };
 
-    } else {
+    } if (departureTime === undefined) {
+      const dateCopy = new Date(departureDate);
+      const addMinutes = dateCopy.getTime() + duration * 60000;
+      const arrivingDate = new Date(addMinutes);
+      const dateToRender = arrivingDate;
+      const timeToRender = arrivingDate.toLocaleString('en-GB').slice(11, 17);
+      return { dateToRender, timeToRender };
+    }
+    else {
       const dateCopy = new Date(departureDate);
       const time = departureTime?.split(':');
-      dateCopy.setHours(+time[0]);
+      if (time !== undefined && time.length === 2)
+        dateCopy.setHours(+time[0]);
       dateCopy.setMinutes(+time[1]);
       const addMinutes = dateCopy.getTime() + duration * 60000;
       const arrivingDate = new Date(addMinutes);
-      const dateToRender = arrivingDate.toString();
+      const dateToRender = arrivingDate
       const timeToRender = arrivingDate.toLocaleString('en-GB').slice(11, 17);
       return { dateToRender, timeToRender };
     }

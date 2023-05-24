@@ -91,8 +91,8 @@ export class CarouselDateComponent implements OnInit, OnDestroy {
   timeZoneTo: string | undefined;
   departureTime: string;
   departureTimeFrom: string;
-  arrivingDateTo: string | undefined;
-  arrivingDateFrom?: string | undefined;
+  arrivingDateTo: Date | undefined;
+  arrivingDateFrom?: Date | undefined;
   hoursFrom: number;
   minutesFrom: number;
   dateFormat: string;
@@ -126,6 +126,17 @@ export class CarouselDateComponent implements OnInit, OnDestroy {
         this.direct = this.result[0].direct;
         this.flightNumber = this.result[0].flightNumber;
         this.duration = this.result[0].duration;
+        this.arrivingDateTo = this.dateService.getArrivingDate(
+          this.startDate,
+          this.departureTime,
+          this.duration,
+        ).dateToRender;
+        this.arrivingTimeTo = this.dateService.getArrivingDate(
+          this.startDate,
+          this.departureTime,
+          this.duration,
+        ).timeToRender;
+
         this.returnFlightId = this.result[0].returnFlightId;
         this.getReturnDetailsList(this.returnFlightId);
         this.flightDaysTo = this.result[0].flightDays;
@@ -139,7 +150,9 @@ export class CarouselDateComponent implements OnInit, OnDestroy {
         this.store.dispatch(SelectActions.setTotalCalculatedAmount({ totalCalculatedAmount: this.totalAmount.sumPrice + (this.totalAmount.totalTax || 0) }));
         this.store.dispatch(SelectActions.setSelectedTripDuration({ duration: this.duration }));
         this.store.dispatch(SelectActions.setSelectedOutboundDepartureTime({ outboundDepartureTime: this.departureTime }));
-        console.log(this.departureTime);
+        this.store.dispatch(SelectActions.setSelectedTripSeatsTo({ seatsTo: this.seats }));
+        this.store.dispatch(SelectActions.setSelectedFlightDaysTo({ flightDaysTo: this.flightDaysTo }));
+
       }));
     return this.details$;
   }
@@ -158,13 +171,14 @@ export class CarouselDateComponent implements OnInit, OnDestroy {
         if (this.returnDetails !== undefined && this.returnDetails.length > 0)
           this.priceFrom = this.returnDetails[0].pricesAdult[0];
         this.pricesFrom = this.returnDetails[0].pricesAdult;
+        this.flightNumberFrom = this.returnDetails[0].flightNumber;
         this.seatsFrom = this.returnDetails[0].totalSeats;
         this.departureTimeFrom = this.returnDetails[0].departureTime;
         this.directFrom = this.returnDetails[0].direct;
         this.flightNumberFrom = this.returnDetails[0].flightNumber;
         this.durationFrom = this.returnDetails[0].duration;
-        this.hoursFrom = this.dateService.getHours(this.durationFrom);
-        this.minutesFrom = this.dateService.getMinutes(this.durationFrom);
+        // this.hoursFrom = this.dateService.getHours(this.durationFrom);
+        // this.minutesFrom = this.dateService.getMinutes(this.durationFrom);
         this.arrivingDateFrom = this.dateService.getArrivingDate(this.endDate, this.departureTimeFrom, this.durationFrom).dateToRender;
         this.arrivingTimeFrom = this.dateService.getArrivingDate(
           this.endDate, this.departureTimeFrom, this.durationFrom
@@ -182,6 +196,10 @@ export class CarouselDateComponent implements OnInit, OnDestroy {
         }
         this.store.dispatch(SelectActions.setSelectedReturnFlightNo({ returnFlightNo: this.flightNumberFrom }));
         this.store.dispatch(SelectActions.setTotalCalculatedAmount({ totalCalculatedAmount: (this.totalAmount.sumPrice || 0) + (this.totalAmount.totalTax || 0) + (this.totalAmountFrom.sumPrice || 0) + (this.totalAmountFrom.totalTax || 0) }));
+        this.store.dispatch(SelectActions.setSelectedTripDurationFrom({ durationFrom: this.durationFrom }));
+        this.store.dispatch(SelectActions.setSelectedReturnDepartureTime({ returnDepartureTime: this.departureTimeFrom }));
+        this.store.dispatch(SelectActions.setSelectedTripSeatsFrom({ seatsFrom: this.seatsFrom }));
+        this.store.dispatch(SelectActions.setSelectedFlightDaysFrom({ flightDaysFrom: this.flightDaysFrom }));
       }
       ));
     return this.returnDetails$;
@@ -207,8 +225,7 @@ export class CarouselDateComponent implements OnInit, OnDestroy {
         this.slidesFrom = this.dateService.dateSlideTo(this.endDate);
         this.dateFormat = state.user.dateFormat;
         this.flightNumber = state.trip.outboundFlightNo;
-        if (state.trip.returnFlightNo !== undefined)
-          this.flightNumberFrom = state.trip.returnFlightNo;
+        // state.trip.returnFlightNo !== undefined ? this.flightNumberFrom = state.trip.returnFlightNo : this.flightNumberFrom;
         if (state.trip.totalAmount !== undefined &&
           state.trip.totalAmount.adultPrice !== 0 &&
           state.trip.totalAmount.totalTax !== 0) { this.totalAmount = state.trip.totalAmount; }
@@ -219,22 +236,45 @@ export class CarouselDateComponent implements OnInit, OnDestroy {
         this.isFly = this.isCanFly ? 'true' : 'false';
         if (state.trip.duration !== undefined && state.trip.duration !== 0)
           this.duration = state.trip.duration;
-        this.hours = this.dateService.getHours(this.duration);
-        this.minutes = this.dateService.getMinutes(this.duration);
-        if (state.trip.outboundDepartureTime !== undefined && state.trip.outboundDepartureTime !== '')
-          this.departureTime = state.trip.outboundDepartureTime;
-        this.arrivingDateTo = this.dateService.getArrivingDate(
-          this.startDate,
-          this.departureTime,
-          this.duration,
-        ).dateToRender;
-        this.arrivingTimeTo = this.dateService.getArrivingDate(
-          this.startDate,
-          this.departureTime,
-          this.duration,
-        ).timeToRender;
+        if (state.trip.durationFrom !== undefined && state.trip.durationFrom !== 0)
+          this.durationFrom = state.trip.durationFrom;
+        // this.hours = this.dateService.getHours(this.duration);
+        // this.minutes = this.dateService.getMinutes(this.duration);
+        // if (state.trip.outboundDepartureTime !== undefined && state.trip.outboundDepartureTime !== '')
+        //   this.departureTime = state.trip.outboundDepartureTime;
+        // this.arrivingDateTo = this.dateService.getArrivingDate(
+        //   this.startDate,
+        //   this.departureTime,
+        //   this.duration,
+        // ).dateToRender;
+        // this.arrivingTimeTo = this.dateService.getArrivingDate(
+        //   this.startDate,
+        //   this.departureTime,
+        //   this.duration,
+        // ).timeToRender;
+        // if (state.trip.returnDepartureTime !== undefined && state.trip.returnDepartureTime !== '')
+        //   this.departureTimeFrom = state.trip.returnDepartureTime;
+        // this.arrivingDateFrom = this.dateService.getArrivingDate(
+        //   this.endDate,
+        //   this.departureTimeFrom,
+        //   this.durationFrom,
+        // ).dateToRender;
+        // this.arrivingTimeFrom = this.dateService.getArrivingDate(
+        //   this.endDate,
+        //   this.departureTimeFrom,
+        //   this.durationFrom,
+        // ).timeToRender;
+        if (state.trip.seatsTo !== undefined && state.trip.seatsTo !== 0)
+          this.seats = state.trip.seatsTo;
+        if (state.trip.seatsFrom !== undefined && state.trip.seatsFrom !== 0)
+          this.seatsFrom = state.trip.seatsFrom;
+        // if (state.trip.flightDays !== undefined)
+        //   this.flightDaysTo = state.trip.flightDays;
+        // if (state.trip.flightDaysFrom !== undefined)
+        //   this.flightDaysFrom = state.trip.flightDaysFrom;
       }
       ));
+
   }
 
   ngOnInit() {
@@ -318,8 +358,8 @@ export class CarouselDateComponent implements OnInit, OnDestroy {
   addStyleToChoosenDate(date: string) {
     const choosenSlide = this.elRef.nativeElement.querySelectorAll('.slide');
     for (let i = 0; i < choosenSlide.length; i++) {
-      if (choosenSlide[i].id === date) {
-
+      if (choosenSlide[i].id.trim() === date.trim()) {
+        console.log(choosenSlide[i]);
         choosenSlide[i].classList.add('large');
         choosenSlide[i].children[0].children[0].classList.add('big-date');
         choosenSlide[i].children[0].children[1].classList.add('big-weekday');
