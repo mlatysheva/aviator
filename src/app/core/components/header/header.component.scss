@@ -24,3 +24,9 @@
 .logo {
   cursor: pointer;
 }
+
+@media screen and (max-width: 550px) {
+  .header-wrapper {
+    height: var(--header-height-mob);
+  }
+}

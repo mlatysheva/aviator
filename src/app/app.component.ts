@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from './store/state.models';
-import { USER_ID } from './constants/localStorage';
+import { TRIP_ID, USER_ID } from './constants/localStorage';
 import { loadUserProfile } from './store/actions/user.actions';
 
 @Component({
@@ -22,6 +22,9 @@ export class AppComponent implements OnInit {
     this.id = localStorage.getItem(USER_ID) || '';
     if (this.id) {
       this.store.dispatch(loadUserProfile({ id: this.id }));
+    }
+    if (localStorage.getItem(TRIP_ID)) {
+      localStorage.removeItem(TRIP_ID);
     }
   }
 }
