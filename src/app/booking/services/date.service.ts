@@ -7,6 +7,7 @@ import { IFlight } from 'src/app/models/flight';
   providedIn: 'root'
 })
 export class DateService {
+
   addOneDay(date: string | undefined) {
     if (date === undefined) {
       return new Date().toISOString().slice(0, -1);
@@ -83,15 +84,16 @@ export class DateService {
     return slide;
   }
 
-  getArrivingDate(departureDate: string | undefined, departureTime: string, duration: number): { dateToRender: Date, timeToRender: string } {
+  getArrivingDate(departureDate: string | undefined, departureTime: string, duration: number): { dateToRender: string, timeToRender: string } {
+
     if (departureDate === undefined) {
-      return { dateToRender: new Date(), timeToRender: '00:00' };
+      return { dateToRender: new Date().toDateString(), timeToRender: '00:00' };
 
     } if (departureTime === undefined) {
       const dateCopy = new Date(departureDate);
       const addMinutes = dateCopy.getTime() + duration * 60000;
       const arrivingDate = new Date(addMinutes);
-      const dateToRender = arrivingDate;
+      const dateToRender = arrivingDate.toDateString();
       const timeToRender = arrivingDate.toLocaleString('en-GB').slice(11, 17);
       return { dateToRender, timeToRender };
     }
@@ -103,7 +105,12 @@ export class DateService {
       dateCopy.setMinutes(+time[1]);
       const addMinutes = dateCopy.getTime() + duration * 60000;
       const arrivingDate = new Date(addMinutes);
-      const dateToRender = arrivingDate
+      const dateToRender = arrivingDate.toLocaleString('en-GB', {
+        weekday: "long",
+        month: "long",
+        day: "numeric",
+        year: "numeric",
+      });
       const timeToRender = arrivingDate.toLocaleString('en-GB').slice(11, 17);
       return { dateToRender, timeToRender };
     }

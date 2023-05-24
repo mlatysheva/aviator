@@ -26,10 +26,11 @@
       </slide>
     </carousel>
     <app-flight-details #flightTo [type]="1" class="flight-details-to" [from]="from" [to]="to" [startDate]="startDate"
-      [endDate]="endDate" [departureTime]="departureTime" [arrivingDateTo]="arrivingDateTo"
-      [arrivingTimeTo]="arrivingTimeTo" [timeZoneFrom]="timeZoneFrom" [timeZoneTo]="timeZoneTo"
-      [flightNumber]="flightNumber" [seats]="seats" [currency]="currency" [hours]="(dateService.getHours(duration))"
-      [minutes]="(dateService.getMinutes(duration))"
+      [endDate]="endDate" [departureTime]="departureTime"
+      [arrivingDateTo]="(dateService.getArrivingDate(startDate,departureTime,duration).dateToRender)"
+      [arrivingTimeTo]="(dateService.getArrivingDate(startDate,departureTime,duration).timeToRender)"
+      [timeZoneFrom]="timeZoneFrom" [timeZoneTo]="timeZoneTo" [flightNumber]="flightNumber" [seats]="seats"
+      [currency]="currency" [hours]="(dateService.getHours(duration))" [minutes]="(dateService.getMinutes(duration))"
       [price]="prices[(dateService.getIndexOfDate(startDate, flightDaysTo))]" [onClick]="onClick" [cityFrom]="cityFrom"
       [cityTo]="cityTo" [flightDaysTo]="flightDaysTo" [codFrom]="codFrom" [codTo]="codTo" [dateFormat]="dateFormat"
       [isTo]="true" [numberOfPassengers]="numberOfPassengers" [totalAmount]="totalAmount"></app-flight-details>
@@ -63,8 +64,9 @@
     </carousel>
     <app-flight-details #flightFrom [type]="2" class="flight-details-from" [from]="to" [to]="from" [startDate]="endDate"
       [endDate]="startDate" [departureTime]="departureTimeFrom" [timeZoneFrom]="timeZoneTo"
-      [arrivingTimeTo]="arrivingTimeFrom" [arrivingDateTo]="arrivingDateFrom" [timeZoneTo]="timeZoneFrom"
-      [flightNumber]="flightNumberFrom" [seats]="seatsFrom" [currency]="currency"
+      [arrivingTimeTo]="(dateService.getArrivingDate(this.endDate, this.departureTimeFrom, this.durationFrom).timeToRender)"
+      [arrivingDateTo]="(dateService.getArrivingDate(this.endDate, this.departureTimeFrom, this.durationFrom).dateToRender)"
+      [timeZoneTo]="timeZoneFrom" [flightNumber]="flightNumberFrom" [seats]="seatsFrom" [currency]="currency"
       [hours]="(dateService.getHours(durationFrom))" [minutes]="(dateService.getMinutes(durationFrom))"
       [price]="pricesFrom[(dateService.getIndexOfDate(endDate, flightDaysFrom))]" [onClick]="onClick"
       [cityFrom]="cityTo" [cityTo]="cityFrom" [flightDaysTo]="flightDaysFrom" [codFrom]="codTo" [codTo]="codFrom"

@@ -91,8 +91,8 @@ export class CarouselDateComponent implements OnInit, OnDestroy {
   timeZoneTo: string | undefined;
   departureTime: string;
   departureTimeFrom: string;
-  arrivingDateTo: Date | undefined;
-  arrivingDateFrom?: Date | undefined;
+  arrivingDateTo: string | undefined;
+  arrivingDateFrom?: string | undefined;
   hoursFrom: number;
   minutesFrom: number;
   dateFormat: string;
@@ -126,17 +126,6 @@ export class CarouselDateComponent implements OnInit, OnDestroy {
         this.direct = this.result[0].direct;
         this.flightNumber = this.result[0].flightNumber;
         this.duration = this.result[0].duration;
-        this.arrivingDateTo = this.dateService.getArrivingDate(
-          this.startDate,
-          this.departureTime,
-          this.duration,
-        ).dateToRender;
-        this.arrivingTimeTo = this.dateService.getArrivingDate(
-          this.startDate,
-          this.departureTime,
-          this.duration,
-        ).timeToRender;
-
         this.returnFlightId = this.result[0].returnFlightId;
         this.getReturnDetailsList(this.returnFlightId);
         this.flightDaysTo = this.result[0].flightDays;
@@ -177,12 +166,6 @@ export class CarouselDateComponent implements OnInit, OnDestroy {
         this.directFrom = this.returnDetails[0].direct;
         this.flightNumberFrom = this.returnDetails[0].flightNumber;
         this.durationFrom = this.returnDetails[0].duration;
-        // this.hoursFrom = this.dateService.getHours(this.durationFrom);
-        // this.minutesFrom = this.dateService.getMinutes(this.durationFrom);
-        this.arrivingDateFrom = this.dateService.getArrivingDate(this.endDate, this.departureTimeFrom, this.durationFrom).dateToRender;
-        this.arrivingTimeFrom = this.dateService.getArrivingDate(
-          this.endDate, this.departureTimeFrom, this.durationFrom
-        ).timeToRender;
         this.flightDaysFrom = this.returnDetails[0].flightDays;
         if (this.endDate !== undefined) {
           const index = this.dateService.getIndexOfDate(this.endDate, this.flightDaysFrom);
@@ -215,8 +198,19 @@ export class CarouselDateComponent implements OnInit, OnDestroy {
         this.cityTo = state.trip.destinationCity;
         this.from = state.trip.originAiroportName;
         this.to = state.trip.destinationAiroportName;
-        this.startDate = state.trip.outboundDepartureDate;
-        this.endDate = state.trip.returnDepartureDate;
+        this.startDate = new Date(state.trip.outboundDepartureDate).toLocaleString('en-GB', {
+          weekday: "long",
+          month: "long",
+          day: "numeric",
+          year: "numeric",
+        });
+        if (state.trip.returnDepartureDate !== undefined)
+          this.endDate = new Date(state.trip.returnDepartureDate).toLocaleString('en-GB', {
+            weekday: "long",
+            month: "long",
+            day: "numeric",
+            year: "numeric",
+          });
         this.numberOfPassengers = state.trip.numberOfPassengers;
         this.currency = getSymbolFromCurrency(state.user.currency);
         this.isOneWay = state.trip.roundTrip === true ? false : true;
@@ -238,32 +232,6 @@ export class CarouselDateComponent implements OnInit, OnDestroy {
           this.duration = state.trip.duration;
         if (state.trip.durationFrom !== undefined && state.trip.durationFrom !== 0)
           this.durationFrom = state.trip.durationFrom;
-        // this.hours = this.dateService.getHours(this.duration);
-        // this.minutes = this.dateService.getMinutes(this.duration);
-        // if (state.trip.outboundDepartureTime !== undefined && state.trip.outboundDepartureTime !== '')
-        //   this.departureTime = state.trip.outboundDepartureTime;
-        // this.arrivingDateTo = this.dateService.getArrivingDate(
-        //   this.startDate,
-        //   this.departureTime,
-        //   this.duration,
-        // ).dateToRender;
-        // this.arrivingTimeTo = this.dateService.getArrivingDate(
-        //   this.startDate,
-        //   this.departureTime,
-        //   this.duration,
-        // ).timeToRender;
-        // if (state.trip.returnDepartureTime !== undefined && state.trip.returnDepartureTime !== '')
-        //   this.departureTimeFrom = state.trip.returnDepartureTime;
-        // this.arrivingDateFrom = this.dateService.getArrivingDate(
-        //   this.endDate,
-        //   this.departureTimeFrom,
-        //   this.durationFrom,
-        // ).dateToRender;
-        // this.arrivingTimeFrom = this.dateService.getArrivingDate(
-        //   this.endDate,
-        //   this.departureTimeFrom,
-        //   this.durationFrom,
-        // ).timeToRender;
         if (state.trip.seatsTo !== undefined && state.trip.seatsTo !== 0)
           this.seats = state.trip.seatsTo;
         if (state.trip.seatsFrom !== undefined && state.trip.seatsFrom !== 0)
