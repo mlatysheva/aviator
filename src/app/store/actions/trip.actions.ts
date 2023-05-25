@@ -17,6 +17,7 @@ export const setSearchParameters = createAction(
     returnDepartureDate: string;
     numberOfPassengers: IAgeTypeQuantity[];
     isPaid?: boolean;
+
   }>()
 );
 
@@ -38,6 +39,11 @@ export const setPassengers = createAction(
 export const setTripContactDetails = createAction(
   '[Booking Passengers] Set Trip Contact Details',
   props<{ contactDetails: IContacts }>()
+);
+
+export const setNumberOfPassengers = createAction(
+  '[Booking Passengers] Set Number Of Passengers',
+  props<{ numberOfPassengers: IAgeTypeQuantity[] }>()
 );
 
 export const clearTripState = createAction('[] Cleared Trip State');
