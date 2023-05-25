@@ -7,6 +7,7 @@ import { IFlight } from 'src/app/models/flight';
   providedIn: 'root'
 })
 export class DateService {
+
   addOneDay(date: string | undefined) {
     if (date === undefined) {
       return new Date().toISOString().slice(0, -1);
@@ -31,14 +32,14 @@ export class DateService {
     return dateCopy < today;
   }
 
-  isFlightDay(date: string, flight: IFlight) {
-    if (flight === undefined || date === undefined || flight.flightDays === undefined) {
+  isFlightDay(date: string, flight: IFlight['flightDays']) {
+    if (flight === undefined || date === undefined || flight.length === 0) {
       return false;
     }
     const dateCopy = new Date(date);
     const day = dateCopy.getDay();
-    if (flight !== undefined && flight.flightDays !== undefined && date !== undefined) {
-      const index = flight.flightDays.indexOf(day);
+    if (flight !== undefined && flight !== undefined && date !== undefined) {
+      const index = flight.indexOf(day);
       if (index !== -1) {
         return true;
       }
@@ -84,17 +85,32 @@ export class DateService {
   }
 
   getArrivingDate(departureDate: string | undefined, departureTime: string, duration: number): { dateToRender: string, timeToRender: string } {
-    if (departureDate === undefined) {
-      return { dateToRender: new Date().toISOString().slice(0, -1), timeToRender: '00:00' };
 
-    } else {
+    if (departureDate === undefined) {
+      return { dateToRender: new Date().toDateString(), timeToRender: '00:00' };
+
+    } if (departureTime === undefined) {
       const dateCopy = new Date(departureDate);
-      const time = departureTime.split(':');
-      dateCopy.setHours(+time[0]);
+      const addMinutes = dateCopy.getTime() + duration * 60000;
+      const arrivingDate = new Date(addMinutes);
+      const dateToRender = arrivingDate.toDateString();
+      const timeToRender = arrivingDate.toLocaleString('en-GB').slice(11, 17);
+      return { dateToRender, timeToRender };
+    }
+    else {
+      const dateCopy = new Date(departureDate);
+      const time = departureTime?.split(':');
+      if (time !== undefined && time.length === 2)
+        dateCopy.setHours(+time[0]);
       dateCopy.setMinutes(+time[1]);
       const addMinutes = dateCopy.getTime() + duration * 60000;
       const arrivingDate = new Date(addMinutes);
-      const dateToRender = arrivingDate.toString();
+      const dateToRender = arrivingDate.toLocaleString('en-GB', {
+        weekday: "long",
+        month: "long",
+        day: "numeric",
+        year: "numeric",
+      });
       const timeToRender = arrivingDate.toLocaleString('en-GB').slice(11, 17);
       return { dateToRender, timeToRender };
     }
@@ -124,6 +140,16 @@ export class DateService {
     const zone = this.findTimeZone(city);
     const timezone = timeOffset.getTimezone(zone);
     return timezone?.utcOffsetStr;
+  }
+
+  dateToLocaleString(date: string) {
+    const dateCopy = new Date(date);
+    return dateCopy.toLocaleString('en-GB', {
+      weekday: "long",
+      month: "long",
+      day: "numeric",
+      year: "numeric",
+    });
   }
 
 }

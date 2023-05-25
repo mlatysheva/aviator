@@ -21,6 +21,8 @@ export const setSelectedTrip = createAction(
     returnArrivalTime?: string;
     numberOfPassengers: IAgeTypeQuantity[];
     isPaid: boolean;
+
+
   }>()
 );
 
@@ -36,6 +38,15 @@ export const setSelectedDepartureDate = createAction(
 export const setSelectedReturnDate = createAction(
   '[Flight Select] Set Selected Return Date',
   props<{ returnDepartureDate: string }>()
+);
+
+export const setSelectedTripDuration = createAction(
+  '[Flight Select] Set Selected Return Date',
+  props<{ duration: number }>()
+);
+export const setSelectedTripDurationFrom = createAction(
+  '[Flight Select] Set Selected Return Date',
+  props<{ durationFrom: number }>()
 );
 export const setSelectedOriginCity = createAction(
   '[Flight Select] Set Selected Origin City',
@@ -129,5 +140,32 @@ export const setSelectedUserId = createAction(
   props<{ userId: string }>()
 );
 
+export const setSelectedTripSeatsFrom = createAction(
+  '[Flight Select] Set Selected Trip seats from',
+  props<{ seatsFrom: number }>()
+);
 
+export const setSelectedTripSeatsTo = createAction(
+  '[Flight Select] Set Selected Trip seats to',
+  props<{ seatsTo: number }>()
+);
+
+export const setSelectedFlightDaysTo = createAction(
+  '[Flight Select] Set Selected flight days to',
+  props<{ flightDaysTo: number[] }>()
+);
+
+export const setSelectedFlightDaysFrom = createAction(
+  '[Flight Select] Set Selected flight days from',
+  props<{ flightDaysFrom: number[] }>()
+);
+
+export const setSelectedPricesTo = createAction(
+  '[Flight Select] Set Selected prices to',
+  props<{ pricesTo: number[] }>()
+);
+export const setSelectedPricesFrom = createAction(
+  '[Flight Select] Set Selected prices from',
+  props<{ pricesFrom: number[] }>()
+);
 
