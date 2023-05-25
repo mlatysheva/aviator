@@ -142,4 +142,14 @@ export class DateService {
     return timezone?.utcOffsetStr;
   }
 
+  dateToLocaleString(date: string) {
+    const dateCopy = new Date(date);
+    return dateCopy.toLocaleString('en-GB', {
+      weekday: "long",
+      month: "long",
+      day: "numeric",
+      year: "numeric",
+    });
+  }
+
 }

@@ -105,7 +105,10 @@ export class CarouselDateComponent implements OnInit, OnDestroy {
     public dateService: DateService,
     public sumPriceService: SumPriceService,
     private elRef: ElementRef
-  ) { }
+  ) {
+    this.isCanFly = this.dateService.isCanFly(this.startDate);
+    this.isFly = this.isCanFly ? 'true' : 'false';
+  }
 
   public getDetailsList(from: string, to: string): Observable<IFlight[]> {
     this.details$ = this.aviaService.getAllFlights();
@@ -141,6 +144,7 @@ export class CarouselDateComponent implements OnInit, OnDestroy {
         this.store.dispatch(SelectActions.setSelectedOutboundDepartureTime({ outboundDepartureTime: this.departureTime }));
         this.store.dispatch(SelectActions.setSelectedTripSeatsTo({ seatsTo: this.seats }));
         this.store.dispatch(SelectActions.setSelectedFlightDaysTo({ flightDaysTo: this.flightDaysTo }));
+        this.store.dispatch(SelectActions.setSelectedOutboundDepartureTime({ outboundDepartureTime: this.departureTime }));
 
       }));
     return this.details$;
@@ -169,12 +173,10 @@ export class CarouselDateComponent implements OnInit, OnDestroy {
         this.flightDaysFrom = this.returnDetails[0].flightDays;
         if (this.endDate !== undefined) {
           const index = this.dateService.getIndexOfDate(this.endDate, this.flightDaysFrom);
-
           this.totalAmountFrom = this.sumPriceService.sumpPrices(
             this.returnDetails[0],
             this.numberOfPassengers,
             index);
-
           this.store.dispatch(SelectActions.setSelectedTotalAmountFrom({ totalAmountFrom: this.totalAmountFrom }));
         }
         this.store.dispatch(SelectActions.setSelectedReturnFlightNo({ returnFlightNo: this.flightNumberFrom }));
@@ -198,19 +200,13 @@ export class CarouselDateComponent implements OnInit, OnDestroy {
         this.cityTo = state.trip.destinationCity;
         this.from = state.trip.originAiroportName;
         this.to = state.trip.destinationAiroportName;
-        this.startDate = new Date(state.trip.outboundDepartureDate).toLocaleString('en-GB', {
-          weekday: "long",
-          month: "long",
-          day: "numeric",
-          year: "numeric",
-        });
-        if (state.trip.returnDepartureDate !== undefined)
-          this.endDate = new Date(state.trip.returnDepartureDate).toLocaleString('en-GB', {
-            weekday: "long",
-            month: "long",
-            day: "numeric",
-            year: "numeric",
-          });
+        this.startDate = state.trip.outboundDepartureDate
+        if (state.trip.returnDepartureDate !== undefined && state.trip.returnDepartureDate !== '')
+          this.endDate = state.trip.returnDepartureDate;
+        if (state.trip.outboundDepartureTime !== undefined && state.trip.outboundDepartureTime !== '')
+          this.departureTime = state.trip.outboundDepartureTime;
+        if (state.trip.returnDepartureTime !== undefined && state.trip.returnDepartureTime !== '')
+          this.departureTimeFrom = state.trip.returnDepartureTime;
         this.numberOfPassengers = state.trip.numberOfPassengers;
         this.currency = getSymbolFromCurrency(state.user.currency);
         this.isOneWay = state.trip.roundTrip === true ? false : true;
@@ -219,15 +215,16 @@ export class CarouselDateComponent implements OnInit, OnDestroy {
         this.slidesFrom = this.dateService.dateSlideTo(this.endDate);
         this.dateFormat = state.user.dateFormat;
         this.flightNumber = state.trip.outboundFlightNo;
-        // state.trip.returnFlightNo !== undefined ? this.flightNumberFrom = state.trip.returnFlightNo : this.flightNumberFrom;
+        if (state.trip.returnFlightNo !== undefined && state.trip.returnFlightNo !== '')
+          this.flightNumberFrom = state.trip.returnFlightNo
         if (state.trip.totalAmount !== undefined &&
           state.trip.totalAmount.adultPrice !== 0 &&
           state.trip.totalAmount.totalTax !== 0) { this.totalAmount = state.trip.totalAmount; }
         if (state.trip.totalAmountFrom !== undefined &&
           state.trip.totalAmountFrom.adultPrice !== 0 &&
           state.trip.totalAmountFrom.totalTax !== 0) { this.totalAmountFrom = state.trip.totalAmountFrom; }
-        this.isCanFly = this.dateService.isCanFly(this.startDate);
-        this.isFly = this.isCanFly ? 'true' : 'false';
+        // this.isCanFly = this.dateService.isCanFly(this.startDate);
+        // this.isFly = this.isCanFly ? 'true' : 'false';
         if (state.trip.duration !== undefined && state.trip.duration !== 0)
           this.duration = state.trip.duration;
         if (state.trip.durationFrom !== undefined && state.trip.durationFrom !== 0)
@@ -236,8 +233,9 @@ export class CarouselDateComponent implements OnInit, OnDestroy {
           this.seats = state.trip.seatsTo;
         if (state.trip.seatsFrom !== undefined && state.trip.seatsFrom !== 0)
           this.seatsFrom = state.trip.seatsFrom;
-        // if (state.trip.flightDays !== undefined)
-        //   this.flightDaysTo = state.trip.flightDays;
+        // if (state.trip.flightDaysTo !== undefined && state.trip.flightDaysTo.length > 0)
+        //   this.flightDaysTo = state.trip.flightDaysTo;
+        // this.flightDaysTo = state.trip.flightDaysTo;
         // if (state.trip.flightDaysFrom !== undefined)
         //   this.flightDaysFrom = state.trip.flightDaysFrom;
       }
@@ -248,9 +246,9 @@ export class CarouselDateComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.getTripState();
     this.getDetailsList(this.codFrom, this.codTo);
-    this.isCanFly = this.dateService.isCanFly(this.startDate);
+    //this.isCanFly = this.dateService.isCanFly(this.startDate);
     this.addStyleToChoosenDate(this.startDate);
-    this.isFly = this.isCanFly ? 'true' : 'false';
+    //this.isFly = this.isCanFly ? 'true' : 'false';
     this.timeZoneFrom = this.dateService.findOffset(this.cityFrom);
     this.timeZoneTo = this.dateService.findOffset(this.cityTo);
   }

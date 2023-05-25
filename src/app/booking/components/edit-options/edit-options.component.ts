@@ -74,6 +74,8 @@ export class EditOptionsComponent implements OnInit, OnDestroy {
   seatsFrom: number;
   seatsTo: number;
   returnFlightId: string;
+  returnDepartureTime: string;
+  flightDaysFrom: number[];
 
   constructor(
     public editService: EditModeService,
@@ -208,22 +210,19 @@ export class EditOptionsComponent implements OnInit, OnDestroy {
       });
       if (result !== undefined && result.length > 0) {
         this.duration = result[0].duration;
+        this.store.dispatch(SelectActions.setSelectedTripDuration({ duration: this.duration }));
         this.flightDaysTo = result[0].flightDays;
+        this.store.dispatch(SelectActions.setSelectedFlightDaysTo({ flightDaysTo: this.flightDaysTo }));
         this.flightNumber = result[0].flightNumber;
-        this.seatsTo = result[0].seatsTo;
-        console.log(result[0])
-        this.returnFlightId = result[0].returnFlightId;
-        this.changeReturnFlight(this.returnFlightId);
-        this.outboundDepartureTime = result[0].departureTime;
-        this.store.dispatch(SelectActions.setSelectedOutboundDepartureTime({
-          outboundDepartureTime: this.outboundDepartureTime,
-        }));
         this.store.dispatch(SelectActions.setSelectedOutboundFlightNo({
           outboundFlightNo: this.flightNumber,
         }));
-        this.store.dispatch(SelectActions.setSelectedTripDuration({ duration: this.duration }));
-        this.store.dispatch(SelectActions.setSelectedOutboundDepartureTime({ outboundDepartureTime: this.outboundDepartureTime }));
         this.store.dispatch(SelectActions.setSelectedTripSeatsTo({ seatsTo: this.seatsTo }));
+        this.seatsTo = result[0].seatsTo;
+        this.outboundDepartureTime = result[0].departureTime;
+        this.store.dispatch(SelectActions.setSelectedOutboundDepartureTime({ outboundDepartureTime: this.outboundDepartureTime }));
+        this.returnFlightId = result[0].returnFlightId;
+        this.changeReturnFlight(this.returnFlightId);
       }
     });
   }
@@ -239,17 +238,19 @@ export class EditOptionsComponent implements OnInit, OnDestroy {
           this.returnDetails = result;
         }
         if (this.returnDetails !== undefined && this.returnDetails.length > 0)
-          //this.priceFrom = this.returnDetails[0].pricesAdult[0];
-          // this.pricesFrom = this.returnDetails[0].pricesAdult;
           this.durationFrom = this.returnDetails[0].duration;
+        this.store.dispatch(SelectActions.setSelectedTripDurationFrom({ durationFrom: this.durationFrom }));
         this.flightNumberFrom = this.returnDetails[0].flightNumber;
-        this.seatsFrom = this.returnDetails[0].totalSeats;
-        console.log(this.seatsFrom, this.flightNumberFrom);
-        this.store.dispatch(SelectActions.setSelectedTripSeatsFrom({ seatsFrom: this.seatsFrom }));
         this.store.dispatch(SelectActions.setSelectedReturnFlightNo({
           returnFlightNo: this.flightNumberFrom,
         }));
-        this.store.dispatch(SelectActions.setSelectedTripDurationFrom({ durationFrom: this.durationFrom }));
+        this.seatsFrom = this.returnDetails[0].totalSeats;
+        this.store.dispatch(SelectActions.setSelectedTripSeatsFrom({ seatsFrom: this.seatsFrom }));
+        this.returnDepartureTime = this.returnDetails[0].departureTime;
+        this.flightDaysFrom = this.returnDetails[0].flightDays;
+        this.store.dispatch(SelectActions.setSelectedReturnDepartureTime({
+          returnDepartureTime: this.returnDepartureTime,
+        }));
       }
       ));
     return this.returnDetails$;

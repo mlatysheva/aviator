@@ -25,8 +25,8 @@
         <div data-index="1" class="carousel-caption"></div>
       </slide>
     </carousel>
-    <app-flight-details #flightTo [type]="1" class="flight-details-to" [from]="from" [to]="to" [startDate]="startDate"
-      [endDate]="endDate" [departureTime]="departureTime"
+    <app-flight-details #flightTo [type]="1" class="flight-details-to" [from]="from" [to]="to"
+      [startDate]="(dateService.dateToLocaleString(startDate))" [endDate]="endDate" [departureTime]="departureTime"
       [arrivingDateTo]="(dateService.getArrivingDate(startDate,departureTime,duration).dateToRender)"
       [arrivingTimeTo]="(dateService.getArrivingDate(startDate,departureTime,duration).timeToRender)"
       [timeZoneFrom]="timeZoneFrom" [timeZoneTo]="timeZoneTo" [flightNumber]="flightNumber" [seats]="seats"
@@ -62,10 +62,11 @@
 
       </slide>
     </carousel>
-    <app-flight-details #flightFrom [type]="2" class="flight-details-from" [from]="to" [to]="from" [startDate]="endDate"
-      [endDate]="startDate" [departureTime]="departureTimeFrom" [timeZoneFrom]="timeZoneTo"
-      [arrivingTimeTo]="(dateService.getArrivingDate(this.endDate, this.departureTimeFrom, this.durationFrom).timeToRender)"
-      [arrivingDateTo]="(dateService.getArrivingDate(this.endDate, this.departureTimeFrom, this.durationFrom).dateToRender)"
+    <app-flight-details #flightFrom [type]="2" class="flight-details-from" [from]="to" [to]="from"
+      [startDate]="(dateService.dateToLocaleString(endDate))" [endDate]="startDate" [departureTime]="departureTimeFrom"
+      [timeZoneFrom]="timeZoneTo"
+      [arrivingTimeTo]="(dateService.getArrivingDate(endDate, departureTimeFrom, durationFrom).timeToRender)"
+      [arrivingDateTo]="(dateService.getArrivingDate(endDate, departureTimeFrom, durationFrom).dateToRender)"
       [timeZoneTo]="timeZoneFrom" [flightNumber]="flightNumberFrom" [seats]="seatsFrom" [currency]="currency"
       [hours]="(dateService.getHours(durationFrom))" [minutes]="(dateService.getMinutes(durationFrom))"
       [price]="pricesFrom[(dateService.getIndexOfDate(endDate, flightDaysFrom))]" [onClick]="onClick"

@@ -34,7 +34,7 @@ export interface TripState {
   durationFrom: number;
   seatsFrom: number;
   seatsTo: number;
-  flightDays: number[];
+  flightDaysTo: number[];
   flightDaysFrom: number[];
 }
 
@@ -70,7 +70,7 @@ export const initialState: TripState = {
   durationFrom: 0,
   seatsTo: 0,
   seatsFrom: 0,
-  flightDays: [],
+  flightDaysTo: [],
   flightDaysFrom: [],
 };
 
@@ -122,6 +122,13 @@ export const tripReducer = createReducer(
 
   on(
     SelectedActions.setSelectedOutboundDepartureTime,
+    (state, payload): TripState => ({
+      ...state,
+      ...payload,
+    })
+  ),
+  on(
+    SelectedActions.setSelectedReturnDepartureTime,
     (state, payload): TripState => ({
       ...state,
       ...payload,
@@ -272,6 +279,10 @@ export const tripReducer = createReducer(
       totalAmount: { adultPrice: 0, childPrice: 0, infantPrice: 0, sumPrice: 0, totalTax: 0 },
       totalAmountFrom: { adultPrice: 0, childPrice: 0, infantPrice: 0, sumPrice: 0, totalTax: 0 },
       totalCalculatedAmount: 0,
+      flightDaysTo: [],
+      flightDaysFrom: [],
+      seatsFrom: 0,
+      seatsTo: 0,
     })
   ),
   on(
@@ -339,5 +350,9 @@ export const tripReducer = createReducer(
     },
     isPaid: false,
     duration: 0,
+    flightDaysFrom: [],
+    flightDaysTo: [],
+    seatsFrom: 0,
+    seatsTo: 0,
   }))
 );
