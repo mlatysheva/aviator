@@ -47,7 +47,13 @@ export class BookingPageComponent {
       .pipe(
         take(1),
         tap((trip) => {
-          if (userId && !tripId) {
+          if (userId && tripId) {
+            console.log('userId && tripId');
+            this.cartService
+            .updateTrip(trip)
+            
+            .subscribe();
+          } else if (userId && !tripId) {
             const updatedTrip = {
               ...trip,
               userId: JSON.parse(JSON.stringify(userId)),
