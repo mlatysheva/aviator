@@ -15,6 +15,8 @@ import { IAirport } from '../../../models/airport';
 import { IAgeCategory } from '../../../models/passenger';
 import * as SelectActions from '../../../store/actions/select.actions';
 import { IFlight } from '../../../models/flight';
+import { DateService } from '../../services/date.service';
+import { SumPriceService } from '../../services/sum-price.service';
 
 @Component({
   selector: 'app-edit-options',
@@ -54,6 +56,7 @@ export class EditOptionsComponent implements OnInit, OnDestroy {
   destination = new FormControl('');
   passengers = new FormControl(this.selectedItems);
   totalAmount: { adultPrice: number; childPrice: number; infantPrice: number; sumPrice: number; totalTax?: number | undefined; };
+  totalAmountFrom: { adultPrice: number; childPrice: number; infantPrice: number; sumPrice: number; totalTax?: number | undefined; };
   index: number;
   changedFlight: IFlight[] = [];
   duration: number;
@@ -62,8 +65,8 @@ export class EditOptionsComponent implements OnInit, OnDestroy {
   flightNumberFrom: string;
   public editForm: FormGroup;
   flightDaysTo: number[];
-  startDate: Date | null;
-  endDate: Date;
+  startDate: string;
+  endDate: string;
   originCity: string;
   destinationCity: string;
   originAiroportName: string;
@@ -76,13 +79,17 @@ export class EditOptionsComponent implements OnInit, OnDestroy {
   returnFlightId: string;
   returnDepartureTime: string;
   flightDaysFrom: number[];
+  pricesTo: number[] = [];
+  pricesFrom: number[] = [];
 
   constructor(
     public editService: EditModeService,
     private builder: FormBuilder,
     private aviaService: AviaService,
     private store: Store<AppState>,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private dateService: DateService,
+    private sumPriceService: SumPriceService
   ) {
     this.isEdit = this.editService.isEdit$.value;
     this.passengersList.map((option) => this.selectedItems.push(option));
@@ -222,7 +229,15 @@ export class EditOptionsComponent implements OnInit, OnDestroy {
         this.outboundDepartureTime = result[0].departureTime;
         this.store.dispatch(SelectActions.setSelectedOutboundDepartureTime({ outboundDepartureTime: this.outboundDepartureTime }));
         this.returnFlightId = result[0].returnFlightId;
+        this.index = this.dateService.getIndexOfDate(this.startDate, this.flightDaysTo);
+        this.totalAmount = this.sumPriceService.sumpPrices(
+          result[0],
+          this.numberOfPassengers,
+          this.index);
+        this.store.dispatch(SelectActions.setSelectedTotalAmount({ totalAmount: this.totalAmount }));
         this.changeReturnFlight(this.returnFlightId);
+        this.pricesTo = result[0].pricesAdult;
+        this.store.dispatch(SelectActions.setSelectedPricesTo({ pricesTo: this.pricesTo }));
       }
     });
   }
@@ -247,10 +262,15 @@ export class EditOptionsComponent implements OnInit, OnDestroy {
         this.seatsFrom = this.returnDetails[0].totalSeats;
         this.store.dispatch(SelectActions.setSelectedTripSeatsFrom({ seatsFrom: this.seatsFrom }));
         this.returnDepartureTime = this.returnDetails[0].departureTime;
-        this.flightDaysFrom = this.returnDetails[0].flightDays;
         this.store.dispatch(SelectActions.setSelectedReturnDepartureTime({
           returnDepartureTime: this.returnDepartureTime,
         }));
+        this.flightDaysFrom = this.returnDetails[0].flightDays;
+        this.store.dispatch(SelectActions.setSelectedFlightDaysFrom({
+          flightDaysFrom: this.flightDaysFrom,
+        }));
+        this.pricesFrom = this.returnDetails[0].pricesAdult;
+        this.store.dispatch(SelectActions.setSelectedPricesFrom({ pricesFrom: this.pricesFrom }));
       }
       ));
     return this.returnDetails$;
@@ -283,17 +303,17 @@ export class EditOptionsComponent implements OnInit, OnDestroy {
 
   OnStartDateChange(event: MatDatepickerInputEvent<Date>) {
     if (event.value !== undefined && event.value !== null) {
-      this.startDate = event.value;
+      this.startDate = event.value.toString();
       this.store.dispatch(SelectActions.setSelectedDepartureDate({
-        outboundDepartureDate: this.startDate.toString()
+        outboundDepartureDate: this.startDate
       }));
     }
   }
   OnEndDateChange(event: MatDatepickerInputEvent<Date>) {
     if (event.value !== undefined && event.value !== null) {
-      this.endDate = event.value;
+      this.endDate = event.value.toString();
       this.store.dispatch(SelectActions.setSelectedReturnDate({
-        returnDepartureDate: this.endDate.toString()
+        returnDepartureDate: this.endDate
       }));
 
     }

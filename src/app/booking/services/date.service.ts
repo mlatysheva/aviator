@@ -32,14 +32,14 @@ export class DateService {
     return dateCopy < today;
   }
 
-  isFlightDay(date: string, flight: IFlight) {
-    if (flight === undefined || date === undefined || flight.flightDays === undefined) {
+  isFlightDay(date: string, flight: IFlight['flightDays']) {
+    if (flight === undefined || date === undefined || flight.length === 0) {
       return false;
     }
     const dateCopy = new Date(date);
     const day = dateCopy.getDay();
-    if (flight !== undefined && flight.flightDays !== undefined && date !== undefined) {
-      const index = flight.flightDays.indexOf(day);
+    if (flight !== undefined && flight !== undefined && date !== undefined) {
+      const index = flight.indexOf(day);
       if (index !== -1) {
         return true;
       }

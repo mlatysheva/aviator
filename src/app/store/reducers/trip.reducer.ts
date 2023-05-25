@@ -36,6 +36,8 @@ export interface TripState {
   seatsTo: number;
   flightDaysTo: number[];
   flightDaysFrom: number[];
+  pricesTo: number[];
+  pricesFrom: number[];
 }
 
 export const initialState: TripState = {
@@ -72,6 +74,8 @@ export const initialState: TripState = {
   seatsFrom: 0,
   flightDaysTo: [],
   flightDaysFrom: [],
+  pricesTo: [],
+  pricesFrom: [],
 };
 
 export const tripReducer = createReducer(
@@ -245,6 +249,20 @@ export const tripReducer = createReducer(
   ),
   on(
     SelectedActions.setSelectedFlightDaysFrom,
+    (state, payload): TripState => ({
+      ...state,
+      ...payload,
+    })
+  ),
+  on(
+    SelectedActions.setSelectedPricesFrom,
+    (state, payload): TripState => ({
+      ...state,
+      ...payload,
+    })
+  ),
+  on(
+    SelectedActions.setSelectedPricesTo,
     (state, payload): TripState => ({
       ...state,
       ...payload,

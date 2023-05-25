@@ -160,4 +160,12 @@ export const setSelectedFlightDaysFrom = createAction(
   props<{ flightDaysFrom: number[] }>()
 );
 
+export const setSelectedPricesTo = createAction(
+  '[Flight Select] Set Selected prices to',
+  props<{ pricesTo: number[] }>()
+);
+export const setSelectedPricesFrom = createAction(
+  '[Flight Select] Set Selected prices from',
+  props<{ pricesFrom: number[] }>()
+);
 
