@@ -127,19 +127,30 @@ export class DateService {
     return Math.floor(duration / 60);
   }
   findTimeZone(city: string) {
-    if (city === '') {
-      return 'Europe/Kiev';
-    }
+    if (city !== undefined)
+
+      if (city === '') {
+        return 'Europe/Kiev';
+      }
     const timeZone = cityTimezones.lookupViaCity(city);
+    if (timeZone !== undefined && timeZone.length > 0)
+      return timeZone[0].timezone;
     if (city === 'London') {
       return 'Greenwich Mean Time';
     }
-    return timeZone[0].timezone;
+    return 'Europe/Kiev';
   }
-  findOffset(city: string): string | undefined {
-    const zone = this.findTimeZone(city);
-    const timezone = timeOffset.getTimezone(zone);
-    return timezone?.utcOffsetStr;
+
+
+  findOffset(city: string): string {
+    if (city !== undefined) {
+      const zone = this.findTimeZone(city);
+      const timezone = timeOffset.getTimezone(zone);
+      if (timezone !== null) {
+        return timezone.utcOffsetStr;
+      }
+    }
+    return '+00:00';
   }
 
   dateToLocaleString(date: string) {
