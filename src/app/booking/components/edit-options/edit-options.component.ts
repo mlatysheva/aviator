@@ -108,7 +108,6 @@ export class EditOptionsComponent implements OnInit, OnDestroy {
     this.codFrom = (this.departureName?.value.split(',')
       .slice(2, 3)
       .join(''));
-    console.log(this.codFrom);
     this.store.dispatch(SelectActions.setSelectedOriginCity({
       originCity: this.departureName?.value
         .split(',')
@@ -137,7 +136,6 @@ export class EditOptionsComponent implements OnInit, OnDestroy {
     this.codTo = (this.destinationName?.value.split(',')
       .slice(2, 3)
       .join(''));
-    console.log(this.codTo);
     this.store.dispatch(SelectActions.setSelectedDestinationCity({
       destinationCity: this.destinationName?.value
         .split(',')
@@ -171,7 +169,6 @@ export class EditOptionsComponent implements OnInit, OnDestroy {
       });
       if (result !== undefined && result.length > 0) {
         this.changedFlight.push(result[0]);
-        console.log(this.changedFlight);
         this.store.dispatch(SelectActions.setSelectedOutboundDepartureTime({
           outboundDepartureTime: this.changedFlight[0].departureTime,
         }));
@@ -184,7 +181,7 @@ export class EditOptionsComponent implements OnInit, OnDestroy {
     if (this.changedFlight !== undefined && this.changedFlight.length > 0) {
       this.duration = this.changedFlight[0].duration;
       this.flightDaysTo = this.changedFlight[0].flightDays;
-      console.log(this.flightDaysTo, this.changedFlight[0], this.duration);
+      // console.log(this.flightDaysTo, this.changedFlight[0], this.duration);
       //this.getTripState();
       //if (this.flightDaysTo !== undefined) {
       //   this.subscriptions.add(
@@ -229,7 +226,7 @@ export class EditOptionsComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    console.log(this.editForm.value.destination);
+    // console.log(this.editForm.value.destination);
   }
 
   ngOnDestroy(): void {

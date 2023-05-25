@@ -48,7 +48,6 @@ export class BookingPageComponent {
         take(1),
         tap((trip) => {
           if (userId && tripId) {
-            console.log('userId && tripId');
             this.cartService
             .updateTrip(trip)
             

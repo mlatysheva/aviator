@@ -223,7 +223,6 @@ export class CartPageComponent implements OnInit, OnDestroy {
       const tripId = params.node.data.id;
 
       if (action === "edit") {
-        console.log('we are in edit');
         localStorage.setItem(TRIP_ID, tripId);
         const currentTrip$ = this.cartApiService.getTrip(tripId);
         currentTrip$.subscribe((currentTrip) => {
