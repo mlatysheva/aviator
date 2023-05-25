@@ -1,5 +1,5 @@
 <div class="edit-container">
-  <form [formGroup]="editForm" class="edit-form" onSubmit="onSubmit()">
+  <form [formGroup]="editForm" class="edit-form">
     <div class="countries-picker">
       <mat-form-field appearance="fill">
         <mat-label>From</mat-label>
@@ -46,35 +46,32 @@
     </div>
 
     <div class="date-picker">
-      <mat-form-field *ngIf="tripType === 'round-trip'" appearance="fill" class="picker-date">
+      <mat-form-field *ngIf="!isOneWay" appearance="fill" class="picker-date">
         <mat-label>Enter a date range</mat-label>
         <mat-date-range-input [rangePicker]="picker">
-          <input matStartDate placeholder="Start date" formControlName="startDate">
-          <input matEndDate placeholder="End date" formControlName="endDate">
+          <input matStartDate placeholder="Start date" (dateInput)="OnStartDateChange($event)">
+          <input matEndDate placeholder="End date" (dateInput)="OnEndDateChange($event)">
         </mat-date-range-input>
-        <!-- <mat-hint>{{dateFormat}} – {{dateFormat}}</mat-hint> -->
         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-date-range-picker #picker></mat-date-range-picker>
       </mat-form-field>
 
-      <mat-form-field *ngIf="tripType === 'one-way'" color="accent" appearance="fill" class="picker-date">
+      <mat-form-field *ngIf="isOneWay" color="accent" appearance="fill" class="picker-date">
         <mat-label>Choose a date</mat-label>
-        <input matInput [matDatepicker]="picker1" formControlName="startDate">
-        <mat-hint>{{dateFormat}}</mat-hint>
-        <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
-        <mat-datepicker #picker1></mat-datepicker>
+        <input matInput [matDatepicker]="startDate" (dateInput)="OnStartDateChange($event)">
+        <mat-datepicker-toggle matIconSuffix [for]="startDate"></mat-datepicker-toggle>
+        <mat-datepicker #startDate></mat-datepicker>
       </mat-form-field>
 
     </div>
-    <div class="passengers-">
-
+    <div class="passengers">
       <mat-form-field>
-        <mat-select [formControl]="passengers" multiple [(ngModel)]="selectedItems">
+        <mat-select multiple formControlName="passengers">
           <mat-select-trigger>
             {{ passengersList | stringifyPassengers | titlecase }}
           </mat-select-trigger>
-
-          <mat-option *ngFor="let passenger of passengersList" [value]="passenger" mat-selected>
+          <mat-option *ngFor="let passenger of passengersList" [value]="passenger" mat-selected
+            (selectionChange)="onPassengersChange($event)">
             <div class="age-type-option-text">{{ passenger.ageCategory | titlecase}}</div>
             <div class="option-details">
               <button mat-button (click)="decrease($event, passenger)">-</button>
@@ -85,6 +82,6 @@
         </mat-select>
       </mat-form-field>
     </div>
-
   </form>
+
 </div>
