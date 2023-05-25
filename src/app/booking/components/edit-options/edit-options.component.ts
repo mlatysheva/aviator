@@ -138,6 +138,7 @@ export class EditOptionsComponent implements OnInit, OnDestroy {
     this.codFrom = (event.source.value.split(',')
       .slice(2, 3)
       .join(''));
+
     this.originCity = this.departureChange?.value.split(',')
       .slice(1, 2)
       .join('')
@@ -147,6 +148,7 @@ export class EditOptionsComponent implements OnInit, OnDestroy {
     this.store.dispatch(SelectActions.setSelectedAiroportCodeOrigin({
       airportsIataCodeOrigin: this.codFrom
     }));
+
     this.store.dispatch(SelectActions.setSelectedOriginCity({
       originCity: this.originCity
     }));
@@ -161,6 +163,7 @@ export class EditOptionsComponent implements OnInit, OnDestroy {
     this.codTo = (event.source.value.split(',')
       .slice(2, 3)
       .join(''));
+
     this.destinationCity = this.destinationChange?.value.split(',')
       .slice(1, 2)
       .join('')
@@ -171,6 +174,7 @@ export class EditOptionsComponent implements OnInit, OnDestroy {
     this.store.dispatch(SelectActions.setSelectedAiroportCodeDestination({
       airportsIataCodeDestination: this.codTo
     }));
+
     this.store.dispatch(SelectActions.setSelectedDestinationCity({
       destinationCity: this.destinationCity
     }));
@@ -216,11 +220,18 @@ export class EditOptionsComponent implements OnInit, OnDestroy {
           flight.destinationAirportIataCode === to.toString().trim();
       });
       if (result !== undefined && result.length > 0) {
+
+        this.changedFlight.push(result[0]);
+        this.store.dispatch(SelectActions.setSelectedOutboundDepartureTime({
+          outboundDepartureTime: this.changedFlight[0].departureTime,
+        }));
+
         this.duration = result[0].duration;
         this.store.dispatch(SelectActions.setSelectedTripDuration({ duration: this.duration }));
         this.flightDaysTo = result[0].flightDays;
         this.store.dispatch(SelectActions.setSelectedFlightDaysTo({ flightDaysTo: this.flightDaysTo }));
         this.flightNumber = result[0].flightNumber;
+
         this.store.dispatch(SelectActions.setSelectedOutboundFlightNo({
           outboundFlightNo: this.flightNumber,
         }));
@@ -240,6 +251,7 @@ export class EditOptionsComponent implements OnInit, OnDestroy {
         this.store.dispatch(SelectActions.setSelectedPricesTo({ pricesTo: this.pricesTo }));
       }
     });
+
   }
   changeReturnFlight(id: string): Observable<IFlight[]> {
     this.returnDetails$ = this.aviaService.getAllFlights();
@@ -290,7 +302,11 @@ export class EditOptionsComponent implements OnInit, OnDestroy {
 
   private stopPropagationFn(event: Event) {
     event.stopPropagation();
+
+  
   }
+
+ 
 
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();

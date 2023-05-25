@@ -14,6 +14,7 @@ import { PROMO_DISOUNT } from '../../../constants/appConstants';
 import { BehaviorSubject } from 'rxjs';
 import { clearSelectedTrip, setSelectedTrip } from '../../../store/actions/select.actions';
 import { UserService } from '../../../user/services/user.service';
+import { EditModeService } from '../../../shared/services/edit-mode.service';
 
 
 
@@ -58,6 +59,7 @@ export class CartPageComponent implements OnInit, OnDestroy {
     private store: Store<AppState>,
     private cartApiService: CartApiService,
     private userService: UserService,
+    private editModeService: EditModeService,
   ) {
     this.colDefs = [
       {
@@ -227,6 +229,7 @@ export class CartPageComponent implements OnInit, OnDestroy {
           this.store.dispatch(setSelectedTrip({ ...currentTrip }));
           this.router.navigate(['flights']);
         });
+        this.editModeService.isEditButtonVisible$.next(true);
       }
 
       if (action === "delete") {

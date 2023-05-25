@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store/state.models';
 import { Observable } from 'rxjs';
-//import { EditService } from '../../services/edit.service';
 import { EditModeService } from '../../../shared/services/edit-mode.service';
 
 @Component({
@@ -34,7 +33,6 @@ export class SecondMenuComponent implements OnInit {
   constructor(
     private store: Store<AppState>,
     private editModeService: EditModeService,
-    // private editService: EditService
   ) { }
 
   ngOnInit() {
@@ -66,5 +64,4 @@ export class SecondMenuComponent implements OnInit {
       this.editModeService.isEdit$.next(this.isEdit);
     }
   }
-
 }
