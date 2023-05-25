@@ -217,14 +217,14 @@ export class CarouselDateComponent implements OnInit, OnDestroy {
         this.flightNumber = state.trip.outboundFlightNo;
         if (state.trip.returnFlightNo !== undefined && state.trip.returnFlightNo !== '')
           this.flightNumberFrom = state.trip.returnFlightNo
-        if (state.trip.totalAmount !== undefined &&
-          state.trip.totalAmount.adultPrice !== 0 &&
-          state.trip.totalAmount.totalTax !== 0) { this.totalAmount = state.trip.totalAmount; }
-        if (state.trip.totalAmountFrom !== undefined &&
-          state.trip.totalAmountFrom.adultPrice !== 0 &&
-          state.trip.totalAmountFrom.totalTax !== 0) { this.totalAmountFrom = state.trip.totalAmountFrom; }
-        if (state.trip.duration !== undefined && state.trip.duration !== 0)
-          this.duration = state.trip.duration;
+        // if (state.trip.totalAmount !== undefined &&
+        //   state.trip.totalAmount.adultPrice !== 0 &&
+        //   state.trip.totalAmount.totalTax !== 0) { this.totalAmount = state.trip.totalAmount; }
+        // if (state.trip.totalAmountFrom !== undefined &&
+        //   state.trip.totalAmountFrom.adultPrice !== 0 &&
+        //   state.trip.totalAmountFrom.totalTax !== 0) { this.totalAmountFrom = state.trip.totalAmountFrom; }
+        // if (state.trip.duration !== undefined && state.trip.duration !== 0)
+        this.duration = state.trip.duration;
         if (state.trip.durationFrom !== undefined && state.trip.durationFrom !== 0)
           this.durationFrom = state.trip.durationFrom;
         if (state.trip.seatsTo !== undefined && state.trip.seatsTo !== 0)
