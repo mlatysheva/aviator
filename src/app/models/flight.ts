@@ -6,6 +6,7 @@ export interface IFlight {
   returnFlightId: string,
   duration: number,
   departureTime: string,
+  returnDepartureDate?: string,
   direct: boolean,
   flightNumber: string,
   flightDays: number[],
@@ -15,4 +16,6 @@ export interface IFlight {
   pricesChild: number[],
   pricesInfant: number[],
   taxRate?: number,
+  seatsFrom: number,
+  seatsTo: number,
 }

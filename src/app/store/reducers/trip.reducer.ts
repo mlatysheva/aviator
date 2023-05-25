@@ -30,6 +30,14 @@ export interface TripState {
   contactDetails: IContacts;
   numberOfPassengers: IAgeTypeQuantity[];
   isPaid?: boolean;
+  duration: number;
+  durationFrom: number;
+  seatsFrom: number;
+  seatsTo: number;
+  flightDaysTo: number[];
+  flightDaysFrom: number[];
+  pricesTo: number[];
+  pricesFrom: number[];
 }
 
 export const initialState: TripState = {
@@ -60,6 +68,14 @@ export const initialState: TripState = {
     phone: '',
   },
   isPaid: false,
+  duration: 0,
+  durationFrom: 0,
+  seatsTo: 0,
+  seatsFrom: 0,
+  flightDaysTo: [],
+  flightDaysFrom: [],
+  pricesTo: [],
+  pricesFrom: [],
 };
 
 export const tripReducer = createReducer(
@@ -92,6 +108,44 @@ export const tripReducer = createReducer(
       ...payload,
     })
   ),
+  on(
+    SelectedActions.setSelectedTripDuration,
+    (state, payload): TripState => ({
+      ...state,
+      ...payload,
+    })
+  ),
+  on(
+    SelectedActions.setSelectedTripDurationFrom,
+    (state, payload): TripState => ({
+      ...state,
+      ...payload,
+    })
+  ),
+
+
+  on(
+    SelectedActions.setSelectedOutboundDepartureTime,
+    (state, payload): TripState => ({
+      ...state,
+      ...payload,
+    })
+  ),
+  on(
+    SelectedActions.setSelectedReturnDepartureTime,
+    (state, payload): TripState => ({
+      ...state,
+      ...payload,
+    })
+  ),
+  on(
+    SelectedActions.setSelectedOutboundArrivalTime,
+    (state, payload): TripState => ({
+      ...state,
+      ...payload,
+    })
+  ),
+
   on(
     SelectedActions.setSelectedOriginCity,
     (state, payload): TripState => ({
@@ -173,6 +227,49 @@ export const tripReducer = createReducer(
   ),
 
   on(
+    SelectedActions.setSelectedTripSeatsFrom,
+    (state, payload): TripState => ({
+      ...state,
+      ...payload,
+    })
+  ),
+  on(
+    SelectedActions.setSelectedTripSeatsTo,
+    (state, payload): TripState => ({
+      ...state,
+      ...payload,
+    })
+  ),
+  on(
+    SelectedActions.setSelectedFlightDaysTo,
+    (state, payload): TripState => ({
+      ...state,
+      ...payload,
+    })
+  ),
+  on(
+    SelectedActions.setSelectedFlightDaysFrom,
+    (state, payload): TripState => ({
+      ...state,
+      ...payload,
+    })
+  ),
+  on(
+    SelectedActions.setSelectedPricesFrom,
+    (state, payload): TripState => ({
+      ...state,
+      ...payload,
+    })
+  ),
+  on(
+    SelectedActions.setSelectedPricesTo,
+    (state, payload): TripState => ({
+      ...state,
+      ...payload,
+    })
+  ),
+
+  on(
     SelectedActions.setSelectedTotalAmountFrom,
     (state, payload): TripState => ({
       ...state,
@@ -200,10 +297,21 @@ export const tripReducer = createReducer(
       totalAmount: { adultPrice: 0, childPrice: 0, infantPrice: 0, sumPrice: 0, totalTax: 0 },
       totalAmountFrom: { adultPrice: 0, childPrice: 0, infantPrice: 0, sumPrice: 0, totalTax: 0 },
       totalCalculatedAmount: 0,
+      flightDaysTo: [],
+      flightDaysFrom: [],
+      seatsFrom: 0,
+      seatsTo: 0,
     })
   ),
   on(
     TripActions.setPassengers,
+    (state, payload): TripState => ({
+      ...state,
+      ...payload,
+    })
+  ),
+  on(
+    TripActions.setNumberOfPassengers,
     (state, payload): TripState => ({
       ...state,
       ...payload,
@@ -259,5 +367,10 @@ export const tripReducer = createReducer(
       phone: '',
     },
     isPaid: false,
+    duration: 0,
+    flightDaysFrom: [],
+    flightDaysTo: [],
+    seatsFrom: 0,
+    seatsTo: 0,
   }))
 );
