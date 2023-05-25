@@ -21,4 +21,4 @@ import { ProgresBarComponent } from './components/progres-bar/progres-bar.compon
   imports: [CommonModule, RouterModule, SharedModule, FormsModule],
   exports: [NotFoundPageComponent, HeaderComponent, FooterComponent],
 })
-export class CoreModule { }
+export class CoreModule {}
