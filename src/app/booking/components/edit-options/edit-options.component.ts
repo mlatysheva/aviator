@@ -95,7 +95,23 @@ export class EditOptionsComponent implements OnInit, OnDestroy {
     this.isEdit = this.editService.isEdit$.value;
     this.passengersList.map((option) => this.selectedItems.push(option));
     this.state$ = this.store.select((appState) => appState);
+    this.editForm = this.builder.group({
+      departure: this.departure,
+      destination: this.destination,
+      passengers: this.passengers
+    });
+    this.subscriptions.add(
+      this.editForm.controls['departure'].valueChanges.subscribe(() => {
+        this.updateFieldsEqualityValidation();
+      })
+    );
+    this.subscriptions.add(
+      this.editForm.controls['destination'].valueChanges.subscribe(() => {
+        this.updateFieldsEqualityValidation();
+      })
+    );
   }
+
   ngOnInit() {
     this.subscriptions.add(
       this.editService.isEdit$.subscribe((isEdit) => {
@@ -109,13 +125,8 @@ export class EditOptionsComponent implements OnInit, OnDestroy {
         this.codFrom = state.trip.airportsIataCodeOrigin;
       })
     );
-    this.getAirportsList();
 
-    this.editForm = this.builder.group({
-      departure: this.departure,
-      destination: this.destination,
-      passengers: this.passengers
-    });
+    this.getAirportsList();
 
   }
 
@@ -306,7 +317,22 @@ export class EditOptionsComponent implements OnInit, OnDestroy {
 
 
   }
+  private updateFieldsEqualityValidation() {
+    const departure = this.departureChange?.value;
+    const destination = this.destinationChange?.value;
 
+    if (departure && destination &&
+      departure.trim() === destination.trim()) {
+
+      this.departureChange?.setErrors({ notEqual: true });
+      this.destinationChange?.setErrors({ notEqual: true });
+    }
+    else {
+      this.departureChange?.setErrors(null);
+      this.destinationChange?.setErrors(null);
+    }
+
+  }
 
 
   ngOnDestroy(): void {

@@ -16,12 +16,6 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
-      <mat-error *ngIf="departure.errors && departure.invalid && departure.touched">
-        {{ departure.hasError('equalityError')
-        ? 'The fields should not be equal. Please enter another departure airport'
-        : 'Please enter a departure airport' }}
-      </mat-error>
-
       <mat-label for="destination">Destination</mat-label>
       <mat-form-field appearance="fill">
         <mat-select [formControl]="destination" id="destination" (selectionChange)="onDestinationChange($event)">
@@ -38,10 +32,9 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
-      <mat-error *ngIf="destination.errors && destination.invalid && destination.touched">
+      <mat-error *ngIf="destination.errors  || departure.errors">
         {{ destination.hasError('equalityError')
-        ? 'The fields should not be equal. Please enter another destination airport'
-        : 'Please enter a departure airport' }}
+        ? '':'The fields should not be equal. Please enter another departure airport' }}
       </mat-error>
     </div>
 

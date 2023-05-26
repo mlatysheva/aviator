@@ -75,3 +75,10 @@ mat-label {
   color: grey;
   font-size: 12px;
 }
+
+mat-error {
+  position: absolute;
+  top: 3.5rem;
+  width: 100%;
+  left: 6rem;
+}
