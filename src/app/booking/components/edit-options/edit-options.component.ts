@@ -82,6 +82,7 @@ export class EditOptionsComponent implements OnInit, OnDestroy {
   pricesTo: number[] = [];
   pricesFrom: number[] = [];
 
+
   constructor(
     public editService: EditModeService,
     private builder: FormBuilder,
@@ -186,9 +187,9 @@ export class EditOptionsComponent implements OnInit, OnDestroy {
   }
 
   onPassengersChange(event: MatOptionSelectionChange): void {
-    // event.source.value = this.passengersChange?.value;
+    event.source.value = this.passengersChange?.value;
     // this.numberOfPassengers = event.source.value;
-    console.log(event.source.value)
+    console.log(JSON.stringify(event.source.value))
     //console.log(this.passengersChange?.value)
     //console.log(event.source.value, event.source.selected);
     if (event.isUserInput) {    // ignore on deselection of the previous option
@@ -303,10 +304,10 @@ export class EditOptionsComponent implements OnInit, OnDestroy {
   private stopPropagationFn(event: Event) {
     event.stopPropagation();
 
-  
+
   }
 
- 
+
 
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();

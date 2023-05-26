@@ -45,8 +45,8 @@
       </mat-error>
     </div>
 
-    <mat-label for="date">Enter a date range</mat-label>
     <div class="date-picker">
+      <mat-label for="date">Enter a date range</mat-label>
       <mat-form-field *ngIf="!isOneWay" appearance="fill" class="picker-date">
         <mat-date-range-input [rangePicker]="picker" id="date">
           <input matStartDate placeholder="Start date" (dateInput)="OnStartDateChange($event)">
@@ -58,7 +58,7 @@
 
       <mat-form-field *ngIf="isOneWay" color="accent" appearance="fill" class="picker-date">
         <mat-label>Choose a date</mat-label>
-        <input matInput [matDatepicker]="startDate" (dateInput)="OnStartDateChange($event)">
+        <input matInput [matDatepicker]="startDate" (dateInput)="OnStartDateChange($event)" id="date">
         <mat-datepicker-toggle matIconSuffix [for]="startDate"></mat-datepicker-toggle>
         <mat-datepicker #startDate></mat-datepicker>
       </mat-form-field>
@@ -66,7 +66,7 @@
     </div>
     <div class="passengers">
       <mat-form-field>
-        <mat-select multiple formControlName="passengers">
+        <mat-select multiple [formControl]="passengers">
           <mat-select-trigger>
             {{ passengersList | stringifyPassengers | titlecase }}
           </mat-select-trigger>
@@ -80,6 +80,7 @@
             </div>
           </mat-option>
         </mat-select>
+
       </mat-form-field>
     </div>
   </form>

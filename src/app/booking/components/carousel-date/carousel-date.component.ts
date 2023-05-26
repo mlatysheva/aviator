@@ -128,7 +128,9 @@ export class CarouselDateComponent implements OnInit, OnDestroy {
         this.flightNumber = this.result[0].flightNumber;
         this.duration = this.result[0].duration;
         this.returnFlightId = this.result[0].returnFlightId;
-        this.getReturnDetailsList(this.returnFlightId);
+        if (this.isOneWay === false) {
+          this.getReturnDetailsList(this.returnFlightId);
+        }
         this.flightDaysTo = this.result[0].flightDays;
         this.index = this.dateService.getIndexOfDate(this.startDate, this.flightDaysTo);
         this.totalAmount = this.sumPriceService.sumpPrices(
@@ -217,14 +219,8 @@ export class CarouselDateComponent implements OnInit, OnDestroy {
         this.flightNumber = state.trip.outboundFlightNo;
         if (state.trip.returnFlightNo !== undefined && state.trip.returnFlightNo !== '')
           this.flightNumberFrom = state.trip.returnFlightNo
-        // if (state.trip.totalAmount !== undefined &&
-        //   state.trip.totalAmount.adultPrice !== 0 &&
-        //   state.trip.totalAmount.totalTax !== 0) { this.totalAmount = state.trip.totalAmount; }
-        // if (state.trip.totalAmountFrom !== undefined &&
-        //   state.trip.totalAmountFrom.adultPrice !== 0 &&
-        //   state.trip.totalAmountFrom.totalTax !== 0) { this.totalAmountFrom = state.trip.totalAmountFrom; }
-        // if (state.trip.duration !== undefined && state.trip.duration !== 0)
-        this.duration = state.trip.duration;
+        if (state.trip.duration !== undefined && state.trip.duration !== 0)
+          this.duration = state.trip.duration;
         if (state.trip.durationFrom !== undefined && state.trip.durationFrom !== 0)
           this.durationFrom = state.trip.durationFrom;
         if (state.trip.seatsTo !== undefined && state.trip.seatsTo !== 0)
@@ -290,7 +286,12 @@ export class CarouselDateComponent implements OnInit, OnDestroy {
         this.totalAmount = this.sumPriceService.sumpPrices(this.result[0], this.numberOfPassengers, index);
       this.store.dispatch(SelectActions.setSelectedDepartureDate({ outboundDepartureDate: this.startDate }));
       this.store.dispatch(SelectActions.setSelectedTotalAmount({ totalAmount: this.totalAmount }));
-      this.store.dispatch(SelectActions.setTotalCalculatedAmount({ totalCalculatedAmount: (this.totalAmount.sumPrice || 0) + (this.totalAmount.totalTax || 0) + (this.totalAmountFrom.sumPrice || 0) + (this.totalAmountFrom.totalTax || 0) }));
+      if (this.isOneWay === false) {
+        this.store.dispatch(SelectActions.setTotalCalculatedAmount({ totalCalculatedAmount: (this.totalAmount.sumPrice || 0) + (this.totalAmount.totalTax || 0) + (this.totalAmountFrom.sumPrice || 0) + (this.totalAmountFrom.totalTax || 0) }));
+      }
+    }
+    if (this.isOneWay === true) {
+      this.store.dispatch(SelectActions.setTotalCalculatedAmount({ totalCalculatedAmount: (this.totalAmount.sumPrice || 0) + (this.totalAmount.totalTax || 0) }));
     }
     if (element.dataset['index'] === '2' && element.classList.contains('slide')) {
       element.classList.add('large');
