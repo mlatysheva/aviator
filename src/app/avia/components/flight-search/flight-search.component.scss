@@ -15,6 +15,15 @@
   background-color: #fff;
 }
 
+mat-label {
+  position: relative;
+  top: 1.2rem;
+  left: 1rem;
+  z-index: 5;
+  color: grey;
+  font-size: 12px;
+}
+
 .radio-btns {
   padding: 15px 0;
 }

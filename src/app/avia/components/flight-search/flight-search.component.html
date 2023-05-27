@@ -8,9 +8,9 @@
     </div>
 
     <div class="countries-picker">
+      <mat-label for="departure">From</mat-label>
       <mat-form-field appearance="fill">
-        <mat-label>From</mat-label>
-        <mat-select [formControl]="departure">
+        <mat-select [formControl]="departure" id="departure" name="departure">
 
           <mat-select-trigger>
             {{ departure.value | airportValue }}
@@ -35,9 +35,9 @@
         <img src="assets/icons/reverse.svg" alt="reverse" class="reverse-btn-image">
       </div>
 
+      <mat-label for="destination">Destination</mat-label>
       <mat-form-field appearance="fill">
-        <mat-label>Destination</mat-label>
-        <mat-select [formControl]="destination">
+        <mat-select [formControl]="destination" id="destination">
           <mat-select-trigger>
             {{ destination.value | airportValue }}
           </mat-select-trigger>
@@ -58,10 +58,10 @@
       </mat-error>
     </div>
 
+    <mat-label for="date">Enter a date range</mat-label>
     <div class="picker">
       <mat-form-field *ngIf="tripType === 'round-trip'" appearance="fill" class="picker-date">
-        <mat-label>Enter a date range</mat-label>
-        <mat-date-range-input [rangePicker]="picker">
+        <mat-date-range-input [rangePicker]="picker" id="date">
           <input matStartDate placeholder="Start date" formControlName="startDate">
           <input matEndDate placeholder="End date" formControlName="endDate">
         </mat-date-range-input>

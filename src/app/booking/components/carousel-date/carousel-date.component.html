@@ -33,7 +33,8 @@
       [currency]="currency" [hours]="(dateService.getHours(duration))" [minutes]="(dateService.getMinutes(duration))"
       [price]="prices[(dateService.getIndexOfDate(startDate, flightDaysTo))]" [onClick]="onClick" [cityFrom]="cityFrom"
       [cityTo]="cityTo" [flightDaysTo]="flightDaysTo" [codFrom]="codFrom" [codTo]="codTo" [dateFormat]="dateFormat"
-      [isTo]="true" [numberOfPassengers]="numberOfPassengers" [totalAmount]="totalAmount"></app-flight-details>
+      [isTo]="true" [numberOfPassengers]="numberOfPassengers" [totalAmount]="totalAmount"
+      [isEnableButton]="enableEditButton(from, to) === false ? true : false || dateService.getIndexOfDate(startDate, flightDaysTo)===-1? true: false "></app-flight-details>
   </div>
   <div class="two-way" *ngIf="!isOneWay && returnDetails !== undefined">
     <div class="flight-info two-way">
@@ -71,7 +72,7 @@
       [hours]="(dateService.getHours(durationFrom))" [minutes]="(dateService.getMinutes(durationFrom))"
       [price]="pricesFrom[(dateService.getIndexOfDate(endDate, flightDaysFrom))]" [onClick]="onClick"
       [cityFrom]="cityTo" [cityTo]="cityFrom" [flightDaysTo]="flightDaysFrom" [codFrom]="codTo" [codTo]="codFrom"
-      [dateFormat]="dateFormat" [isTo]="false" [numberOfPassengers]="numberOfPassengers"
-      [totalAmount]="totalAmountFrom"></app-flight-details>
+      [dateFormat]="dateFormat" [isTo]="false" [numberOfPassengers]="numberOfPassengers" [totalAmount]="totalAmountFrom"
+      [isEnableButton]="enableEditButton(to, from) === false ? true : false || dateService.getIndexOfDate(endDate, flightDaysFrom)===-1? true: false"></app-flight-details>
   </div>
 </div>
