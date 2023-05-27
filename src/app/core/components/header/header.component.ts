@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AviaService } from '../../../avia/services/avia.service';
+import { TRIP_ID } from '../../../constants/localStorage';
 
 @Component({
   selector: 'app-header',
@@ -18,5 +19,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy() {
     this.aviaService.changeHeaderStyle$.unsubscribe();
+  }
+
+  onLogoClick() {
+    localStorage.removeItem(TRIP_ID);
   }
 }

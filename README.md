@@ -1,27 +1,31 @@
 # Aviator
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.2.2.
+This is an Angular app to book flights. It was developed by our team of three students as part of the Rolling Scopes School on Angular: 
+ - Maria Latysheva https://github.com/mlatysheva
+ - Anna Ilyinchyk https://github.com/annakolesnikova
+ - Olena Honcharuk https://github.com/olena-web
 
-## Development server
+## Description 
+
+## Functional features
+
+- User Registration: The app has a user registration an login features. A user has to be authenticated in order to book a flight. The app stores the user profile, currently booked trips and completed orders for the given user.
+
+- Flight Search (Main) Page: The app provides a simple and intuitive functionality to search for flights. This includes options to select the origin and destination, type of flight (one-way or round-trip), and the number and age of passengers.
+
+- Flight Selection Page: Once the user has entered their search criteria, the app displays all available flights along with the dates, prices, and the available number of seats.
+
+- Booking Process Page: After selecting a flight, the user is taken to another page where s/he can provide passenger data and contact information to complete the booking. Once a user has provided booking details, s/he will see the summary with all the flight information provided.
+
+- Booking Summary Page: This page shows all the data provided before the checkout. The user can make the payment now, or add the booking to the shopping cart to be paid for later.
+
+- Shopping Cart Page: This page shows all previously added bookings that are awaiting payment.
+
+- User Account Page: This page shows all bookings paid by the user and provides the possiblity to view the booking summary.
+
+## Stack used
+
+- Angular
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
 
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.

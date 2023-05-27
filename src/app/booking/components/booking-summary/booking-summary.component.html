@@ -63,7 +63,9 @@
           <div *ngIf="passenger.quantity">
             <div class="fares-and-taxes-th">
               <p><b>{{passenger.quantity}} x {{passenger.ageCategory | titlecase}} Fare</b></p>
-              <p class="price"><b>{{(trip.totalAmount.adultPrice + taxRate * trip.totalAmount.adultPrice).toFixed(2) }}</b></p>
+              <p class="price" *ngIf="passenger.ageCategory === 'adult'"><b>{{(trip.totalAmount.adultPrice + taxRate * trip.totalAmount.adultPrice).toFixed(2) }}</b></p>
+              <p class="price" *ngIf="passenger.ageCategory === 'child'"><b>{{(trip.totalAmount.childPrice + taxRate * trip.totalAmount.childPrice).toFixed(2) }}</b></p>
+              <p class="price" *ngIf="passenger.ageCategory === 'infant'"><b>{{(trip.totalAmount.infantPrice + taxRate * trip.totalAmount.infantPrice).toFixed(2) }}</b></p>
             </div>
             <div class="fare-and-taxes-table">
               <div class="titles-column">

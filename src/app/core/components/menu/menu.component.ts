@@ -8,6 +8,7 @@ import {
 import {
   CURRENCY,
   DATE_FORMAT,
+  TRIP_ID,
   USER_ID,
   USER_NAME,
 } from '../../../constants/localStorage';
@@ -59,6 +60,10 @@ export class MenuComponent implements OnInit, OnDestroy {
     this.aviaService.changeHeaderStyle$.subscribe(
       (changeStyle) => (this.changeStyle = changeStyle)
     );
+  }
+
+  onBookFlightsClick() {
+    localStorage.removeItem(TRIP_ID);
   }
 
   setUserCurrency(currency: string) {
