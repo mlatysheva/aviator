@@ -142,7 +142,7 @@ export class EditOptionsComponent implements OnInit, OnDestroy {
   }
 
   get passengersChange() {
-    return this.editForm.get('passengers');
+    return this.editForm.controls['passengers'];
   }
 
   onDepartureChange(event: MatSelectChange): void {
@@ -200,7 +200,7 @@ export class EditOptionsComponent implements OnInit, OnDestroy {
   onPassengersChange(event: MatOptionSelectionChange): void {
     event.source.value = this.passengersChange?.value;
     // this.numberOfPassengers = event.source.value;
-    console.log(JSON.stringify(event.source.value))
+    console.log(this.editForm.controls['passengers'].value)
     //console.log(this.passengersChange?.value)
     //console.log(event.source.value, event.source.selected);
     if (event.isUserInput) {    // ignore on deselection of the previous option

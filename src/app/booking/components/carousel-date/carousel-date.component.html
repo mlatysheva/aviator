@@ -7,7 +7,7 @@
     <carousel class="carousel {{flightTo.classTo}}" [itemsPerSlide]="itemsPerSlide"
       [singleSlideOffset]="singleSlideOffset" [startFromIndex]="0" [interval]="0" (click)="onClick($event)">
       <slide data-index="1" class="slide" *ngFor="let slide of slides, let i = index" id={{slides[i]}}
-        appDisallowChoiceDate [isFly]="(dateService.isCanFly(slide))">
+        appDisallowChoiceDate [options]="{isFly:(dateService.isCanFly(slide)), date: startDate }">
         <div data-index="1" class="slide-date">{{slide | date :'dd LLL'}}
         </div>
         <div data-index="1" class="slide-weekday">{{slide | date :'cccc'}}</div>
@@ -44,7 +44,8 @@
     <carousel class="carousel {{flightFrom.classFrom}}" [itemsPerSlide]="itemsPerSlide"
       [singleSlideOffset]="singleSlideOffset" [startFromIndex]="0" [interval]="0">
       <slide data-index="2" class="slide slide-from" *ngFor="let slide of slidesFrom; let i=index" id={{slidesFrom[i]}}
-        appDisallowChoiceDate [isFly]="(dateService.isCanFly(slide))" (click)="onClick($event)">
+        appDisallowChoiceDate [options]="{isFly:(dateService.isCanFly(slide)), date: endDate }"
+        (click)="onClick($event)">
         <div class="slide-date">{{slide | date :'dd LLL'}}
         </div>
         <div data-index="2" class="slide-weekday">{{slide | date :'cccc'}} </div>

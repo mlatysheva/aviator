@@ -245,7 +245,6 @@ export class CarouselDateComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.getTripState();
     this.getDetailsList(this.codFrom, this.codTo);
-    this.addStyleToChoosenDate(this.startDate);
     this.timeZoneFrom = this.dateService.findOffset(this.cityFrom);
     this.timeZoneTo = this.dateService.findOffset(this.cityTo);
     this.isCanFly = this.dateService.isCanFly(this.startDate);
@@ -253,10 +252,6 @@ export class CarouselDateComponent implements OnInit, OnDestroy {
     this.slides = this.dateService.dateSlideTo(this.startDate);
     this.slidesFrom = this.dateService.dateSlideTo(this.endDate);
     this.select = this.elRef.nativeElement.querySelectorAll('.select');
-    if (this.select !== undefined) {
-      //this.attributes = this.select[0].attributes;
-      console.log(this.select);
-    }
   }
 
   onClick(e: Event) {
@@ -361,18 +356,6 @@ export class CarouselDateComponent implements OnInit, OnDestroy {
     return false;
   }
 
-  addStyleToChoosenDate(date: string) {
-    const choosenSlide = this.elRef.nativeElement.querySelectorAll('.slide');
-    for (let i = 0; i < choosenSlide.length; i++) {
-      if (choosenSlide[i].id.trim() === date.trim()) {
-
-        choosenSlide[i].classList.add('large');
-        choosenSlide[i].children[0].children[0].classList.add('big-date');
-        choosenSlide[i].children[0].children[1].classList.add('big-weekday');
-        choosenSlide[i].children[0].children[2].classList.add('big-price');
-      }
-    }
-  }
 
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();

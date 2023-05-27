@@ -4,7 +4,12 @@ import { Directive, ElementRef, Input, OnInit, } from '@angular/core';
   selector: '[appDisallowChoiceDate]'
 })
 export class DisallowChoiceDateDirective implements OnInit {
-  @Input() isFly: boolean;
+  // @Input() public isFly: boolean;
+  // @Input() public date: string;
+  @Input() options: any = {
+    isFly: false,
+    date: ''
+  };
 
   constructor(private el: ElementRef) { }
 
@@ -13,8 +18,8 @@ export class DisallowChoiceDateDirective implements OnInit {
   }
 
   enableElement(el: ElementRef) {
-    if (this.isFly) {
-      const element = el.nativeElement;
+    const element = el.nativeElement;
+    if (this.options.isFly) {
       element.style.color = 'grey';
       element.style.cursor = 'not-allowed';
       element.style.pointerEvents = 'none';
@@ -29,5 +34,13 @@ export class DisallowChoiceDateDirective implements OnInit {
         child.style.opacity = '0.5';
       }
     }
+    if (!this.options.isFly && element.id.toString().trim() === this.options.date.toString().trim()) {
+      element.classList.add('large');
+      element.children[0].children[0].classList.add('big-date');
+      element.children[0].children[1].classList.add('big-weekday');
+      element.children[0].children[2].classList.add('big-price');
+
+    }
   }
+
 }
