@@ -53,7 +53,6 @@ export class AccountPageComponent implements OnInit {
     this.colDefs = [
       {
         headerName: 'No.',
-        checkboxSelection: true,
         onCellClicked: this.onCellClicked.bind(this),
         width: 120,
         showDisabledCheckboxes: true,
