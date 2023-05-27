@@ -11,6 +11,7 @@ import { baseUrl } from '../../constants/apiUrls';
 export class AviaService {
   constructor(private http: HttpClient) {}
 
+  public roundTrip$ = new BehaviorSubject<boolean>(false);
   public changeHeaderStyle$ = new BehaviorSubject<boolean>(false);
 
   public getAirports(): Observable<IAirport[]> {

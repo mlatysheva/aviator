@@ -188,11 +188,7 @@ export class CartPageComponent implements OnInit, OnDestroy {
   }
 
   priceRenderer(params: ValueGetterParams) {
-    return `${this.currency} ${Math.round(params.data.totalAmount.sumPrice 
-      + params.data.totalAmount.totalTax
-      + (params.data.totalAmountFrom?.sumPrice || 0)
-      + (params.data.totalAmountFrom?.totalTax || 0))
-    }`;
+    return `${this.currency} ${Math.round(params.data.totalCalculatedAmount)}`;
   }
 
   actionCellRenderer(params: any) {
@@ -271,7 +267,7 @@ export class CartPageComponent implements OnInit, OnDestroy {
     }
 
     const selectedData = selectedNodes.map(node => node.data);
-    const totalPrice = selectedData[0].totalCalculatedAmount;
+    const totalPrice = selectedData.reduce((acc, trip) => acc + trip.totalCalculatedAmount, 0);
 
     alert(`Payment of ${this.currency} ${Math.round(totalPrice)} has been successful!`);
     for (const data of selectedData) {
