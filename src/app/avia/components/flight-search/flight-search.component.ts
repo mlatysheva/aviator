@@ -39,10 +39,12 @@ export class FlightSearchComponent implements OnInit, OnDestroy {
 
   public selectedItems: IAgeTypeQuantity[] = [];
 
+  public isRoundTrip = false;
+
   private subscriptions = new Subscription();
 
   constructor(
-    private aviaService: AviaService,
+    public aviaService: AviaService,
     private router: Router,
     private store: Store<AppState>,
     private fb: FormBuilder,
@@ -78,6 +80,12 @@ export class FlightSearchComponent implements OnInit, OnDestroy {
       this.searchForm.controls['destination'].valueChanges.subscribe(() => {
         this.updateFieldsEqualityValidation();
       })
+    );
+    this.aviaService.roundTrip$.next(true);
+    this.subscriptions.add(
+      this.aviaService.roundTrip$.subscribe(
+        (isRoundTrip) => (this.isRoundTrip = isRoundTrip)
+      )
     );
   }
 
@@ -162,6 +170,10 @@ export class FlightSearchComponent implements OnInit, OnDestroy {
     this.editModeService.isEditButtonVisible$.next(true);
 
     this.router.navigate(['flights']);
+  }
+
+  public radioChange(isRoundTrip: boolean): void {
+    this.aviaService.roundTrip$.next(isRoundTrip);
   }
 
   private getCityName(controlValue: string): string {
