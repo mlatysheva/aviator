@@ -33,6 +33,7 @@ import { AviaModule } from '../avia/avia.module';
     DisallowChoiceDateDirective,
     FlightDetailsComponent,
     EditOptionsComponent,
+
   ],
   imports: [
     CommonModule,

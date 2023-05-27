@@ -142,7 +142,7 @@ export class EditOptionsComponent implements OnInit, OnDestroy {
   }
 
   get passengersChange() {
-    return this.editForm.get('passengers');
+    return this.editForm.controls['passengers'];
   }
 
   onDepartureChange(event: MatSelectChange): void {
