@@ -255,7 +255,6 @@ export class CarouselDateComponent implements OnInit, OnDestroy {
     this.select = this.elRef.nativeElement.querySelectorAll('.select');
     if (this.select !== undefined) {
       //this.attributes = this.select[0].attributes;
-      console.log(this.select);
     }
   }
 

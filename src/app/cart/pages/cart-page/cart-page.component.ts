@@ -210,6 +210,8 @@ export class CartPageComponent implements OnInit, OnDestroy {
       map((trips) => {
         const price = trips.reduce((acc, trip) =>
           acc + (trip.totalCalculatedAmount || 0), 0);
+          console.log(price);
+          console.log(trips);
         return Math.round(price * factor);
       }
     ));
@@ -271,9 +273,10 @@ export class CartPageComponent implements OnInit, OnDestroy {
     }
 
     const selectedData = selectedNodes.map(node => node.data);
-    const totalPrice = selectedData[0].totalCalculatedAmount;
+    const totalPrice = selectedData.reduce((acc, trip) => acc + trip.totalCalculatedAmount, 0);
 
-    alert(`Payment of ${this.currency} ${Math.round(totalPrice)} has been successful!`);
+    // alert(`Payment of ${this.currency} ${Math.round(totalPrice)} has been successful!`);
+    alert('You have successfully paid for your trip(s)!');
     for (const data of selectedData) {
       this.cartApiService.payTrip(data.id);
     }
