@@ -1,7 +1,6 @@
 import { Component, Input, ElementRef } from '@angular/core';
 import { DateService } from '../../services/date.service';
 import { IAgeTypeQuantity } from '../../../models/agetype-quantity.model';
-import { SumPriceService } from '../../services/sum-price.service';
 
 @Component({
   selector: 'app-flight-details',
@@ -33,6 +32,7 @@ export class FlightDetailsComponent {
   @Input() isTo: boolean;
   @Input() oneWay: number;
   @Input() onClick: (e: MouseEvent) => void;
+  @Input() isEnableButton: boolean;
   @Input() cityFrom: string;
   @Input() cityTo: string;
   @Input() codFrom: string;
@@ -51,7 +51,10 @@ export class FlightDetailsComponent {
   classTo = '';
   classFrom = '';
 
-  constructor(public dateService: DateService, private el: ElementRef) { }
+
+  constructor(public dateService: DateService, private el: ElementRef) {
+
+  }
 
   onEditFlight(e: Event) {
     e.preventDefault();
@@ -89,5 +92,7 @@ export class FlightDetailsComponent {
       editButton[0].classList.remove('none');
       this.classFrom = 'none';
     }
+
   }
+
 }

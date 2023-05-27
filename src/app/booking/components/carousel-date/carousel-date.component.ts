@@ -57,8 +57,8 @@ export class CarouselDateComponent implements OnInit, OnDestroy {
   startDate: string;
   endDate: string | undefined;
   currency: string | undefined;
-  price: number;
-  priceFrom: number;
+  //price: number;
+  //priceFrom: number;
   prices: number[] = [];
   pricesFrom: number[] = [];
   details$: Observable<IFlight[]>;
@@ -97,6 +97,9 @@ export class CarouselDateComponent implements OnInit, OnDestroy {
   dateFormat: string;
   arrivingTimeTo: string;
   arrivingTimeFrom: string;
+  select: HTMLButtonElement[];
+  attributes: NamedNodeMap;
+
 
   constructor(
     private store: Store<AppState>,
@@ -165,8 +168,7 @@ export class CarouselDateComponent implements OnInit, OnDestroy {
           this.returnDetails = result;
         }
         if (this.returnDetails !== undefined && this.returnDetails.length > 0)
-          this.priceFrom = this.returnDetails[0].pricesAdult[0];
-        this.pricesFrom = this.returnDetails[0].pricesAdult;
+          this.pricesFrom = this.returnDetails[0].pricesAdult;
         this.flightNumberFrom = this.returnDetails[0].flightNumber;
         this.seatsFrom = this.returnDetails[0].totalSeats;
         this.departureTimeFrom = this.returnDetails[0].departureTime;
@@ -250,6 +252,11 @@ export class CarouselDateComponent implements OnInit, OnDestroy {
     this.isFly = this.isCanFly ? 'true' : 'false';
     this.slides = this.dateService.dateSlideTo(this.startDate);
     this.slidesFrom = this.dateService.dateSlideTo(this.endDate);
+    this.select = this.elRef.nativeElement.querySelectorAll('.select');
+    if (this.select !== undefined) {
+      //this.attributes = this.select[0].attributes;
+      console.log(this.select);
+    }
   }
 
   onClick(e: Event) {
@@ -287,11 +294,20 @@ export class CarouselDateComponent implements OnInit, OnDestroy {
       this.store.dispatch(SelectActions.setSelectedDepartureDate({ outboundDepartureDate: this.startDate }));
       this.store.dispatch(SelectActions.setSelectedTotalAmount({ totalAmount: this.totalAmount }));
       if (this.isOneWay === false) {
-        this.store.dispatch(SelectActions.setTotalCalculatedAmount({ totalCalculatedAmount: (this.totalAmount.sumPrice || 0) + (this.totalAmount.totalTax || 0) + (this.totalAmountFrom.sumPrice || 0) + (this.totalAmountFrom.totalTax || 0) }));
+        this.store.dispatch(SelectActions.setTotalCalculatedAmount({
+          totalCalculatedAmount:
+            (this.totalAmount.sumPrice || 0) +
+            (this.totalAmount.totalTax || 0) +
+            (this.totalAmountFrom.sumPrice || 0) +
+            (this.totalAmountFrom.totalTax || 0)
+        }));
       }
     }
     if (this.isOneWay === true) {
-      this.store.dispatch(SelectActions.setTotalCalculatedAmount({ totalCalculatedAmount: (this.totalAmount.sumPrice || 0) + (this.totalAmount.totalTax || 0) }));
+      this.store.dispatch(SelectActions.setTotalCalculatedAmount({
+        totalCalculatedAmount:
+          (this.totalAmount.sumPrice || 0) + (this.totalAmount.totalTax || 0)
+      }));
     }
     if (element.dataset['index'] === '2' && element.classList.contains('slide')) {
       element.classList.add('large');
@@ -321,15 +337,35 @@ export class CarouselDateComponent implements OnInit, OnDestroy {
         this.totalAmountFrom = this.sumPriceService.sumpPrices(this.returnDetails[0], this.numberOfPassengers, index);
       this.store.dispatch(SelectActions.setSelectedReturnDate({ returnDepartureDate: this.endDate }));
       this.store.dispatch(SelectActions.setSelectedTotalAmountFrom({ totalAmountFrom: this.totalAmountFrom }));
-      this.store.dispatch(SelectActions.setTotalCalculatedAmount({ totalCalculatedAmount: (this.totalAmount.sumPrice || 0) + (this.totalAmount.totalTax || 0) + (this.totalAmountFrom.sumPrice || 0) + (this.totalAmountFrom.totalTax || 0) }));
+      this.store.dispatch(SelectActions.setTotalCalculatedAmount({
+        totalCalculatedAmount:
+          (this.totalAmount.sumPrice || 0) +
+          (this.totalAmount.totalTax || 0) +
+          (this.totalAmountFrom.sumPrice || 0) +
+          (this.totalAmountFrom.totalTax || 0)
+      }));
     }
+  }
+
+  enableEditButton(to: string, from: string) {
+    if (from !== undefined &&
+      to !== undefined &&
+      from !== '' &&
+      to !== '' &&
+      from !== to &&
+      to !== from
+    ) {
+      return true;
+    }
+
+    return false;
   }
 
   addStyleToChoosenDate(date: string) {
     const choosenSlide = this.elRef.nativeElement.querySelectorAll('.slide');
     for (let i = 0; i < choosenSlide.length; i++) {
       if (choosenSlide[i].id.trim() === date.trim()) {
-        console.log(choosenSlide[i]);
+
         choosenSlide[i].classList.add('large');
         choosenSlide[i].children[0].children[0].classList.add('big-date');
         choosenSlide[i].children[0].children[1].classList.add('big-weekday');
