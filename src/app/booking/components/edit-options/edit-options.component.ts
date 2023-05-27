@@ -81,7 +81,8 @@ export class EditOptionsComponent implements OnInit, OnDestroy {
   flightDaysFrom: number[];
   pricesTo: number[] = [];
   pricesFrom: number[] = [];
-
+  arrivingTimeTo: string;
+  arrivingTimeFrom: string;
 
   constructor(
     public editService: EditModeService,
@@ -123,6 +124,10 @@ export class EditOptionsComponent implements OnInit, OnDestroy {
         this.isOneWay = state.trip.roundTrip === true ? false : true;
         this.codTo = state.trip.airportsIataCodeDestination;
         this.codFrom = state.trip.airportsIataCodeOrigin;
+        this.startDate = state.trip.outboundDepartureDate;
+        if (this.isOneWay === false && state.trip.returnDepartureDate !== undefined)
+          this.endDate = state.trip.returnDepartureDate;
+
       })
     );
 
@@ -234,33 +239,32 @@ export class EditOptionsComponent implements OnInit, OnDestroy {
       if (result !== undefined && result.length > 0) {
 
         this.changedFlight.push(result[0]);
-        this.store.dispatch(SelectActions.setSelectedOutboundDepartureTime({
-          outboundDepartureTime: this.changedFlight[0].departureTime,
-        }));
-
         this.duration = result[0].duration;
-        this.store.dispatch(SelectActions.setSelectedTripDuration({ duration: this.duration }));
-        this.flightDaysTo = result[0].flightDays;
-        this.store.dispatch(SelectActions.setSelectedFlightDaysTo({ flightDaysTo: this.flightDaysTo }));
-        this.flightNumber = result[0].flightNumber;
-
-        this.store.dispatch(SelectActions.setSelectedOutboundFlightNo({
-          outboundFlightNo: this.flightNumber,
-        }));
-        this.store.dispatch(SelectActions.setSelectedTripSeatsTo({ seatsTo: this.seatsTo }));
-        this.seatsTo = result[0].seatsTo;
         this.outboundDepartureTime = result[0].departureTime;
-        this.store.dispatch(SelectActions.setSelectedOutboundDepartureTime({ outboundDepartureTime: this.outboundDepartureTime }));
+        this.arrivingTimeTo = this.dateService.getArrivingDate(this.startDate, this.outboundDepartureTime, this.duration).timeToRender;
+        this.flightDaysTo = result[0].flightDays;
+        this.flightNumber = result[0].flightNumber;
+        this.seatsTo = result[0].seatsTo;
         this.returnFlightId = result[0].returnFlightId;
         this.index = this.dateService.getIndexOfDate(this.startDate, this.flightDaysTo);
         this.totalAmount = this.sumPriceService.sumpPrices(
           result[0],
           this.numberOfPassengers,
           this.index);
-        this.store.dispatch(SelectActions.setSelectedTotalAmount({ totalAmount: this.totalAmount }));
-        this.changeReturnFlight(this.returnFlightId);
         this.pricesTo = result[0].pricesAdult;
+        this.store.dispatch(SelectActions.setSelectedTripDuration({ duration: this.duration }));
+        this.store.dispatch(SelectActions.setSelectedFlightDaysTo({ flightDaysTo: this.flightDaysTo }));
+        this.store.dispatch(SelectActions.setSelectedOutboundFlightNo({
+          outboundFlightNo: this.flightNumber,
+        }));
+        this.store.dispatch(SelectActions.setSelectedTripSeatsTo({ seatsTo: this.seatsTo }));
+        this.store.dispatch(SelectActions.setSelectedOutboundDepartureTime({ outboundDepartureTime: this.outboundDepartureTime }));
+        this.store.dispatch(SelectActions.setSelectedTotalAmount({ totalAmount: this.totalAmount }));
+        if (this.isOneWay === false) {
+          this.changeReturnFlight(this.returnFlightId);
+        }
         this.store.dispatch(SelectActions.setSelectedPricesTo({ pricesTo: this.pricesTo }));
+        this.store.dispatch(SelectActions.setSelectedOutboundArrivalTime({ outboundArrivalTime: this.arrivingTimeTo }));
       }
     });
 
@@ -278,23 +282,25 @@ export class EditOptionsComponent implements OnInit, OnDestroy {
         }
         if (this.returnDetails !== undefined && this.returnDetails.length > 0)
           this.durationFrom = this.returnDetails[0].duration;
-        this.store.dispatch(SelectActions.setSelectedTripDurationFrom({ durationFrom: this.durationFrom }));
         this.flightNumberFrom = this.returnDetails[0].flightNumber;
+        this.seatsFrom = this.returnDetails[0].totalSeats;
+        this.returnDepartureTime = this.returnDetails[0].departureTime;
+        this.flightDaysFrom = this.returnDetails[0].flightDays;
+        this.pricesFrom = this.returnDetails[0].pricesAdult;
+        this.arrivingTimeFrom = this.dateService.getArrivingDate(this.endDate, this.returnDepartureTime, this.durationFrom).timeToRender;
+        this.store.dispatch(SelectActions.setSelectedTripDurationFrom({ durationFrom: this.durationFrom }));
         this.store.dispatch(SelectActions.setSelectedReturnFlightNo({
           returnFlightNo: this.flightNumberFrom,
         }));
-        this.seatsFrom = this.returnDetails[0].totalSeats;
         this.store.dispatch(SelectActions.setSelectedTripSeatsFrom({ seatsFrom: this.seatsFrom }));
-        this.returnDepartureTime = this.returnDetails[0].departureTime;
         this.store.dispatch(SelectActions.setSelectedReturnDepartureTime({
           returnDepartureTime: this.returnDepartureTime,
         }));
-        this.flightDaysFrom = this.returnDetails[0].flightDays;
         this.store.dispatch(SelectActions.setSelectedFlightDaysFrom({
           flightDaysFrom: this.flightDaysFrom,
         }));
-        this.pricesFrom = this.returnDetails[0].pricesAdult;
         this.store.dispatch(SelectActions.setSelectedPricesFrom({ pricesFrom: this.pricesFrom }));
+        this.store.dispatch(SelectActions.setSelectedReturnArrivalTime({ returnArrivalTime: this.arrivingTimeFrom }));
       }
       ));
     return this.returnDetails$;
