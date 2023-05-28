@@ -11,38 +11,38 @@ Aviator is an SPA to book flights that has the following features:
 
 - User Registration: The app has a user registration and login features. A user has to be authenticated to book a flight. The app stores the user profile, currently booked trips and completed orders for the given user.
 
-![Signup feature](screeshots/screenshot_signup_validation.png)
+![Signup feature](screenshots/screenshot_signup_validation.png)
 
-![Signup feature](screeshots/screenshot_login_validation.png)
+![Login feature](screenshots/screenshot_login_validation.png)
 
 - Flight Search (Main) Page: The app provides a simple and intuitive functionality to search for flights. This includes options to select the origin and destination, type of flight (one-way or round-trip), and the number and age of passengers.
 
-![Flight search feature](screeshots/screenshot_main_page.png)
+![Flight search feature](screenshots/screenshot_main_page.png)
 
 - Flight Selection Page: Once the user has entered their search criteria, the app displays all available flights along with the dates, prices, and the available number of seats.
 
-![Flight selection feature](screeshots/screenshot_flight-selection.png)
+![Flight selection feature](screenshots/screenshot_flight-selection.png)
 
 - Editing option: The user can edit the previously selected options:
 
-![Flight editing feature](screeshots/screenshot_editing_from.png)
-![Flight editing feature](screeshots/screenshot_editing_dates.png)
+![Flight editing feature](screenshots/screenshot_editing_from.png)
+![Flight editing feature](screenshots/screenshot_editing_dates.png)
 
 - Booking Process Page: After selecting a flight, the user is taken to another page where s/he can provide passenger data and contact information to complete the booking. Once a user has provided booking details, s/he will see the summary with all the flight information provided.
 
-![Booking passengers feature](screeshots/screenshot_passengers.png)
+![Booking passengers feature](screenshots/screenshot_passengers.png)
 
 - Booking Summary Page: This page shows all the data provided before the checkout. The user can make the payment now, or add the booking to the shopping cart to be paid for later.
 
-![Booking summary feature](screeshots/screenshot_summary.png)
+![Booking summary feature](screenshots/screenshot_summary.png)
 
 - Shopping Cart Page: This page shows all previously added bookings that are awaiting payment.
 
-![Shopping cart feature](screeshots/screenshot_cart.png)
+![Shopping cart feature](screenshots/screenshot_cart.png)
 
 - User Account Page: This page shows all bookings paid by the user and provides the possiblity to view the booking summary.
 
-![User account feature](screeshots/screenshot_user_account.png)
+![User account feature](screenshots/screenshot_user_account.png)
 
 ## Installing and Running the app
 - the backend is built with JSON-server and is located in the folder `backend`. Our repository `aviator` is built as a mono-repository with two packages - one for the frontend and the other - for the backend.
