@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import {
   FormBuilder, FormControl, FormGroup,
@@ -14,6 +14,7 @@ import { AviaService } from '../../../avia/services/avia.service';
 import { IAirport } from '../../../models/airport';
 import { IAgeCategory } from '../../../models/passenger';
 import * as SelectActions from '../../../store/actions/select.actions';
+import * as TripActions from '../../../store/actions/trip.actions';
 import { IFlight } from '../../../models/flight';
 import { DateService } from '../../services/date.service';
 import { SumPriceService } from '../../services/sum-price.service';
@@ -23,7 +24,7 @@ import { SumPriceService } from '../../services/sum-price.service';
   templateUrl: './edit-options.component.html',
   styleUrls: ['./edit-options.component.scss']
 })
-export class EditOptionsComponent implements OnInit, OnDestroy {
+export class EditOptionsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   isEdit: boolean;
 
@@ -54,7 +55,7 @@ export class EditOptionsComponent implements OnInit, OnDestroy {
 
   departure = new FormControl('');
   destination = new FormControl('');
-  passengers = new FormControl(this.selectedItems);
+  passengersNew = new FormControl(this.selectedItems);
   totalAmount: { adultPrice: number; childPrice: number; infantPrice: number; sumPrice: number; totalTax?: number | undefined; };
   totalAmountFrom: { adultPrice: number; childPrice: number; infantPrice: number; sumPrice: number; totalTax?: number | undefined; };
   index: number;
@@ -83,6 +84,7 @@ export class EditOptionsComponent implements OnInit, OnDestroy {
   pricesFrom: number[] = [];
   arrivingTimeTo: string;
   arrivingTimeFrom: string;
+  changedPassengers: IAgeTypeQuantity[];
 
   constructor(
     public editService: EditModeService,
@@ -99,7 +101,7 @@ export class EditOptionsComponent implements OnInit, OnDestroy {
     this.editForm = this.builder.group({
       departure: this.departure,
       destination: this.destination,
-      passengers: this.passengers
+      passengersNew: this.passengersNew
     });
     this.subscriptions.add(
       this.editForm.controls['departure'].valueChanges.subscribe(() => {
@@ -111,6 +113,15 @@ export class EditOptionsComponent implements OnInit, OnDestroy {
         this.updateFieldsEqualityValidation();
       })
     );
+    this.subscriptions.add(
+      this.editForm.controls['passengersNew'].valueChanges.subscribe(() => {
+        this.store.dispatch(TripActions.setNumberOfPassengers({
+          numberOfPassengers: this.editForm.controls['passengers'].value
+        }
+        ));
+      })
+    );
+
   }
 
   ngOnInit() {
@@ -125,13 +136,30 @@ export class EditOptionsComponent implements OnInit, OnDestroy {
         this.codTo = state.trip.airportsIataCodeDestination;
         this.codFrom = state.trip.airportsIataCodeOrigin;
         this.startDate = state.trip.outboundDepartureDate;
-        if (this.isOneWay === false && state.trip.returnDepartureDate !== undefined)
-          this.endDate = state.trip.returnDepartureDate;
 
       })
     );
 
     this.getAirportsList();
+
+  }
+
+  ngAfterViewInit(): void {
+    //this.changedPassengers = this.editForm.controls['passengersNew'].value;
+
+    this.changedPassengers = [this.editForm.controls['passengersNew'].value].map(elem => {
+      this.changedPassengers[0].quantity = parseInt(this.changedPassengers[0].quantity.toString());
+      this.changedPassengers[1].quantity = parseInt(this.changedPassengers[1].quantity.toString());
+      this.changedPassengers[2].quantity = parseInt(this.changedPassengers[2].quantity.toString());
+      return Object.assign(elem);
+
+    });
+    console.log(this.changedPassengers);
+
+    // this.store.dispatch(TripActions.setNumberOfPassengers({
+    //   numberOfPassengers: this.changedPassengers
+    // }
+    // ));
 
   }
 
@@ -204,30 +232,15 @@ export class EditOptionsComponent implements OnInit, OnDestroy {
 
   onPassengersChange(event: MatOptionSelectionChange): void {
     event.source.value = this.passengersChange?.value;
-    // this.numberOfPassengers = event.source.value;
-    // console.log(JSON.stringify(event.source.value))
-    //console.log(this.passengersChange?.value)
-    //console.log(event.source.value, event.source.selected);
-    if (event.isUserInput) {    // ignore on deselection of the previous option
-      // console.log(event.source.value, event.source.selected);
+    if (event.isUserInput) {// ignore on deselection of the previous option
+      this.changedPassengers = [...event.source.value].map(elem => {
+        return Object.assign(elem);
+      });
+      this.store.dispatch(TripActions.setNumberOfPassengers({
+        numberOfPassengers: this.changedPassengers
+      }
+      ));
     }
-
-
-    // if (this.passengersChange) {
-    //   this.passengersList = this.passengersChange;
-    //   this.store.dispatch(TripActions.setNumberOfPassengers({
-    //     numberOfPassengers: this.passengersChange
-    //   }
-    //   ));
-    // }
-    // this.selectedItems = this.passengersChange?.values;
-    // this.selectedItems = event.source.value;
-    // if (this.passengersChange) {
-    //   this.passengersList = this.passengersChange;
-    //   this.store.dispatch(TripActions.setNumberOfPassengers({
-    //     numberOfPassengers: this.passengersChange
-    //   }));
-    // }
   }
 
   changeFlight(from: string, to: string) {

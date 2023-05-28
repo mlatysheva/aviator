@@ -1,12 +1,15 @@
 .edit-container {
-  position: relative;
+  position: absolute;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
-  top: 5rem;
-  right: 45rem;
-  max-width: var(--max-content-width);
+  top: 9rem;
+  left: 2rem;
+  max-width: gvar(--max-content-width);
+  margin: 0 auto;
+  align-items: center;
 }
+
 
 .edit-form {
   display: flex;
