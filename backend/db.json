@@ -30,9 +30,7 @@
         "phone": "0958187111"
       },
       "id": "f855e72e-ae21-4a01-8f8e-7491d422664b",
-      "tripsIds": [
-        "da5466c7-32c0-436a-a62e-d2c87302a099"
-      ]
+      "tripsIds": []
     },
     {
       "email": "admin@admin.pl",
@@ -49,7 +47,7 @@
       "id": "c5d0b76f-985f-485b-91cb-c1085fe1f75d"
     }
   ],
-  "trips": [ ],
+  "trips": [],
   "login": {},
   "flightspair": [],
   "airports": [

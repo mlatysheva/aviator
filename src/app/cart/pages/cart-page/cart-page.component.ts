@@ -287,14 +287,6 @@ export class CartPageComponent implements OnInit, OnDestroy {
   }
 }
 
-function getArrivalTime(date: string, duration: number) {
-  const dateCopy = new Date(date);
-  const addMinutes = dateCopy.getTime() + duration * 60000;
-  const arrivingDate = new Date(addMinutes);
-  const timeToRender = arrivingDate.toLocaleString('en-GB').slice(11, 17);
-  return timeToRender;
-}
-
 function dateTimeGetter(params: ValueGetterParams) {
   const options = {
     weekday: "long",
@@ -302,13 +294,12 @@ function dateTimeGetter(params: ValueGetterParams) {
     month: "long",
     day: "numeric",
   } as const;
-  console.log(params.data);
   return (new Date(params.data.outboundDepartureDate).toLocaleString('en-GB', options)) 
   + ', ' + params.data.outboundDepartureTime 
-  + ' - ' + getArrivalTime(params.data.outboundDepartureDate, params.data.duration) 
+  + ' - ' + params.data.outboundArrivalTime 
   + (params.data.roundTrip ? '<br>' + (new Date(params.data.returnDepartureDate).toLocaleString('en-GB', options)) 
   + ', ' + params.data.returnDepartureTime 
-  + ' - ' + getArrivalTime(params.data.returnArrivalDate, params.data.returnArrivalTime)
+  + ' - ' + params.data.returnArrivalTime
   : '');
 }
 
