@@ -211,8 +211,11 @@ export class CarouselDateComponent implements OnInit, OnDestroy {
         this.from = state.trip.originAiroportName;
         this.to = state.trip.destinationAiroportName;
         this.startDate = state.trip.outboundDepartureDate
-        if (state.trip.returnDepartureDate !== undefined && state.trip.returnDepartureDate !== '')
+        this.slides = this.dateService.dateSlideTo(this.startDate);
+        if (state.trip.returnDepartureDate !== undefined && state.trip.returnDepartureDate !== '') {
           this.endDate = state.trip.returnDepartureDate;
+          this.slidesFrom = this.dateService.dateSlideTo(this.endDate);
+        }
         if (state.trip.outboundDepartureTime !== undefined && state.trip.outboundDepartureTime !== '')
           this.departureTime = state.trip.outboundDepartureTime;
         if (state.trip.returnDepartureTime !== undefined && state.trip.returnDepartureTime !== '')
