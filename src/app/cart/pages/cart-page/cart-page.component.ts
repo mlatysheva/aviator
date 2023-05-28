@@ -15,6 +15,7 @@ import { BehaviorSubject } from 'rxjs';
 import { clearSelectedTrip, setSelectedTrip } from '../../../store/actions/select.actions';
 import { UserService } from '../../../user/services/user.service';
 import { EditModeService } from '../../../shared/services/edit-mode.service';
+import { DateService } from '../../../booking/services/date.service';
 
 
 
@@ -60,6 +61,7 @@ export class CartPageComponent implements OnInit, OnDestroy {
     private cartApiService: CartApiService,
     private userService: UserService,
     private editModeService: EditModeService,
+    private dateService: DateService,
   ) {
     this.colDefs = [
       {
@@ -170,8 +172,8 @@ export class CartPageComponent implements OnInit, OnDestroy {
     this.trips$ = this.cartApiService.getUnpaidTripsByUserId(this.userId);
 
     this.trips$.subscribe((trips) => {
-      this.cartApiService.cartCount$.next(trips.length);
       this.cartCount = trips.length;
+      this.cartApiService.cartCount$.next(this.cartCount);
       this.isPaymentDisabled$.next(trips.length === 0);
     });
 
@@ -231,7 +233,8 @@ export class CartPageComponent implements OnInit, OnDestroy {
       if (action === "delete") {
         this.cartApiService.deleteTrip(tripId, this.userId).pipe(
           switchMap(() => this.cartApiService.getUnpaidTripsByUserId(this.userId)),
-          tap(() => this.cartApiService.cartCount$.next(this.cartCount - 1)),
+          tap(() => this.cartCount = this.cartCount - 1),
+          tap(() => this.cartApiService.cartCount$.next(this.cartCount)),
           tap(() => this.calculateTotalPrice(1)),
           tap(() => this.store.dispatch(clearSelectedTrip())),
           tap(() => localStorage.removeItem(TRIP_ID)),
@@ -273,7 +276,8 @@ export class CartPageComponent implements OnInit, OnDestroy {
     for (const data of selectedData) {
       this.cartApiService.payTrip(data.id);
     }
-    this.cartApiService.cartCount$.next(this.cartCount - selectedData.length);
+    this.cartCount = this.cartCount - selectedData.length;
+    this.cartApiService.cartCount$.next(this.cartCount);
     this.store.dispatch(clearSelectedTrip());
     localStorage.removeItem(TRIP_ID);
     this.agGrid.api.applyTransaction({
@@ -281,6 +285,31 @@ export class CartPageComponent implements OnInit, OnDestroy {
     });
     this.calculateTotalPrice(1);
   }
+}
+
+function getArrivalTime(date: string, duration: number) {
+  const dateCopy = new Date(date);
+  const addMinutes = dateCopy.getTime() + duration * 60000;
+  const arrivingDate = new Date(addMinutes);
+  const timeToRender = arrivingDate.toLocaleString('en-GB').slice(11, 17);
+  return timeToRender;
+}
+
+function dateTimeGetter(params: ValueGetterParams) {
+  const options = {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  } as const;
+  console.log(params.data);
+  return (new Date(params.data.outboundDepartureDate).toLocaleString('en-GB', options)) 
+  + ', ' + params.data.outboundDepartureTime 
+  + ' - ' + getArrivalTime(params.data.outboundDepartureDate, params.data.duration) 
+  + (params.data.roundTrip ? '<br>' + (new Date(params.data.returnDepartureDate).toLocaleString('en-GB', options)) 
+  + ', ' + params.data.returnDepartureTime 
+  + ' - ' + getArrivalTime(params.data.returnArrivalDate, params.data.returnArrivalTime)
+  : '');
 }
 
 function flightNosGetter(params: ValueGetterParams) {
@@ -293,22 +322,6 @@ function flightGetter(params: ValueGetterParams) {
 
 function tripTypeGetter(params: ValueGetterParams) {
   return params.data.roundTrip ? 'Round Trip' : 'One Way';
-}
-
-function dateTimeGetter(params: ValueGetterParams) {
-  // return params.data.outboundDepartureDate + ', ' + params.data.outboundDepartureTime + ' - ' + params.data.outboundArrivalTime + (params.data.roundTrip ? '<br>' + params.data.returnDepartureDate + ', ' + params.data.returnDepartureTime + ' - ' + params.data.returnArrivalTime : '');
-  const options = {
-    weekday: "long",
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  } as const;
-  return (new Date(params.data.outboundDepartureDate).toLocaleString('en-GB', options)) 
-  // + ', ' + params.data.outboundDepartureTime 
-  // + ' - ' + params.data.outboundArrivalTime 
-  + (params.data.roundTrip ? '<br>' + (new Date(params.data.returnDepartureDate).toLocaleString('en-GB', options)) 
-  // + ', ' + params.data.returnDepartureTime + ' - ' + params.data.returnArrivalTime
-  : '');
 }
 
 function passengersGetter(params: ValueGetterParams) {

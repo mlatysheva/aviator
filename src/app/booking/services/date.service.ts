@@ -115,6 +115,7 @@ export class DateService {
       return { dateToRender, timeToRender };
     }
   }
+  
   getDay(date: string) {
     const dateCopy = new Date(date);
     return dateCopy.getDay();
@@ -123,9 +124,11 @@ export class DateService {
   getMinutes(duration: number) {
     return duration % 60;
   }
+
   getHours(duration: number) {
     return Math.floor(duration / 60);
   }
+
   findTimeZone(city: string) {
     if (city !== undefined)
 
@@ -163,4 +166,11 @@ export class DateService {
     });
   }
 
+  getArrivalTime(date: string, duration: number) {
+    const dateCopy = new Date(date);
+    const addMinutes = dateCopy.getTime() + duration * 60000;
+    const arrivingDate = new Date(addMinutes);
+    const timeToRender = arrivingDate.toLocaleString('en-GB').slice(11, 17);
+    return timeToRender;
+  }
 }
