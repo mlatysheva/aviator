@@ -7,7 +7,15 @@ This is an Angular app to book flights. It was developed by our team of three st
 
 ## Description 
 
-Aviator is an SPA to book flights that has the following features:
+Aviator is an SPA to book flights
+
+### Main screen
+
+- Flight Search (Main) Page: The app provides a simple and intuitive functionality to search for flights. This includes options to select the origin and destination, type of flight (one-way or round-trip), and the number and age of passengers.
+
+![Flight search feature](screenshots/screenshot_main_page.png)
+
+### User registration and login
 
 - User Registration: The app has a user registration and login features. A user has to be authenticated to book a flight. The app stores the user profile, currently booked trips and completed orders for the given user.
 
@@ -15,30 +23,39 @@ Aviator is an SPA to book flights that has the following features:
 
 ![Login feature](screenshots/screenshot_login_validation.png)
 
-- Flight Search (Main) Page: The app provides a simple and intuitive functionality to search for flights. This includes options to select the origin and destination, type of flight (one-way or round-trip), and the number and age of passengers.
-
-![Flight search feature](screenshots/screenshot_main_page.png)
+### Flight selection
 
 - Flight Selection Page: Once the user has entered their search criteria, the app displays all available flights along with the dates, prices, and the available number of seats.
 
 ![Flight selection feature](screenshots/screenshot_flight-selection.png)
 
+### Fligtht editing
+
 - Editing option: The user can edit the previously selected options:
 
 ![Flight editing feature](screenshots/screenshot_editing_from.png)
+
 ![Flight editing feature](screenshots/screenshot_editing_dates.png)
+
+### Booking passengers
 
 - Booking Process Page: After selecting a flight, the user is taken to another page where s/he can provide passenger data and contact information to complete the booking. Once a user has provided booking details, s/he will see the summary with all the flight information provided.
 
 ![Booking passengers feature](screenshots/screenshot_passengers.png)
 
+### Booking summary
+
 - Booking Summary Page: This page shows all the data provided before the checkout. The user can make the payment now, or add the booking to the shopping cart to be paid for later.
 
 ![Booking summary feature](screenshots/screenshot_summary.png)
 
+### Shopping cart
+
 - Shopping Cart Page: This page shows all previously added bookings that are awaiting payment.
 
 ![Shopping cart feature](screenshots/screenshot_cart.png)
+
+### Completed orders
 
 - User Account Page: This page shows all bookings paid by the user and provides the possiblity to view the booking summary.
 
