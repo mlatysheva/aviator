@@ -167,6 +167,10 @@ app-footer {
   app-booking-passengers {
     margin-bottom: 2rem;
   }
+
+  .width-container {
+    max-width: 760px;
+  }
 }
 
 @media screen and (max-width: 550px) {
@@ -176,6 +180,10 @@ app-footer {
   
   app-main-page {
     min-height: 100vh;
+  }
+
+  .width-container {
+    max-width: 380px;
   }
 }
   
