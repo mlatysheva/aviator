@@ -57,25 +57,7 @@
       </mat-form-field>
 
     </div>
-    <div class="passengers">
-      <mat-form-field>
-        <mat-select multiple [formControl]="passengersNew">
-          <mat-select-trigger>
-            {{ passengersList | stringifyPassengers | titlecase }}
-          </mat-select-trigger>
-          <mat-option *ngFor="let passenger of passengersList" [value]="passenger" mat-selected
-            (onSelectionChange)="onPassengersChange($event)">
-            <div class="age-type-option-text">{{ passenger.ageCategory | titlecase}}</div>
-            <div class="option-details">
-              <button mat-button (click)="decrease($event, passenger)">-</button>
-              <span>{{ passenger.quantity }}</span>
-              <button mat-button (click)="increase($event, passenger)">+</button>
-            </div>
-          </mat-option>
-        </mat-select>
 
-      </mat-form-field>
-    </div>
   </form>
 
 </div>

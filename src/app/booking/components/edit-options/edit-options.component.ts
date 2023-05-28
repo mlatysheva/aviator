@@ -1,20 +1,17 @@
-import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import {
   FormBuilder, FormControl, FormGroup,
 } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
-import { MatOptionSelectionChange } from '@angular/material/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../store/state.models';
 import { EditModeService } from '../../../shared/services/edit-mode.service';
 import { IAgeTypeQuantity } from '../../../models/agetype-quantity.model';
 import { AviaService } from '../../../avia/services/avia.service';
 import { IAirport } from '../../../models/airport';
-import { IAgeCategory } from '../../../models/passenger';
 import * as SelectActions from '../../../store/actions/select.actions';
-import * as TripActions from '../../../store/actions/trip.actions';
 import { IFlight } from '../../../models/flight';
 import { DateService } from '../../services/date.service';
 import { SumPriceService } from '../../services/sum-price.service';
@@ -24,15 +21,13 @@ import { SumPriceService } from '../../services/sum-price.service';
   templateUrl: './edit-options.component.html',
   styleUrls: ['./edit-options.component.scss']
 })
-export class EditOptionsComponent implements OnInit, OnDestroy, AfterViewInit {
+export class EditOptionsComponent implements OnInit, OnDestroy {
 
   isEdit: boolean;
 
   isOneWay: boolean;
 
   private subscriptions = new Subscription();
-
-  public selectedItems: IAgeTypeQuantity[] = [];
 
   public airports$: Observable<IAirport[]>;
 
@@ -46,16 +41,9 @@ export class EditOptionsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   returnDetails$: Observable<IFlight[]>;
   returnDetails: IFlight[] = [];
-
-  public passengersList: IAgeTypeQuantity[] = [
-    { ageCategory: IAgeCategory.adult, quantity: 1 },
-    { ageCategory: IAgeCategory.child, quantity: 0 },
-    { ageCategory: IAgeCategory.infant, quantity: 0 },
-  ];
-
   departure = new FormControl('');
   destination = new FormControl('');
-  passengersNew = new FormControl(this.selectedItems);
+
   totalAmount: { adultPrice: number; childPrice: number; infantPrice: number; sumPrice: number; totalTax?: number | undefined; };
   totalAmountFrom: { adultPrice: number; childPrice: number; infantPrice: number; sumPrice: number; totalTax?: number | undefined; };
   index: number;
@@ -84,7 +72,7 @@ export class EditOptionsComponent implements OnInit, OnDestroy, AfterViewInit {
   pricesFrom: number[] = [];
   arrivingTimeTo: string;
   arrivingTimeFrom: string;
-  changedPassengers: IAgeTypeQuantity[];
+
 
   constructor(
     public editService: EditModeService,
@@ -96,12 +84,12 @@ export class EditOptionsComponent implements OnInit, OnDestroy, AfterViewInit {
     private sumPriceService: SumPriceService
   ) {
     this.isEdit = this.editService.isEdit$.value;
-    this.passengersList.map((option) => this.selectedItems.push(option));
+
     this.state$ = this.store.select((appState) => appState);
     this.editForm = this.builder.group({
       departure: this.departure,
       destination: this.destination,
-      passengersNew: this.passengersNew
+
     });
     this.subscriptions.add(
       this.editForm.controls['departure'].valueChanges.subscribe(() => {
@@ -111,14 +99,6 @@ export class EditOptionsComponent implements OnInit, OnDestroy, AfterViewInit {
     this.subscriptions.add(
       this.editForm.controls['destination'].valueChanges.subscribe(() => {
         this.updateFieldsEqualityValidation();
-      })
-    );
-    this.subscriptions.add(
-      this.editForm.controls['passengersNew'].valueChanges.subscribe(() => {
-        this.store.dispatch(TripActions.setNumberOfPassengers({
-          numberOfPassengers: this.editForm.controls['passengers'].value
-        }
-        ));
       })
     );
 
@@ -144,24 +124,6 @@ export class EditOptionsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   }
 
-  ngAfterViewInit(): void {
-    //this.changedPassengers = this.editForm.controls['passengersNew'].value;
-
-    this.changedPassengers = [this.editForm.controls['passengersNew'].value].map(elem => {
-      this.changedPassengers[0].quantity = parseInt(this.changedPassengers[0].quantity.toString());
-      this.changedPassengers[1].quantity = parseInt(this.changedPassengers[1].quantity.toString());
-      this.changedPassengers[2].quantity = parseInt(this.changedPassengers[2].quantity.toString());
-      return Object.assign(elem);
-
-    });
-    console.log(this.changedPassengers);
-
-    // this.store.dispatch(TripActions.setNumberOfPassengers({
-    //   numberOfPassengers: this.changedPassengers
-    // }
-    // ));
-
-  }
 
   public getAirportsList(): Observable<IAirport[]> {
     this.airports$ = this.aviaService.getAirports();
@@ -228,19 +190,6 @@ export class EditOptionsComponent implements OnInit, OnDestroy, AfterViewInit {
     }));
 
     this.changeFlight(this.codFrom, this.codTo);
-  }
-
-  onPassengersChange(event: MatOptionSelectionChange): void {
-    event.source.value = this.passengersChange?.value;
-    if (event.isUserInput) {// ignore on deselection of the previous option
-      this.changedPassengers = [...event.source.value].map(elem => {
-        return Object.assign(elem);
-      });
-      this.store.dispatch(TripActions.setNumberOfPassengers({
-        numberOfPassengers: this.changedPassengers
-      }
-      ));
-    }
   }
 
   changeFlight(from: string, to: string) {
