@@ -13,6 +13,7 @@ import * as SelectActions from '../../../store/actions/select.actions';
 import { setUserId, setTripId } from '../../../store/actions/trip.actions';
 import { EditModeService } from '../../../shared/services/edit-mode.service';
 
+
 @Component({
   selector: 'app-booking-page',
   templateUrl: './booking-page.component.html',
@@ -27,7 +28,8 @@ export class BookingPageComponent {
     private store: Store<AppState>,
     private cartService: CartApiService,
     private editModeService: EditModeService,
-  ) {}
+
+  ) { }
 
   onBackClick() {
     this.store.dispatch(SelectActions.clearSelectedTrip());
@@ -49,9 +51,9 @@ export class BookingPageComponent {
         tap((trip) => {
           if (userId && tripId) {
             this.cartService
-            .updateTrip(trip)
-            
-            .subscribe();
+              .updateTrip(trip)
+
+              .subscribe();
           } else if (userId && !tripId) {
             const updatedTrip = {
               ...trip,

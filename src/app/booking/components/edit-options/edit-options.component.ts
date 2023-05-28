@@ -5,14 +5,12 @@ import {
 } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
-import { MatOptionSelectionChange } from '@angular/material/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../store/state.models';
 import { EditModeService } from '../../../shared/services/edit-mode.service';
 import { IAgeTypeQuantity } from '../../../models/agetype-quantity.model';
 import { AviaService } from '../../../avia/services/avia.service';
 import { IAirport } from '../../../models/airport';
-import { IAgeCategory } from '../../../models/passenger';
 import * as SelectActions from '../../../store/actions/select.actions';
 import { IFlight } from '../../../models/flight';
 import { DateService } from '../../services/date.service';
@@ -31,8 +29,6 @@ export class EditOptionsComponent implements OnInit, OnDestroy {
 
   private subscriptions = new Subscription();
 
-  public selectedItems: IAgeTypeQuantity[] = [];
-
   public airports$: Observable<IAirport[]>;
 
   codFrom: string;
@@ -45,16 +41,9 @@ export class EditOptionsComponent implements OnInit, OnDestroy {
 
   returnDetails$: Observable<IFlight[]>;
   returnDetails: IFlight[] = [];
-
-  public passengersList: IAgeTypeQuantity[] = [
-    { ageCategory: IAgeCategory.adult, quantity: 1 },
-    { ageCategory: IAgeCategory.child, quantity: 0 },
-    { ageCategory: IAgeCategory.infant, quantity: 0 },
-  ];
-
   departure = new FormControl('');
   destination = new FormControl('');
-  passengers = new FormControl(this.selectedItems);
+
   totalAmount: { adultPrice: number; childPrice: number; infantPrice: number; sumPrice: number; totalTax?: number | undefined; };
   totalAmountFrom: { adultPrice: number; childPrice: number; infantPrice: number; sumPrice: number; totalTax?: number | undefined; };
   index: number;
@@ -81,6 +70,8 @@ export class EditOptionsComponent implements OnInit, OnDestroy {
   flightDaysFrom: number[];
   pricesTo: number[] = [];
   pricesFrom: number[] = [];
+  arrivingTimeTo: string;
+  arrivingTimeFrom: string;
 
 
   constructor(
@@ -93,12 +84,12 @@ export class EditOptionsComponent implements OnInit, OnDestroy {
     private sumPriceService: SumPriceService
   ) {
     this.isEdit = this.editService.isEdit$.value;
-    this.passengersList.map((option) => this.selectedItems.push(option));
+
     this.state$ = this.store.select((appState) => appState);
     this.editForm = this.builder.group({
       departure: this.departure,
       destination: this.destination,
-      passengers: this.passengers
+
     });
     this.subscriptions.add(
       this.editForm.controls['departure'].valueChanges.subscribe(() => {
@@ -110,6 +101,7 @@ export class EditOptionsComponent implements OnInit, OnDestroy {
         this.updateFieldsEqualityValidation();
       })
     );
+
   }
 
   ngOnInit() {
@@ -123,12 +115,15 @@ export class EditOptionsComponent implements OnInit, OnDestroy {
         this.isOneWay = state.trip.roundTrip === true ? false : true;
         this.codTo = state.trip.airportsIataCodeDestination;
         this.codFrom = state.trip.airportsIataCodeOrigin;
+        this.startDate = state.trip.outboundDepartureDate;
+
       })
     );
 
     this.getAirportsList();
 
   }
+
 
   public getAirportsList(): Observable<IAirport[]> {
     this.airports$ = this.aviaService.getAirports();
@@ -197,34 +192,6 @@ export class EditOptionsComponent implements OnInit, OnDestroy {
     this.changeFlight(this.codFrom, this.codTo);
   }
 
-  onPassengersChange(event: MatOptionSelectionChange): void {
-    event.source.value = this.passengersChange?.value;
-    // this.numberOfPassengers = event.source.value;
-    // console.log(JSON.stringify(event.source.value))
-    //console.log(this.passengersChange?.value)
-    //console.log(event.source.value, event.source.selected);
-    if (event.isUserInput) {    // ignore on deselection of the previous option
-      // console.log(event.source.value, event.source.selected);
-    }
-
-
-    // if (this.passengersChange) {
-    //   this.passengersList = this.passengersChange;
-    //   this.store.dispatch(TripActions.setNumberOfPassengers({
-    //     numberOfPassengers: this.passengersChange
-    //   }
-    //   ));
-    // }
-    // this.selectedItems = this.passengersChange?.values;
-    // this.selectedItems = event.source.value;
-    // if (this.passengersChange) {
-    //   this.passengersList = this.passengersChange;
-    //   this.store.dispatch(TripActions.setNumberOfPassengers({
-    //     numberOfPassengers: this.passengersChange
-    //   }));
-    // }
-  }
-
   changeFlight(from: string, to: string) {
     this.aviaService.getAllFlights().subscribe((flights) => {
       const result = flights.filter((flight) => {
@@ -234,33 +201,32 @@ export class EditOptionsComponent implements OnInit, OnDestroy {
       if (result !== undefined && result.length > 0) {
 
         this.changedFlight.push(result[0]);
-        this.store.dispatch(SelectActions.setSelectedOutboundDepartureTime({
-          outboundDepartureTime: this.changedFlight[0].departureTime,
-        }));
-
         this.duration = result[0].duration;
-        this.store.dispatch(SelectActions.setSelectedTripDuration({ duration: this.duration }));
-        this.flightDaysTo = result[0].flightDays;
-        this.store.dispatch(SelectActions.setSelectedFlightDaysTo({ flightDaysTo: this.flightDaysTo }));
-        this.flightNumber = result[0].flightNumber;
-
-        this.store.dispatch(SelectActions.setSelectedOutboundFlightNo({
-          outboundFlightNo: this.flightNumber,
-        }));
-        this.store.dispatch(SelectActions.setSelectedTripSeatsTo({ seatsTo: this.seatsTo }));
-        this.seatsTo = result[0].seatsTo;
         this.outboundDepartureTime = result[0].departureTime;
-        this.store.dispatch(SelectActions.setSelectedOutboundDepartureTime({ outboundDepartureTime: this.outboundDepartureTime }));
+        this.arrivingTimeTo = this.dateService.getArrivingDate(this.startDate, this.outboundDepartureTime, this.duration).timeToRender;
+        this.flightDaysTo = result[0].flightDays;
+        this.flightNumber = result[0].flightNumber;
+        this.seatsTo = result[0].seatsTo;
         this.returnFlightId = result[0].returnFlightId;
         this.index = this.dateService.getIndexOfDate(this.startDate, this.flightDaysTo);
         this.totalAmount = this.sumPriceService.sumpPrices(
           result[0],
           this.numberOfPassengers,
           this.index);
-        this.store.dispatch(SelectActions.setSelectedTotalAmount({ totalAmount: this.totalAmount }));
-        this.changeReturnFlight(this.returnFlightId);
         this.pricesTo = result[0].pricesAdult;
+        this.store.dispatch(SelectActions.setSelectedTripDuration({ duration: this.duration }));
+        this.store.dispatch(SelectActions.setSelectedFlightDaysTo({ flightDaysTo: this.flightDaysTo }));
+        this.store.dispatch(SelectActions.setSelectedOutboundFlightNo({
+          outboundFlightNo: this.flightNumber,
+        }));
+        this.store.dispatch(SelectActions.setSelectedTripSeatsTo({ seatsTo: this.seatsTo }));
+        this.store.dispatch(SelectActions.setSelectedOutboundDepartureTime({ outboundDepartureTime: this.outboundDepartureTime }));
+        this.store.dispatch(SelectActions.setSelectedTotalAmount({ totalAmount: this.totalAmount }));
+        if (this.isOneWay === false) {
+          this.changeReturnFlight(this.returnFlightId);
+        }
         this.store.dispatch(SelectActions.setSelectedPricesTo({ pricesTo: this.pricesTo }));
+        this.store.dispatch(SelectActions.setSelectedOutboundArrivalTime({ outboundArrivalTime: this.arrivingTimeTo }));
       }
     });
 
@@ -278,23 +244,25 @@ export class EditOptionsComponent implements OnInit, OnDestroy {
         }
         if (this.returnDetails !== undefined && this.returnDetails.length > 0)
           this.durationFrom = this.returnDetails[0].duration;
-        this.store.dispatch(SelectActions.setSelectedTripDurationFrom({ durationFrom: this.durationFrom }));
         this.flightNumberFrom = this.returnDetails[0].flightNumber;
+        this.seatsFrom = this.returnDetails[0].totalSeats;
+        this.returnDepartureTime = this.returnDetails[0].departureTime;
+        this.flightDaysFrom = this.returnDetails[0].flightDays;
+        this.pricesFrom = this.returnDetails[0].pricesAdult;
+        this.arrivingTimeFrom = this.dateService.getArrivingDate(this.endDate, this.returnDepartureTime, this.durationFrom).timeToRender;
+        this.store.dispatch(SelectActions.setSelectedTripDurationFrom({ durationFrom: this.durationFrom }));
         this.store.dispatch(SelectActions.setSelectedReturnFlightNo({
           returnFlightNo: this.flightNumberFrom,
         }));
-        this.seatsFrom = this.returnDetails[0].totalSeats;
         this.store.dispatch(SelectActions.setSelectedTripSeatsFrom({ seatsFrom: this.seatsFrom }));
-        this.returnDepartureTime = this.returnDetails[0].departureTime;
         this.store.dispatch(SelectActions.setSelectedReturnDepartureTime({
           returnDepartureTime: this.returnDepartureTime,
         }));
-        this.flightDaysFrom = this.returnDetails[0].flightDays;
         this.store.dispatch(SelectActions.setSelectedFlightDaysFrom({
           flightDaysFrom: this.flightDaysFrom,
         }));
-        this.pricesFrom = this.returnDetails[0].pricesAdult;
         this.store.dispatch(SelectActions.setSelectedPricesFrom({ pricesFrom: this.pricesFrom }));
+        this.store.dispatch(SelectActions.setSelectedReturnArrivalTime({ returnArrivalTime: this.arrivingTimeFrom }));
       }
       ));
     return this.returnDetails$;

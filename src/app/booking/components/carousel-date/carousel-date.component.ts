@@ -140,6 +140,7 @@ export class CarouselDateComponent implements OnInit, OnDestroy {
           this.result[0],
           this.numberOfPassengers,
           this.index);
+        this.arrivingTimeTo = this.dateService.getArrivingDate(this.startDate, this.departureTime, this.duration).timeToRender;
         this.store.dispatch(SelectActions.setSelectedOutboundFlightNo({ outboundFlightNo: this.flightNumber }));
         this.store.dispatch(SelectActions.setSelectedTotalAmount({ totalAmount: this.totalAmount }));
         this.store.dispatch(SelectActions.setTotalCalculatedAmount({ totalCalculatedAmount: this.totalAmount.sumPrice + (this.totalAmount.totalTax || 0) }));
@@ -151,6 +152,7 @@ export class CarouselDateComponent implements OnInit, OnDestroy {
         this.store.dispatch(SelectActions.setSelectedFlightDaysTo({ flightDaysTo: this.flightDaysTo })
         );
         this.store.dispatch(SelectActions.setSelectedPricesTo({ pricesTo: this.prices }));
+        this.store.dispatch(SelectActions.setSelectedOutboundArrivalTime({ outboundArrivalTime: this.arrivingTimeTo }));
 
       }));
     return this.details$;
@@ -176,6 +178,7 @@ export class CarouselDateComponent implements OnInit, OnDestroy {
         this.flightNumberFrom = this.returnDetails[0].flightNumber;
         this.durationFrom = this.returnDetails[0].duration;
         this.flightDaysFrom = this.returnDetails[0].flightDays;
+        this.arrivingTimeFrom = this.dateService.getArrivingDate(this.endDate, this.departureTimeFrom, this.durationFrom).timeToRender;
         if (this.endDate !== undefined) {
           const index = this.dateService.getIndexOfDate(this.endDate, this.flightDaysFrom);
           this.totalAmountFrom = this.sumPriceService.sumpPrices(
@@ -191,6 +194,7 @@ export class CarouselDateComponent implements OnInit, OnDestroy {
         this.store.dispatch(SelectActions.setSelectedTripSeatsFrom({ seatsFrom: this.seatsFrom }));
         this.store.dispatch(SelectActions.setSelectedFlightDaysFrom({ flightDaysFrom: this.flightDaysFrom }));
         this.store.dispatch(SelectActions.setSelectedPricesFrom({ pricesFrom: this.pricesFrom }));
+        this.store.dispatch(SelectActions.setSelectedReturnArrivalTime({ returnArrivalTime: this.arrivingTimeFrom }));
       }
       ));
     return this.returnDetails$;
@@ -207,8 +211,11 @@ export class CarouselDateComponent implements OnInit, OnDestroy {
         this.from = state.trip.originAiroportName;
         this.to = state.trip.destinationAiroportName;
         this.startDate = state.trip.outboundDepartureDate
-        if (state.trip.returnDepartureDate !== undefined && state.trip.returnDepartureDate !== '')
+        this.slides = this.dateService.dateSlideTo(this.startDate);
+        if (state.trip.returnDepartureDate !== undefined && state.trip.returnDepartureDate !== '') {
           this.endDate = state.trip.returnDepartureDate;
+          this.slidesFrom = this.dateService.dateSlideTo(this.endDate);
+        }
         if (state.trip.outboundDepartureTime !== undefined && state.trip.outboundDepartureTime !== '')
           this.departureTime = state.trip.outboundDepartureTime;
         if (state.trip.returnDepartureTime !== undefined && state.trip.returnDepartureTime !== '')
@@ -274,12 +281,6 @@ export class CarouselDateComponent implements OnInit, OnDestroy {
       children[0].children[1].classList.add('big-weekday');
       children[0].children[2].classList.add('big-price');
       this.startDate = element.id;
-      this.arrivingDateTo = this.dateService.getArrivingDate(this.startDate, this.departureTime, this.duration).dateToRender;
-      this.arrivingTimeTo = this.dateService.getArrivingDate(
-        this.startDate,
-        this.departureTime,
-        this.duration,
-      ).timeToRender;
       this.slides = this.dateService.dateSlideTo(this.startDate);
       this.isCanFly = this.dateService.isCanFly(this.startDate);
       this.isFly = this.isCanFly ? 'true' : 'false';
@@ -297,6 +298,7 @@ export class CarouselDateComponent implements OnInit, OnDestroy {
             (this.totalAmountFrom.totalTax || 0)
         }));
       }
+
     }
     if (this.isOneWay === true) {
       this.store.dispatch(SelectActions.setTotalCalculatedAmount({
@@ -320,10 +322,6 @@ export class CarouselDateComponent implements OnInit, OnDestroy {
       children[0].children[1].classList.add('big-weekday');
       children[0].children[2].classList.add('big-price');
       this.endDate = element.id;
-      this.arrivingDateFrom = this.dateService.getArrivingDate(this.endDate, this.departureTimeFrom, this.duration).dateToRender;
-      this.arrivingTimeFrom = this.dateService.getArrivingDate(
-        this.endDate, this.departureTimeFrom, this.duration
-      ).timeToRender;
       this.slidesFrom = this.dateService.dateSlideTo(this.endDate);
       this.isCanFly = this.dateService.isCanFly(this.endDate);
       this.isFly = this.isCanFly ? 'true' : 'false';
@@ -339,6 +337,7 @@ export class CarouselDateComponent implements OnInit, OnDestroy {
           (this.totalAmountFrom.sumPrice || 0) +
           (this.totalAmountFrom.totalTax || 0)
       }));
+
     }
   }
 

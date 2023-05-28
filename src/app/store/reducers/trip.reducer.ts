@@ -145,6 +145,13 @@ export const tripReducer = createReducer(
       ...payload,
     })
   ),
+  on(
+    SelectedActions.setSelectedReturnArrivalTime,
+    (state, payload): TripState => ({
+      ...state,
+      ...payload,
+    })
+  ),
 
   on(
     SelectedActions.setSelectedOriginCity,

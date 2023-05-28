@@ -14,7 +14,7 @@
       </div>
       <div class="card-header-details">
         <small class="date">{{trip.outboundDepartureDate | date:'fullDate'}}</small>
-        <small>{{trip.outboundDepartureTime}} - {{trip.outboundArrivalTime | date:'h:mm a'}}</small>
+        <small>{{trip.outboundDepartureTime}} - {{trip.outboundArrivalTime }}</small>
       </div>
     </div>
     <mat-card-content>
@@ -40,7 +40,7 @@
         </div>
         <div class="card-header-details">
           <small class="date">{{trip.returnDepartureDate | date:'fullDate'}}</small>
-          <small>{{trip.returnDepartureTime}} - {{trip.returnArrivalTime | date:'h:mm a'}}</small>
+          <small>{{trip.returnDepartureTime}} - {{trip.returnArrivalTime }}</small>
         </div>
       </div>
       <mat-card-content>
@@ -63,9 +63,12 @@
           <div *ngIf="passenger.quantity">
             <div class="fares-and-taxes-th">
               <p><b>{{passenger.quantity}} x {{passenger.ageCategory | titlecase}} Fare</b></p>
-              <p class="price" *ngIf="passenger.ageCategory === 'adult'"><b>{{(trip.totalAmount.adultPrice + taxRate * trip.totalAmount.adultPrice).toFixed(2) }}</b></p>
-              <p class="price" *ngIf="passenger.ageCategory === 'child'"><b>{{(trip.totalAmount.childPrice + taxRate * trip.totalAmount.childPrice).toFixed(2) }}</b></p>
-              <p class="price" *ngIf="passenger.ageCategory === 'infant'"><b>{{(trip.totalAmount.infantPrice + taxRate * trip.totalAmount.infantPrice).toFixed(2) }}</b></p>
+              <p class="price" *ngIf="passenger.ageCategory === 'adult'"><b>{{(trip.totalAmount.adultPrice + taxRate *
+                  trip.totalAmount.adultPrice).toFixed(2) }}</b></p>
+              <p class="price" *ngIf="passenger.ageCategory === 'child'"><b>{{(trip.totalAmount.childPrice + taxRate *
+                  trip.totalAmount.childPrice).toFixed(2) }}</b></p>
+              <p class="price" *ngIf="passenger.ageCategory === 'infant'"><b>{{(trip.totalAmount.infantPrice + taxRate *
+                  trip.totalAmount.infantPrice).toFixed(2) }}</b></p>
             </div>
             <div class="fare-and-taxes-table">
               <div class="titles-column">

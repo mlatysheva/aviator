@@ -44,9 +44,10 @@ export class SecondMenuComponent implements OnInit {
       this.airoportTo = state.trip.destinationAiroportName;
       this.startDate = state.trip.outboundDepartureDate;
       this.endDate = state.trip.returnDepartureDate;
-      this.people = state.trip.numberOfPassengers[0]?.quantity +
-        state.trip.numberOfPassengers[1]?.quantity +
-        state.trip.numberOfPassengers[2]?.quantity;
+      if (state.trip.numberOfPassengers !== undefined && state.trip.numberOfPassengers.length !== 0)
+        this.people = state.trip.numberOfPassengers[0]?.quantity +
+          state.trip.numberOfPassengers[1]?.quantity +
+          state.trip.numberOfPassengers[2]?.quantity;
     });
     this.isEdit = false;
 
