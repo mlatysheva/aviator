@@ -11,7 +11,7 @@
     <option [selected]="selectedCurrency==='USD'" class="currency" value="USD">USD</option>
     <option [selected]="selectedCurrency==='PLN'" class="currency" value="PLN">PLN</option>
   </select>
-  <a *ngIf="!isAuth" [routerLink]="[ { outlets: { modal: 'auth' }}]" class="sign" >
+  <a *ngIf="!isAuth" [routerLink]="[{ outlets: { modal: 'auth' }}]" class="sign" >
     <img src="assets/icons/signin.svg" alt="sign">Sign in
   </a>
 
@@ -50,6 +50,6 @@
   </mat-menu>
 
   <div class="shop" routerLink="cart" [ngClass]="{ 'shop-inverted': changeStyle }">
-    <div class="cart-count" *ngIf="cartCount !== 0">{{ this.cartService.cartCount$ | async }}</div>
+    <div class="cart-count" *ngIf="cartCount !== 0">{{ cartCount }}</div>
   </div>
 </div>
