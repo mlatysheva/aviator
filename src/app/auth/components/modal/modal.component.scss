@@ -51,8 +51,9 @@
   }
 
   .auth-modal {
-    width: 100%;
+    width: 90%;
     height: 100%;
+    top: var(--header-height-mob);
     left: 0;
     border-radius: 0;
   }
