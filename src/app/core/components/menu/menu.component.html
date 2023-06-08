@@ -1,0 +1,55 @@
+<div class="menu" [ngClass]="{ 'bg-solid': changeStyle }">
+  <div *ngIf="!changeStyle" class="text" routerLink="main" (click)="onBookFlightsClick()">Book flights</div>
+  <select class="select-date" #dateFormat (change)="setDateFormat(dateFormat.value)">
+    <option [selected]="selectedDateFormat==='DD/MM/YYYY'" class="date" value="DD/MM/YYYY">"DD/MM/YYYY"</option>
+    <option [selected]="selectedDateFormat==='MM/DD/YYYY'" class="date" value="MM/DD/YYYY">"MM/DD/YYYY"</option>
+    <option [selected]="selectedDateFormat==='YYYY/DD/MM'" class="date" value="YYYY/DD/MM">"YYYY/DD/MM"</option>
+    <option [selected]="selectedDateFormat==='YYYY/MM/DD'" class="date" value="YYYY/MM/DD">"YYYY/MM/DD"</option>
+  </select>
+  <select class="select-currency" [(ngModel)]="selectedCurrency" #currency (change)="setUserCurrency(currency.value)">
+    <option [selected]="selectedCurrency==='EUR'" class="currency" value="EUR">EUR</option>
+    <option [selected]="selectedCurrency==='USD'" class="currency" value="USD">USD</option>
+    <option [selected]="selectedCurrency==='PLN'" class="currency" value="PLN">PLN</option>
+  </select>
+  <a *ngIf="!isAuth" [routerLink]="[{ outlets: { modal: 'auth' }}]" class="sign" >
+    <img src="assets/icons/signin.svg" alt="sign">Sign in
+  </a>
+
+  <div class="user-section" *ngIf="isAuth">
+    <button 
+      color="#11397e"
+      class="logout-icon" 
+      mat-icon-button 
+      [matMenuTriggerFor]="menu" 
+      aria-label="My Account"
+    >
+      <mat-icon >cabinet</mat-icon>
+      <div class="small-font">{{ userName }}</div> 
+    </button>
+  </div>
+
+  <mat-menu #menu="matMenu">
+    <button 
+      mat-menu-item
+      (click)="toUserAccount()"
+      color="#11397e"
+      class="logout-icon"
+    >
+      <mat-icon>shopping_basket</mat-icon>
+      <span>My orders</span>
+    </button>
+    <button 
+      mat-menu-item
+      color="#11397e"
+      class="logout-icon" 
+      (click)="onLogout()"
+    >
+      <mat-icon>logout</mat-icon>
+      <span>Log out</span>
+    </button>
+  </mat-menu>
+
+  <div class="shop" routerLink="cart" [ngClass]="{ 'shop-inverted': changeStyle }">
+    <div class="cart-count" *ngIf="cartCount !== 0">{{ cartCount }}</div>
+  </div>
+</div>

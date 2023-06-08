@@ -1,0 +1,32 @@
+.header-wrapper {
+  width: 100%;
+  height: var(--header-height);
+  background-color: rgba(116, 118, 122, 0.2);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+
+  &.bg-solid {
+    background-color: #fff;
+  }
+}
+
+.header {
+  max-width: 1128px;
+  height: 100%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.logo {
+  cursor: pointer;
+}
+
+@media screen and (max-width: 550px) {
+  .header-wrapper {
+    height: var(--header-height-mob);
+  }
+}

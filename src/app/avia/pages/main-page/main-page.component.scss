@@ -1,0 +1,15 @@
+.container {
+  flex: 1;
+}
+
+.image-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
+  background-image: url(../../../../assets/images/background.svg);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+

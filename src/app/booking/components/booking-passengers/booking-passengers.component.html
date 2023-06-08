@@ -1,0 +1,155 @@
+<div class="width-container booking-passengers-container">
+    <div class="title-section">
+        <div class="title">
+            <img src="assets/icons/passengers.svg" alt="passengers">
+            <p class="title-heading">Passengers</p>
+        </div>
+        <p class="title-text">Enter the passenger's names as they appear on document (passport or ID). </p>
+    </div>
+    
+    <form [formGroup]="passengersCollectionForm">
+        <div formArrayName="passengers">
+            <div *ngFor="let passengerForm of passengersForms.controls; let i=index" [formGroupName]="i">
+            
+                <mat-card class="card">
+                    <mat-card-content>
+                        <p class="card-title">{{i+1}}. {{ageCategoryCollection[i] | titlecase}}</p>
+                        <div class="form-content">
+                            <div class="mat-field-wrapper">
+                                <mat-form-field appearance="fill" class="form-field">
+                                    <mat-label>First name</mat-label>
+                                    <input matInput type="text" formControlName="firstName">
+                                    <mat-icon
+                                        matSuffix
+                                        class="info-icon"
+                                        [matTooltip]="infoText"
+                                        matTooltipTrigger="hover"
+                                    >
+                                        <img src="{{passengerForm.get('firstName')?.errors &&
+                                            passengerForm.get('firstName')?.touched ?
+                                            'assets/icons/info-error.svg' :
+                                            'assets/icons/info.svg'}}">
+                                    </mat-icon>
+                                </mat-form-field>
+                                <mat-error
+                                    *ngIf="passengerForm.get('firstName')?.errors && 
+                                        passengerForm.get('firstName')?.touched"
+                                >
+                                    Please, enter your first name
+                                </mat-error>
+                            </div>
+        
+                            <div class="mat-field-wrapper">
+                                <mat-form-field appearance="fill" class="form-field">
+                                    <mat-label>Last name</mat-label>
+                                    <input matInput type="text" formControlName="lastName">
+                                    <mat-icon
+                                        matSuffix
+                                        class="info-icon"
+                                        [matTooltip]="infoText"
+                                        matTooltipTrigger="hover"
+                                    >
+                                        <img src="{{passengerForm.get('lastName')?.errors &&
+                                            passengerForm.get('lastName')?.touched ?
+                                            'assets/icons/info-error.svg' :
+                                            'assets/icons/info.svg'}}">
+                                    </mat-icon>
+                                </mat-form-field>
+                                <mat-error
+                                    *ngIf="passengerForm.get('lastName')?.errors && 
+                                        passengerForm.get('lastName')?.touched"
+                                >
+                                    Please, enter your last name
+                                </mat-error>
+                            </div>
+        
+                            <section class="toggle-gender">
+                                <mat-button-toggle-group formControlName="gender">
+                                    <mat-button-toggle value="male">Male</mat-button-toggle>
+                                    <mat-button-toggle value="female">Female</mat-button-toggle>
+                                </mat-button-toggle-group>
+                            </section>
+
+                            <div class="mat-field-wrapper">
+                                <mat-form-field appearance="fill" class="birth-date-picker">
+                                    <mat-label>Date of birth</mat-label>
+                                    <input matInput [matDatepicker]="datepicker" formControlName="birthday">
+                                    <mat-hint>MM/DD/YYYY</mat-hint>
+                                    <mat-datepicker-toggle matIconSuffix [for]="datepicker"></mat-datepicker-toggle>
+                                    <mat-datepicker #datepicker></mat-datepicker>
+                                </mat-form-field>
+                                <mat-error *ngIf="passengerForm.get('birthday')?.errors && passengerForm.get('birthday')?.touched" class="error">
+                                    Please fill in a birth date
+                                </mat-error>
+                            </div>
+                        </div>
+                        <br>
+                        <mat-slide-toggle
+                            class="assistance-toggle"
+                            formControlName="assistance"
+                            [checked]="checked">
+                            <img class="assistance-icon" src="assets/icons/assistance.svg" alt="assistance">
+                            Need special assistance?
+                        </mat-slide-toggle>
+                    </mat-card-content>
+                </mat-card>
+
+            </div>
+        </div>
+    </form>
+
+    <div class="title-section">
+        <div class="title">
+            <img src="assets/icons/contact-details.svg" alt="passengers">
+            <p class="title-heading">Contact details</p>
+        </div>
+        <p class="title-text">We need contact details to be able to deliver the latest information regarding your flight. </p>
+    </div>
+
+    <form [formGroup]="detailsForm">
+        <mat-card class="contact-details">
+            <mat-card-content class="contact-details-content">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Country code</mat-label>
+                    <mat-select formControlName="countryCode">
+                      <mat-option 
+                        *ngFor="let countryCode of countryCodes$ | async "
+                        value="{{countryCode.dial_code}}" 
+                        class="countries-picker-option"
+                      >
+                        <p class="countries-picker-text">{{countryCode.name}} {{countryCode.dial_code}}</p>
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+
+                  <mat-form-field appearance="fill">
+                    <mat-label>Mobile phone number</mat-label>
+                    <input 
+                      matInput 
+                      placeholder="e.g. 123456789" 
+                      formControlName="phone" 
+                      required
+                    >
+                    <mat-error class="error" *ngIf="phone.invalid && phone.touched">
+                        Phone number is invalid
+                    </mat-error>
+                  </mat-form-field>
+
+                  <mat-form-field class="contact-details-field">
+                    <mat-label>Email</mat-label>
+                    <input matInput type="email" formControlName="email">
+                  </mat-form-field>
+            </mat-card-content>
+        </mat-card>
+    </form>
+
+    <div class="width-container stepper-btns">
+        <button mat-raised-button (click)="onBackClick()">Back</button>
+        <button
+            mat-raised-button
+            color="primary"
+            (click)="onNextClick()"
+            [disabled]="!detailsForm.valid || !passengersCollectionForm.valid"
+        >Continue</button>
+    </div>
+</div>

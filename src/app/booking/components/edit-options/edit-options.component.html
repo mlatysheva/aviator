@@ -1,0 +1,63 @@
+<div class="edit-container">
+  <form [formGroup]="editForm" class="edit-form">
+    <div class="countries-picker">
+      <mat-label for="departure">From</mat-label>
+      <mat-form-field appearance="fill">
+        <mat-select [formControl]="departure" id="departure" (selectionChange)="onDepartureChange($event)">
+          <mat-select-trigger>
+            {{ departure.value | airportValue }}
+          </mat-select-trigger>
+          <mat-option *ngFor="let airport of airports$ | async"
+            value="{{airport.name}}, {{airport.city}}, {{airport.iata_code}}" class="countries-picker-option">
+            <div>
+              <p class="countries-picker-text">{{airport.city}} ({{airport.iata_code}})</p>
+              <small class="countries-picker-text-gray">{{airport.name}}, {{airport.country}}</small>
+            </div>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-label for="destination">Destination</mat-label>
+      <mat-form-field appearance="fill">
+        <mat-select [formControl]="destination" id="destination" (selectionChange)="onDestinationChange($event)">
+          <mat-select-trigger>
+            {{ destination.value | airportValue }}
+          </mat-select-trigger>
+
+          <mat-option *ngFor="let airport of airports$ | async "
+            value="{{airport.name}}, {{airport.city}}, {{airport.iata_code}} " class="countries-picker-option">
+            <div>
+              <p class="countries-picker-text">{{airport.city}} ({{airport.iata_code}})</p>
+              <small class="countries-picker-text-gray">{{airport.name}}, {{airport.country}}</small>
+            </div>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-error *ngIf="destination.errors  || departure.errors">
+        {{ destination.hasError('equalityError')
+        ? '':'The fields should not be equal. Please enter another departure airport' }}
+      </mat-error>
+    </div>
+
+    <div class="date-picker">
+      <mat-label for="date">Enter a date range</mat-label>
+      <mat-form-field *ngIf="!isOneWay" appearance="fill" class="picker-date">
+        <mat-date-range-input [rangePicker]="picker" id="date">
+          <input matStartDate placeholder="Start date" (dateInput)="OnStartDateChange($event)">
+          <input matEndDate placeholder="End date" (dateInput)="OnEndDateChange($event)">
+        </mat-date-range-input>
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-date-range-picker #picker></mat-date-range-picker>
+      </mat-form-field>
+
+      <mat-form-field *ngIf="isOneWay" color="accent" appearance="fill" class="picker-date">
+        <mat-label>Choose a date</mat-label>
+        <input matInput [matDatepicker]="startDate" (dateInput)="OnStartDateChange($event)" id="date">
+        <mat-datepicker-toggle matIconSuffix [for]="startDate"></mat-datepicker-toggle>
+        <mat-datepicker #startDate></mat-datepicker>
+      </mat-form-field>
+
+    </div>
+
+  </form>
+
+</div>

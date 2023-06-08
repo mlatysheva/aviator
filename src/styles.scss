@@ -1,1 +1,189 @@
-/* You can add global styles to this file, and also import other style files */
+@use '@angular/material' as mat;
+@include mat.core();
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+@import '~ag-grid-community/styles/ag-grid.css';
+@import '~ag-grid-community/styles/ag-theme-alpine.css';
+
+/* Importing Bootstrap SCSS file. */
+@import "./node_modules/bootstrap/scss/bootstrap";
+
+/* Importing Datepicker SCSS file. */
+@import "node_modules/ngx-bootstrap/datepicker/bs-datepicker";
+
+$darkblue-palette: (
+  50: #b8cff7,
+  100: #7495d0,
+  200: #94b3e8,
+  300: #406ab2,
+  400: #295298,
+  500: #11397e,
+  600: #183465,
+  700: #071c42,
+  800: #0c192f,
+  900: #0d1524,
+  A100: #94b3e8,
+  A200: #406ab2,
+  A400: #11397e,
+  A700: #071c42,
+  contrast: (50: rgba(black, 0.87),
+    100: rgba(black, 0.87),
+    200: rgba(black, 0.87),
+    300: rgba(black, 0.87),
+    400: rgba(black, 0.87),
+    500: rgb(225, 222, 222),
+    600: rgb(210, 209, 209),
+    700: rgb(170, 168, 168),
+    800: rgb(183, 182, 182),
+    900: rgb(127, 125, 125),
+    A100: rgba(black, 0.87),
+    A200: rgba(black, 0.87),
+    A400: rgb(145, 143, 143),
+    A700: rgb(217, 214, 214),
+  )
+);
+
+$avia_client-primary: mat.define-palette($darkblue-palette, 500);
+$avia_client-accent: mat.define-palette($darkblue-palette, A400, A200, A700);
+$avia_client-warn: mat.define-palette(mat.$red-palette);
+$custom-success: mat.define-palette($darkblue-palette);
+$custom-danger: mat.define-palette(mat.$indigo-palette);
+
+
+$avia_client-theme: mat.define-light-theme((color: (primary: $avia_client-primary,
+        accent: $avia_client-accent,
+        warn: $avia_client-warn,
+      )));
+
+@include mat.all-component-themes($avia_client-theme);
+
+.mat-success {
+  background-color: mat.get-color-from-palette($custom-success, 500);
+  color: mat.get-color-from-palette($custom-success, 500-contrast);
+}
+
+.mat-danger {
+  background-color: mat.get-color-from-palette($custom-danger, 500);
+  color: mat.get-color-from-palette($custom-danger, 500-contrast);
+}
+
+:root {
+  --light-grey: #e5e5e5;
+  --primary-color: #11397e;
+  --link-hover-color: #4570c1;
+  --secondary-color: rgb(255, 217, 0);
+  --options-color: rgb(173, 173, 173);
+
+  // sizes
+  --auth-modal-width: 490px;
+  --auth-modal-height: auto;
+  --header-height: 88px;
+  --header-height-mob: 190px;
+  --footer-height: 92px;
+  --footer-height-mob: 190px;
+  --max-content-width: 1128px;
+  --container-width: 1200px;
+
+  height: 100%;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  box-sizing: border-box;
+  height: 100%;
+}
+
+body {
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  box-sizing: inherit;
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+}
+
+app-root {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+app-header {
+  height: var(--header-height);
+}
+
+app-main-page, 
+app-booking-page, 
+app-passengers-page, 
+app-summary-page, 
+app-cart-page,
+app-account-page, 
+app-booking-passengers {
+  display: flex;
+  flex: 1;
+  margin-bottom: 6rem;
+}
+
+app-footer {
+  flex-shrink: 0;
+  border-top: 1px solid #d0d9df;
+}
+
+.container {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.width-container {
+  max-width: var(--max-content-width);
+  margin: 0 auto;
+}
+
+.main-content {
+  margin: 0 auto;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+@media screen and (max-width: 768px) {
+  :root {
+    --footer-height: 190px;
+    --max-content-width: 760px;
+    --container-width: 768px;
+  }
+
+  app-main-page,
+  app-booking-page, 
+  app-passengers-page, 
+  app-summary-page, 
+  app-cart-page,
+  app-account-page, 
+  app-booking-passengers {
+    margin-bottom: 2rem;
+  }
+
+  .width-container {
+    max-width: 760px;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  app-header {
+    height: var(--header-height-mob);
+  }
+  
+  app-main-page {
+    min-height: 100vh;
+  }
+
+  .width-container {
+    max-width: 380px;
+  }
+}
+  

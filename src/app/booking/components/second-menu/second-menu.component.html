@@ -1,0 +1,26 @@
+<div class="menu">
+  <div class="destination">
+    <div class="from">{{cityFrom}}, {{airoportFrom}}</div>
+    <div class="reverse-btn" (click)="onClick()">
+      <img src="assets/icons/booking-reverse.svg" alt="reverse" class="reverse-btn-image">
+    </div>
+    <div class="to">{{cityTo}}, {{airoportTo}}</div>
+  </div>
+  <div class="date">
+    <span>Return</span>
+    <div class="divider"></div>
+    <div class="departure">{{startDate | date :'MMM d'}}</div>-
+    <div class="return">{{endDate | date :'MMM d'}}</div>
+    <div class="divider"></div>
+  </div>
+  <div class="people">
+    <span>{{people}}</span>
+    <img src="assets/icons/person.svg" alt="person">
+  </div>
+  <button mat-raised-button *ngIf="isEditButtonVisible" class="edit-btn" color="primary"
+    (click)="onEdit()">Edit</button>
+
+  <app-edit-options *ngIf="isEdit">
+
+  </app-edit-options>
+</div>

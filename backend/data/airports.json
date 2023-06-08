@@ -1,0 +1,260 @@
+[
+  {
+    "name": "Capital Intl",
+    "city": "Beijing",
+    "country": "China",
+    "iata_code": "PEK",
+    "id": "3364"
+  },
+  {
+    "name": "Heathrow",
+    "city": "London",
+    "country": "United Kingdom",
+    "iata_code": "LHR",
+    "id": "507"
+  },
+  {
+    "name": "Charles De Gaulle",
+    "city": "Paris",
+    "country": "France",
+    "iata_code": "CDG",
+    "id": "1382"
+  },
+  {
+    "name": "John F Kennedy Intl",
+    "city": "New York",
+    "country": "United States",
+    "iata_code": "JFK",
+    "id": "3797"
+  },
+  {
+    "name": "Schiphol",
+    "city": "Amsterdam",
+    "country": "Netherlands",
+    "iata_code": "AMS",
+    "id": "580"
+  },
+  {
+    "name": "Barcelona",
+    "city": "Barcelona",
+    "country": "Spain",
+    "iata_code": "BCN",
+    "id": "1218"
+  },
+  {
+    "name": "Franz Josef Strauss",
+    "city": "Munich",
+    "country": "Germany",
+    "iata_code": "MUC",
+    "id": "346"
+  },
+  {
+    "name": "Ataturk",
+    "city": "Istanbul",
+    "country": "Turkey",
+    "iata_code": "IST",
+    "id": "1701"
+  },
+  {
+    "name": "Dubai Intl",
+    "city": "Dubai",
+    "country": "United Arab Emirates",
+    "iata_code": "DXB",
+    "id": "2188"
+  },
+  {
+    "name": "Fiumicino",
+    "city": "Rome",
+    "country": "Italy",
+    "iata_code": "FCO",
+    "id": "1555"
+  },
+  {
+    "name": "Barajas",
+    "city": "Madrid",
+    "country": "Spain",
+    "iata_code": "MAD",
+    "id": "1229"
+  },
+  {
+    "name": "Brussels Natl",
+    "city": "Brussels",
+    "country": "Belgium",
+    "iata_code": "BRU",
+    "id": "302"
+  },
+  {
+    "name": "Schwechat",
+    "city": "Vienna",
+    "country": "Austria",
+    "iata_code": "VIE",
+    "id": "1613"
+  },
+  {
+    "name": "Son Sant Joan",
+    "city": "Palma de Mallorca",
+    "country": "Spain",
+    "iata_code": "PMI",
+    "id": "3998"
+  },
+  {
+    "name": "Zurich",
+    "city": "Zurich",
+    "country": "Switzerland",
+    "iata_code": "ZRH",
+    "id": "1678"
+  },
+  {
+    "name": "Arlanda",
+    "city": "Stockholm",
+    "country": "Sweden",
+    "iata_code": "ARN",
+    "id": "737"
+  },
+  {
+    "name": "Lisboa",
+    "city": "Lisbon",
+    "country": "Portugal",
+    "iata_code": "LIS",
+    "id": "1638"
+  },
+  {
+    "name": "Tegel",
+    "city": "Berlin",
+    "country": "Germany",
+    "iata_code": "TXL",
+    "id": "351"
+  },
+  {
+    "name": "Dublin",
+    "city": "Dublin",
+    "country": "Ireland",
+    "iata_code": "DUB",
+    "id": "599"
+  },
+  {
+    "name": "Malaga",
+    "city": "Malaga",
+    "country": "Spain",
+    "iata_code": "AGP",
+    "id": "1230"
+  },
+  {
+    "name": "Eleftherios Venizelos Intl",
+    "city": "Athens",
+    "country": "Greece",
+    "iata_code": "ATH",
+    "id": "3941"
+  },
+  {
+    "name": "Sheremetyevo",
+    "city": "Moscow",
+    "country": "Russia",
+    "iata_code": "SVO",
+    "id": "2985"
+  },
+  {
+    "name": "Ninoy Aquino Intl",
+    "city": "Manila",
+    "country": "Philippines",
+    "iata_code": "MNL",
+    "id": "2397"
+  },
+  {
+    "name": "Pulkovo",
+    "city": "St. Petersburg",
+    "country": "Russia",
+    "iata_code": "LED",
+    "id": "2948"
+  },
+  {
+    "name": "Geneve Cointrin",
+    "city": "Geneva",
+    "country": "Switzerland",
+    "iata_code": "GVA",
+    "id": "1665"
+  },
+  {
+    "name": "Tokyo Intl",
+    "city": "Tokyo",
+    "country": "Japan",
+    "iata_code": "HND",
+    "id": "2359"
+  },
+  {
+    "name": "Cairo Intl",
+    "city": "Cairo",
+    "country": "Egypt",
+    "iata_code": "CAI",
+    "id": "1128"
+  },
+  {
+    "name": "Boryspil Intl",
+    "city": "Kiev",
+    "country": "Ukraine",
+    "iata_code": "KBP",
+    "id": "2939"
+  },
+  {
+    "name": "Odesa Intl",
+    "city": "Odessa",
+    "country": "Ukraine",
+    "iata_code": "ODS",
+    "id": "2947"
+  },
+  {
+    "name": "Minsk 2",
+    "city": "Minsk 2",
+    "country": "Belarus",
+    "iata_code": "MSQ",
+    "id": "2954"
+  },
+  {
+    "name": "Emelyanovo",
+    "city": "Krasnoyarsk",
+    "country": "Russia",
+    "id": "4374"
+  },
+  {
+    "name": "Sochi",
+    "city": "Sochi",
+    "country": "Russia",
+    "iata_code": "AER",
+    "id": "2965"
+  },
+  {
+    "name": "Vnukovo",
+    "city": "Moscow",
+    "country": "Russia",
+    "iata_code": "VKO",
+    "id": "2988"
+  },
+  {
+    "name": "Beograd",
+    "city": "Belgrade",
+    "country": "Serbia",
+    "iata_code": "BEG",
+    "id": "1739"
+  },
+  {
+    "name": "Strachowice",
+    "city": "Wroclaw",
+    "country": "Poland",
+    "iata_code": "WRO",
+    "id": "680"
+  },
+  {
+    "name": "Okecie",
+    "city": "Warsaw",
+    "country": "Poland",
+    "iata_code": "WAW",
+    "id": "679"
+  },
+  {
+    "name": "San Diego Intl",
+    "city": "San Diego",
+    "country": "United States",
+    "iata_code": "SAN",
+    "id": "3731"
+  }
+]

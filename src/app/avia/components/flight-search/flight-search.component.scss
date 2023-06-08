@@ -1,0 +1,143 @@
+.flight-search-container {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: var(--header-height);
+  width: 100%;
+}
+
+.search-form {
+  margin: 40px;
+  padding: 25px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: #fff;
+}
+
+mat-label {
+  position: relative;
+  top: 1.2rem;
+  left: 1rem;
+  z-index: 5;
+  color: grey;
+  font-size: 12px;
+}
+
+.radio-btns {
+  padding: 15px 0;
+}
+
+.one-way-or-round {
+  width: 100%;
+}
+
+.countries-picker {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+
+  &-option {
+    padding: 7px 10px;
+  }
+
+  &-text {
+    margin: 0;
+  }
+
+  &-text-gray {
+    font-size: 14px;
+    color: #74767a;
+  }
+}
+
+.reverse-btn {
+  position: absolute;
+  right: 79px;
+  top: 47px;
+  z-index: 1;
+  cursor: pointer;
+
+  &-image {
+    overflow: hidden;
+    -webkit-transition: transform 0.2s;
+    transition: transform 0.2s;
+  }
+
+  &-image:active {
+    -webkit-transform: rotate(450deg);
+    transform: rotate(450deg);
+  }
+}
+
+.picker {
+  display: flex;
+  justify-content: space-between;
+
+  &-date {
+    margin-right: 10px;
+  }
+
+  &-persons {
+    margin-left: 10px;
+  }
+}
+
+.age-type-option-text {
+  padding: 0 10px;
+}
+
+::ng-deep .mdc-list-item__primary-text {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  .option-details {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+::ng-deep .mat-pseudo-checkbox {
+  display: none !important;
+}
+
+.search-btn-container {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.search-btn {
+  margin-top: 20px;
+  padding: 12px 24px;
+  height: 60px;
+  width: 126px;
+  color: #fff !important;
+  border-radius: 0 !important;
+}
+
+@media (max-width: 768px) {
+  .search-form {
+    width: 100%;
+    margin: 0px;
+  }
+
+  .picker {
+    flex-direction: column;
+
+    &-date {
+      margin-right: 0px;
+    }
+
+    &-persons {
+      margin-left: 0px;
+    }
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .flight-search-container {
+    margin-top: var(--header-height-mob);
+  }
+}

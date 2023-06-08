@@ -1,0 +1,146 @@
+<div class="signup-wrapper">
+  <button class="oath-btn"><span class="icon google-icon"></span>Continue with Google</button>
+  <button class="oath-btn"><span class="icon facebook-icon"></span>Continue with Facebook</button>
+  <div class="separator">
+    <span class="separator-line"></span>or sign up with your email<span class="separator-line"></span>
+  </div>
+  <form 
+    class="signup-form" 
+    [formGroup]="signupForm" 
+    (ngSubmit)="onSignup()"
+  >
+    <mat-form-field appearance="fill">
+      <mat-label>Email</mat-label>
+      <input 
+        matInput 
+        placeholder="email@gmail.com" 
+        formControlName="email" 
+        required
+      >
+      <mat-error class="error" *ngIf="email.invalid && email.touched">
+          {{getEmailErrorMessage()}}
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Password</mat-label>
+      <input 
+        matInput 
+        [type]="hidePassword ? 'password' : 'text'"
+        formControlName="password"
+        required
+      >
+      <mat-icon matIconSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
+        {{hidePassword ? 'visibility_off' : 'visibility'}}
+      </mat-icon>
+      <mat-error class="error" *ngIf="password.invalid && password.touched">
+        {{getPasswordErrorMessage()}}
+      </mat-error>
+    </mat-form-field>
+    
+    <mat-form-field appearance="fill">
+      <mat-label>First name</mat-label>
+      <input 
+        matInput 
+        placeholder="First name" 
+        formControlName="firstName" 
+        required
+      >
+      <mat-error class="error" *ngIf="firstName.invalid && firstName.touched">
+          {{getFirstNameErrorMessage()}}
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Last name</mat-label>
+      <input 
+        matInput 
+        placeholder="Last name" 
+        formControlName="lastName" 
+        required
+      >
+      <mat-error class="error" *ngIf="lastName.invalid && lastName.touched">
+          {{getLastNameErrorMessage()}}
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field color="accent" appearance="fill" class="picker-date">
+      <mat-label>Date of birth</mat-label>
+      <input 
+        matInput 
+        [matDatepicker]="picker1" 
+        formControlName="birthday"
+        required
+      >
+      <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+      <mat-datepicker #picker1></mat-datepicker>
+      <mat-error class="error" *ngIf="birthday.invalid && birthday.touched">
+        {{getBirthdateErrorMessage()}}
+      </mat-error>
+    </mat-form-field>
+    
+    <mat-radio-group class="radio-btns" formControlName="gender" formControlName="gender">
+      <mat-radio-button value="male">Male</mat-radio-button>
+      <mat-radio-button value="female">Female</mat-radio-button>
+    </mat-radio-group>
+
+    <div class="phone-wrapper">
+      <mat-form-field appearance="fill">
+        <mat-label>Country code</mat-label>
+        <mat-select formControlName="countryCode">
+          <mat-option 
+            *ngFor="let countryCode of countryCodes$ | async "
+            value="{{countryCode.dial_code}}" 
+            class="countries-picker-option"
+          >
+            <p class="countries-picker-text">{{countryCode.name}} {{countryCode.dial_code}}</p>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Mobile number</mat-label>
+        <input 
+          matInput 
+          placeholder="e.g. 1234567890" 
+          formControlName="phone" 
+          required
+        >
+        <mat-error class="error" *ngIf="phone.invalid && phone.touched">
+            {{getPhoneErrorMessage()}}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Citizenship</mat-label>
+      <mat-select formControlName="citizenship">
+        <mat-option 
+          *ngFor="let countryCode of countryCodes$ | async "
+          value="{{countryCode.name}}" 
+          class="countries-picker-option"
+        >
+          <p class="countries-picker-text">{{countryCode.name}}</p>
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <div class="policy-wrapper">
+      <mat-checkbox class="checkbox" formControlName="agreementCheck" required></mat-checkbox>
+      <p>I agree to Airway's <span class="regular-text">Privacy Policy</span> and <span class="regular-text">Terms of Use</span></p>
+    </div>
+    <mat-error class="error" *ngIf="agreementCheck.invalid && agreementCheck.touched">
+      {{getAgreementCheckErrorMessage()}}
+    </mat-error> 
+
+    <div class="server-error" *ngIf="this.authService.errorMessage$ | async as serverError">
+      {{ serverError }}
+    </div>
+    
+    <button 
+      mat-raised-button
+      color="primary"
+      [disabled]="!signupForm.valid"
+    >Sign up</button>
+  </form>
+</div>

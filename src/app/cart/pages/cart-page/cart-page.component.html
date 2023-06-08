@@ -1,0 +1,41 @@
+<div class="cart-page width-container main-content">
+  <h1 class="title">Cart</h1>
+  <ag-grid-angular
+    class="ag-theme-alpine"
+    style="width: 1050px; min-height: 300px;"
+    [rowData]="trips$ | async"
+    [columnDefs]="colDefs"
+    [defaultColDef]="defaultColDef"
+    [rowSelection]="'multiple'"
+    (gridReady)="onGridReady($event)"
+    (onClick)="onSelectionChanged($event)"
+    editType="fullRow"
+    overlayNoRowsTemplate="You have no trips awaiting payment"
+    [suppressClickEdit]="true"
+  ></ag-grid-angular>
+  <div class="middle-section">
+    <button mat-raised-button (click)="addNewTrip()">+ Add new trip</button>
+    <div class="price-section">
+      <span class="regular label">Total </span><span class="subtitle">{{currency}} {{ totalPrice$ | async }}</span>
+    </div>
+  </div>
+  <mat-divider></mat-divider>
+  <div class="bottom-section">
+    <mat-form-field appearance="outline" class="promo-wrapper">
+      <mat-label>Promo Code</mat-label>
+      <input matInput type="text" [(ngModel)]="promoCode" id="promoCode">
+      <button mat-icon-button matSuffix (click)="applyPromoCode()">
+        <mat-icon>navigate_next</mat-icon>
+      </button>
+    </mat-form-field>
+
+    <div class="bottom-right-section">
+      <div class="selected-section">
+        {{ selectedRows$ | async }} selected
+      </div>
+
+      <button mat-raised-button (click)="onPayment()" color="primary" [disabled]="isPaymentDisabled$ | async">Payment</button>
+    </div>
+  </div>
+  
+</div>

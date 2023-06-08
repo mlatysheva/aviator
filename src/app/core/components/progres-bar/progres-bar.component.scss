@@ -1,0 +1,24 @@
+.stepper {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #74767a;
+  font-size: 14px;
+}
+
+.step {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  &-img {
+    padding-right: 5px;
+  }
+}
+
+.divider {
+  width: 79.9px;
+  height: 1px;
+  background: rgba(116, 118, 122, 0.6);
+  transform: matrix(1, 0, 0, -1, 0, 0);
+}

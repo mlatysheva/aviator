@@ -1,0 +1,98 @@
+.title {
+  display: flex;
+  flex-direction: row;
+
+  &-heading {
+    font-size: 24px;
+    line-height: 28px;
+    font-weight: 700;
+    color: #11397e;
+    margin: 10px 0;
+    padding: 0 10px;
+  }
+}
+
+.passengers-info {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 1rem;
+  margin: 20px 0;
+}
+
+.card {
+  width: 100%;
+  border: none;
+
+  &-header {
+    padding-top: 16px;
+    background-color: #f1f3f6;
+
+    &-details {
+      display: flex;
+      flex-direction: row;
+
+      .title {
+        margin-right: 15px;
+        font-size: 20px;
+        line-height: 24px;
+        font-weight: bold;
+        color: #11397e;
+      }
+
+      .city-title {
+        font-size: 20px;
+        line-height: 24px;
+        font-weight: bold;
+        color: #000;
+      }
+
+      .date {
+        margin-right: 15px;
+      }
+    }
+  }
+
+  &-content {
+    padding-top: 16px;
+  }
+}
+
+.passenger-details {
+  padding-left: 20px;
+}
+
+.stepper-btns {
+  display: flex;
+  justify-content: flex-end;
+  padding: 40px 0;
+
+  button {
+    margin: 0 5px;
+    padding: 20px;
+  }
+}
+
+.fares-and-taxes {
+  margin-top: 15px;
+
+  &-th {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .price {
+    padding-left: 170px;
+  }
+}
+
+.fare-and-taxes-table {
+  padding-left: 16px;
+  display: flex;
+  flex-direction: row;
+}
+
+.prices-column {
+  padding-left: 105px;
+}

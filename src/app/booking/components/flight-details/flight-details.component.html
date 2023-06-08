@@ -1,0 +1,35 @@
+<div class="flight-details-from">
+  <div class="details-departure">
+    <div class="date">{{startDate }}</div>
+    <div class="time-wrapper">
+      <div class="time">{{departureTime }}</div>
+      <div class="timeZone">UTC {{timeZoneFrom}}</div>
+    </div>
+    <div class="city"> {{cityFrom}}, {{from}}</div>
+  </div>
+  <div class="duration">
+    <div class="duration-time"> {{hours}} h {{minutes}} m</div>
+    <div class="plane">
+      <div class="divider"></div>
+      <img src="assets/icons/take-off-to.svg" alt="plane" *ngIf="isTo">
+      <img src="assets/icons/take-off-from.svg" alt="plane" *ngIf="!isTo">
+      <div class="divider"></div>
+    </div>
+    <div class="direct">Direct</div>
+  </div>
+  <div class="details-arriving">
+    <div class="date">{{arrivingDateTo }}</div>
+    <div class="time-wrapper">
+      <div class="time">{{arrivingTimeTo }}</div>
+      <div class="timeZone">UTC {{timeZoneTo}}</div>
+    </div>
+    <div class="city">{{cityTo}},{{to}}</div>
+  </div>
+  <div class="flight-number">Flight no.{{flightNumber}}</div>
+  <div class="price-warning">
+    <div class="seats">{{seats}} seats available</div>
+    <div class="price"><span>Price</span> <span>{{currency}} {{price}}</span></div>
+  </div>
+  <button (click)="onSelectFlight($event)" class="select" [disabled]="isEnableButton">Select</button>
+  <button mat-raised-button class="edit-btn none" color="primary" (click)="onEditFlight($event)">Edit</button>
+</div>

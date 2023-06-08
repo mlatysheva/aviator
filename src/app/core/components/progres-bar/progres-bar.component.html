@@ -1,0 +1,7 @@
+<div class="stepper">
+  <div *ngFor="let step of progressBar; let i=index" class="step">
+    <img src="{{step.imgUrl}}" alt="step1" class="step-img">
+    <div class="step">{{step.text}}</div>
+    <div *ngIf="i < progressBar.length-1" class="divider"></div>
+  </div>
+</div>
