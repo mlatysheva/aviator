@@ -302,7 +302,6 @@ function dateTimeGetter(params: ValueGetterParams) {
     month: "long",
     day: "numeric",
   } as const;
-  console.log(params.data);
   return (new Date(params.data.outboundDepartureDate).toLocaleString('en-GB', options)) 
   + ', ' + params.data.outboundDepartureTime 
   + ' - ' + getArrivalTime(params.data.outboundDepartureDate, params.data.duration) 
